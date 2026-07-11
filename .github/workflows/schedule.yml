@@ -1,31 +1,30 @@
-name: Günlük Temettü Verisi Çek
+name: Günlük Otomatik Temettü Tarayıcı
 
 on:
   schedule:
-    - cron: '0 0 * * *'
+    # Türkiye Saati (UTC+3) ile gece 02:00'de çalışması için UTC 23:00 olarak ayarlandı.
+    - cron: '0 23 * * *'
   workflow_dispatch:
 
 jobs:
-  run-bot:
+  run-scraper:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Repoyu Klonla
-      uses: actions/checkout@v3
+      - name: Kodları Çek
+        uses: actions/checkout@v3
 
-    - name: Python Kurulumu
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.10'
+      - name: Python Kur
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
 
-    - name: Gerekli Kütüphaneleri Yükle
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
+      - name: Bağımlılıkları Yükle
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests pandas lxml google-api-python-client google-auth-httplib2 google-auth-oauthlib
 
-    - name: Botu Çalıştır ve Drive'a Yükle
-      env:
-        GCP_SERVICE_ACCOUNT_JSON: ${{ secrets.GCP_SERVICE_ACCOUNT_JSON }}
-        DRIVE_FOLDER_ID: ${{ secrets.DRIVE_FOLDER_ID }}
-      run: |
-        python isyatirim_temettu_cek.py
+      - name: Scraper Scriptini Çalıştır
+        env:
+          GCP_SERVICE_ACCOUNT_JSON: ${{ secrets.GCP_SERVICE_ACCOUNT_JSON }}
+          DRIVE_FOLDER_ID: ${{ secrets.DRIVE_FOLDER_ID }}
+        run: python isyatirim_temettu_cek.py
