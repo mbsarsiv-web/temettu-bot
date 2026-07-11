@@ -15,9 +15,13 @@ BASE_URL = "https://www.isyatirim.com.tr/tr-tr/analiz/hisse/Sayfalar/sirket-kart
 LIST_URL = "https://www.isyatirim.com.tr/tr-tr/analiz/hisse/Sayfalar/sirket-karti.aspx?hisse=AYGAZ"
 API_URL = "https://www.isyatirim.com.tr/_layouts/15/IsYatirim.Website/StockInfo/CompanyInfoAjax.aspx/GetSermayeArttirimlari"
 
+# Daha güçlü tarayıcı kimliği (Bota benzememek için)
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
     "Accept-Language": "tr-TR,tr;q=0.9,en-US;q=0.8,en;q=0.7",
+    "Cache-Control": "no-cache",
+    "Connection": "keep-alive"
 }
 
 REQUEST_DELAY = 0.5
@@ -34,29 +38,66 @@ def fetch_with_retry(session, url, method="GET", json_payload=None):
     for attempt in range(1, RETRY_COUNT + 1):
         try:
             if method == "POST":
-                resp = session.post(url, json=json_payload, timeout=20)
+                resp = session.post(url, json=json_payload, timeout=25)
             else:
-                resp = session.get(url, timeout=20)
+                resp = session.get(url, timeout=25)
+                
             if resp.status_code == 200:
                 return resp.text
-        except requests.RequestException:
-            pass
+            else:
+                print(f"Uyarı: HTTP {resp.status_code} alındı. (Deneme {attempt}) - URL: {url[:60]}")
+        except requests.RequestException as e:
+            print(f"Bağlantı Hatası (Deneme {attempt}): {e}")
         time.sleep(RETRY_WAIT * attempt)
     return None
 
+def fetch_api_data(session, tanim_kodu):
+    payload = {"hisseKodu": "", "hisseTanimKodu": tanim_kodu, "yil": 0, "zaman": "HEPSI", "endeksKodu": "09", "sektorKodu": ""}
+    res_text = fetch_with_retry(session, API_URL, method="POST", json_payload=payload)
+    if not res_text: return []
+    try:
+        js = json.loads(res_text)
+        data = js.get("value") or js.get("d") or js
+        if isinstance(data, str): data = json.loads(data)
+        if isinstance(data, list): return data
+        for k in data:
+            if isinstance(data[k], list): return data[k]
+    except Exception:
+        pass
+    return []
+
 def get_all_tickers(session):
     html = fetch_with_retry(session, LIST_URL)
-    if not html:
-        raise RuntimeError("Hisse listesi alınamadı.")
-    pairs = re.findall(r'>([A-Z][A-Z0-9]{1,5})\s*\|\s*([^<\n]{2,60})<', html)
-    tickers = []
-    seen = set()
-    for code, _name in pairs:
-        code = code.strip()
-        if code not in seen and re.fullmatch(r"[A-Z][A-Z0-9]{1,5}", code):
-            seen.add(code)
-            tickers.append(code)
-    return tickers
+    tickers = set()
+    
+    # Plan A: Ana sayfadan çekmeyi dene
+    if html:
+        pairs = re.findall(r'>([A-Z][A-Z0-9]{1,5})\s*\|\s*([^<\n]{2,60})<', html)
+        for code, _name in pairs:
+            code = code.strip()
+            if re.fullmatch(r"[A-Z][A-Z0-9]{1,5}", code):
+                tickers.add(code)
+    
+    # Plan B (Fallback): Eğer ana sayfa engelliyse, API üzerinden listeyi oluştur
+    if not tickers:
+        print("HTML'den hisse listesi alınamadı (Güvenlik engeli olabilir). B Planı: API üzerinden deneniyor...")
+        api_data = fetch_api_data(session, "04")
+        for satir in api_data:
+            kod = satir.get("SHHE_HS_KOD") or satir.get("HISSE_KODU") or ""
+            if not kod:
+                for k, v in satir.items():
+                    if "KOD" in k.upper():
+                        kod = v
+                        break
+            if kod and isinstance(kod, str):
+                kod = kod.strip().upper()
+                if re.fullmatch(r"[A-Z][A-Z0-9]{1,5}", kod):
+                    tickers.add(kod)
+                    
+    if not tickers:
+        raise RuntimeError("Hisse listesi alınamadı. İş Yatırım sistemine erişim geçici olarak kapalı olabilir.")
+        
+    return sorted(list(tickers))
 
 def find_dividend_table(html):
     try:
@@ -85,21 +126,6 @@ def clean_dividend_table(df, kod):
     df = df.drop_duplicates()
     df.insert(0, "Kod", kod)
     return df
-
-def fetch_api_data(session, tanim_kodu):
-    payload = {"hisseKodu": "", "hisseTanimKodu": tanim_kodu, "yil": 0, "zaman": "HEPSI", "endeksKodu": "09", "sektorKodu": ""}
-    res_text = fetch_with_retry(session, API_URL, method="POST", json_payload=payload)
-    if not res_text: return []
-    try:
-        js = json.loads(res_text)
-        data = js.get("value") or js.get("d") or js
-        if isinstance(data, str): data = json.loads(data)
-        if isinstance(data, list): return data
-        for k in data:
-            if isinstance(data[k], list): return data[k]
-    except Exception:
-        pass
-    return []
 
 def parse_turkce_sayi(val):
     if pd.isna(val) or not val: return 0.0
@@ -133,15 +159,22 @@ def upload_to_drive(filename):
     media = MediaFileUpload(filename, mimetype='text/csv', resumable=True)
     if items:
         service.files().update(fileId=items[0]['id'], media_body=media).execute()
+        print(f"{filename} Drive'da güncellendi.")
     else:
         file_metadata = {'name': filename, 'parents': [folder_id]}
         service.files().create(body=file_metadata, media_body=media, fields='id').execute()
+        print(f"{filename} Drive'a yeni dosya olarak yüklendi.")
 
 def main():
+    print("Sistem başlatılıyor...")
     session = get_session()
+    
+    print("Hisse listesi çekiliyor...")
     tickers = get_all_tickers(session)
+    print(f"Toplam {len(tickers)} adet hisse senedi bulundu.")
     
     # 1. Şirket Kartlarından Temettü Verimleri Çekiliyor
+    print("Web sitesinden temettü verimleri taranıyor (Bu işlem birkaç dakika sürebilir)...")
     all_rows = []
     for kod in tickers:
         html = fetch_with_retry(session, BASE_URL.format(kod))
@@ -161,6 +194,7 @@ def main():
         df_verim_final = df_scraped.groupby(["Kod", "Yil"], as_index=False)["Temettu_Verim_%"].sum()
 
     # 2. API'den Nakit Temettü Tutarları Çekiliyor
+    print("API üzerinden Nakit Temettü tutarları çekiliyor...")
     raw_api_temettu = fetch_api_data(session, "04")
     processed_dividends = []
     for satir in raw_api_temettu:
@@ -186,6 +220,7 @@ def main():
         df_div_final = df_div_final.groupby(["Kod", "Yil"], as_index=False)["Tutar"].sum()
 
     # 3. API'den Halka Arz Yılları Çekiliyor
+    print("API üzerinden Halka Arz yılları çekiliyor...")
     raw_api_arz = fetch_api_data(session, "99")
     processed_ipo = []
     for satir in raw_api_arz:
@@ -206,7 +241,9 @@ def main():
         df_ipo_final = df_ipo_final.groupby("Kod", as_index=False)["Arz_Yili"].min()
 
     # 4. Veriler Tek Master Dosyada Birleştiriliyor
+    print("Tüm veriler Master Dosya'da birleştiriliyor...")
     if df_div_final.empty and df_verim_final.empty:
+        print("Hata: Çekilen hiçbir veri bulunamadı!")
         sys.exit(1)
         
     df_master = pd.merge(df_div_final, df_verim_final, on=["Kod", "Yil"], how="outer")
@@ -220,7 +257,10 @@ def main():
 
     out_path = "bist_temettu_master.csv"
     df_master.to_csv(out_path, index=False, encoding="utf-8")
+    
+    print("Drive'a yükleme işlemi başlatılıyor...")
     upload_to_drive(out_path)
+    print("Görev başarıyla tamamlandı!")
 
 if __name__ == "__main__":
     main()
