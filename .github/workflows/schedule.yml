@@ -2,7 +2,6 @@ name: Günlük Otomatik Temettü Tarayıcı
 
 on:
   schedule:
-    # Türkiye Saati (UTC+3) ile gece 02:00'de çalışması için UTC 23:00 olarak ayarlandı.
     - cron: '0 23 * * *'
   workflow_dispatch:
 
@@ -16,7 +15,7 @@ jobs:
       - name: Python Kur
         uses: actions/setup-python@v4
         with:
-          python-version: '3.10'
+          python-version: '3.11'
 
       - name: Bağımlılıkları Yükle
         run: |
