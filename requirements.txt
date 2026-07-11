@@ -1,0 +1,5 @@
+requests
+pandas
+lxml
+google-api-python-client
+google-auth
