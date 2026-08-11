@@ -15,7 +15,6 @@ BASE_URL = "https://www.isyatirim.com.tr/tr-tr/analiz/hisse/Sayfalar/sirket-kart
 LIST_URL = "https://www.isyatirim.com.tr/tr-tr/analiz/hisse/Sayfalar/sirket-karti.aspx?hisse=AYGAZ"
 API_URL = "https://www.isyatirim.com.tr/_layouts/15/IsYatirim.Website/StockInfo/CompanyInfoAjax.aspx/GetSermayeArttirimlari"
 
-# Daha güçlü tarayıcı kimliği (Bota benzememek için)
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
     "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
@@ -70,7 +69,6 @@ def get_all_tickers(session):
     html = fetch_with_retry(session, LIST_URL)
     tickers = set()
     
-    # Plan A: Ana sayfadan çekmeyi dene
     if html:
         pairs = re.findall(r'>([A-Z][A-Z0-9]{1,5})\s*\|\s*([^<\n]{2,60})<', html)
         for code, _name in pairs:
@@ -78,9 +76,8 @@ def get_all_tickers(session):
             if re.fullmatch(r"[A-Z][A-Z0-9]{1,5}", code):
                 tickers.add(code)
     
-    # Plan B (Fallback): Eğer ana sayfa engelliyse, API üzerinden listeyi oluştur
     if not tickers:
-        print("HTML'den hisse listesi alınamadı (Güvenlik engeli olabilir). B Planı: API üzerinden deneniyor...")
+        print("HTML'den hisse listesi alınamadı. B Planı: API üzerinden deneniyor...")
         api_data = fetch_api_data(session, "04")
         for satir in api_data:
             kod = satir.get("SHHE_HS_KOD") or satir.get("HISSE_KODU") or ""
@@ -95,7 +92,7 @@ def get_all_tickers(session):
                     tickers.add(kod)
                     
     if not tickers:
-        raise RuntimeError("Hisse listesi alınamadı. İş Yatırım sistemine erişim geçici olarak kapalı olabilir.")
+        raise RuntimeError("Hisse listesi alınamadı.")
         
     return sorted(list(tickers))
 
@@ -122,7 +119,8 @@ def clean_dividend_table(df, kod):
     keep_cols = [c for c in ["Dagitim_Tarihi", "Temettu_Verim_%"] if c in df.columns]
     df = df[keep_cols].copy()
     if "Dagitim_Tarihi" in df.columns:
-        df = df[df["Dagitim_Tarihi"].astype(str).str.match(r"^\d{2}\.\d{2}\.\d{4}$")]
+        df = df[df["Dagitim_Tarihi"].notna()]
+        df = df[df["Dagitim_Tarihi"].astype(str).str.strip() != ""]
     df = df.drop_duplicates()
     df.insert(0, "Kod", kod)
     return df
@@ -173,7 +171,6 @@ def main():
     tickers = get_all_tickers(session)
     print(f"Toplam {len(tickers)} adet hisse senedi bulundu.")
     
-    # 1. Şirket Kartlarından Temettü Verimleri Çekiliyor
     print("Web sitesinden temettü verimleri taranıyor (Bu işlem birkaç dakika sürebilir)...")
     all_rows = []
     for kod in tickers:
@@ -189,11 +186,11 @@ def main():
     if all_rows:
         df_scraped = pd.concat(all_rows, ignore_index=True)
         df_scraped["Yil"] = df_scraped["Dagitim_Tarihi"].apply(get_mantiki_yil)
+        df_scraped = df_scraped.dropna(subset=["Yil"])
         df_scraped["Temettu_Verim_%"] = df_scraped["Temettu_Verim_%"].astype(str).str.replace('.', '', regex=False).str.replace(',', '.', regex=False)
         df_scraped["Temettu_Verim_%"] = pd.to_numeric(df_scraped["Temettu_Verim_%"], errors='coerce').fillna(0.0)
         df_verim_final = df_scraped.groupby(["Kod", "Yil"], as_index=False)["Temettu_Verim_%"].sum()
 
-    # 2. API'den Nakit Temettü Tutarları Çekiliyor
     print("API üzerinden Nakit Temettü tutarları çekiliyor...")
     raw_api_temettu = fetch_api_data(session, "04")
     processed_dividends = []
@@ -219,7 +216,6 @@ def main():
         df_div_final = pd.DataFrame(processed_dividends)
         df_div_final = df_div_final.groupby(["Kod", "Yil"], as_index=False)["Tutar"].sum()
 
-    # 3. API'den Halka Arz Yılları Çekiliyor
     print("API üzerinden Halka Arz yılları çekiliyor...")
     raw_api_arz = fetch_api_data(session, "99")
     processed_ipo = []
@@ -240,7 +236,6 @@ def main():
         df_ipo_final = pd.DataFrame(processed_ipo)
         df_ipo_final = df_ipo_final.groupby("Kod", as_index=False)["Arz_Yili"].min()
 
-    # 4. Veriler Tek Master Dosyada Birleştiriliyor
     print("Tüm veriler Master Dosya'da birleştiriliyor...")
     if df_div_final.empty and df_verim_final.empty:
         print("Hata: Çekilen hiçbir veri bulunamadı!")
