@@ -12,10 +12,10 @@ jobs:
 
     steps:
     - name: Repoyu Klonla
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4  # <-- UYARIYI ÇÖZEN GÜNCELLEME (v3 idi, v4 oldu)
 
     - name: Python Kurulumu
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5  # <-- UYARIYI ÇÖZEN GÜNCELLEME (v4 idi, v5 oldu)
       with:
         python-version: '3.10'
 
