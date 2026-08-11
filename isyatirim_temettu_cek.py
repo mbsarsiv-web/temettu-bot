@@ -144,6 +144,17 @@ def get_mantiki_yil(val):
     if year_match: return year_match.group(1)
     return None
 
+def parse_yield(val):
+    if pd.isna(val): return 0.0
+    s = str(val).strip()
+    if not s: return 0.0
+    if ',' in s:
+        s = s.replace('.', '').replace(',', '.')
+    try:
+        return float(s)
+    except ValueError:
+        return 0.0
+
 def upload_to_drive(filename):
     service_account_info = json.loads(os.environ['GCP_SERVICE_ACCOUNT_JSON'])
     folder_id = os.environ['DRIVE_FOLDER_ID']
@@ -187,8 +198,7 @@ def main():
         df_scraped = pd.concat(all_rows, ignore_index=True)
         df_scraped["Yil"] = df_scraped["Dagitim_Tarihi"].apply(get_mantiki_yil)
         df_scraped = df_scraped.dropna(subset=["Yil"])
-        df_scraped["Temettu_Verim_%"] = df_scraped["Temettu_Verim_%"].astype(str).str.replace('.', '', regex=False).str.replace(',', '.', regex=False)
-        df_scraped["Temettu_Verim_%"] = pd.to_numeric(df_scraped["Temettu_Verim_%"], errors='coerce').fillna(0.0)
+        df_scraped["Temettu_Verim_%"] = df_scraped["Temettu_Verim_%"].apply(parse_yield)
         df_verim_final = df_scraped.groupby(["Kod", "Yil"], as_index=False)["Temettu_Verim_%"].sum()
 
     print("API üzerinden Nakit Temettü tutarları çekiliyor...")
