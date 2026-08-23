@@ -317,7 +317,8 @@
           else if (j === 0) icSutunlarHtml += '<td>' + cell + '</td>';
           else if (j === 1) icSutunlarHtml += '<td class="arz-yili arz-col">' + (cell || "-") + '</td>'; 
           else if (j === idxYogunluk) {
-            var fmtYogunluk = rawYogunluk.toFixed(2).replace('.', ',');
+            // YOGUNLUK HESABI: Kusurat kaldirildi, yuzdelik tam sayi (Orn: %89, %100)
+            var fmtYogunluk = "%" + Math.round(rawYogunluk * 100);
             icSutunlarHtml += '<td data-value="' + rawYogunluk + '" class="fw-bold tight-col">' + fmtYogunluk + '</td>';
           }
         }
@@ -325,7 +326,6 @@
         icSutunlarHtml += formatGrowthCell(g5y, rawYogunluk);
         icSutunlarHtml += formatGrowthCell(g10y, rawYogunluk);
 
-        // --- ORTALAMA VERİM HESAPLAMASI (100'E BÖLÜNMÜŞ HALİ) ---
         var ortalamaVerim = odemeYaptigiYilSayisi > 0 ? (toplamVerim10Yil / odemeYaptigiYilSayisi) / 100 : 0;
         var ortVerimFormatli = ortalamaVerim > 0 ? "%" + ortalamaVerim.toFixed(2) : "%0.00";
 
@@ -404,7 +404,9 @@
       }
       var hSel = document.getElementById("filterHisse"), ySel = document.getElementById("filterYogunluk");
       Array.from(hSet).sort().forEach(v => hSel.innerHTML += '<option value="'+v+'">'+v+'</option>');
-      Array.from(ySet).sort((a,b) => parseFloat(b.replace(',', '.'))-parseFloat(a.replace(',', '.'))).forEach(v => ySel.innerHTML += '<option value="'+v+'">'+v+'</option>');
+      
+      // FILTRE: % isareti temizlenerek sayisal siralanir
+      Array.from(ySet).sort((a,b) => parseFloat(b.replace(/[%]/g, '').replace(',', '.')) - parseFloat(a.replace(/[%]/g, '').replace(',', '.'))).forEach(v => ySel.innerHTML += '<option value="'+v+'">'+v+'</option>');
       
       var firstRow = document.querySelector("thead tr:nth-child(1)");
       document.querySelectorAll("thead tr:nth-child(2) th").forEach(th => {
