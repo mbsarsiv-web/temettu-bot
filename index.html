@@ -317,7 +317,6 @@
           else if (j === 0) icSutunlarHtml += '<td>' + cell + '</td>';
           else if (j === 1) icSutunlarHtml += '<td class="arz-yili arz-col">' + (cell || "-") + '</td>'; 
           else if (j === idxYogunluk) {
-            // YOGUNLUK HESABI: Eski ondalikli format (Orn: 0,89)
             var fmtYogunluk = rawYogunluk.toFixed(2).replace('.', ',');
             icSutunlarHtml += '<td data-value="' + rawYogunluk + '" class="fw-bold tight-col">' + fmtYogunluk + '</td>';
           }
@@ -328,13 +327,14 @@
 
         var ortalamaVerim = odemeYaptigiYilSayisi > 0 ? (toplamVerim10Yil / odemeYaptigiYilSayisi) / 100 : 0;
         
-        // --- YENİ EKLENEN KURAL: Ortalama verimi %1'in altında olanları ele ---
         if (ortalamaVerim < 1.0) continue;
 
         var ortVerimFormatli = ortalamaVerim > 0 ? "%" + ortalamaVerim.toFixed(2) : "%0.00";
 
         var expandHtml = '<tr class="expand-row" id="expand-' + i + '">';
-        expandHtml += '<td colspan="2" class="chart-label-cell">📊 Toplam Temettü<br>(Yıllık Bazda)<br><span style="color:#0f9d58; font-size:11px; font-weight:bold; margin-top:4px; display:inline-block;">⭐ Ort. Verim: ' + ortVerimFormatli + '</span></td>';
+        
+        // SOL TARAFTAKİ ETİKET HÜCRESİ (Ortalama Verim Yazısı Buradan Kalktı)
+        expandHtml += '<td colspan="2" class="chart-label-cell">📊 Toplam Temettü<br>(Yıllık Bazda)</td>';
         
         for (var j = 0; j <= idxYogunluk; j++) {
           if (skipIndices.indexOf(j) > -1) continue;
@@ -359,7 +359,13 @@
           }
         }
 
-        expandHtml += '<td colspan="3"></td>';
+        // SAĞ TARAFTAKİ BOŞLUK (Devasa, şık bir ortalama verim göstergesine dönüştü)
+        expandHtml += '<td colspan="3" style="vertical-align: middle;">';
+        expandHtml += '<div style="background: #f1f8f3; border: 1px solid #b2d2a4; border-radius: 8px; padding: 12px 5px; text-align: center; margin: 0 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">';
+        expandHtml += '<div style="color: #5f6368; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px;">Ortalama Verim</div>';
+        expandHtml += '<div style="color: #0f9d58; font-size: 26px; font-weight: 900;">' + ortVerimFormatli + '</div>';
+        expandHtml += '</div></td>';
+        
         expandHtml += '</tr>';
 
         islenmisSatirlar.push({ 
@@ -409,7 +415,6 @@
       var hSel = document.getElementById("filterHisse"), ySel = document.getElementById("filterYogunluk");
       Array.from(hSet).sort().forEach(v => hSel.innerHTML += '<option value="'+v+'">'+v+'</option>');
       
-      // FILTRE: Eski ondalikli formatin duzgun siralanmasi icin replace korundu
       Array.from(ySet).sort((a,b) => parseFloat(b.replace(',', '.'))-parseFloat(a.replace(',', '.'))).forEach(v => ySel.innerHTML += '<option value="'+v+'">'+v+'</option>');
       
       var firstRow = document.querySelector("thead tr:nth-child(1)");
