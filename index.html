@@ -2,19 +2,19 @@
 <html>
 <head>
   <meta charset="utf-8">
+  <!-- MOBİL UYUM İÇİN EN KRİTİK ETİKET -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Temettü Yoğunluk Analizi</title>
   <base target="_top">
   <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Text:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
     body { font-family: 'Google Sans Text', sans-serif; margin: 0; padding: 0; background-color: #f1f3f4; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
     
-    /* ÖZEL SCROLLBAR TASARIMI */
     ::-webkit-scrollbar { width: 8px; height: 8px; }
     ::-webkit-scrollbar-track { background: #f1f3f4; border-radius: 4px; }
     ::-webkit-scrollbar-thumb { background: #c1c3c6; border-radius: 4px; }
     ::-webkit-scrollbar-thumb:hover { background: #a8aaad; }
 
-    /* HEADER DARALTILDI */
     .header { background-color: #ffffff; padding: 10px 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); z-index: 20; position: relative; }
     .header-content { max-width: 1400px; margin: 0 auto; display: flex; justify-content: center; align-items: center; position: relative; min-height: 20px; }
     .header h2 { margin: 0; color: #202124; font-size: 19px; }
@@ -23,7 +23,6 @@
     .icon-btn { border: 1px solid #dadce0; background: #fff; border-radius: 6px; padding: 6px 12px; font-size: 12px; color: #3c4043; cursor: pointer; font-family: 'Google Sans Text'; display: flex; align-items: center; gap: 5px; transition: background 0.2s; }
     .icon-btn:hover { background: #f1f3f4; }
 
-    /* TOOLBAR DARALTILDI */
     .toolbar { background: #ffffff; padding: 8px 15px; margin: 10px 10px 0 10px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.05); display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
     .search-wrap { position: relative; flex: 1; min-width: 180px; }
     .search-wrap input { width: 100%; box-sizing: border-box; padding: 6px 10px 6px 30px; border: 1px solid #dadce0; border-radius: 6px; font-size: 13px; font-family: 'Google Sans Text'; outline: none; transition: border-color 0.2s; }
@@ -32,7 +31,6 @@
     .toolbar select { padding: 6px 10px; border: 1px solid #dadce0; border-radius: 6px; font-size: 13px; font-family: 'Google Sans Text'; background: #fff; min-width: 140px; outline: none; cursor: pointer; }
     .clear-btn { color: #d93025; border-color: #f3c7c3; }
 
-    /* Chips */
     .chip-row { display: flex; gap: 6px; margin: 8px 10px 0px 10px; flex-wrap: wrap; min-height: 0; }
     .chip { background: #e5f2e0; color: #256029; font-size: 11px; padding: 4px 10px; border-radius: 12px; display: flex; align-items: center; gap: 6px; font-weight: 500; }
     .chip span { cursor: pointer; font-weight: 700; }
@@ -95,6 +93,22 @@
     #customModal { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 25px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); z-index: 9999; text-align: center; min-width: 280px; }
     #modalOverlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 9998; }
     .modal-btn { margin-top: 20px; padding: 10px 25px; background: #0f9d58; color: white; border: none; border-radius: 6px; font-size: 14px; font-weight: bold; cursor: pointer; font-family: 'Google Sans Text'; }
+
+    /* MOBİL TASARIM (RESPONSIVE) KODLARI */
+    @media (max-width: 768px) {
+      .header-content { flex-direction: column; align-items: flex-start; gap: 8px; }
+      .update-text { position: relative; width: 100%; justify-content: flex-start; margin-top: 4px; }
+      
+      .toolbar { flex-direction: column; align-items: stretch; gap: 8px; margin: 10px 5px 0 5px; }
+      .search-wrap { width: 100%; }
+      .toolbar select { width: 100%; min-width: 100%; }
+      .clear-btn { width: 100%; justify-content: center; }
+      
+      #kpiAdetMini { border-right: none; border-bottom: 1px solid #e8eaed; padding-right: 0; padding-bottom: 8px; text-align: left; }
+      
+      .table-container { margin: 10px 5px; }
+      td, th { padding: 8px 4px; }
+    }
   </style>
 </head>
 <body>
@@ -139,6 +153,7 @@
       <option value="">Sırala: Varsayılan</option>
       <option value="YOG_DESC">Yoğunluk (Yüksek → Düşük)</option>
       <option value="VERIM_DESC">Ortalama Verim (Yüksek → Düşük)</option>
+      <option value="G5_DESC">5 Yıllık Büyüme (Yüksek → Düşük)</option> <!-- YENİ EKLENEN FİLTRE -->
       <option value="G10_DESC">10 Yıllık Büyüme (Yüksek → Düşük)</option>
       <option value="HISSE_ASC">Hisse Kodu (A → Z)</option>
     </select>
@@ -532,6 +547,7 @@
           var sb = TUM_SATIRLAR.find(s => s.hisse === hb) || {};
           if (genelSort === "YOG_DESC") return (sb.yogunluk || 0) - (sa.yogunluk || 0);
           if (genelSort === "VERIM_DESC") return (sb.ortalamaVerim || 0) - (sa.ortalamaVerim || 0);
+          if (genelSort === "G5_DESC") return (sb.g5 || -999) - (sa.g5 || -999);  /* YENİ EKLENEN SIRALAMA MANTIĞI */
           if (genelSort === "G10_DESC") return (sb.g10 || -999) - (sa.g10 || -999);
           if (genelSort === "HISSE_ASC") return ha.localeCompare(hb);
           return 0;
