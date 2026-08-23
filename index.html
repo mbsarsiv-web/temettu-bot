@@ -327,6 +327,10 @@
         icSutunlarHtml += formatGrowthCell(g10y, rawYogunluk);
 
         var ortalamaVerim = odemeYaptigiYilSayisi > 0 ? (toplamVerim10Yil / odemeYaptigiYilSayisi) / 100 : 0;
+        
+        // --- YENİ EKLENEN KURAL: Ortalama verimi %1'in altında olanları ele ---
+        if (ortalamaVerim < 1.0) continue;
+
         var ortVerimFormatli = ortalamaVerim > 0 ? "%" + ortalamaVerim.toFixed(2) : "%0.00";
 
         var expandHtml = '<tr class="expand-row" id="expand-' + i + '">';
