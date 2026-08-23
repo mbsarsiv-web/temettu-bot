@@ -317,8 +317,8 @@
           else if (j === 0) icSutunlarHtml += '<td>' + cell + '</td>';
           else if (j === 1) icSutunlarHtml += '<td class="arz-yili arz-col">' + (cell || "-") + '</td>'; 
           else if (j === idxYogunluk) {
-            // YOGUNLUK HESABI: Kusurat kaldirildi, yuzdelik tam sayi (Orn: %89, %100)
-            var fmtYogunluk = "%" + Math.round(rawYogunluk * 100);
+            // YOGUNLUK HESABI: Eski ondalikli format (Orn: 0,89)
+            var fmtYogunluk = rawYogunluk.toFixed(2).replace('.', ',');
             icSutunlarHtml += '<td data-value="' + rawYogunluk + '" class="fw-bold tight-col">' + fmtYogunluk + '</td>';
           }
         }
@@ -405,8 +405,8 @@
       var hSel = document.getElementById("filterHisse"), ySel = document.getElementById("filterYogunluk");
       Array.from(hSet).sort().forEach(v => hSel.innerHTML += '<option value="'+v+'">'+v+'</option>');
       
-      // FILTRE: % isareti temizlenerek sayisal siralanir
-      Array.from(ySet).sort((a,b) => parseFloat(b.replace(/[%]/g, '').replace(',', '.')) - parseFloat(a.replace(/[%]/g, '').replace(',', '.'))).forEach(v => ySel.innerHTML += '<option value="'+v+'">'+v+'</option>');
+      // FILTRE: Eski ondalikli formatin duzgun siralanmasi icin replace korundu
+      Array.from(ySet).sort((a,b) => parseFloat(b.replace(',', '.'))-parseFloat(a.replace(',', '.'))).forEach(v => ySel.innerHTML += '<option value="'+v+'">'+v+'</option>');
       
       var firstRow = document.querySelector("thead tr:nth-child(1)");
       document.querySelectorAll("thead tr:nth-child(2) th").forEach(th => {
