@@ -279,6 +279,8 @@
         var icSutunlarHtml = '';
 
         var maxMiktar = 0;
+        var toplamVerim10Yil = 0;
+        var odemeYaptigiYilSayisi = 0;
 
         for (var j = 0; j <= idxYogunluk; j++) {
           if (skipIndices.indexOf(j) > -1) continue;
@@ -292,6 +294,14 @@
               var sutunYili = orjBasliklarTumu[j];
               var verimDegeri = verimMap[hisseKodu + "_" + sutunYili];
               
+              var sutunYiliNum = parseInt(sutunYili);
+              if (!isNaN(sutunYiliNum) && sutunYiliNum >= minGorunurYil && sutunYiliNum <= guncelYil) {
+                odemeYaptigiYilSayisi++;
+                if (verimDegeri !== undefined && !isNaN(verimDegeri)) {
+                  toplamVerim10Yil += verimDegeri;
+                }
+              }
+
               var gosterilecekMetin = "%0.00"; 
               if (verimDegeri !== undefined && !isNaN(verimDegeri)) {
                  var hesaplananVerim = (verimDegeri / 100).toFixed(2);
@@ -315,8 +325,11 @@
         icSutunlarHtml += formatGrowthCell(g5y, rawYogunluk);
         icSutunlarHtml += formatGrowthCell(g10y, rawYogunluk);
 
+        var ortalamaVerim = odemeYaptigiYilSayisi > 0 ? (toplamVerim10Yil / odemeYaptigiYilSayisi) : 0;
+        var ortVerimFormatli = ortalamaVerim > 0 ? "%" + ortalamaVerim.toFixed(2) : "%0.00";
+
         var expandHtml = '<tr class="expand-row" id="expand-' + i + '">';
-        expandHtml += '<td colspan="2" class="chart-label-cell">📊 Toplam Temettü<br>(Yıllık Bazda)</td>';
+        expandHtml += '<td colspan="2" class="chart-label-cell">📊 Toplam Temettü<br>(Yıllık Bazda)<br><span style="color:#0f9d58; font-size:11px; font-weight:bold; margin-top:4px; display:inline-block;">⭐ Ort. Verim: ' + ortVerimFormatli + '</span></td>';
         
         for (var j = 0; j <= idxYogunluk; j++) {
           if (skipIndices.indexOf(j) > -1) continue;
@@ -344,58 +357,29 @@
         expandHtml += '<td colspan="3"></td>';
         expandHtml += '</tr>';
 
-        // --- YENİ EKLENEN KISIM BAŞLANGICI ---
-        var toplamVerim10Yil = 0;
-        var odemeYaptigiYilSayisi = 0;
-        
-        for (var j = 2; j < idxYogunluk; j++) {
-          if (skipIndices.indexOf(j) > -1) continue; 
-          
-          var yilSutunu = parseInt(orjBasliklarTumu[j]);
-          if (!isNaN(yilSutunu) && yilSutunu >= minGorunurYil && yilSutunu <= guncelYil) {
-            var nakitTemettuMiktari = sayiyaCevir(satir[j]);
-            if (nakitTemettuMiktari > 0) {
-              odemeYaptigiYilSayisi++;
-              var vDegeri = verimMap[hisseKodu + "_" + yilSutunu];
-              if (vDegeri !== undefined && !isNaN(vDegeri)) {
-                toplamVerim10Yil += vDegeri;
-              }
-            }
-          }
-        }
-        
-        var ortalamaVerim = odemeYaptigiYilSayisi > 0 ? (toplamVerim10Yil / odemeYaptigiYilSayisi) : 0;
-        // --- YENİ EKLENEN KISIM BİTİŞİ ---
-
         islenmisSatirlar.push({ 
           hisse: hisseKodu, 
           yogunluk: rawYogunluk, 
           gizliAdet: gizliAdet2011, 
-          ortalamaVerim: ortalamaVerim, // YENİ REFERANS
+          ortalamaVerim: ortalamaVerim,
           htmlGovde: icSutunlarHtml,
           expandGovde: expandHtml,
           satirId: i
         });
       }
       
-      // --- YENİ SIRALAMA MANTIĞI BAŞLANGICI ---
       islenmisSatirlar.sort(function(a, b) {
-        // 1. Öncelik: Yoğunluk (Büyükten Küçüğe)
         if (Math.abs(b.yogunluk - a.yogunluk) > 0.0001) { 
             return b.yogunluk - a.yogunluk; 
         }
-        // 2. Referans: Temettü Verim Ortalaması (Büyükten Küçüğe)
         if (Math.abs(b.ortalamaVerim - a.ortalamaVerim) > 0.0001) {
             return b.ortalamaVerim - a.ortalamaVerim;
         }
-        // 3. Referans: 2011'den Bugüne Toplam Ödeme Adedi (Büyükten Küçüğe)
         if (b.gizliAdet !== a.gizliAdet) { 
             return b.gizliAdet - a.gizliAdet; 
         }
-        // 4. Referans: Alfabetik Sıralama (A-Z)
         return a.hisse.localeCompare(b.hisse); 
       });
-      // --- YENİ SIRALAMA MANTIĞI BİTİŞİ ---
 
       for (var r = 0; r < islenmisSatirlar.length; r++) {
          var sId = islenmisSatirlar[r].satirId;
