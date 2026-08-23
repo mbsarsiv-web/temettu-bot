@@ -2,99 +2,122 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Temettü Yoğunluk Analizi - Kart Görünümü</title>
+  <title>Temettü Yoğunluk Analizi</title>
   <base target="_top">
   <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Text:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
-    body { font-family: 'Google Sans Text', sans-serif; margin: 0; padding: 0; background-color: #f1f3f4; min-height: 100vh; }
-    .header { background-color: #ffffff; padding: 15px 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 20; }
-    .header-content { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+    body { font-family: 'Google Sans Text', sans-serif; margin: 0; padding: 0; background-color: #f1f3f4; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+    .header { background-color: #ffffff; padding: 15px 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); z-index: 20; position: relative; }
+    .header-content { max-width: 1400px; margin: 0 auto; display: flex; justify-content: center; align-items: center; position: relative; min-height: 25px; }
     .header h2 { margin: 0; color: #202124; font-size: 21px; }
-    .update-text { font-size: 12px; color: #5f6368; font-weight: 500; display: flex; align-items: center; gap: 10px; }
+    .update-text { font-size: 12px; color: #5f6368; font-weight: 500; letter-spacing: 0.5px; position: absolute; right: 0; display: flex; align-items: center; gap: 10px; }
     .icon-btn { border: 1px solid #dadce0; background: #fff; border-radius: 6px; padding: 5px 10px; font-size: 12px; color: #3c4043; cursor: pointer; font-family: 'Google Sans Text'; display: flex; align-items: center; gap: 5px; }
     .icon-btn:hover { background: #f1f3f4; }
 
-    .wrap { max-width: 1400px; margin: 0 auto; padding: 0 10px; }
-
-    .toolbar { background: #ffffff; padding: 10px 15px; margin: 10px 0 0 0; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.05); display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+    /* Toolbar */
+    .toolbar { background: #ffffff; padding: 10px 15px; margin: 10px 10px 0 10px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.05); display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
     .search-wrap { position: relative; flex: 1; min-width: 180px; }
     .search-wrap input { width: 100%; box-sizing: border-box; padding: 8px 10px 8px 30px; border: 1px solid #dadce0; border-radius: 6px; font-size: 13px; font-family: 'Google Sans Text'; }
     .search-wrap span { position: absolute; left: 9px; top: 50%; transform: translateY(-50%); color: #9aa0a6; font-size: 13px; }
     .toolbar select { padding: 8px 10px; border: 1px solid #dadce0; border-radius: 6px; font-size: 13px; font-family: 'Google Sans Text'; background: #fff; min-width: 150px; }
     .clear-btn { color: #d93025; border-color: #f3c7c3; }
 
-    .kpi-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; margin: 10px 0; }
+    /* KPI cards */
+    .kpi-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; margin: 10px; }
     .kpi-card { background: #ffffff; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.05); padding: 12px 16px; }
     .kpi-label { font-size: 11px; color: #5f6368; font-weight: 700; text-transform: uppercase; letter-spacing: 0.4px; }
     .kpi-value { font-size: 24px; font-weight: 700; color: #202124; margin-top: 4px; }
     .kpi-value.green { color: #0f9d58; }
 
-    .chip-row { display: flex; gap: 6px; margin: 0 0 6px 0; flex-wrap: wrap; }
+    /* Chips */
+    .chip-row { display: flex; gap: 6px; margin: 0 10px 4px 10px; flex-wrap: wrap; min-height: 0; }
     .chip { background: #e5f2e0; color: #256029; font-size: 11px; padding: 4px 10px; border-radius: 12px; display: flex; align-items: center; gap: 6px; font-weight: 500; }
     .chip span { cursor: pointer; font-weight: 700; }
 
-    .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 12px; margin: 10px 0 30px 0; }
-    .hisse-card { background: #ffffff; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); padding: 14px; cursor: pointer; transition: box-shadow 0.2s, transform 0.15s; border: 1px solid transparent; }
-    .hisse-card:hover { box-shadow: 0 6px 16px rgba(0,0,0,0.1); transform: translateY(-2px); }
-    .hisse-card.favori { border-color: #f4b400; }
+    .table-container { flex: 1; margin: 10px; background: #ffffff; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); overflow-y: auto; overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; table-layout: auto; }
 
-    .card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
-    .card-hisse { font-weight: 700; font-size: 16px; color: #202124; }
-    .card-arz { font-size: 11px; color: #9aa0a6; margin-top: 2px; }
-    .star-btn { cursor: pointer; font-size: 17px; color: #dadce0; user-select: none; }
+    td { padding: 6px 4px; text-align: center; border-bottom: 1px solid #e8eaed; font-size: 11px; white-space: nowrap; }
+    th { padding: 6px 4px; text-align: center; border-bottom: 1px solid #e8eaed; font-size: 12px; white-space: nowrap; font-weight: 700; }
+
+    thead tr:nth-child(1) th { background-color: #d9ead3; position: sticky; top: 0; z-index: 11; border-bottom: 1px solid #b2d2a4; font-size: 14px; }
+    thead tr:nth-child(2) th { background-color: #e5f2e0; position: sticky; z-index: 10; padding-bottom: 8px; }
+
+    .col-filter { width: 90%; padding: 2px; border: 1px solid #b2d2a4; border-radius: 4px; font-size: 10px; }
+    .sort-arrow { font-size: 10px; margin-left: 2px; }
+
+    td:nth-child(2) { font-weight: 700; font-size: 12px; background-color: #fafbfc; position: sticky; left: 30px; z-index: 2; box-shadow: 1px 0px 0px #e8eaed; }
+    td:first-child { position: sticky; left: 0; z-index: 2; background-color: #fafbfc; width: 26px; }
+    thead tr:nth-child(1) th:first-child, thead tr:nth-child(1) th:nth-child(2) { background-color: #d9ead3; position: sticky; z-index: 15; }
+    thead tr:nth-child(1) th:first-child { left: 0; }
+    thead tr:nth-child(1) th:nth-child(2) { left: 30px; }
+    thead tr:nth-child(2) th:first-child, thead tr:nth-child(2) th:nth-child(2) { background-color: #e5f2e0; position: sticky; z-index: 15; }
+    thead tr:nth-child(2) th:first-child { left: 0; }
+    thead tr:nth-child(2) th:nth-child(2) { left: 30px; }
+
+    .star-btn { cursor: pointer; font-size: 15px; color: #dadce0; user-select: none; }
     .star-btn.active { color: #f4b400; }
 
-    .card-mid { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
-    .card-verim-label { font-size: 11px; color: #5f6368; }
-    .card-verim-val { font-size: 18px; font-weight: 700; color: #0f9d58; }
-    .card-verim-val.empty { color: #bdc1c6; }
+    .growth-plus { color: #0f9d58; font-weight: bold; font-size: 15px; }
+    .growth-minus { color: #d93025; font-weight: bold; font-size: 15px; }
+    .warning-flag { color: #d93025; font-size: 10px; margin-left: 2px; cursor: help; font-weight: bold; }
 
-    .card-growth-row { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 8px; padding-bottom: 8px; border-bottom: 1px solid #e8eaed; }
-    .growth-plus { color: #0f9d58; font-weight: 700; }
-    .growth-minus { color: #d93025; font-weight: 700; }
-    .growth-na { color: #bdc1c6; }
+    .check-icon { color: #0f9d58; font-size: 14px; font-weight: bold; }
+    .info-icon { font-size: 13px; cursor: pointer; margin-left: 3px; color: #5f6368; transition: transform 0.2s; display: inline-block; }
+    .info-icon:hover { transform: scale(1.2); }
+    .empty-cell { color: #bdc1c6; }
 
-    .mini-spark { display: flex; align-items: flex-end; justify-content: space-between; gap: 2px; height: 26px; }
-    .mini-spark div { flex: 1; background: #81c995; border-radius: 2px 2px 0 0; min-width: 5px; }
-    .mini-spark div.empty { background: transparent; }
-    .card-empty-note { font-size: 11px; color: #9aa0a6; padding-top: 8px; }
+    .yog-badge { display: inline-block; padding: 3px 10px; border-radius: 12px; font-weight: 700; font-size: 12px; }
+    .yog-high { background: #e6f4ea; color: #0f9d58; }
+    .yog-mid { background: #fef7e0; color: #b06000; }
+    .yog-low { background: #fce8e6; color: #d93025; }
 
-    .error-msg { padding: 20px; text-align: center; color: #d93025; font-weight: 500; font-size: 14px; background: #fce8e6; margin: 20px 0; border-radius: 8px; border: 1px solid #f28b82; }
-    .loading-msg { padding: 40px; text-align: center; color: #5f6368; }
+    .arz-col { width: 35px; min-width: 35px; padding-left: 2px !important; padding-right: 2px !important; }
+    .arz-yili { font-weight: 700; font-size: 12px; color: #3c4043; }
 
-    /* Detay modal */
-    #modalOverlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.55); z-index: 9998; }
-    #detayModal { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 25px; border-radius: 14px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); z-index: 9999; width: 90%; max-width: 560px; max-height: 80vh; overflow-y: auto; }
-    #detayModal h3 { margin: 0 0 4px 0; font-size: 20px; color: #202124; }
-    #detayModal .detay-alt { font-size: 12px; color: #9aa0a6; margin-bottom: 16px; }
-    .detay-bar-container { display: flex; align-items: flex-end; gap: 6px; height: 130px; margin-bottom: 6px; overflow-x: auto; }
-    .detay-bar-col { display: flex; flex-direction: column; align-items: center; min-width: 34px; }
-    .detay-bar { width: 26px; background-color: #81c995; border-radius: 4px 4px 0 0; }
-    .detay-bar-val { font-size: 9px; color: #3c4043; font-weight: 600; margin-bottom: 3px; white-space: nowrap; }
-    .detay-bar-yil { font-size: 10px; color: #5f6368; margin-top: 4px; }
-    .detay-kpi { background: #f1f8f3; border: 1px solid #b2d2a4; border-radius: 8px; padding: 14px; text-align: center; margin-top: 16px; }
-    .detay-kpi-val { color: #0f9d58; font-size: 26px; font-weight: 900; }
-    .modal-close { position: absolute; top: 16px; right: 18px; cursor: pointer; font-size: 20px; color: #5f6368; background: none; border: none; }
+    .tight-col { width: 75px; padding-left: 2px !important; padding-right: 2px !important; }
+    .trend-col { width: 55px; }
+
+    .sparkline { display: flex; align-items: flex-end; justify-content: center; gap: 2px; height: 22px; }
+    .sparkline div { width: 4px; background: #81c995; border-radius: 1px 1px 0 0; }
+
+    .error-msg { padding: 20px; text-align: center; color: #d93025; font-weight: 500; font-size: 14px; background: #fce8e6; margin: 20px; border-radius: 8px; border: 1px solid #f28b82; }
+
+    .main-row { cursor: pointer; transition: background-color 0.2s; background-color: #ffffff; }
+    .main-row td:nth-child(2) { background-color: #fafbfc; }
+    .main-row:hover { background-color: #f1f8f3; }
+    .main-row:hover td:first-child, .main-row:hover td:nth-child(2) { background-color: #f1f8f3; }
+
+    .expand-row { display: none; background-color: #fafbfc; }
+    .expand-row.active { display: table-row; }
+    .expand-row td { padding: 12px 4px 18px 4px; vertical-align: bottom; border-bottom: 2px solid #bdc1c6; }
+    .chart-label-cell { text-align: right; font-size: 12px; font-weight: bold; color: #5f6368; line-height: 1.4; padding-right: 15px !important; }
+
+    .bar-container { height: 100px; width: 100%; display: flex; align-items: flex-end; justify-content: center; margin-top: 5px; }
+    .bar { width: 35px; background-color: #81c995; border-radius: 4px 4px 0 0; transition: all 0.3s ease; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+    .bar:hover { background-color: #0f9d58; transform: scaleY(1.02); }
+    .bar-val { font-size: 10px; color: #3c4043; font-weight: 600; max-width: 65px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin: 0 auto; }
+    .empty-bar-val { color: #bdc1c6; font-weight: normal; }
+
+    #customModal { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 25px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); z-index: 9999; text-align: center; min-width: 280px; }
+    #modalOverlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 9998; }
+    .modal-btn { margin-top: 20px; padding: 10px 25px; background: #0f9d58; color: white; border: none; border-radius: 6px; font-size: 14px; font-weight: bold; cursor: pointer; font-family: 'Google Sans Text'; }
   </style>
 </head>
 <body>
 
-  <div id="modalOverlay" onclick="detayKapat()"></div>
-  <div id="detayModal">
-    <button class="modal-close" onclick="detayKapat()">✕</button>
-    <h3 id="detayHisse">-</h3>
-    <div class="detay-alt" id="detayAlt">-</div>
-    <div class="detay-bar-container" id="detayBarlar"></div>
-    <div class="detay-kpi">
-      <div style="font-size:10px;font-weight:700;color:#5f6368;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;">Ortalama Temettü Verimi</div>
-      <div class="detay-kpi-val" id="detayVerim">-</div>
-    </div>
+  <div id="modalOverlay" onclick="kapatBilgi()"></div>
+  <div id="customModal">
+    <h3 id="modalTitle" style="margin-top: 0; color: #202124; font-size: 20px;">Bilgi</h3>
+    <p id="modalContent" style="font-size: 15px; color: #5f6368; margin-bottom: 5px;"></p>
+    <div id="modalAmount" style="font-size: 26px; color: #0f9d58; font-weight: bold;"></div>
+    <button class="modal-btn" onclick="kapatBilgi()">Kapat</button>
   </div>
 
   <div class="header">
     <div class="header-content">
       <h2>Temettü Yoğunluk Analizi</h2>
-      <div class="update-text">
+      <div id="updateDate" class="update-text">
         <span id="updateDateText">(SON GÜNCELLEME: Yükleniyor...)</span>
         <button class="icon-btn" onclick="location.reload()">🔄 Yenile</button>
         <button class="icon-btn" onclick="csvIndir()">⬇ Dışa Aktar</button>
@@ -102,54 +125,58 @@
     </div>
   </div>
 
-  <div class="wrap">
-    <div class="toolbar">
-      <div class="search-wrap">
-        <span>🔎</span>
-        <input type="text" id="hisseArama" placeholder="Hisse kodu ara..." oninput="uygula()">
-      </div>
-      <select id="filterYogunluk" onchange="uygula()"><option value="TÜMÜ">Yoğunluk: Tümü</option></select>
-      <select id="genelSirala" onchange="uygula()">
-        <option value="YOG_DESC">Sırala: Yoğunluk</option>
-        <option value="VERIM_DESC">Ortalama Verim</option>
-        <option value="G10_DESC">10 Yıllık Büyüme</option>
-        <option value="HISSE_ASC">Hisse Kodu (A-Z)</option>
-      </select>
-      <button class="icon-btn clear-btn" onclick="filtreleriTemizle()">✕ Filtreleri Temizle</button>
+  <div class="toolbar">
+    <div class="search-wrap">
+      <span>🔎</span>
+      <input type="text" id="hisseArama" placeholder="Hisse kodu ara..." oninput="uygula()">
     </div>
+    <select id="filterYogunluk" onchange="uygula()"><option value="TÜMÜ">Yoğunluk: Tümü</option></select>
+    <select id="genelSirala" onchange="genelSiralaUygula()">
+      <option value="">Sırala: Varsayılan</option>
+      <option value="YOG_DESC">Yoğunluk (Yüksek → Düşük)</option>
+      <option value="VERIM_DESC">Ortalama Verim (Yüksek → Düşük)</option>
+      <option value="G10_DESC">10 Yıllık Büyüme (Yüksek → Düşük)</option>
+      <option value="HISSE_ASC">Hisse Kodu (A → Z)</option>
+    </select>
+    <button class="icon-btn clear-btn" onclick="filtreleriTemizle()">✕ Filtreleri Temizle</button>
+  </div>
 
-    <div class="kpi-row" id="kpiRow" style="display:none;">
-      <div class="kpi-card"><div class="kpi-label">Gösterilen Hisse</div><div class="kpi-value" id="kpiAdet">-</div></div>
-      <div class="kpi-card"><div class="kpi-label">Ortalama Yoğunluk</div><div class="kpi-value green" id="kpiYogunluk">-</div></div>
-      <div class="kpi-card"><div class="kpi-label">Ortalama Temettü Verimi</div><div class="kpi-value" id="kpiVerim">-</div></div>
-      <div class="kpi-card"><div class="kpi-label">Tam Yoğunluklu (1,00)</div><div class="kpi-value" id="kpiTam">-</div></div>
-    </div>
+  <div class="kpi-row" id="kpiRow" style="display:none;">
+    <div class="kpi-card"><div class="kpi-label">Gösterilen Hisse</div><div class="kpi-value" id="kpiAdet">-</div></div>
+    <div class="kpi-card"><div class="kpi-label">Ortalama Yoğunluk</div><div class="kpi-value green" id="kpiYogunluk">-</div></div>
+    <div class="kpi-card"><div class="kpi-label">Ortalama Temettü Verimi</div><div class="kpi-value" id="kpiVerim">-</div></div>
+    <div class="kpi-card"><div class="kpi-label">Tam Yoğunluklu (1,00)</div><div class="kpi-value" id="kpiTam">-</div></div>
+  </div>
 
-    <div class="chip-row" id="chipRow"></div>
+  <div class="chip-row" id="chipRow"></div>
 
-    <div id="cardGrid" class="card-grid">
-      <div class="loading-msg">Veriler yükleniyor, lütfen bekleyin...</div>
-    </div>
+  <div class="table-container" id="tableContainer">
+    <div style="padding: 20px; text-align: center; color: #5f6368;">Veriler yükleniyor, lütfen bekleyin...</div>
   </div>
 
   <script>
-    var TUM_SATIRLAR = [];
+    var currentSortCol = -1; var currentSortOrder = "";
+    var TUM_SATIRLAR = []; // islenmis satirlar referansi (KPI/CSV icin)
     var FAVORI_ANAHTAR = "temettu_favoriler";
 
     function favoriListesiGetir() {
-      try { return JSON.parse(localStorage.getItem(FAVORI_ANAHTAR) || "[]"); } catch (e) { return []; }
+      try {
+        return JSON.parse(localStorage.getItem(FAVORI_ANAHTAR) || "[]");
+      } catch (e) { return []; }
     }
     function favoriKaydet(liste) {
       try { localStorage.setItem(FAVORI_ANAHTAR, JSON.stringify(liste)); } catch (e) {}
     }
-    function favoriMi(hisse) { return favoriListesiGetir().indexOf(hisse) > -1; }
-    function favoriDegistir(hisse, ev) {
-      ev.stopPropagation();
+    function favoriMi(hisse) {
+      return favoriListesiGetir().indexOf(hisse) > -1;
+    }
+    function favoriDegistir(hisse, el) {
+      event.stopPropagation();
       var liste = favoriListesiGetir();
       var idx = liste.indexOf(hisse);
-      if (idx > -1) liste.splice(idx, 1); else liste.push(hisse);
+      if (idx > -1) { liste.splice(idx, 1); el.classList.remove("active"); el.innerText = "☆"; }
+      else { liste.push(hisse); el.classList.add("active"); el.innerText = "★"; }
       favoriKaydet(liste);
-      ciz();
     }
 
     function sayiyaCevir(s) {
@@ -158,10 +185,28 @@
       return parseFloat(temiz) || 0;
     }
 
-    function yogunlukRengi(deger) {
-      if (deger >= 0.9) return "#0f9d58";
-      if (deger >= 0.7) return "#f4b400";
-      return "#d93025";
+    function yogunlukSinifi(deger) {
+      if (deger >= 0.9) return "yog-high";
+      if (deger >= 0.7) return "yog-mid";
+      return "yog-low";
+    }
+
+    function gosterBilgi(hisse, yil, miktar) {
+      document.getElementById('modalTitle').innerText = hisse + ' - ' + yil + ' Temettüsü';
+      document.getElementById('modalContent').innerText = 'Ödenen Toplam Temettü';
+      var sayisalMiktar = Number(sayiyaCevir(miktar));
+      var formatliMiktar = isNaN(sayisalMiktar) ? miktar : sayisalMiktar.toLocaleString('tr-TR') + ' TL';
+      document.getElementById('modalAmount').innerText = formatliMiktar;
+      document.getElementById('modalOverlay').style.display = 'block';
+      document.getElementById('customModal').style.display = 'block';
+    }
+    function kapatBilgi() {
+      document.getElementById('modalOverlay').style.display = 'none';
+      document.getElementById('customModal').style.display = 'none';
+    }
+    function toggleRow(rowId) {
+      var row = document.getElementById(rowId);
+      if (row) row.classList.toggle("active");
     }
 
     function getDynamicGrowth(satir, yilFarki, orjBasliklar) {
@@ -170,20 +215,46 @@
       for (var k = maxIndeks; k >= 2; k--) {
         if (sayiyaCevir(satir[k]) > 0) { sonYilIndeks = k; break; }
       }
-      if (sonYilIndeks === -1) return { val: null };
+      if (sonYilIndeks === -1) return { val: null, isCut: false, refYear: "", kesilenYil: "" };
       var adimSayisi = yilFarki - 1;
       var ilkYilIndeks = sonYilIndeks - adimSayisi;
-      if (ilkYilIndeks < 2) return { val: null };
+      if (ilkYilIndeks < 2) return { val: null, isCut: false, refYear: "", kesilenYil: "" };
       var sonDeger = sayiyaCevir(satir[sonYilIndeks]);
       var ilkDeger = sayiyaCevir(satir[ilkYilIndeks]);
-      if (ilkDeger <= 0) return { val: null };
+      if (ilkDeger <= 0) return { val: null, isCut: false, refYear: "", kesilenYil: "" };
       var cagr = (Math.pow((sonDeger / ilkDeger), (1 / yilFarki)) - 1) * 100;
-      return { val: cagr };
+      var isCut = sonYilIndeks < maxIndeks;
+      var kesilenYil = orjBasliklar[maxIndeks];
+      var refYear = isCut ? "'" + kesilenYil.toString().slice(-2) + " Yok" : "";
+      return { val: cagr, isCut: isCut, refYear: refYear, kesilenYil: kesilenYil };
     }
 
-    var VERI_HAM = null;
+    function formatGrowthCell(data, yogunluk) {
+      if (yogunluk === 0 || data.val === null) return '<td data-value="-999" class="empty-cell tight-col">N/A</td>';
+      var cls = data.val >= 0 ? 'growth-plus' : 'growth-minus';
+      var text = '%' + data.val.toFixed(1);
+      if (data.isCut) {
+        text += ' <span class="warning-flag" title="Dikkat: Bu şirketin ' + data.kesilenYil + ' yılında temettü ödemesi bulunmuyor!">⚠️' + data.refYear + '</span>';
+      }
+      return '<td class="' + cls + ' tight-col" data-value="' + data.val + '">' + text + '</td>';
+    }
 
-    function veriyiIsle(payload) {
+    function sparklineOlustur(degerler) {
+      var maxV = Math.max.apply(null, degerler.concat([0]));
+      var html = '<div class="sparkline">';
+      degerler.forEach(function(v) {
+        var h = maxV > 0 ? Math.max((v / maxV) * 100, v > 0 ? 8 : 0) : 0;
+        html += '<div style="height:' + h + '%;' + (v > 0 ? '' : 'background:transparent;') + '"></div>';
+      });
+      html += '</div>';
+      return html;
+    }
+
+    function tabloyuCiz(payload) {
+      if (!payload || !payload.anaTablo || payload.anaTablo.length <= 1) {
+        document.getElementById('tableContainer').innerHTML = '<div class="error-msg">Gösterilecek veri bulunamadı. Lütfen sistemi onarın.</div>';
+        return;
+      }
       var veri = payload.anaTablo;
       var verimVerisi = payload.verimTablo;
 
@@ -210,7 +281,8 @@
               var anahtar = kod.toString().toUpperCase() + "_" + yil;
               var sVerim = rawVerim.toString().replace(/%/g, '').replace(',', '.');
               var sayisalVerim = parseFloat(sVerim) || 0;
-              if (verimMap[anahtar]) verimMap[anahtar] += sayisalVerim; else verimMap[anahtar] = sayisalVerim;
+              if (verimMap[anahtar]) { verimMap[anahtar] += sayisalVerim; }
+              else { verimMap[anahtar] = sayisalVerim; }
             }
           }
         }
@@ -224,6 +296,8 @@
 
       var guncelYil = new Date().getFullYear();
       var minGorunurYil = guncelYil - 9;
+      var y1 = minGorunurYil.toString().slice(-2);
+      var y2 = guncelYil.toString().slice(-2);
 
       var skipIndices = [];
       for (var i = 0; i < orjBasliklarTumu.length; i++) {
@@ -234,7 +308,35 @@
         }
       }
 
-      var sonuc = [];
+      // Basliklar: yildiz | hisse | arz | yillar... | yogunluk | 5y | 10y | trend
+      var html = '<table><thead><tr>';
+      html += '<th class="arz-col"></th>';
+      for (var i = 0; i <= idxYogunluk; i++) {
+        if (skipIndices.indexOf(i) > -1) continue;
+        var baslikMetni = orjBasliklarTumu[i];
+        if (i === 1) html += '<th class="arz-col">ARZ</th>';
+        else if (i === idxYogunluk) html += '<th class="tight-col">YOĞ. (' + y1 + '-' + y2 + ')</th>';
+        else html += '<th>' + baslikMetni + '</th>';
+      }
+      html += '<th class="tight-col">T. B. H. (5Y)</th>';
+      html += '<th class="tight-col">T. B. H. (10Y)</th>';
+      html += '<th class="trend-col">TREND</th>';
+      html += '</tr><tr>';
+
+      html += '<th></th>';
+      for (var i = 0; i <= idxYogunluk; i++) {
+        if (skipIndices.indexOf(i) > -1) continue;
+        if (i === 0) html += '<th></th>';
+        else if (i === 1) html += '<th class="arz-col"></th>';
+        else if (i === idxYogunluk) html += '<th class="tight-col"></th>';
+        else html += '<th><select class="col-filter year-sort" onchange="sira(this)"><option value="">Sırala</option><option value="DESC">Büyük</option><option value="ASC">Küçük</option></select></th>';
+      }
+      html += '<th class="tight-col"><select class="col-filter year-sort" onchange="sira(this)"><option value="">Sırala</option><option value="DESC">Büyük</option><option value="ASC">Küçük</option></select></th>';
+      html += '<th class="tight-col"><select class="col-filter year-sort" onchange="sira(this)"><option value="">Sırala</option><option value="DESC">Büyük</option><option value="ASC">Küçük</option></select></th>';
+      html += '<th class="trend-col"></th>';
+      html += '</tr></thead><tbody id="tabloGovdesi">';
+
+      var islenmisSatirlar = [];
       for (var i = 1; i < veri.length; i++) {
         var satir = veri[i];
         var rawYogunluk = parseFloat(satir[idxYogunluk] ? satir[idxYogunluk].toString().replace(',', '.') : 0) || 0;
@@ -248,124 +350,156 @@
         var g5y = getDynamicGrowth(slicedSatir, 5, slicedBasliklar);
         var g10y = getDynamicGrowth(slicedSatir, 10, slicedBasliklar);
 
-        var yillikVeri = []; // {yil, miktar}
+        var icSutunlarHtml = '';
         var maxMiktar = 0;
-        var toplamVerim10Yil = 0, odemeYaptigiYilSayisi = 0;
+        var toplamVerim10Yil = 0;
+        var odemeYaptigiYilSayisi = 0;
+        var sparkDegerler = [];
 
         for (var j = 0; j <= idxYogunluk; j++) {
           if (skipIndices.indexOf(j) > -1) continue;
+          var cell = satir[j];
           if (j >= 2 && j < idxYogunluk) {
-            var sutunYili = orjBasliklarTumu[j];
-            var rawValue = sayiyaCevir(satir[j]);
+            var rawValue = sayiyaCevir(cell);
             if (rawValue > maxMiktar) maxMiktar = rawValue;
-            yillikVeri.push({ yil: sutunYili, miktar: rawValue });
+            sparkDegerler.push(rawValue);
 
             if (rawValue > 0) {
+              var sutunYili = orjBasliklarTumu[j];
               var verimDegeri = verimMap[hisseKodu + "_" + sutunYili];
               var sutunYiliNum = parseInt(sutunYili);
               if (!isNaN(sutunYiliNum) && sutunYiliNum >= minGorunurYil && sutunYiliNum <= guncelYil) {
                 odemeYaptigiYilSayisi++;
                 if (verimDegeri !== undefined && !isNaN(verimDegeri)) toplamVerim10Yil += verimDegeri;
               }
+              var gosterilecekMetin = "%0.00";
+              if (verimDegeri !== undefined && !isNaN(verimDegeri)) {
+                var hesaplananVerim = (verimDegeri / 100).toFixed(2);
+                gosterilecekMetin = "%" + hesaplananVerim;
+              }
+              var formatliMiktarHover = Number(rawValue).toLocaleString('tr-TR') + ' TL';
+              icSutunlarHtml += '<td data-value="' + rawValue + '"><span class="check-icon">' + gosterilecekMetin + '</span><span class="info-icon" title="Miktar: ' + formatliMiktarHover + '" onclick="event.stopPropagation(); gosterBilgi(\'' + hisseKodu + '\', \'' + sutunYili + '\', \'' + cell + '\')">ℹ️</span></td>';
+            } else {
+              icSutunlarHtml += '<td data-value="0" class="empty-cell">-</td>';
             }
           }
+          else if (j === 0) icSutunlarHtml += '<td>' + cell + '</td>';
+          else if (j === 1) icSutunlarHtml += '<td class="arz-yili arz-col">' + (cell || "-") + '</td>';
+          else if (j === idxYogunluk) {
+            var fmtYogunluk = rawYogunluk.toFixed(2).replace('.', ',');
+            icSutunlarHtml += '<td data-value="' + rawYogunluk + '" class="tight-col"><span class="yog-badge ' + yogunlukSinifi(rawYogunluk) + '">' + fmtYogunluk + '</span></td>';
+          }
         }
+
+        icSutunlarHtml += formatGrowthCell(g5y, rawYogunluk);
+        icSutunlarHtml += formatGrowthCell(g10y, rawYogunluk);
 
         var ortalamaVerim = odemeYaptigiYilSayisi > 0 ? (toplamVerim10Yil / odemeYaptigiYilSayisi) / 100 : 0;
         if (ortalamaVerim < 1.0) continue;
 
-        sonuc.push({
-          hisse: hisseKodu,
-          arz: satir[1] || "-",
-          yogunluk: rawYogunluk,
-          ortalamaVerim: ortalamaVerim,
-          g5: g5y.val,
-          g10: g10y.val,
-          yillikVeri: yillikVeri,
-          maxMiktar: maxMiktar
+        icSutunlarHtml += '<td class="trend-col">' + sparklineOlustur(sparkDegerler.slice(-8)) + '</td>';
+
+        var yildizAktif = favoriMi(hisseKodu);
+        var yildizHtml = '<td><span class="star-btn' + (yildizAktif ? ' active' : '') + '" onclick="favoriDegistir(\'' + hisseKodu + '\', this)">' + (yildizAktif ? '★' : '☆') + '</span></td>';
+        icSutunlarHtml = yildizHtml + icSutunlarHtml;
+
+        var ortVerimFormatli = ortalamaVerim > 0 ? "%" + ortalamaVerim.toFixed(2) : "%0.00";
+
+        var expandHtml = '<tr class="expand-row" id="expand-' + i + '">';
+        expandHtml += '<td colspan="3" class="chart-label-cell">📊 Toplam Temettü<br>(Yıllık Bazda)</td>';
+        for (var j = 0; j <= idxYogunluk; j++) {
+          if (skipIndices.indexOf(j) > -1) continue;
+          if (j >= 2 && j < idxYogunluk) {
+            var cMik = sayiyaCevir(satir[j]);
+            var barHeight = maxMiktar > 0 ? (cMik / maxMiktar) * 100 : 0;
+            var valTxt = cMik > 0 ? Number(cMik).toLocaleString('tr-TR') : '-';
+            var valClass = cMik > 0 ? 'bar-val' : 'bar-val empty-bar-val';
+            var inlineBarStyles = cMik > 0 ? '' : 'background-color: transparent; box-shadow: none;';
+            expandHtml += '<td><div class="bar-wrapper" style="display: flex; flex-direction: column; align-items: center;">';
+            expandHtml += '<div class="' + valClass + '" title="' + valTxt + '">' + valTxt + '</div>';
+            expandHtml += '<div class="bar-container"><div class="bar" style="height: ' + Math.max(barHeight, cMik > 0 ? 2 : 0) + '%; ' + inlineBarStyles + '"></div></div>';
+            expandHtml += '</div></td>';
+          }
+        }
+        expandHtml += '<td colspan="4" style="vertical-align: middle;">';
+        expandHtml += '<div style="background: #f1f8f3; border: 1px solid #b2d2a4; border-radius: 8px; padding: 12px 5px; text-align: center; margin: 0 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">';
+        expandHtml += '<div style="color: #5f6368; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px;">Ortalama Temettü Verimi</div>';
+        expandHtml += '<div style="color: #0f9d58; font-size: 26px; font-weight: 900;">' + ortVerimFormatli + '</div></div></td>';
+        expandHtml += '</tr>';
+
+        islenmisSatirlar.push({
+          hisse: hisseKodu, yogunluk: rawYogunluk, gizliAdet: gizliAdet2011,
+          ortalamaVerim: ortalamaVerim, g10: g10y.val, g5: g5y.val,
+          htmlGovde: icSutunlarHtml, expandGovde: expandHtml, satirId: i
         });
       }
-      return sonuc;
-    }
 
-    function miniSparkOlustur(yillikVeri) {
-      var son8 = yillikVeri.slice(-8);
-      var maxV = Math.max.apply(null, son8.map(d => d.miktar).concat([0]));
-      var html = '<div class="mini-spark">';
-      son8.forEach(function(d) {
-        var h = maxV > 0 ? Math.max((d.miktar / maxV) * 100, d.miktar > 0 ? 10 : 0) : 0;
-        html += '<div style="height:' + h + '%" class="' + (d.miktar > 0 ? '' : 'empty') + '" title="' + d.yil + ': ' + d.miktar.toLocaleString('tr-TR') + ' TL"></div>';
+      islenmisSatirlar.sort(function(a, b) {
+        if (Math.abs(b.yogunluk - a.yogunluk) > 0.0001) return b.yogunluk - a.yogunluk;
+        if (Math.abs(b.ortalamaVerim - a.ortalamaVerim) > 0.0001) return b.ortalamaVerim - a.ortalamaVerim;
+        if (b.gizliAdet !== a.gizliAdet) return b.gizliAdet - a.gizliAdet;
+        return a.hisse.localeCompare(b.hisse);
       });
-      html += '</div>';
-      return html;
-    }
 
-    function kartOlustur(s) {
-      var favori = favoriMi(s.hisse);
-      var renk = yogunlukRengi(s.yogunluk);
-      var cevre = 2 * Math.PI * 22;
-      var dolu = cevre * Math.min(s.yogunluk, 1);
-
-      var g10Html = s.g10 === null ? '<span class="growth-na">N/A</span>' : '<span class="' + (s.g10 >= 0 ? 'growth-plus' : 'growth-minus') + '">%' + s.g10.toFixed(1) + '</span>';
-
-      var altIcerik;
-      if (s.ortalamaVerim > 0) {
-        altIcerik = ''
-          + '<div class="card-growth-row"><span style="color:#5f6368">10y büyüme</span>' + g10Html + '</div>'
-          + miniSparkOlustur(s.yillikVeri);
-      } else {
-        altIcerik = '<div class="card-empty-note">Geçmiş veri sınırlı</div>';
+      for (var r = 0; r < islenmisSatirlar.length; r++) {
+        var sId = islenmisSatirlar[r].satirId;
+        html += '<tr class="main-row" data-order="' + r + '" onclick="toggleRow(\'expand-' + sId + '\')">';
+        html += islenmisSatirlar[r].htmlGovde;
+        html += '</tr>';
+        html += islenmisSatirlar[r].expandGovde;
       }
+      html += '</tbody></table>';
 
-      return '<div class="hisse-card' + (favori ? ' favori' : '') + '" data-hisse="' + s.hisse + '" onclick="detayAc(\'' + s.hisse + '\')">'
-        + '<div class="card-top">'
-        + '<div><div class="card-hisse">' + s.hisse + '</div><div class="card-arz">Arz: ' + s.arz + '</div></div>'
-        + '<span class="star-btn' + (favori ? ' active' : '') + '" onclick="favoriDegistir(\'' + s.hisse + '\', event)">' + (favori ? '★' : '☆') + '</span>'
-        + '</div>'
-        + '<div class="card-mid">'
-        + '<svg width="52" height="52" viewBox="0 0 52 52">'
-        + '<circle cx="26" cy="26" r="22" fill="none" stroke="#e8eaed" stroke-width="5"/>'
-        + '<circle cx="26" cy="26" r="22" fill="none" stroke="' + renk + '" stroke-width="5" stroke-dasharray="' + dolu.toFixed(1) + ' ' + cevre.toFixed(1) + '" stroke-linecap="round" transform="rotate(-90 26 26)"/>'
-        + '<text x="26" y="30" text-anchor="middle" font-size="11" font-weight="700" fill="#202124">' + s.yogunluk.toFixed(2).replace('.', ',') + '</text>'
-        + '</svg>'
-        + '<div><div class="card-verim-label">Ort. verim</div><div class="card-verim-val' + (s.ortalamaVerim > 0 ? '' : ' empty') + '">' + (s.ortalamaVerim > 0 ? '%' + s.ortalamaVerim.toFixed(2) : '-') + '</div></div>'
-        + '</div>'
-        + altIcerik
-        + '</div>';
+      document.getElementById('tableContainer').innerHTML = html;
+      TUM_SATIRLAR = islenmisSatirlar;
+      initFiltre();
+      kpiGuncelle();
+      document.getElementById('kpiRow').style.display = 'grid';
     }
 
-    function detayAc(hisse) {
-      var s = TUM_SATIRLAR.find(x => x.hisse === hisse);
-      if (!s) return;
-      document.getElementById('detayHisse').innerText = s.hisse;
-      document.getElementById('detayAlt').innerText = 'Arz yılı: ' + s.arz + ' · Yoğunluk: ' + s.yogunluk.toFixed(2).replace('.', ',');
-      document.getElementById('detayVerim').innerText = s.ortalamaVerim > 0 ? '%' + s.ortalamaVerim.toFixed(2) : '%0.00';
+    function initFiltre() {
+      var trs = document.querySelectorAll("#tabloGovdesi tr.main-row");
+      var ySet = new Set();
+      for (var i = 0; i < trs.length; i++) {
+        ySet.add(trs[i].cells[trs[i].cells.length - 4].innerText.trim());
+      }
+      var ySel = document.getElementById("filterYogunluk");
+      Array.from(ySet).sort((a, b) => parseFloat(b.replace(',', '.')) - parseFloat(a.replace(',', '.'))).forEach(v => ySel.innerHTML += '<option value="' + v + '">' + v + '</option>');
 
-      var barHtml = '';
-      s.yillikVeri.forEach(function(d) {
-        var h = s.maxMiktar > 0 ? Math.max((d.miktar / s.maxMiktar) * 100, d.miktar > 0 ? 4 : 0) : 0;
-        var valTxt = d.miktar > 0 ? Number(d.miktar).toLocaleString('tr-TR') : '-';
-        barHtml += '<div class="detay-bar-col">'
-          + '<div class="detay-bar-val">' + valTxt + '</div>'
-          + '<div class="detay-bar" style="height:' + h + '%;' + (d.miktar > 0 ? '' : 'background:transparent;') + '"></div>'
-          + '<div class="detay-bar-yil">' + d.yil + '</div>'
-          + '</div>';
+      var firstRow = document.querySelector("thead tr:nth-child(1)");
+      document.querySelectorAll("thead tr:nth-child(2) th").forEach(th => {
+        if (firstRow) th.style.top = firstRow.offsetHeight + "px";
       });
-      document.getElementById('detayBarlar').innerHTML = barHtml;
-
-      document.getElementById('modalOverlay').style.display = 'block';
-      document.getElementById('detayModal').style.display = 'block';
     }
-    function detayKapat() {
-      document.getElementById('modalOverlay').style.display = 'none';
-      document.getElementById('detayModal').style.display = 'none';
+
+    function sira(s) {
+      document.querySelectorAll('.year-sort').forEach(x => { if (x !== s) x.value = "" });
+      document.getElementById('genelSirala').value = "";
+      if (s.value === "") { currentSortCol = -1; currentSortOrder = ""; }
+      else {
+        currentSortCol = Array.prototype.indexOf.call(s.parentNode.parentNode.children, s.parentNode);
+        currentSortOrder = s.value;
+      }
+      uygula();
+    }
+
+    function genelSiralaUygula() {
+      document.querySelectorAll('.year-sort').forEach(x => x.value = "");
+      currentSortCol = -1; currentSortOrder = "";
+      uygula();
     }
 
     function filtreleriTemizle() {
       document.getElementById('hisseArama').value = "";
       document.getElementById('filterYogunluk').value = "TÜMÜ";
-      document.getElementById('genelSirala').value = "YOG_DESC";
-      ciz();
+      document.getElementById('genelSirala').value = "";
+      document.querySelectorAll('.year-sort').forEach(x => x.value = "");
+      currentSortCol = -1; currentSortOrder = "";
+      uygula();
+    }
+
+    function chipEkle(html) {
+      document.getElementById('chipRow').innerHTML += html;
     }
 
     function chipleriCiz() {
@@ -374,87 +508,119 @@
       var arama = document.getElementById('hisseArama').value.trim();
       var fY = document.getElementById('filterYogunluk').value;
       var genelSort = document.getElementById('genelSirala');
-      if (arama) chipRow.innerHTML += '<div class="chip">Arama: "' + arama + '"<span onclick="document.getElementById(\'hisseArama\').value=\'\';ciz();">✕</span></div>';
-      if (fY !== "TÜMÜ") chipRow.innerHTML += '<div class="chip">Yoğunluk: ' + fY + '<span onclick="document.getElementById(\'filterYogunluk\').value=\'TÜMÜ\';ciz();">✕</span></div>';
-      if (genelSort.value !== "YOG_DESC") chipRow.innerHTML += '<div class="chip">' + genelSort.options[genelSort.selectedIndex].text + '<span onclick="document.getElementById(\'genelSirala\').value=\'YOG_DESC\';ciz();">✕</span></div>';
+
+      if (arama) chipEkle('<div class="chip">Arama: "' + arama + '"<span onclick="document.getElementById(\'hisseArama\').value=\'\';uygula();">✕</span></div>');
+      if (fY !== "TÜMÜ") chipEkle('<div class="chip">Yoğunluk: ' + fY + '<span onclick="document.getElementById(\'filterYogunluk\').value=\'TÜMÜ\';uygula();">✕</span></div>');
+      if (genelSort.value) chipEkle('<div class="chip">' + genelSort.options[genelSort.selectedIndex].text + '<span onclick="document.getElementById(\'genelSirala\').value=\'\';uygula();">✕</span></div>');
     }
 
-    function kpiGuncelle(gorunurler) {
-      var adet = gorunurler.length;
-      document.getElementById('kpiAdet').innerText = adet;
+    function kpiGuncelle() {
+      var trs = Array.from(document.querySelectorAll("#tabloGovdesi tr.main-row")).filter(tr => tr.style.display !== "none");
+      var adet = trs.length;
       if (adet === 0) {
+        document.getElementById('kpiAdet').innerText = "0";
         document.getElementById('kpiYogunluk').innerText = "-";
         document.getElementById('kpiVerim').innerText = "-";
         document.getElementById('kpiTam').innerText = "0";
         return;
       }
-      var toplamYog = 0, toplamVerim = 0, verimSayac = 0, tamAdet = 0;
-      gorunurler.forEach(function(s) {
-        toplamYog += s.yogunluk;
-        if (s.yogunluk >= 0.999) tamAdet++;
-        if (s.ortalamaVerim > 0) { toplamVerim += s.ortalamaVerim; verimSayac++; }
+      var toplamYog = 0, toplamVerim = 0, tamAdet = 0;
+      trs.forEach(function(tr) {
+        var yBadge = tr.cells[tr.cells.length - 4];
+        var yVal = parseFloat(yBadge.getAttribute("data-value")) || 0;
+        toplamYog += yVal;
+        if (yVal >= 0.999) tamAdet++;
+        var verimHucre = tr.querySelector('.expand-row'); // not used
       });
+      document.getElementById('kpiAdet').innerText = adet;
       document.getElementById('kpiYogunluk').innerText = (toplamYog / adet).toFixed(2).replace('.', ',');
-      document.getElementById('kpiVerim').innerText = verimSayac > 0 ? "%" + (toplamVerim / verimSayac).toFixed(2) : "-";
       document.getElementById('kpiTam').innerText = tamAdet;
+
+      var verimToplam = 0, verimSayac = 0;
+      TUM_SATIRLAR.forEach(function(s) {
+        var trEl = document.querySelector('.main-row[data-order]');
+      });
+      // ortalama verimi TUM_SATIRLAR uzerinden gorunur olanlara gore hesapla
+      var gorunurHisseKodlari = {};
+      trs.forEach(function(tr) { gorunurHisseKodlari[tr.cells[1].innerText.trim()] = true; });
+      TUM_SATIRLAR.forEach(function(s) {
+        if (gorunurHisseKodlari[s.hisse]) { verimToplam += s.ortalamaVerim; verimSayac++; }
+      });
+      document.getElementById('kpiVerim').innerText = verimSayac > 0 ? "%" + ((verimToplam / verimSayac)).toFixed(2) : "-";
     }
 
-    function uygula() { ciz(); }
-
-    function ciz() {
-      if (!TUM_SATIRLAR.length) return;
+    function uygula() {
       var arama = document.getElementById("hisseArama").value.trim().toUpperCase();
       var fY = document.getElementById("filterYogunluk").value;
-      var sortVal = document.getElementById("genelSirala").value;
-      var favoriler = favoriListesiGetir();
+      var mainTrs = Array.from(document.querySelectorAll("#tabloGovdesi tr.main-row"));
 
-      var gorunurler = TUM_SATIRLAR.filter(function(s) {
-        var yogTxt = s.yogunluk.toFixed(2).replace('.', ',');
-        return (arama === "" || s.hisse.indexOf(arama) > -1) && (fY === "TÜMÜ" || yogTxt === fY);
+      mainTrs.forEach(tr => {
+        var hisseKodu = tr.cells[1].innerText.trim().toUpperCase();
+        var yogunlukHucresi = tr.cells[tr.cells.length - 4].innerText.trim();
+        var gozukmeli = (arama === "" || hisseKodu.indexOf(arama) > -1) && (fY === "TÜMÜ" || yogunlukHucresi === fY);
+        tr.style.display = gozukmeli ? "" : "none";
+
+        var expandId = tr.getAttribute("onclick").match(/'([^']+)'/)[1];
+        var expandRow = document.getElementById(expandId);
+        if (!gozukmeli && expandRow) expandRow.classList.remove("active");
       });
 
-      gorunurler.sort(function(a, b) {
-        var fa = favoriler.indexOf(a.hisse) > -1 ? 1 : 0;
-        var fb = favoriler.indexOf(b.hisse) > -1 ? 1 : 0;
-        if (fa !== fb) return fb - fa;
-        if (sortVal === "VERIM_DESC") return b.ortalamaVerim - a.ortalamaVerim;
-        if (sortVal === "G10_DESC") return (b.g10 === null ? -999 : b.g10) - (a.g10 === null ? -999 : a.g10);
-        if (sortVal === "HISSE_ASC") return a.hisse.localeCompare(b.hisse);
-        return b.yogunluk - a.yogunluk;
-      });
+      var genelSort = document.getElementById('genelSirala').value;
 
-      var grid = document.getElementById('cardGrid');
-      if (gorunurler.length === 0) {
-        grid.innerHTML = '<div class="loading-msg" style="grid-column:1/-1;">Kriterlere uyan hisse bulunamadı.</div>';
+      if (currentSortCol > -1) {
+        mainTrs.sort((a, b) => {
+          var valA = parseFloat(a.cells[currentSortCol].getAttribute("data-value")) || 0;
+          var valB = parseFloat(b.cells[currentSortCol].getAttribute("data-value")) || 0;
+          return currentSortOrder === "DESC" ? valB - valA : valA - valB;
+        });
+      } else if (genelSort) {
+        mainTrs.sort((a, b) => {
+          var ha = a.cells[1].innerText.trim(), hb = b.cells[1].innerText.trim();
+          var sa = TUM_SATIRLAR.find(s => s.hisse === ha) || {};
+          var sb = TUM_SATIRLAR.find(s => s.hisse === hb) || {};
+          if (genelSort === "YOG_DESC") return (sb.yogunluk || 0) - (sa.yogunluk || 0);
+          if (genelSort === "VERIM_DESC") return (sb.ortalamaVerim || 0) - (sa.ortalamaVerim || 0);
+          if (genelSort === "G10_DESC") return (sb.g10 || -999) - (sa.g10 || -999);
+          if (genelSort === "HISSE_ASC") return ha.localeCompare(hb);
+          return 0;
+        });
       } else {
-        grid.innerHTML = gorunurler.map(kartOlustur).join('');
+        mainTrs.sort((a, b) => parseInt(a.getAttribute("data-order")) - parseInt(b.getAttribute("data-order")));
       }
 
-      chipleriCiz();
-      kpiGuncelle(gorunurler);
-      document.getElementById('kpiRow').style.display = 'grid';
-    }
+      // favoriler her zaman en usте
+      var favoriler = favoriListesiGetir();
+      mainTrs.sort((a, b) => {
+        var ha = a.cells[1].innerText.trim(), hb = b.cells[1].innerText.trim();
+        var fa = favoriler.indexOf(ha) > -1 ? 1 : 0;
+        var fb = favoriler.indexOf(hb) > -1 ? 1 : 0;
+        return fb - fa;
+      });
 
-    function initFiltre() {
-      var ySet = new Set();
-      TUM_SATIRLAR.forEach(function(s) { ySet.add(s.yogunluk.toFixed(2).replace('.', ',')); });
-      var ySel = document.getElementById("filterYogunluk");
-      Array.from(ySet).sort((a, b) => parseFloat(b.replace(',', '.')) - parseFloat(a.replace(',', '.'))).forEach(v => ySel.innerHTML += '<option value="' + v + '">' + v + '</option>');
+      var govde = document.getElementById("tabloGovdesi");
+      mainTrs.forEach(tr => {
+        govde.appendChild(tr);
+        var expandId = tr.getAttribute("onclick").match(/'([^']+)'/)[1];
+        var expandRow = document.getElementById(expandId);
+        if (expandRow) govde.appendChild(expandRow);
+      });
+
+      chipleriCiz();
+      kpiGuncelle();
     }
 
     function csvIndir() {
-      var arama = document.getElementById("hisseArama").value.trim().toUpperCase();
-      var fY = document.getElementById("filterYogunluk").value;
-      var gorunurler = TUM_SATIRLAR.filter(function(s) {
-        var yogTxt = s.yogunluk.toFixed(2).replace('.', ',');
-        return (arama === "" || s.hisse.indexOf(arama) > -1) && (fY === "TÜMÜ" || yogTxt === fY);
-      });
+      var mainTrs = Array.from(document.querySelectorAll("#tabloGovdesi tr.main-row")).filter(tr => tr.style.display !== "none");
       var satirlar = [["HİSSE", "YOĞUNLUK", "ORTALAMA VERİM", "T.B.H.(5Y)", "T.B.H.(10Y)"]];
-      gorunurler.forEach(function(s) {
+      mainTrs.forEach(function(tr) {
+        var hisse = tr.cells[1].innerText.trim();
+        var s = TUM_SATIRLAR.find(x => x.hisse === hisse) || {};
         satirlar.push([
-          s.hisse, s.yogunluk.toFixed(2), s.ortalamaVerim.toFixed(2),
-          s.g5 !== null ? s.g5.toFixed(1) : "N/A",
-          s.g10 !== null ? s.g10.toFixed(1) : "N/A"
+          hisse,
+          (s.yogunluk || 0).toFixed(2),
+          (s.ortalamaVerim || 0).toFixed(2),
+          s.g5 !== null && s.g5 !== undefined ? s.g5.toFixed(1) : "N/A",
+          s.g10 !== null && s.g10 !== undefined ? s.g10.toFixed(1) : "N/A"
         ]);
       });
       var csvIcerik = satirlar.map(r => r.join(";")).join("\n");
@@ -478,20 +644,14 @@
       })
       .then(function(data) {
         if (data.hata) {
-          document.getElementById('cardGrid').innerHTML = '<div class="error-msg" style="grid-column:1/-1;">Sunucu hatası: ' + data.hata + '</div>';
+          document.getElementById('tableContainer').innerHTML = '<div class="error-msg">Sunucu hatası: ' + data.hata + '</div>';
         } else {
-          TUM_SATIRLAR = veriyiIsle(data);
-          if (!TUM_SATIRLAR.length) {
-            document.getElementById('cardGrid').innerHTML = '<div class="error-msg" style="grid-column:1/-1;">Gösterilecek veri bulunamadı.</div>';
-            return;
-          }
-          initFiltre();
-          ciz();
+          tabloyuCiz(data);
           tarihiYazdir(data.sonGuncelleme);
         }
       })
       .catch(function(hata) {
-        document.getElementById('cardGrid').innerHTML = '<div class="error-msg" style="grid-column:1/-1;">Veriler yüklenemedi: ' + hata.message + '</div>';
+        document.getElementById('tableContainer').innerHTML = '<div class="error-msg">Veriler yüklenemedi: ' + hata.message + '</div>';
       });
   </script>
 </body>
