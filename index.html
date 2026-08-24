@@ -31,6 +31,10 @@
     .toolbar select { padding: 6px 10px; border: 1px solid #dadce0; border-radius: 6px; font-size: 13px; font-family: 'Google Sans Text'; background: #fff; min-width: 140px; outline: none; cursor: pointer; }
     .clear-btn { color: #d93025; border-color: #f3c7c3; }
 
+    /* YENİ KPI (Gösterilen Hisse) GÖRSEL TASARIMI */
+    .kpi-badge { background-color: #e8f0fe; color: #1a73e8; font-size: 13px; font-weight: 700; padding: 6px 12px; border-radius: 16px; display: flex; align-items: center; gap: 6px; border: 1px solid #d2e3fc; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
+    .kpi-badge .kpi-number { color: #174ea6; font-size: 14px; font-weight: 900; }
+
     .chip-row { display: flex; gap: 6px; margin: 8px 10px 0px 10px; flex-wrap: wrap; min-height: 0; }
     .chip { background: #e5f2e0; color: #256029; font-size: 11px; padding: 4px 10px; border-radius: 12px; display: flex; align-items: center; gap: 6px; font-weight: 500; }
     .chip span { cursor: pointer; font-weight: 700; }
@@ -104,7 +108,7 @@
       .toolbar select { width: 100%; min-width: 100%; }
       .clear-btn { width: 100%; justify-content: center; }
       
-      #kpiAdetMini { border-right: none; border-bottom: 1px solid #e8eaed; padding-right: 0; padding-bottom: 8px; text-align: left; }
+      .kpi-badge { width: 100%; justify-content: center; margin-bottom: 5px; }
       
       .table-container { margin: 10px 5px; }
       td, th { padding: 8px 4px; }
@@ -136,7 +140,9 @@
       <input type="text" id="hisseArama" placeholder="Hisse kodu ara..." oninput="uygula()">
     </div>
     
-    <div id="kpiAdetMini" style="font-size: 13px; font-weight: 700; color: #5f6368; padding-right: 10px; border-right: 1px solid #dadce0;">Gösterilen: -</div>
+    <div id="kpiAdetMini" class="kpi-badge">
+      📊 Gösterilen Hisse: <span id="kpiCount" class="kpi-number">-</span>
+    </div>
     
     <select id="filterYogunluk" onchange="uygula()"><option value="TÜMÜ">Yoğunluk: Tümü</option></select>
     
@@ -153,12 +159,13 @@
       <option value="">Sırala: Varsayılan</option>
       <option value="YOG_DESC">Yoğunluk (Yüksek → Düşük)</option>
       <option value="VERIM_DESC">Ortalama Verim (Yüksek → Düşük)</option>
-      <option value="G5_DESC">5 Yıllık Büyüme (Yüksek → Düşük)</option> <!-- YENİ EKLENEN FİLTRE -->
+      <option value="G5_DESC">5 Yıllık Büyüme (Yüksek → Düşük)</option>
       <option value="G10_DESC">10 Yıllık Büyüme (Yüksek → Düşük)</option>
       <option value="HISSE_ASC">Hisse Kodu (A → Z)</option>
     </select>
     
-    <button class="icon-btn clear-btn" onclick="filtreleriTemizle()">✕ Temizle</button>
+    <!-- Filtreleri Temizle olarak değiştirildi -->
+    <button class="icon-btn clear-btn" onclick="filtreleriTemizle()">✕ Filtreleri Temizle</button>
   </div>
 
   <div class="chip-row" id="chipRow"></div>
@@ -386,7 +393,8 @@
         icSutunlarHtml += formatGrowthCell(g10y, rawYogunluk);
 
         var ortalamaVerim = odemeYaptigiYilSayisi > 0 ? (toplamVerim10Yil / odemeYaptigiYilSayisi) / 100 : 0;
-        if (ortalamaVerim < 1.0) continue;
+        
+        // DİKKAT: "%1'in altındaki hisseleri filtreleyen if (ortalamaVerim < 1.0) continue;" ŞARTI İPTAL EDİLDİ (KALDIRILDI)
 
         icSutunlarHtml += '<td class="trend-col">' + sparklineOlustur(sparkDegerler.slice(-8)) + '</td>';
 
@@ -505,9 +513,10 @@
       if (genelSort.value) chipEkle('<div class="chip">' + genelSort.options[genelSort.selectedIndex].text + '<span onclick="document.getElementById(\'genelSirala\').value=\'\';uygula();">✕</span></div>');
     }
 
+    // YENİ KPI GÜNCELLEME FONKSİYONU
     function kpiGuncelle() {
       var trs = Array.from(document.querySelectorAll("#tabloGovdesi tr.main-row")).filter(tr => tr.style.display !== "none");
-      document.getElementById('kpiAdetMini').innerText = "Gösterilen Hisse: " + trs.length;
+      document.getElementById('kpiCount').innerText = trs.length;
     }
 
     function uygula() {
@@ -547,7 +556,7 @@
           var sb = TUM_SATIRLAR.find(s => s.hisse === hb) || {};
           if (genelSort === "YOG_DESC") return (sb.yogunluk || 0) - (sa.yogunluk || 0);
           if (genelSort === "VERIM_DESC") return (sb.ortalamaVerim || 0) - (sa.ortalamaVerim || 0);
-          if (genelSort === "G5_DESC") return (sb.g5 || -999) - (sa.g5 || -999);  /* YENİ EKLENEN SIRALAMA MANTIĞI */
+          if (genelSort === "G5_DESC") return (sb.g5 || -999) - (sa.g5 || -999); 
           if (genelSort === "G10_DESC") return (sb.g10 || -999) - (sa.g10 || -999);
           if (genelSort === "HISSE_ASC") return ha.localeCompare(hb);
           return 0;
