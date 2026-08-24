@@ -164,7 +164,6 @@
       <option value="HISSE_ASC">Hisse Kodu (A → Z)</option>
     </select>
     
-    <!-- Filtreleri Temizle olarak değiştirildi -->
     <button class="icon-btn clear-btn" onclick="filtreleriTemizle()">✕ Filtreleri Temizle</button>
   </div>
 
@@ -339,7 +338,10 @@
         var satir = veri[i];
         var rawYogunluk = parseFloat(satir[idxYogunluk] ? satir[idxYogunluk].toString().replace(',', '.') : 0) || 0;
         var gizliAdet2011 = parseInt(satir[idxGizli]) || 0;
-        if (rawYogunluk < 0.5) continue;
+        
+        // YOĞUNLUK 0.5 KISITLAMASI İPTAL EDİLDİ
+        // if (rawYogunluk < 0.5) continue; 
+        
         var hisseKodu = satir[0];
         if (!hisseKodu || hisseKodu.trim() === "") continue;
 
@@ -394,8 +396,6 @@
 
         var ortalamaVerim = odemeYaptigiYilSayisi > 0 ? (toplamVerim10Yil / odemeYaptigiYilSayisi) / 100 : 0;
         
-        // DİKKAT: "%1'in altındaki hisseleri filtreleyen if (ortalamaVerim < 1.0) continue;" ŞARTI İPTAL EDİLDİ (KALDIRILDI)
-
         icSutunlarHtml += '<td class="trend-col">' + sparklineOlustur(sparkDegerler.slice(-8)) + '</td>';
 
         var ortVerimFormatli = ortalamaVerim > 0 ? "%" + ortalamaVerim.toFixed(2) : "%0.00";
@@ -513,7 +513,6 @@
       if (genelSort.value) chipEkle('<div class="chip">' + genelSort.options[genelSort.selectedIndex].text + '<span onclick="document.getElementById(\'genelSirala\').value=\'\';uygula();">✕</span></div>');
     }
 
-    // YENİ KPI GÜNCELLEME FONKSİYONU
     function kpiGuncelle() {
       var trs = Array.from(document.querySelectorAll("#tabloGovdesi tr.main-row")).filter(tr => tr.style.display !== "none");
       document.getElementById('kpiCount').innerText = trs.length;
