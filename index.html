@@ -2,7 +2,6 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <!-- MOBİL UYUM İÇİN EN KRİTİK ETİKET -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Temettü Yoğunluk Analizi</title>
   <base target="_top">
@@ -31,7 +30,6 @@
     .toolbar select { padding: 6px 10px; border: 1px solid #dadce0; border-radius: 6px; font-size: 13px; font-family: 'Google Sans Text'; background: #fff; min-width: 140px; outline: none; cursor: pointer; }
     .clear-btn { color: #d93025; border-color: #f3c7c3; }
 
-    /* YENİ KPI (Gösterilen Hisse) GÖRSEL TASARIMI */
     .kpi-badge { background-color: #e8f0fe; color: #1a73e8; font-size: 13px; font-weight: 700; padding: 6px 12px; border-radius: 16px; display: flex; align-items: center; gap: 6px; border: 1px solid #d2e3fc; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
     .kpi-badge .kpi-number { color: #174ea6; font-size: 14px; font-weight: 900; }
 
@@ -98,7 +96,6 @@
     #modalOverlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 9998; }
     .modal-btn { margin-top: 20px; padding: 10px 25px; background: #0f9d58; color: white; border: none; border-radius: 6px; font-size: 14px; font-weight: bold; cursor: pointer; font-family: 'Google Sans Text'; }
 
-    /* MOBİL TASARIM (RESPONSIVE) KODLARI */
     @media (max-width: 768px) {
       .header-content { flex-direction: column; align-items: flex-start; gap: 8px; }
       .update-text { position: relative; width: 100%; justify-content: flex-start; margin-top: 4px; }
@@ -144,7 +141,14 @@
       📊 Gösterilen Hisse: <span id="kpiCount" class="kpi-number">-</span>
     </div>
     
-    <select id="filterYogunluk" onchange="uygula()"><option value="TÜMÜ">Yoğunluk: Tümü</option></select>
+    <select id="filterYogunluk" onchange="uygula()">
+      <option value="TÜMÜ">Yoğunluk: Tümü</option>
+      <option value="0.90">> 0,90 (Çok Yüksek)</option>
+      <option value="0.70">> 0,70 (Yüksek)</option>
+      <option value="0.50">> 0,50 (Orta)</option>
+      <option value="0.01">Sadece Verenler (> 0)</option>
+      <option value="0">Hiç Vermeyenler (0,00)</option>
+    </select>
     
     <select id="filterVerim" onchange="uygula()">
       <option value="TÜMÜ">Ort. Verim: Tümü</option>
@@ -325,7 +329,7 @@
         if (skipIndices.indexOf(i) > -1) continue;
         if (i === 0) html += '<th><select id="filterHisse" class="col-filter" onchange="uygula()"><option value="TÜMÜ">Tümü</option></select></th>';
         else if (i === 1) html += '<th class="arz-col"></th>';
-        else if (i === idxYogunluk) html += '<th class="tight-col"><select id="filterYogunluk" class="col-filter" onchange="uygula()"><option value="TÜMÜ">Tümü</option></select></th>';
+        else if (i === idxYogunluk) html += '<th class="tight-col"></th>'; // Sabitlendiği için içindeki dropdown'u kaldırdık
         else html += '<th><select class="col-filter year-sort" onchange="sira(this)"><option value="">Sırala</option><option value="DESC">Büyük</option><option value="ASC">Küçük</option></select></th>';
       }
       html += '<th class="tight-col"><select class="col-filter year-sort" onchange="sira(this)"><option value="">Sırala</option><option value="DESC">Büyük</option><option value="ASC">Küçük</option></select></th>';
@@ -338,9 +342,6 @@
         var satir = veri[i];
         var rawYogunluk = parseFloat(satir[idxYogunluk] ? satir[idxYogunluk].toString().replace(',', '.') : 0) || 0;
         var gizliAdet2011 = parseInt(satir[idxGizli]) || 0;
-        
-        // YOĞUNLUK 0.5 KISITLAMASI İPTAL EDİLDİ
-        // if (rawYogunluk < 0.5) continue; 
         
         var hisseKodu = satir[0];
         if (!hisseKodu || hisseKodu.trim() === "") continue;
@@ -453,14 +454,12 @@
 
     function initFiltre() {
       var trs = document.querySelectorAll("#tabloGovdesi tr.main-row");
-      var hSet = new Set(), ySet = new Set();
+      var hSet = new Set();
       for (var i = 0; i < trs.length; i++) {
         hSet.add(trs[i].cells[0].innerText.trim());
-        ySet.add(trs[i].cells[trs[i].cells.length - 4].innerText.trim());
       }
-      var hSel = document.getElementById("filterHisse"), ySel = document.getElementById("filterYogunluk");
+      var hSel = document.getElementById("filterHisse");
       Array.from(hSet).sort().forEach(v => hSel.innerHTML += '<option value="' + v + '">' + v + '</option>');
-      Array.from(ySet).sort((a, b) => parseFloat(b.replace(',', '.')) - parseFloat(a.replace(',', '.'))).forEach(v => ySel.innerHTML += '<option value="' + v + '">' + v + '</option>');
 
       var firstRow = document.querySelector("thead tr:nth-child(1)");
       document.querySelectorAll("thead tr:nth-child(2) th").forEach(th => {
@@ -508,7 +507,11 @@
       var genelSort = document.getElementById('genelSirala');
 
       if (arama) chipEkle('<div class="chip">Arama: "' + arama + '"<span onclick="document.getElementById(\'hisseArama\').value=\'\';uygula();">✕</span></div>');
-      if (fY !== "TÜMÜ") chipEkle('<div class="chip">Yoğunluk: ' + fY + '<span onclick="document.getElementById(\'filterYogunluk\').value=\'TÜMÜ\';uygula();">✕</span></div>');
+      if (fY !== "TÜMÜ") {
+        var ySelect = document.getElementById("filterYogunluk");
+        var yLabel = ySelect.options[ySelect.selectedIndex].text;
+        chipEkle('<div class="chip">' + yLabel + '<span onclick="document.getElementById(\'filterYogunluk\').value=\'TÜMÜ\';uygula();">✕</span></div>');
+      }
       if (fV !== "TÜMÜ") chipEkle('<div class="chip">Verim > %' + fV + '<span onclick="document.getElementById(\'filterVerim\').value=\'TÜMÜ\';uygula();">✕</span></div>');
       if (genelSort.value) chipEkle('<div class="chip">' + genelSort.options[genelSort.selectedIndex].text + '<span onclick="document.getElementById(\'genelSirala\').value=\'\';uygula();">✕</span></div>');
     }
@@ -532,7 +535,19 @@
         var ortVerim = hisseObj ? hisseObj.ortalamaVerim : 0;
         var verimSarti = (fV === "TÜMÜ") ? true : (ortVerim >= parseFloat(fV));
 
-        var gozukmeli = (arama === "" || hisseKodu.indexOf(arama) > -1) && (fY === "TÜMÜ" || yogunlukHucresi === fY) && verimSarti;
+        var numYog = parseFloat(yogunlukHucresi.replace(',', '.')) || 0;
+        var yogunlukSarti = true;
+        
+        if (fY !== "TÜMÜ") {
+          var fYNum = parseFloat(fY);
+          if (fY === "0") {
+            yogunlukSarti = (numYog === 0);
+          } else {
+            yogunlukSarti = (numYog >= fYNum);
+          }
+        }
+
+        var gozukmeli = (arama === "" || hisseKodu.indexOf(arama) > -1) && yogunlukSarti && verimSarti;
         tr.style.display = gozukmeli ? "" : "none";
 
         var expandId = tr.getAttribute("onclick").match(/'([^']+)'/)[1];
