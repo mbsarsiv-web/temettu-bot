@@ -22,13 +22,14 @@
     .icon-btn { border: 1px solid #dadce0; background: #fff; border-radius: 6px; padding: 6px 12px; font-size: 12px; color: #3c4043; cursor: pointer; font-family: 'Google Sans Text'; display: flex; align-items: center; gap: 5px; transition: background 0.2s; }
     .icon-btn:hover { background: #f1f3f4; }
 
-    .toolbar { background: #ffffff; padding: 8px 15px; margin: 10px 10px 0 10px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.05); display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
-    .search-wrap { position: relative; flex: 1; min-width: 180px; }
+    /* TOOLBAR: Smart TV ve Mobil Uyumu İçin Daraltıldı ve Esnekleştirildi */
+    .toolbar { background: #ffffff; padding: 8px 15px; margin: 10px 10px 0 10px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.05); display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+    .search-wrap { position: relative; flex: 0 1 150px; min-width: 120px; } /* Arama kutusu daraltıldı */
     .search-wrap input { width: 100%; box-sizing: border-box; padding: 6px 10px 6px 30px; border: 1px solid #dadce0; border-radius: 6px; font-size: 13px; font-family: 'Google Sans Text'; outline: none; transition: border-color 0.2s; }
     .search-wrap input:focus { border-color: #1a73e8; }
     .search-wrap span { position: absolute; left: 9px; top: 50%; transform: translateY(-50%); color: #9aa0a6; font-size: 13px; }
-    .toolbar select { padding: 6px 10px; border: 1px solid #dadce0; border-radius: 6px; font-size: 13px; font-family: 'Google Sans Text'; background: #fff; min-width: 140px; outline: none; cursor: pointer; }
-    .clear-btn { color: #d93025; border-color: #f3c7c3; }
+    .toolbar select { flex: 0 1 auto; padding: 6px 8px; border: 1px solid #dadce0; border-radius: 6px; font-size: 13px; font-family: 'Google Sans Text'; background: #fff; outline: none; cursor: pointer; }
+    .clear-btn { color: #d93025; border-color: #f3c7c3; margin-left: auto; } /* Sağa yasla */
 
     .kpi-badge { background-color: #e8f0fe; color: #1a73e8; font-size: 13px; font-weight: 700; padding: 6px 12px; border-radius: 16px; display: flex; align-items: center; gap: 6px; border: 1px solid #d2e3fc; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
     .kpi-badge .kpi-number { color: #174ea6; font-size: 14px; font-weight: 900; }
@@ -96,19 +97,26 @@
     #modalOverlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 9998; }
     .modal-btn { margin-top: 20px; padding: 10px 25px; background: #0f9d58; color: white; border: none; border-radius: 6px; font-size: 14px; font-weight: bold; cursor: pointer; font-family: 'Google Sans Text'; }
 
+    /* MOBİL VE AKILLI TV UYUMU */
     @media (max-width: 768px) {
       .header-content { flex-direction: column; align-items: flex-start; gap: 8px; }
       .update-text { position: relative; width: 100%; justify-content: flex-start; margin-top: 4px; }
       
-      .toolbar { flex-direction: column; align-items: stretch; gap: 8px; margin: 10px 5px 0 5px; }
-      .search-wrap { width: 100%; }
-      .toolbar select { width: 100%; min-width: 100%; }
-      .clear-btn { width: 100%; justify-content: center; }
-      
-      .kpi-badge { width: 100%; justify-content: center; margin-bottom: 5px; }
+      .toolbar { gap: 6px; }
+      .search-wrap { width: 100%; flex: 1 1 100%; }
+      .toolbar select { flex: 1 1 45%; min-width: 0; font-size: 12px; padding: 6px 4px; }
+      .kpi-badge { width: 100%; flex: 1 1 100%; justify-content: center; margin-bottom: 2px; }
+      .clear-btn { width: 100%; flex: 1 1 100%; justify-content: center; margin-left: 0; }
       
       .table-container { margin: 10px 5px; }
       td, th { padding: 8px 4px; }
+    }
+    
+    @media (min-width: 1600px) { /* Smart TV / Büyük Ekran Uyumu */
+      body { font-size: 110%; }
+      .search-wrap input, .toolbar select, .icon-btn { font-size: 15px; }
+      td, th { font-size: 13px; }
+      td:first-child, .arz-yili { font-size: 14px; }
     }
   </style>
 </head>
@@ -138,18 +146,28 @@
     </div>
     
     <div id="kpiAdetMini" class="kpi-badge">
-      📊 Gösterilen Hisse: <span id="kpiCount" class="kpi-number">-</span>
+      📊 Gösterilen: <span id="kpiCount" class="kpi-number">-</span>
     </div>
     
     <select id="filterYogunluk" onchange="uygula()">
       <option value="TÜMÜ">Yoğunluk: Tümü</option>
-      <option value="0.90">> 0,90 (Çok Yüksek)</option>
-      <option value="0.70">> 0,70 (Yüksek)</option>
-      <option value="0.50">> 0,50 (Orta)</option>
+      <option value="1.00">1,00 (Kusursuz)</option>
+      <option value="0.90">≥ 0,90 (Çok Yüksek)</option>
+      <option value="0.80">≥ 0,80 (Yüksek)</option>
+      <option value="0.70">≥ 0,70 (Orta-Yüksek)</option>
+      <option value="0.50">≥ 0,50 (Orta)</option>
       <option value="0.01">Sadece Verenler (> 0)</option>
       <option value="0">Hiç Vermeyenler (0,00)</option>
     </select>
     
+    <!-- YENİ FİLTRE: SÜREKLİ ARTIRANLAR -->
+    <select id="filterArtis" onchange="uygula()">
+      <option value="TÜMÜ">Artış Trendi: Tümü</option>
+      <option value="2">≥ 2 Yıl Aralıksız Artıran</option>
+      <option value="3">≥ 3 Yıl Aralıksız Artıran</option>
+      <option value="5">≥ 5 Yıl Aralıksız Artıran</option>
+    </select>
+
     <select id="filterVerim" onchange="uygula()">
       <option value="TÜMÜ">Ort. Verim: Tümü</option>
       <option value="1">> %1</option>
@@ -168,7 +186,7 @@
       <option value="HISSE_ASC">Hisse Kodu (A → Z)</option>
     </select>
     
-    <button class="icon-btn clear-btn" onclick="filtreleriTemizle()">✕ Filtreleri Temizle</button>
+    <button class="icon-btn clear-btn" onclick="filtreleriTemizle()">✕ Temizle</button>
   </div>
 
   <div class="chip-row" id="chipRow"></div>
@@ -329,7 +347,7 @@
         if (skipIndices.indexOf(i) > -1) continue;
         if (i === 0) html += '<th><select id="filterHisse" class="col-filter" onchange="uygula()"><option value="TÜMÜ">Tümü</option></select></th>';
         else if (i === 1) html += '<th class="arz-col"></th>';
-        else if (i === idxYogunluk) html += '<th class="tight-col"></th>'; // Sabitlendiği için içindeki dropdown'u kaldırdık
+        else if (i === idxYogunluk) html += '<th class="tight-col"></th>'; 
         else html += '<th><select class="col-filter year-sort" onchange="sira(this)"><option value="">Sırala</option><option value="DESC">Büyük</option><option value="ASC">Küçük</option></select></th>';
       }
       html += '<th class="tight-col"><select class="col-filter year-sort" onchange="sira(this)"><option value="">Sırala</option><option value="DESC">Büyük</option><option value="ASC">Küçük</option></select></th>';
@@ -396,8 +414,26 @@
         icSutunlarHtml += formatGrowthCell(g10y, rawYogunluk);
 
         var ortalamaVerim = odemeYaptigiYilSayisi > 0 ? (toplamVerim10Yil / odemeYaptigiYilSayisi) / 100 : 0;
-        
         icSutunlarHtml += '<td class="trend-col">' + sparklineOlustur(sparkDegerler.slice(-8)) + '</td>';
+
+        // Sürekli Artıran Hesaplaması (Dinamik)
+        var artisSerisi = 0;
+        if (sparkDegerler.length > 0) {
+          var sonMiktar = sparkDegerler[sparkDegerler.length - 1]; 
+          if (sonMiktar > 0) {
+            artisSerisi = 1;
+            for (var k = sparkDegerler.length - 2; k >= 0; k--) {
+              var onceki = sparkDegerler[k];
+              if (sonMiktar > onceki) {
+                artisSerisi++;
+                sonMiktar = onceki;
+                if (onceki === 0) break; // 0'dan başladıysa seri biter (ödeme periyodu başlamış olur)
+              } else {
+                break; // artış bozuldu
+              }
+            }
+          }
+        }
 
         var ortVerimFormatli = ortalamaVerim > 0 ? "%" + ortalamaVerim.toFixed(2) : "%0.00";
 
@@ -425,7 +461,7 @@
 
         islenmisSatirlar.push({
           hisse: hisseKodu, yogunluk: rawYogunluk, gizliAdet: gizliAdet2011,
-          ortalamaVerim: ortalamaVerim, g10: g10y.val, g5: g5y.val,
+          ortalamaVerim: ortalamaVerim, g10: g10y.val, g5: g5y.val, artisSerisi: artisSerisi,
           htmlGovde: icSutunlarHtml, expandGovde: expandHtml, satirId: i
         });
       }
@@ -488,6 +524,7 @@
       document.getElementById('hisseArama').value = "";
       document.getElementById('filterYogunluk').value = "TÜMÜ";
       document.getElementById('filterVerim').value = "TÜMÜ";
+      document.getElementById('filterArtis').value = "TÜMÜ"; // Yeni filtre sıfırlama
       document.getElementById('genelSirala').value = "";
       document.querySelectorAll('.year-sort').forEach(x => x.value = "");
       currentSortCol = -1; currentSortOrder = "";
@@ -504,6 +541,7 @@
       var arama = document.getElementById('hisseArama').value.trim();
       var fY = document.getElementById('filterYogunluk').value;
       var fV = document.getElementById('filterVerim').value;
+      var fA = document.getElementById('filterArtis').value;
       var genelSort = document.getElementById('genelSirala');
 
       if (arama) chipEkle('<div class="chip">Arama: "' + arama + '"<span onclick="document.getElementById(\'hisseArama\').value=\'\';uygula();">✕</span></div>');
@@ -511,6 +549,9 @@
         var ySelect = document.getElementById("filterYogunluk");
         var yLabel = ySelect.options[ySelect.selectedIndex].text;
         chipEkle('<div class="chip">' + yLabel + '<span onclick="document.getElementById(\'filterYogunluk\').value=\'TÜMÜ\';uygula();">✕</span></div>');
+      }
+      if (fA !== "TÜMÜ") {
+        chipEkle('<div class="chip">Artış ≥ ' + fA + ' Yıl<span onclick="document.getElementById(\'filterArtis\').value=\'TÜMÜ\';uygula();">✕</span></div>');
       }
       if (fV !== "TÜMÜ") chipEkle('<div class="chip">Verim > %' + fV + '<span onclick="document.getElementById(\'filterVerim\').value=\'TÜMÜ\';uygula();">✕</span></div>');
       if (genelSort.value) chipEkle('<div class="chip">' + genelSort.options[genelSort.selectedIndex].text + '<span onclick="document.getElementById(\'genelSirala\').value=\'\';uygula();">✕</span></div>');
@@ -525,6 +566,7 @@
       var arama = document.getElementById("hisseArama").value.trim().toUpperCase();
       var fY = document.getElementById("filterYogunluk").value;
       var fV = document.getElementById("filterVerim").value;
+      var fA = document.getElementById("filterArtis").value;
       var mainTrs = Array.from(document.querySelectorAll("#tabloGovdesi tr.main-row"));
 
       mainTrs.forEach(tr => {
@@ -539,15 +581,21 @@
         var yogunlukSarti = true;
         
         if (fY !== "TÜMÜ") {
-          var fYNum = parseFloat(fY);
           if (fY === "0") {
             yogunlukSarti = (numYog === 0);
+          } else if (fY === "1.00") {
+            yogunlukSarti = Math.abs(numYog - 1.0) < 0.001; // Tam katsayı kontrolü
           } else {
-            yogunlukSarti = (numYog >= fYNum);
+            yogunlukSarti = (numYog >= parseFloat(fY));
           }
         }
 
-        var gozukmeli = (arama === "" || hisseKodu.indexOf(arama) > -1) && yogunlukSarti && verimSarti;
+        var artisSarti = true;
+        if (fA !== "TÜMÜ" && hisseObj) {
+            artisSarti = (hisseObj.artisSerisi >= parseInt(fA));
+        }
+
+        var gozukmeli = (arama === "" || hisseKodu.indexOf(arama) > -1) && yogunlukSarti && verimSarti && artisSarti;
         tr.style.display = gozukmeli ? "" : "none";
 
         var expandId = tr.getAttribute("onclick").match(/'([^']+)'/)[1];
