@@ -6,6 +6,7 @@ import json
 from io import StringIO
 import requests
 import pandas as pd
+import yfinance as yf
 
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
@@ -27,6 +28,48 @@ REQUEST_DELAY = 0.5
 RETRY_COUNT = 3
 RETRY_WAIT = 2.0
 DIVIDEND_COLUMN_HINTS = ["Dağ. Tarihi", "Temettü Verim", "Hisse Başı"]
+
+# Dolar kuru önbelleği
+USD_CACHE = {}
+
+def load_usd_rates():
+    """yfinance üzerinden geçmiş USD/TRY kurlarını tek seferde çeker ve hafızaya alır."""
+    print("yfinance üzerinden USD/TRY geçmiş kurları çekiliyor...")
+    try:
+        # 2005'ten bugüne kadarki kurları tek seferde indirir
+        df_usd = yf.download('TRY=X', start='2005-01-01', progress=False)
+        if not df_usd.empty:
+            close_series = df_usd['Close']
+            # yfinance'ın yeni sürümlerinde DataFrame gelebilir, bunu Series'e çeviriyoruz
+            if isinstance(close_series, pd.DataFrame):
+                close_series = close_series.iloc[:, 0]
+            
+            # Hafta sonları ve tatiller için kurları bir önceki işlem günüyle doldurur (forward-fill)
+            close_series = close_series.resample('D').ffill()
+            
+            for date, price in close_series.items():
+                date_str = date.strftime('%Y-%m-%d')
+                USD_CACHE[date_str] = float(price)
+        print(f"Toplam {len(USD_CACHE)} günlük kur verisi hafızaya alındı.")
+    except Exception as e:
+        print(f"Kur verisi çekilirken hata oluştu: {e}")
+
+def get_usd_rate(date_str):
+    """Verilen YYYY-MM-DD tarihindeki dolar kurunu hafızadan getirir."""
+    if not date_str: return None
+    if date_str in USD_CACHE:
+        return USD_CACHE[date_str]
+    
+    # İlgili gün bulunamazsa, hafızadaki en yakın geçmiş tarihi arar
+    keys = sorted(USD_CACHE.keys())
+    if not keys: return None
+    if date_str < keys[0]: return USD_CACHE[keys[0]]
+    
+    # Basit bir geriye dönük arama (Büyük ihtimalle ffill ile yukarda çözülmüştür)
+    for k in reversed(keys):
+        if k <= date_str:
+            return USD_CACHE[k]
+    return None
 
 def get_session():
     s = requests.Session()
@@ -132,6 +175,17 @@ def parse_turkce_sayi(val):
     try: return float(str_val)
     except ValueError: return 0.0
 
+def get_exact_date(val):
+    """API'den gelen milisaniye verisini YYYY-MM-DD formatına çevirir (Dolar kuru için)"""
+    if pd.isna(val) or not val: return None
+    str_val = str(val).strip()
+    m = re.search(r'Date\(([-0-9]+)\)', str_val)
+    if m:
+        ms = int(m.group(1))
+        try: return time.strftime('%Y-%m-%d', time.gmtime(ms/1000))
+        except Exception: return None
+    return None
+
 def get_mantiki_yil(val):
     if pd.isna(val) or not val: return None
     str_val = str(val).strip()
@@ -176,6 +230,10 @@ def upload_to_drive(filename):
 
 def main():
     print("Sistem başlatılıyor...")
+    
+    # USD Kurlarını hafızaya al
+    load_usd_rates()
+    
     session = get_session()
     
     print("Hisse listesi çekiliyor...")
@@ -201,7 +259,7 @@ def main():
         df_scraped["Temettu_Verim_%"] = df_scraped["Temettu_Verim_%"].apply(parse_yield)
         df_verim_final = df_scraped.groupby(["Kod", "Yil"], as_index=False)["Temettu_Verim_%"].sum()
 
-    print("API üzerinden Nakit Temettü tutarları çekiliyor...")
+    print("API üzerinden Nakit Temettü tutarları çekiliyor ve Dolara Çevriliyor...")
     raw_api_temettu = fetch_api_data(session, "04")
     processed_dividends = []
     for satir in raw_api_temettu:
@@ -211,20 +269,30 @@ def main():
             for k, v in satir.items():
                 if not kod and "KOD" in k.upper(): kod = v
                 if not tarih and "TARIH" in k.upper(): tarih = v
+        
         nakit_temettu = 0.0
         for k, v in satir.items():
             if ("TEM" in k.upper() and "TUTAR" in k.upper()) or "NAKIT" in k.upper():
                 val = parse_turkce_sayi(v)
                 if val > nakit_temettu: nakit_temettu = val
+        
         if kod and tarih and nakit_temettu > 0:
             kod = str(kod).strip().upper()
             yil = get_mantiki_yil(tarih)
-            if yil: processed_dividends.append({"Kod": kod, "Yil": yil, "Tutar": nakit_temettu})
+            tam_tarih = get_exact_date(tarih)
             
-    df_div_final = pd.DataFrame(columns=["Kod", "Yil", "Tutar"])
+            # USD Dönüşümü
+            usd_kuru = get_usd_rate(tam_tarih)
+            tutar_usd = (nakit_temettu / usd_kuru) if usd_kuru else 0.0
+            
+            if yil: 
+                processed_dividends.append({"Kod": kod, "Yil": yil, "Tutar": nakit_temettu, "Tutar_USD": tutar_usd})
+            
+    df_div_final = pd.DataFrame(columns=["Kod", "Yil", "Tutar", "Tutar_USD"])
     if processed_dividends:
         df_div_final = pd.DataFrame(processed_dividends)
-        df_div_final = df_div_final.groupby(["Kod", "Yil"], as_index=False)["Tutar"].sum()
+        # TL ve USD tutarlarını yıl bazında ayrı ayrı toplar
+        df_div_final = df_div_final.groupby(["Kod", "Yil"], as_index=False)[["Tutar", "Tutar_USD"]].sum()
 
     print("API üzerinden Halka Arz yılları çekiliyor...")
     raw_api_arz = fetch_api_data(session, "99")
@@ -248,24 +316,18 @@ def main():
 
     print("Tüm veriler yapısal bir veri modeliyle (Left Join) birleştiriliyor...")
     
-    # DOĞRU YAKLAŞIM: Tablonun omurgasını tam listeyle (631 hisse) başlat.
     df_base = pd.DataFrame({"Kod": tickers})
-    
-    # Omurgaya Halka Arz Yıllarını ekle
     df_base = pd.merge(df_base, df_ipo_final, on="Kod", how="left")
     
-    # Temettü ve Verim verilerini kendi aralarında eşleştir (Yıl bazında)
     if df_div_final.empty and df_verim_final.empty:
-        df_events = pd.DataFrame(columns=["Kod", "Yil", "Tutar", "Temettu_Verim_%"])
+        df_events = pd.DataFrame(columns=["Kod", "Yil", "Tutar", "Tutar_USD", "Temettu_Verim_%"])
     else:
         df_events = pd.merge(df_div_final, df_verim_final, on=["Kod", "Yil"], how="outer")
         
-    # Olayları (Temettü/Verim geçmişini) Ana Omurgaya bağla.
-    # Bu sayede hiçbir hisse tablodan düşmez, sadece verisi olmayanların satırı boş gelir.
     df_master = pd.merge(df_base, df_events, on="Kod", how="left")
     
-    # Boş gelen (NaN) değerleri formatla
     df_master["Tutar"] = df_master["Tutar"].fillna(0.0)
+    df_master["Tutar_USD"] = df_master["Tutar_USD"].fillna(0.0)
     df_master["Temettu_Verim_%"] = df_master["Temettu_Verim_%"].fillna(0.0)
     df_master["Yil"] = df_master["Yil"].fillna("")
     df_master["Arz_Yili"] = df_master["Arz_Yili"].fillna("")
