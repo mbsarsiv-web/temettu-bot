@@ -97,8 +97,8 @@
     #modalOverlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 9998; }
     .modal-btn { margin-top: 20px; padding: 10px 25px; background: #0f9d58; color: white; border: none; border-radius: 6px; font-size: 14px; font-weight: bold; cursor: pointer; font-family: 'Google Sans Text'; }
 
-    /* MOBİL UYUMU */
-    @media (max-width: 768px) {
+    /* SADECE CEP TELEFONU / MOBİL UYUMU */
+    @media (max-width: 799px) {
       .header-content { flex-direction: column; align-items: flex-start; gap: 8px; }
       .update-text { position: relative; width: 100%; justify-content: flex-start; margin-top: 4px; }
       
@@ -112,27 +112,56 @@
       td, th { padding: 8px 4px; }
     }
     
-    /* SMART TV / BÜYÜK EKRAN UYUMU (Tek Ekrana Sığdırma & Performans Optimizasyonu) */
-    @media (min-width: 1600px) { 
-      body { font-size: 95%; } 
-      .search-wrap input, .toolbar select, .icon-btn { font-size: 13px; padding: 4px 6px; }
+    /* BÜYÜK EKRAN, MASAÜSTÜ VE SMART TV UYUMU (Tek Satır & Tek Ekran Sığdırma) */
+    /* Değer 1600px'den 800px'e çekildi ki TV'leri kesinlikle yakalasın */
+    @media (min-width: 800px) { 
+      body { font-size: 90%; } 
       
-      /* Tüm sütunların kaydırma çubuğu çıkmadan TV ekranına tam sığması sağlandı */
-      td, th { 
-        font-size: 11px !important; 
-        padding: 4px 2px !important; 
+      /* 1. TOOLBAR: Kesinlikle Tek Satır Zorlaması */
+      .toolbar { 
+        flex-wrap: nowrap !important; 
+        overflow-x: hidden; 
+        padding: 6px 10px;
+        gap: 5px;
       }
-      td:first-child, .arz-yili { font-size: 12px !important; }
+      .toolbar > * { flex: 1 1 auto; min-width: 0; } /* Sığması için daralmaya izin ver */
+      .toolbar select { 
+        font-size: 11px; 
+        padding: 4px 2px;
+        text-overflow: ellipsis; /* Yazı sığmazsa ... koysun */
+      }
+      .search-wrap { flex: 0 1 110px; min-width: 80px; }
+      .search-wrap input { font-size: 11px; padding: 4px 5px 4px 22px; }
+      .search-wrap span { font-size: 11px; left: 5px; }
+      .icon-btn, .kpi-badge { font-size: 11px; padding: 4px 6px; white-space: nowrap; flex: 0 0 auto; }
       
-      .tight-col { width: 60px !important; }
-      .trend-col { width: 45px !important; }
-      .arz-col { width: 30px !important; }
+      /* 2. TABLO: Taştığı yerden kesip ekrana (Genişlik: 100%) tam oturtma */
+      .table-container { overflow-x: hidden; margin: 8px; }
+      table { table-layout: fixed; width: 100%; }
       
-      /* Toolbar TV ekranında tek satıra zorlandı */
-      .toolbar { flex-wrap: nowrap; overflow-x: auto; overflow-y: hidden; }
-      .toolbar select { flex: 0 0 auto; }
+      /* Hücreleri ekstrem daraltıp tek ekrana sığdırıyoruz */
+      td, th { 
+        font-size: 10px !important; 
+        padding: 2px 1px !important; 
+        overflow: hidden;
+        text-overflow: ellipsis; 
+      }
+      td:first-child, .arz-yili { font-size: 11px !important; }
       
-      /* TV için performansı yoran CSS animasyonları kapatıldı */
+      .col-filter { font-size: 9px; padding: 0; width: 95%; }
+      .info-icon { font-size: 9px; margin-left: 1px; }
+      .check-icon { font-size: 10px; }
+      
+      /* Sütunlara yüzdelik alan atanarak dışarı taşmaları engellenir */
+      tr:first-child th:nth-child(1) { width: 6.5%; } /* Hisse */
+      tr:first-child th:nth-child(2) { width: 3.5%; } /* Arz */
+      tr:first-child th:nth-child(13) { width: 5.5%; } /* Yoğunluk */
+      tr:first-child th:nth-child(14) { width: 7.5%; } /* TBH 5Y */
+      tr:first-child th:nth-child(15) { width: 7.5%; } /* TBH 10Y */
+      tr:first-child th:nth-child(16) { width: 5.5%; } /* Trend */
+      /* Geri kalan boşluklar 10 adet "Yıl" sütununa eşit dağılır */
+      
+      /* 3. PERFORMANS: TV'yi kasan efektler kapatıldı */
       .bar, .main-row, .main-row td:first-child, .info-icon { transition: none !important; }
       .bar:hover, .info-icon:hover { transform: none !important; }
     }
@@ -220,7 +249,6 @@
     var currentSortCol = -1; var currentSortOrder = "";
     var TUM_SATIRLAR = []; 
     
-    /* Arama geciktirme fonksiyonu (TV kasmasını önlemek için) */
     var aramaZamanlayici;
     function aramaGeciktir() {
       clearTimeout(aramaZamanlayici);
