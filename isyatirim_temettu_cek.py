@@ -33,20 +33,24 @@ DIVIDEND_COLUMN_HINTS = ["Dağ. Tarihi", "Temettü Verim", "Hisse Başı"]
 USD_CACHE = {}
 
 def load_usd_rates():
-    """yfinance üzerinden geçmiş USD/TRY kurlarını tek seferde çeker ve hafızaya alır."""
+    """yfinance üzerinden geçmiş USD/TRY kurlarını güvenli bir şekilde çeker ve hafızaya alır."""
     print("yfinance üzerinden USD/TRY geçmiş kurları çekiliyor...")
     try:
-        # HATA DÜZELTİLDİ: TRY=X yerine USDTRY=X kullanıldı
-        df_usd = yf.download('USDTRY=X', start='2005-01-01', progress=False)
+        # Yahoo Finance bot engelini aşmak için custom session ekliyoruz
+        session = requests.Session()
+        session.headers.update({"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"})
+        
+        # USDTRY=X sembolü ile çekimi önceliklendiriyoruz
+        df_usd = yf.download('USDTRY=X', start='2005-01-01', progress=False, session=session)
+        if df_usd.empty:
+            df_usd = yf.download('TRY=X', start='2005-01-01', progress=False, session=session)
+            
         if not df_usd.empty:
             close_series = df_usd['Close']
-            # yfinance'ın yeni sürümlerinde DataFrame gelebilir, bunu Series'e çeviriyoruz
             if isinstance(close_series, pd.DataFrame):
                 close_series = close_series.iloc[:, 0]
             
-            # Hafta sonları ve tatiller için kurları bir önceki işlem günüyle doldurur (forward-fill)
             close_series = close_series.resample('D').ffill()
-            
             for date, price in close_series.items():
                 date_str = date.strftime('%Y-%m-%d')
                 USD_CACHE[date_str] = float(price)
@@ -55,20 +59,13 @@ def load_usd_rates():
         print(f"Kur verisi çekilirken hata oluştu: {e}")
 
 def get_usd_rate(date_str):
-    """Verilen YYYY-MM-DD tarihindeki dolar kurunu hafızadan getirir."""
     if not date_str: return None
-    if date_str in USD_CACHE:
-        return USD_CACHE[date_str]
-    
-    # İlgili gün bulunamazsa, hafızadaki en yakın geçmiş tarihi arar
+    if date_str in USD_CACHE: return USD_CACHE[date_str]
     keys = sorted(USD_CACHE.keys())
     if not keys: return None
     if date_str < keys[0]: return USD_CACHE[keys[0]]
-    
-    # Basit bir geriye dönük arama 
     for k in reversed(keys):
-        if k <= date_str:
-            return USD_CACHE[k]
+        if k <= date_str: return USD_CACHE[k]
     return None
 
 def get_session():
@@ -83,13 +80,12 @@ def fetch_with_retry(session, url, method="GET", json_payload=None):
                 resp = session.post(url, json=json_payload, timeout=25)
             else:
                 resp = session.get(url, timeout=25)
-                
             if resp.status_code == 200:
                 return resp.text
             else:
-                print(f"Uyarı: HTTP {resp.status_code} alındı. (Deneme {attempt}) - URL: {url[:60]}")
+                print(f"Uyarı: HTTP {resp.status_code} alındı.")
         except requests.RequestException as e:
-            print(f"Bağlantı Hatası (Deneme {attempt}): {e}")
+            print(f"Bağlantı Hatası: {e}")
         time.sleep(RETRY_WAIT * attempt)
     return None
 
@@ -104,60 +100,41 @@ def fetch_api_data(session, tanim_kodu):
         if isinstance(data, list): return data
         for k in data:
             if isinstance(data[k], list): return data[k]
-    except Exception:
-        pass
+    except Exception: pass
     return []
 
 def get_all_tickers(session):
     html = fetch_with_retry(session, LIST_URL)
     tickers = set()
-    
     if html:
         pairs = re.findall(r'>([A-Z][A-Z0-9]{1,5})\s*\|\s*([^<\n]{2,60})<', html)
         for code, _name in pairs:
-            code = code.strip()
-            if re.fullmatch(r"[A-Z][A-Z0-9]{1,5}", code):
-                tickers.add(code)
-    
+            if re.fullmatch(r"[A-Z][A-Z0-9]{1,5}", code.strip()): tickers.add(code.strip())
     if not tickers:
-        print("HTML'den hisse listesi alınamadı. B Planı: API üzerinden deneniyor...")
         api_data = fetch_api_data(session, "04")
         for satir in api_data:
             kod = satir.get("SHHE_HS_KOD") or satir.get("HISSE_KODU") or ""
             if not kod:
                 for k, v in satir.items():
-                    if "KOD" in k.upper():
-                        kod = v
-                        break
+                    if "KOD" in k.upper(): kod = v; break
             if kod and isinstance(kod, str):
                 kod = kod.strip().upper()
-                if re.fullmatch(r"[A-Z][A-Z0-9]{1,5}", kod):
-                    tickers.add(kod)
-                    
-    if not tickers:
-        raise RuntimeError("Hisse listesi alınamadı.")
-        
+                if re.fullmatch(r"[A-Z][A-Z0-9]{1,5}", kod): tickers.add(kod)
+    if not tickers: raise RuntimeError("Hisse listesi alınamadı.")
     return sorted(list(tickers))
 
 def find_dividend_table(html):
-    try:
-        tables = pd.read_html(StringIO(html))
-    except ValueError:
-        return None
+    try: tables = pd.read_html(StringIO(html))
+    except ValueError: return None
     for tbl in tables:
-        cols = [str(c) for c in tbl.columns]
-        joined = " ".join(cols)
-        hits = sum(1 for hint in DIVIDEND_COLUMN_HINTS if hint in joined)
-        if hits >= 2:
-            return tbl
+        if sum(1 for hint in DIVIDEND_COLUMN_HINTS if hint in " ".join([str(c) for c in tbl.columns])) >= 2: return tbl
     return None
 
 def clean_dividend_table(df, kod):
     rename_map = {}
     for c in df.columns:
-        c_str = str(c)
-        if "Dağ. Tarihi" in c_str: rename_map[c] = "Dagitim_Tarihi"
-        elif "Temettü Verim" in c_str: rename_map[c] = "Temettu_Verim_%"
+        if "Dağ. Tarihi" in str(c): rename_map[c] = "Dagitim_Tarihi"
+        elif "Temettü Verim" in str(c): rename_map[c] = "Temettu_Verim_%"
     df = df.rename(columns=rename_map)
     keep_cols = [c for c in ["Dagitim_Tarihi", "Temettu_Verim_%"] if c in df.columns]
     df = df[keep_cols].copy()
@@ -171,30 +148,24 @@ def clean_dividend_table(df, kod):
 def parse_turkce_sayi(val):
     if pd.isna(val) or not val: return 0.0
     if isinstance(val, (int, float)): return float(val)
-    str_val = str(val).strip().replace(".", "").replace(",", ".")
-    try: return float(str_val)
+    try: return float(str(val).strip().replace(".", "").replace(",", "."))
     except ValueError: return 0.0
 
 def get_exact_date(val):
-    """API'den gelen milisaniye verisini YYYY-MM-DD formatına çevirir (Dolar kuru için)"""
     if pd.isna(val) or not val: return None
-    str_val = str(val).strip()
-    m = re.search(r'Date\(([-0-9]+)\)', str_val)
+    m = re.search(r'Date\(([-0-9]+)\)', str(val).strip())
     if m:
-        ms = int(m.group(1))
-        try: return time.strftime('%Y-%m-%d', time.gmtime(ms/1000))
+        try: return time.strftime('%Y-%m-%d', time.gmtime(int(m.group(1))/1000))
         except Exception: return None
     return None
 
 def get_mantiki_yil(val):
     if pd.isna(val) or not val: return None
-    str_val = str(val).strip()
-    m = re.search(r'Date\(([-0-9]+)\)', str_val)
+    m = re.search(r'Date\(([-0-9]+)\)', str(val).strip())
     if m:
-        ms = int(m.group(1))
-        try: return str(time.gmtime(ms/1000).tm_year)
+        try: return str(time.gmtime(int(m.group(1))/1000).tm_year)
         except Exception: return None
-    year_match = re.search(r'\b(19[8-9]\d|20\d\d)\b', str_val)
+    year_match = re.search(r'\b(19[8-9]\d|20\d\d)\b', str(val).strip())
     if year_match: return year_match.group(1)
     return None
 
@@ -202,12 +173,8 @@ def parse_yield(val):
     if pd.isna(val): return 0.0
     s = str(val).strip()
     if not s: return 0.0
-    if ',' in s:
-        s = s.replace('.', '').replace(',', '.')
-    try:
-        return float(s)
-    except ValueError:
-        return 0.0
+    try: return float(s.replace('.', '').replace(',', '.')) if ',' in s else float(s)
+    except ValueError: return 0.0
 
 def upload_to_drive(filename):
     service_account_info = json.loads(os.environ['GCP_SERVICE_ACCOUNT_JSON'])
@@ -217,30 +184,23 @@ def upload_to_drive(filename):
     )
     service = build('drive', 'v3', credentials=credentials)
     query = f"'{folder_id}' in parents and name='{filename}' and trashed=false"
-    results = service.files().list(q=query, fields="files(id)").execute()
-    items = results.get('files', [])
+    items = service.files().list(q=query, fields="files(id)").execute().get('files', [])
     media = MediaFileUpload(filename, mimetype='text/csv', resumable=True)
     if items:
         service.files().update(fileId=items[0]['id'], media_body=media).execute()
         print(f"{filename} Drive'da güncellendi.")
     else:
-        file_metadata = {'name': filename, 'parents': [folder_id]}
-        service.files().create(body=file_metadata, media_body=media, fields='id').execute()
+        service.files().create(body={'name': filename, 'parents': [folder_id]}, media_body=media, fields='id').execute()
         print(f"{filename} Drive'a yeni dosya olarak yüklendi.")
 
 def main():
     print("Sistem başlatılıyor...")
-    
-    # USD Kurlarını hafızaya al
     load_usd_rates()
-    
     session = get_session()
     
-    print("Hisse listesi çekiliyor...")
     tickers = get_all_tickers(session)
     print(f"Toplam {len(tickers)} adet hisse senedi bulundu.")
     
-    print("Web sitesinden temettü verimleri taranıyor (Bu işlem birkaç dakika sürebilir)...")
     all_rows = []
     for kod in tickers:
         html = fetch_with_retry(session, BASE_URL.format(kod))
@@ -259,7 +219,6 @@ def main():
         df_scraped["Temettu_Verim_%"] = df_scraped["Temettu_Verim_%"].apply(parse_yield)
         df_verim_final = df_scraped.groupby(["Kod", "Yil"], as_index=False)["Temettu_Verim_%"].sum()
 
-    print("API üzerinden Nakit Temettü tutarları çekiliyor ve Dolara Çevriliyor...")
     raw_api_temettu = fetch_api_data(session, "04")
     processed_dividends = []
     for satir in raw_api_temettu:
@@ -281,20 +240,15 @@ def main():
             yil = get_mantiki_yil(tarih)
             tam_tarih = get_exact_date(tarih)
             
-            # USD Dönüşümü
             usd_kuru = get_usd_rate(tam_tarih)
             tutar_usd = (nakit_temettu / usd_kuru) if (usd_kuru and usd_kuru > 0) else 0.0
             
-            if yil: 
-                processed_dividends.append({"Kod": kod, "Yil": yil, "Tutar": nakit_temettu, "Tutar_USD": tutar_usd})
+            if yil: processed_dividends.append({"Kod": kod, "Yil": yil, "Tutar": nakit_temettu, "Tutar_USD": tutar_usd})
             
     df_div_final = pd.DataFrame(columns=["Kod", "Yil", "Tutar", "Tutar_USD"])
     if processed_dividends:
-        df_div_final = pd.DataFrame(processed_dividends)
-        # TL ve USD tutarlarını yıl bazında ayrı ayrı toplar
-        df_div_final = df_div_final.groupby(["Kod", "Yil"], as_index=False)[["Tutar", "Tutar_USD"]].sum()
+        df_div_final = pd.DataFrame(processed_dividends).groupby(["Kod", "Yil"], as_index=False)[["Tutar", "Tutar_USD"]].sum()
 
-    print("API üzerinden Halka Arz yılları çekiliyor...")
     raw_api_arz = fetch_api_data(session, "99")
     processed_ipo = []
     for satir in raw_api_arz:
@@ -311,11 +265,8 @@ def main():
             
     df_ipo_final = pd.DataFrame(columns=["Kod", "Arz_Yili"])
     if processed_ipo:
-        df_ipo_final = pd.DataFrame(processed_ipo)
-        df_ipo_final = df_ipo_final.groupby("Kod", as_index=False)["Arz_Yili"].min()
+        df_ipo_final = pd.DataFrame(processed_ipo).groupby("Kod", as_index=False)["Arz_Yili"].min()
 
-    print("Tüm veriler yapısal bir veri modeliyle (Left Join) birleştiriliyor...")
-    
     df_base = pd.DataFrame({"Kod": tickers})
     df_base = pd.merge(df_base, df_ipo_final, on="Kod", how="left")
     
@@ -335,10 +286,7 @@ def main():
 
     out_path = "bist_temettu_master.csv"
     df_master.to_csv(out_path, index=False, encoding="utf-8")
-    
-    print("Drive'a yükleme işlemi başlatılıyor...")
     upload_to_drive(out_path)
-    print("Görev başarıyla tamamlandı!")
 
 if __name__ == "__main__":
     main()
