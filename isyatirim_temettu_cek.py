@@ -29,18 +29,15 @@ RETRY_COUNT = 3
 RETRY_WAIT = 2.0
 DIVIDEND_COLUMN_HINTS = ["Dağ. Tarihi", "Temettü Verim", "Hisse Başı"]
 
-# Dolar kuru önbelleği
 USD_CACHE = {}
 
 def load_usd_rates():
     """yfinance üzerinden geçmiş USD/TRY kurlarını güvenli bir şekilde çeker ve hafızaya alır."""
     print("yfinance üzerinden USD/TRY geçmiş kurları çekiliyor...")
     try:
-        # Yahoo Finance bot engelini aşmak için custom session ekliyoruz
         session = requests.Session()
         session.headers.update({"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"})
         
-        # USDTRY=X sembolü ile çekimi önceliklendiriyoruz
         df_usd = yf.download('USDTRY=X', start='2005-01-01', progress=False, session=session)
         if df_usd.empty:
             df_usd = yf.download('TRY=X', start='2005-01-01', progress=False, session=session)
@@ -152,20 +149,36 @@ def parse_turkce_sayi(val):
     except ValueError: return 0.0
 
 def get_exact_date(val):
+    """API'den gelen tarihi (farklı formatları destekleyerek) YYYY-MM-DD'ye çevirir."""
     if pd.isna(val) or not val: return None
-    m = re.search(r'Date\(([-0-9]+)\)', str(val).strip())
-    if m:
-        try: return time.strftime('%Y-%m-%d', time.gmtime(int(m.group(1))/1000))
-        except Exception: return None
+    s = str(val).strip()
+    
+    # Format 1: /Date(1620000000000)/
+    m_ms = re.search(r'Date\(([-0-9]+)\)', s)
+    if m_ms:
+        try: return time.strftime('%Y-%m-%d', time.gmtime(int(m_ms.group(1))/1000))
+        except Exception: pass
+    
+    # Format 2: 2024-05-15 veya 2024-05-15T00:00:00
+    m_iso = re.search(r'^(\d{4})-(\d{2})-(\d{2})', s)
+    if m_iso:
+        return f"{m_iso.group(1)}-{m_iso.group(2)}-{m_iso.group(3)}"
+    
+    # Format 3: 15.05.2024 veya 15/05/2024
+    m_tr = re.search(r'^(\d{2})[./-](\d{2})[./-](\d{4})', s)
+    if m_tr:
+        return f"{m_tr.group(3)}-{m_tr.group(2)}-{m_tr.group(1)}"
+    
     return None
 
 def get_mantiki_yil(val):
     if pd.isna(val) or not val: return None
-    m = re.search(r'Date\(([-0-9]+)\)', str(val).strip())
-    if m:
-        try: return str(time.gmtime(int(m.group(1))/1000).tm_year)
-        except Exception: return None
-    year_match = re.search(r'\b(19[8-9]\d|20\d\d)\b', str(val).strip())
+    s = str(val).strip()
+    m_ms = re.search(r'Date\(([-0-9]+)\)', s)
+    if m_ms:
+        try: return str(time.gmtime(int(m_ms.group(1))/1000).tm_year)
+        except Exception: pass
+    year_match = re.search(r'\b(19[8-9]\d|20\d\d)\b', s)
     if year_match: return year_match.group(1)
     return None
 
@@ -238,9 +251,11 @@ def main():
         if kod and tarih and nakit_temettu > 0:
             kod = str(kod).strip().upper()
             yil = get_mantiki_yil(tarih)
-            tam_tarih = get_exact_date(tarih)
             
+            # GÜÇLENDİRİLMİŞ TARİH ÇEVİRİCİ ÇAĞRILIYOR
+            tam_tarih = get_exact_date(tarih)
             usd_kuru = get_usd_rate(tam_tarih)
+            
             tutar_usd = (nakit_temettu / usd_kuru) if (usd_kuru and usd_kuru > 0) else 0.0
             
             if yil: processed_dividends.append({"Kod": kod, "Yil": yil, "Tutar": nakit_temettu, "Tutar_USD": tutar_usd})
