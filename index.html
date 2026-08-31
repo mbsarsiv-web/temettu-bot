@@ -29,6 +29,10 @@
     .search-wrap input:focus { border-color: #1a73e8; }
     .search-wrap span { position: absolute; left: 9px; top: 50%; transform: translateY(-50%); color: #9aa0a6; font-size: 13px; }
     .toolbar select { flex: 0 1 auto; padding: 6px 8px; border: 1px solid #dadce0; border-radius: 6px; font-size: 13px; font-family: 'Google Sans Text'; background: #fff; outline: none; cursor: pointer; }
+    
+    /* TL / USD Para Birimi Butonu Renklendirmesi */
+    .currency-toggle { background-color: #e8f0fe !important; color: #174ea6; font-weight: bold; border-color: #d2e3fc !important; }
+    
     .clear-btn { color: #d93025; border-color: #f3c7c3; margin-left: auto; } 
 
     .kpi-badge { background-color: #e8f0fe; color: #1a73e8; font-size: 13px; font-weight: 700; padding: 6px 12px; border-radius: 16px; display: flex; align-items: center; gap: 6px; border: 1px solid #d2e3fc; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
@@ -97,7 +101,7 @@
     #modalOverlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 9998; }
     .modal-btn { margin-top: 20px; padding: 10px 25px; background: #0f9d58; color: white; border: none; border-radius: 6px; font-size: 14px; font-weight: bold; cursor: pointer; font-family: 'Google Sans Text'; }
 
-    /* SADECE CEP TELEFONU / MOBİL UYUMU */
+    /* MOBİL UYUMU */
     @media (max-width: 799px) {
       .header-content { flex-direction: column; align-items: flex-start; gap: 8px; }
       .update-text { position: relative; width: 100%; justify-content: flex-start; margin-top: 4px; }
@@ -112,56 +116,35 @@
       td, th { padding: 8px 4px; }
     }
     
-    /* BÜYÜK EKRAN, MASAÜSTÜ VE SMART TV UYUMU (Tek Satır & Tek Ekran Sığdırma) */
-    /* Değer 1600px'den 800px'e çekildi ki TV'leri kesinlikle yakalasın */
+    /* BÜYÜK EKRAN, MASAÜSTÜ VE SMART TV UYUMU */
     @media (min-width: 800px) { 
       body { font-size: 90%; } 
       
-      /* 1. TOOLBAR: Kesinlikle Tek Satır Zorlaması */
-      .toolbar { 
-        flex-wrap: nowrap !important; 
-        overflow-x: hidden; 
-        padding: 6px 10px;
-        gap: 5px;
-      }
-      .toolbar > * { flex: 1 1 auto; min-width: 0; } /* Sığması için daralmaya izin ver */
-      .toolbar select { 
-        font-size: 11px; 
-        padding: 4px 2px;
-        text-overflow: ellipsis; /* Yazı sığmazsa ... koysun */
-      }
+      .toolbar { flex-wrap: nowrap !important; overflow-x: hidden; padding: 6px 10px; gap: 5px; }
+      .toolbar > * { flex: 1 1 auto; min-width: 0; }
+      .toolbar select { font-size: 11px; padding: 4px 2px; text-overflow: ellipsis; }
       .search-wrap { flex: 0 1 110px; min-width: 80px; }
       .search-wrap input { font-size: 11px; padding: 4px 5px 4px 22px; }
       .search-wrap span { font-size: 11px; left: 5px; }
       .icon-btn, .kpi-badge { font-size: 11px; padding: 4px 6px; white-space: nowrap; flex: 0 0 auto; }
       
-      /* 2. TABLO: Taştığı yerden kesip ekrana (Genişlik: 100%) tam oturtma */
       .table-container { overflow-x: hidden; margin: 8px; }
       table { table-layout: fixed; width: 100%; }
       
-      /* Hücreleri ekstrem daraltıp tek ekrana sığdırıyoruz */
-      td, th { 
-        font-size: 10px !important; 
-        padding: 2px 1px !important; 
-        overflow: hidden;
-        text-overflow: ellipsis; 
-      }
+      td, th { font-size: 10px !important; padding: 2px 1px !important; overflow: hidden; text-overflow: ellipsis; }
       td:first-child, .arz-yili { font-size: 11px !important; }
       
       .col-filter { font-size: 9px; padding: 0; width: 95%; }
       .info-icon { font-size: 9px; margin-left: 1px; }
       .check-icon { font-size: 10px; }
       
-      /* Sütunlara yüzdelik alan atanarak dışarı taşmaları engellenir */
-      tr:first-child th:nth-child(1) { width: 6.5%; } /* Hisse */
-      tr:first-child th:nth-child(2) { width: 3.5%; } /* Arz */
-      tr:first-child th:nth-child(13) { width: 5.5%; } /* Yoğunluk */
-      tr:first-child th:nth-child(14) { width: 7.5%; } /* TBH 5Y */
-      tr:first-child th:nth-child(15) { width: 7.5%; } /* TBH 10Y */
-      tr:first-child th:nth-child(16) { width: 5.5%; } /* Trend */
-      /* Geri kalan boşluklar 10 adet "Yıl" sütununa eşit dağılır */
+      tr:first-child th:nth-child(1) { width: 6.5%; } 
+      tr:first-child th:nth-child(2) { width: 3.5%; } 
+      tr:first-child th:nth-child(13) { width: 5.5%; } 
+      tr:first-child th:nth-child(14) { width: 7.5%; } 
+      tr:first-child th:nth-child(15) { width: 7.5%; } 
+      tr:first-child th:nth-child(16) { width: 5.5%; } 
       
-      /* 3. PERFORMANS: TV'yi kasan efektler kapatıldı */
       .bar, .main-row, .main-row td:first-child, .info-icon { transition: none !important; }
       .bar:hover, .info-icon:hover { transform: none !important; }
     }
@@ -195,6 +178,12 @@
     <div id="kpiAdetMini" class="kpi-badge">
       📊 Gösterilen: <span id="kpiCount" class="kpi-number">-</span>
     </div>
+    
+    <!-- YENİ: Dolar/TL Geçiş Butonu -->
+    <select id="currencyToggle" class="currency-toggle" onchange="this.blur(); changeCurrency()">
+      <option value="TL">Birim: TL (₺)</option>
+      <option value="USD">Birim: USD ($)</option>
+    </select>
     
     <select id="filterYogunluk" onchange="this.blur(); uygula()">
       <option value="TÜMÜ">Yoğunluk: Tümü</option>
@@ -248,11 +237,21 @@
   <script>
     var currentSortCol = -1; var currentSortOrder = "";
     var TUM_SATIRLAR = []; 
+    var GLOBAL_PAYLOAD = null; // YENİ: Para birimi değişince tabloyu yeniden çizmek için hafıza
+    var currentCurrency = 'TL'; // YENİ: Varsayılan para birimi
     
     var aramaZamanlayici;
     function aramaGeciktir() {
       clearTimeout(aramaZamanlayici);
       aramaZamanlayici = setTimeout(uygula, 400); 
+    }
+
+    // YENİ: Para birimi değiştirme fonksiyonu
+    function changeCurrency() {
+      currentCurrency = document.getElementById("currencyToggle").value;
+      if(GLOBAL_PAYLOAD) {
+        tabloyuCiz(GLOBAL_PAYLOAD);
+      }
     }
 
     function sayiyaCevir(s) {
@@ -267,12 +266,15 @@
       return "yog-low";
     }
 
-    function gosterBilgi(hisse, yil, miktar) {
+    // GÜNCELLENDİ: Bilgi kutusunda Dolar işaretini göstermek için curr parametresi eklendi
+    function gosterBilgi(hisse, yil, miktar, curr) {
       document.getElementById('modalTitle').innerText = hisse + ' - ' + yil + ' Temettüsü';
       document.getElementById('modalContent').innerText = 'Ödenen Toplam Temettü';
       var sayisalMiktar = Number(sayiyaCevir(miktar));
-      var formatliMiktar = isNaN(sayisalMiktar) ? miktar : sayisalMiktar.toLocaleString('tr-TR') + ' TL';
-      document.getElementById('modalAmount').innerText = formatliMiktar;
+      var currSym = curr === 'USD' ? ' $' : ' TL';
+      var minDec = curr === 'USD' ? 2 : 0;
+      var formatliMiktar = isNaN(sayisalMiktar) ? miktar : sayisalMiktar.toLocaleString('tr-TR', {minimumFractionDigits: minDec, maximumFractionDigits: 2});
+      document.getElementById('modalAmount').innerText = formatliMiktar + currSym;
       document.getElementById('modalOverlay').style.display = 'block';
       document.getElementById('customModal').style.display = 'block';
     }
@@ -337,30 +339,54 @@
       var verimVerisi = payload.verimTablo;
 
       var verimMap = {};
+      var usdMap = {}; // YENİ: Dolar Kuru Haritası
+
       if (verimVerisi && verimVerisi.length > 1) {
         var basliklarVerim = verimVerisi[0];
-        var kodIndeks = 0, yilIndeks = 1, verimIndeks = 2;
+        var kodIndeks = 0, yilIndeks = 1, verimIndeks = -1, usdIndeks = -1;
+        
         for (var c = 0; c < basliklarVerim.length; c++) {
           var b = basliklarVerim[c].toString().toUpperCase().trim();
           if (b === "KOD") kodIndeks = c;
           else if (b === "YIL" || b === "TARIH" || b === "TARİH") yilIndeks = c;
           else if (b.indexOf("VERIM") > -1 || b.indexOf("VERİM") > -1) verimIndeks = c;
+          else if (b === "TUTAR_USD") usdIndeks = c; // YENİ: CSV'deki USD sütununu bul
         }
+        
         for (var v = 1; v < verimVerisi.length; v++) {
           var kod = verimVerisi[v][kodIndeks];
           var tarih = verimVerisi[v][yilIndeks];
-          var rawVerim = verimVerisi[v][verimIndeks];
-          if (kod && tarih && rawVerim !== undefined && rawVerim !== "") {
+          
+          if (kod && tarih) {
             var yil = "";
             var tStr = tarih.toString().trim();
             var yMatch = tStr.match(/(20\d\d|19\d\d)/);
             if (yMatch) yil = yMatch[1];
+            
             if (yil) {
               var anahtar = kod.toString().toUpperCase() + "_" + yil;
-              var sVerim = rawVerim.toString().replace(/%/g, '').replace(',', '.');
-              var sayisalVerim = parseFloat(sVerim) || 0;
-              if (verimMap[anahtar]) { verimMap[anahtar] += sayisalVerim; }
-              else { verimMap[anahtar] = sayisalVerim; }
+              
+              // Verim Toplama
+              if (verimIndeks > -1) {
+                var rawVerim = verimVerisi[v][verimIndeks];
+                if (rawVerim !== undefined && rawVerim !== "") {
+                  var sVerim = rawVerim.toString().replace(/%/g, '').replace(',', '.');
+                  var sayisalVerim = parseFloat(sVerim) || 0;
+                  if (verimMap[anahtar]) { verimMap[anahtar] += sayisalVerim; }
+                  else { verimMap[anahtar] = sayisalVerim; }
+                }
+              }
+              
+              // USD Toplama (YENİ)
+              if (usdIndeks > -1) {
+                var rawUsd = verimVerisi[v][usdIndeks];
+                if (rawUsd !== undefined && rawUsd !== "") {
+                  var sUsd = rawUsd.toString().replace(',', '.');
+                  var numUsd = parseFloat(sUsd) || 0;
+                  if (usdMap[anahtar]) { usdMap[anahtar] += numUsd; }
+                  else { usdMap[anahtar] = numUsd; }
+                }
+              }
             }
           }
         }
@@ -412,13 +438,24 @@
       html += '</tr></thead><tbody id="tabloGovdesi">';
 
       var islenmisSatirlar = [];
+      var currencySymbol = currentCurrency === 'USD' ? ' $' : ' TL'; // YENİ: Tablo Simgesi
+      
       for (var i = 1; i < veri.length; i++) {
-        var satir = veri[i];
+        var satir = veri[i].slice(); // Orijinal veriyi bozmamak için kopyasını alıyoruz
         var rawYogunluk = parseFloat(satir[idxYogunluk] ? satir[idxYogunluk].toString().replace(',', '.') : 0) || 0;
         var gizliAdet2011 = parseInt(satir[idxGizli]) || 0;
         
         var hisseKodu = satir[0];
         if (!hisseKodu || hisseKodu.trim() === "") continue;
+
+        // YENİ HARİKA ÖZELLİK: Eğer USD seçiliyse TL değerlerini arka planda USD değerleriyle değiştir
+        if (currentCurrency === 'USD') {
+            for (var j = 2; j < idxYogunluk; j++) {
+                var sutunYili = orjBasliklarTumu[j];
+                var anahtar = hisseKodu + "_" + sutunYili;
+                satir[j] = usdMap[anahtar] || 0; 
+            }
+        }
 
         var slicedSatir = satir.slice(0, idxYogunluk + 1);
         var slicedBasliklar = orjBasliklarTumu.slice(0, idxYogunluk + 1);
@@ -452,8 +489,12 @@
                 var hesaplananVerim = (verimDegeri / 100).toFixed(2);
                 gosterilecekMetin = "%" + hesaplananVerim;
               }
-              var formatliMiktarHover = Number(rawValue).toLocaleString('tr-TR') + ' TL';
-              icSutunlarHtml += '<td data-value="' + rawValue + '"><span class="check-icon">' + gosterilecekMetin + '</span><span class="info-icon" title="Miktar: ' + formatliMiktarHover + '" onclick="event.stopPropagation(); gosterBilgi(\'' + hisseKodu + '\', \'' + sutunYili + '\', \'' + cell + '\')">ℹ️</span></td>';
+              
+              // GÜNCELLEME: Hover (Mouse üstüne gelme) yazısında $ veya TL gösterme ayarı
+              var minDecHover = currentCurrency === 'USD' ? 2 : 0;
+              var formatliMiktarHover = Number(rawValue).toLocaleString('tr-TR', {minimumFractionDigits: minDecHover, maximumFractionDigits: 2}) + currencySymbol;
+              
+              icSutunlarHtml += '<td data-value="' + rawValue + '"><span class="check-icon">' + gosterilecekMetin + '</span><span class="info-icon" title="Miktar: ' + formatliMiktarHover + '" onclick="event.stopPropagation(); gosterBilgi(\'' + hisseKodu + '\', \'' + sutunYili + '\', \'' + cell + '\', \'' + currentCurrency + '\')">ℹ️</span></td>';
             } else {
               icSutunlarHtml += '<td data-value="0" class="empty-cell">-</td>';
             }
@@ -472,7 +513,6 @@
         var ortalamaVerim = odemeYaptigiYilSayisi > 0 ? (toplamVerim10Yil / odemeYaptigiYilSayisi) / 100 : 0;
         icSutunlarHtml += '<td class="trend-col">' + sparklineOlustur(sparkDegerler.slice(-8)) + '</td>';
 
-        // Sürekli Artıran Hesaplaması
         var artisSerisi = 0;
         if (sparkDegerler.length > 0) {
           var sonMiktar = sparkDegerler[sparkDegerler.length - 1]; 
@@ -500,11 +540,17 @@
           if (j >= 2 && j < idxYogunluk) {
             var cMik = sayiyaCevir(satir[j]);
             var barHeight = maxMiktar > 0 ? (cMik / maxMiktar) * 100 : 0;
-            var valTxt = cMik > 0 ? Number(cMik).toLocaleString('tr-TR') : '-';
+            
+            // GÜNCELLEME: Açılır barlarda USD seçili ise virgüllü ($) göster
+            var valTxt = '-';
+            if (cMik > 0) {
+                valTxt = currentCurrency === 'USD' ? Number(cMik).toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) : Number(cMik).toLocaleString('tr-TR');
+            }
+            
             var valClass = cMik > 0 ? 'bar-val' : 'bar-val empty-bar-val';
             var inlineBarStyles = cMik > 0 ? '' : 'background-color: transparent; box-shadow: none;';
             expandHtml += '<td><div class="bar-wrapper" style="display: flex; flex-direction: column; align-items: center;">';
-            expandHtml += '<div class="' + valClass + '" title="' + valTxt + '">' + valTxt + '</div>';
+            expandHtml += '<div class="' + valClass + '" title="' + valTxt + currencySymbol + '">' + valTxt + '</div>';
             expandHtml += '<div class="bar-container"><div class="bar" style="height: ' + Math.max(barHeight, cMik > 0 ? 2 : 0) + '%; ' + inlineBarStyles + '"></div></div>';
             expandHtml += '</div></td>';
           }
@@ -710,6 +756,7 @@
         if (data.hata) {
           document.getElementById('tableContainer').innerHTML = '<div class="error-msg">Sunucu hatası: ' + data.hata + '</div>';
         } else {
+          GLOBAL_PAYLOAD = data; // YENİ: Veriyi hafızaya al
           tabloyuCiz(data);
           tarihiYazdir(data.sonGuncelleme);
         }
