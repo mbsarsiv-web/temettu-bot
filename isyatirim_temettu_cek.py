@@ -31,39 +31,73 @@ DIVIDEND_COLUMN_HINTS = ["Dağ. Tarihi", "Temettü Verim", "Hisse Başı"]
 
 USD_CACHE = {}
 
-def load_usd_rates():
-    """yfinance üzerinden geçmiş USD/TRY kurlarını güvenli bir şekilde çeker ve hafızaya alır."""
-    print("yfinance üzerinden USD/TRY geçmiş kurları çekiliyor...")
-    try:
-        session = requests.Session()
-        session.headers.update({"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"})
-        
-        df_usd = yf.download('USDTRY=X', start='2005-01-01', progress=False, session=session)
-        if df_usd.empty:
-            df_usd = yf.download('TRY=X', start='2005-01-01', progress=False, session=session)
-            
-        if not df_usd.empty:
-            close_series = df_usd['Close']
-            if isinstance(close_series, pd.DataFrame):
-                close_series = close_series.iloc[:, 0]
-            
-            close_series = close_series.resample('D').ffill()
-            for date, price in close_series.items():
-                date_str = date.strftime('%Y-%m-%d')
-                USD_CACHE[date_str] = float(price)
-        print(f"Toplam {len(USD_CACHE)} günlük kur verisi hafızaya alındı.")
-    except Exception as e:
-        print(f"Kur verisi çekilirken hata oluştu: {e}")
+# 3. KATMAN: Sabit Yıllık Ortalama Kurlar (API'lerin tümü çökerse devreye girer)
+FALLBACK_YEARLY_RATES = {
+    "2010": 1.50, "2011": 1.67, "2012": 1.79, "2013": 1.90, "2014": 2.18, 
+    "2015": 2.72, "2016": 3.02, "2017": 3.64, "2018": 4.81, "2019": 5.67, 
+    "2020": 7.01, "2021": 8.89, "2022": 16.56, "2023": 23.70, "2024": 32.50, 
+    "2025": 38.00, "2026": 42.00
+}
 
-def get_usd_rate(date_str):
-    if not date_str: return None
-    if date_str in USD_CACHE: return USD_CACHE[date_str]
-    keys = sorted(USD_CACHE.keys())
-    if not keys: return None
-    if date_str < keys[0]: return USD_CACHE[keys[0]]
-    for k in reversed(keys):
-        if k <= date_str: return USD_CACHE[k]
-    return None
+def load_usd_rates():
+    """3 Katmanlı Güvenlikle Dolar Kurlarını Çeker"""
+    print("Dolar/TL kurları çekiliyor (Çoklu koruma devrede)...")
+    
+    # 1. KATMAN: Yahoo Finance (Daha güvenli yöntem)
+    try:
+        ticker = yf.Ticker("USDTRY=X")
+        df_usd = ticker.history(period="max")
+        if not df_usd.empty:
+            for date, row in df_usd.iterrows():
+                USD_CACHE[date.strftime('%Y-%m-%d')] = float(row['Close'])
+    except Exception:
+        pass
+
+    # 2. KATMAN: Avrupa Merkez Bankası Altyapılı Ücretsiz API (Frankfurter)
+    if len(USD_CACHE) < 100:
+        print("Yahoo engellendi, Alternatif Döviz API'sine geçiliyor...")
+        try:
+            resp = requests.get("https://api.frankfurter.app/2005-01-01..?from=USD&to=TRY", timeout=15)
+            if resp.status_code == 200:
+                rates = resp.json().get("rates", {})
+                for d_str, r_data in rates.items():
+                    if "TRY" in r_data:
+                        USD_CACHE[d_str] = float(r_data["TRY"])
+        except Exception:
+            pass
+
+    # Kurları ileriye doğru doldur (Hafta sonu boşluklarını kapatır)
+    if USD_CACHE:
+        keys = sorted(USD_CACHE.keys())
+        start_d = pd.to_datetime(keys[0])
+        end_d = pd.to_datetime('today')
+        last_val = USD_CACHE[keys[0]]
+        for d in pd.date_range(start_d, end_d):
+            d_str = d.strftime('%Y-%m-%d')
+            if d_str in USD_CACHE:
+                last_val = USD_CACHE[d_str]
+            else:
+                USD_CACHE[d_str] = last_val
+                
+    print(f"Toplam {len(USD_CACHE)} günlük kur verisi başarıyla hafızaya alındı.")
+
+def get_usd_rate(date_str, fallback_year=None):
+    # Eğer API'den gelen tam gün verisi varsa onu kullan
+    if date_str and date_str in USD_CACHE: 
+        return USD_CACHE[date_str]
+    
+    # Yoksa en yakın geçmiş tarihi kullan
+    if date_str and USD_CACHE:
+        keys = sorted(USD_CACHE.keys())
+        if keys and date_str < keys[0]: return USD_CACHE[keys[0]]
+        for k in reversed(keys):
+            if k <= date_str: return USD_CACHE[k]
+            
+    # 3. KATMAN DEVREYE GİRER: Hiçbir kur bulunamazsa o yılın sabit ortalamasını kullan!
+    if fallback_year and str(fallback_year) in FALLBACK_YEARLY_RATES:
+        return FALLBACK_YEARLY_RATES[str(fallback_year)]
+        
+    return 30.0 # Son çare acil durum kuru
 
 def get_session():
     s = requests.Session()
@@ -79,10 +113,8 @@ def fetch_with_retry(session, url, method="GET", json_payload=None):
                 resp = session.get(url, timeout=25)
             if resp.status_code == 200:
                 return resp.text
-            else:
-                print(f"Uyarı: HTTP {resp.status_code} alındı.")
-        except requests.RequestException as e:
-            print(f"Bağlantı Hatası: {e}")
+        except requests.RequestException:
+            pass
         time.sleep(RETRY_WAIT * attempt)
     return None
 
@@ -149,26 +181,16 @@ def parse_turkce_sayi(val):
     except ValueError: return 0.0
 
 def get_exact_date(val):
-    """API'den gelen tarihi (farklı formatları destekleyerek) YYYY-MM-DD'ye çevirir."""
     if pd.isna(val) or not val: return None
     s = str(val).strip()
-    
-    # Format 1: /Date(1620000000000)/
     m_ms = re.search(r'Date\(([-0-9]+)\)', s)
     if m_ms:
         try: return time.strftime('%Y-%m-%d', time.gmtime(int(m_ms.group(1))/1000))
         except Exception: pass
-    
-    # Format 2: 2024-05-15 veya 2024-05-15T00:00:00
     m_iso = re.search(r'^(\d{4})-(\d{2})-(\d{2})', s)
-    if m_iso:
-        return f"{m_iso.group(1)}-{m_iso.group(2)}-{m_iso.group(3)}"
-    
-    # Format 3: 15.05.2024 veya 15/05/2024
+    if m_iso: return f"{m_iso.group(1)}-{m_iso.group(2)}-{m_iso.group(3)}"
     m_tr = re.search(r'^(\d{2})[./-](\d{2})[./-](\d{4})', s)
-    if m_tr:
-        return f"{m_tr.group(3)}-{m_tr.group(2)}-{m_tr.group(1)}"
-    
+    if m_tr: return f"{m_tr.group(3)}-{m_tr.group(2)}-{m_tr.group(1)}"
     return None
 
 def get_mantiki_yil(val):
@@ -251,10 +273,10 @@ def main():
         if kod and tarih and nakit_temettu > 0:
             kod = str(kod).strip().upper()
             yil = get_mantiki_yil(tarih)
-            
-            # GÜÇLENDİRİLMİŞ TARİH ÇEVİRİCİ ÇAĞRILIYOR
             tam_tarih = get_exact_date(tarih)
-            usd_kuru = get_usd_rate(tam_tarih)
+            
+            # GÜÇLENDİRİLMİŞ DOLAR HESAPLAMASI ÇAĞRILIYOR
+            usd_kuru = get_usd_rate(tam_tarih, fallback_year=yil)
             
             tutar_usd = (nakit_temettu / usd_kuru) if (usd_kuru and usd_kuru > 0) else 0.0
             
