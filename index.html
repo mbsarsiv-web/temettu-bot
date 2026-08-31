@@ -112,18 +112,27 @@
       td, th { padding: 8px 4px; }
     }
     
-    /* SMART TV / BÜYÜK EKRAN UYUMU (Performans & Tek Satır İyileştirmesi) */
+    /* SMART TV / BÜYÜK EKRAN UYUMU (Tek Ekrana Sığdırma & Performans Optimizasyonu) */
     @media (min-width: 1600px) { 
-      body { font-size: 110%; }
-      .search-wrap input, .toolbar select, .icon-btn { font-size: 14px; }
-      td, th { font-size: 13px; }
-      td:first-child, .arz-yili { font-size: 14px; }
+      body { font-size: 95%; } 
+      .search-wrap input, .toolbar select, .icon-btn { font-size: 13px; padding: 4px 6px; }
       
-      /* TV için Toolbar'ı tek satıra zorlar */
+      /* Tüm sütunların kaydırma çubuğu çıkmadan TV ekranına tam sığması sağlandı */
+      td, th { 
+        font-size: 11px !important; 
+        padding: 4px 2px !important; 
+      }
+      td:first-child, .arz-yili { font-size: 12px !important; }
+      
+      .tight-col { width: 60px !important; }
+      .trend-col { width: 45px !important; }
+      .arz-col { width: 30px !important; }
+      
+      /* Toolbar TV ekranında tek satıra zorlandı */
       .toolbar { flex-wrap: nowrap; overflow-x: auto; overflow-y: hidden; }
       .toolbar select { flex: 0 0 auto; }
       
-      /* TV için performansı yoran CSS animasyonlarını devre dışı bırakır */
+      /* TV için performansı yoran CSS animasyonları kapatıldı */
       .bar, .main-row, .main-row td:first-child, .info-icon { transition: none !important; }
       .bar:hover, .info-icon:hover { transform: none !important; }
     }
@@ -151,7 +160,6 @@
   <div class="toolbar">
     <div class="search-wrap">
       <span>🔎</span>
-      <!-- PERFORMANS: TV'de kasmaması için 'aramaGeciktir' eklendi -->
       <input type="text" id="hisseArama" placeholder="Hisse kodu ara..." oninput="aramaGeciktir()">
     </div>
     
@@ -159,7 +167,6 @@
       📊 Gösterilen: <span id="kpiCount" class="kpi-number">-</span>
     </div>
     
-    <!-- MOBİL İÇİN HATA ÇÖZÜMÜ: onchange olaylarına 'this.blur()' eklendi -->
     <select id="filterYogunluk" onchange="this.blur(); uygula()">
       <option value="TÜMÜ">Yoğunluk: Tümü</option>
       <option value="1.00">1,00 (Kusursuz)</option>
@@ -171,7 +178,6 @@
       <option value="0">Hiç Vermeyenler (0,00)</option>
     </select>
     
-    <!-- YENİ FİLTRE: SÜREKLİ ARTIRANLAR (+ 4 Yıl eklendi) -->
     <select id="filterArtis" onchange="this.blur(); uygula()">
       <option value="TÜMÜ">Artış Trendi: Tümü</option>
       <option value="2">≥ 2 Yıl Aralıksız Artıran</option>
@@ -180,7 +186,6 @@
       <option value="5">≥ 5 Yıl Aralıksız Artıran</option>
     </select>
 
-    <!-- YENİ VERİM LİSTESİ (+ %4, %6, %7 eklendi) -->
     <select id="filterVerim" onchange="this.blur(); uygula()">
       <option value="TÜMÜ">Ort. Verim: Tümü</option>
       <option value="1">> %1</option>
@@ -215,11 +220,11 @@
     var currentSortCol = -1; var currentSortOrder = "";
     var TUM_SATIRLAR = []; 
     
-    /* YENİ: Arama kutusu için gecikme (TV performans sorunu için) */
+    /* Arama geciktirme fonksiyonu (TV kasmasını önlemek için) */
     var aramaZamanlayici;
     function aramaGeciktir() {
       clearTimeout(aramaZamanlayici);
-      aramaZamanlayici = setTimeout(uygula, 400); // Kullanıcı yazmayı bitirdikten 400ms sonra çalışır
+      aramaZamanlayici = setTimeout(uygula, 400); 
     }
 
     function sayiyaCevir(s) {
@@ -439,7 +444,7 @@
         var ortalamaVerim = odemeYaptigiYilSayisi > 0 ? (toplamVerim10Yil / odemeYaptigiYilSayisi) / 100 : 0;
         icSutunlarHtml += '<td class="trend-col">' + sparklineOlustur(sparkDegerler.slice(-8)) + '</td>';
 
-        // Sürekli Artıran Hesaplaması (Dinamik)
+        // Sürekli Artıran Hesaplaması
         var artisSerisi = 0;
         if (sparkDegerler.length > 0) {
           var sonMiktar = sparkDegerler[sparkDegerler.length - 1]; 
