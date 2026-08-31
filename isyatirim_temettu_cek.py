@@ -36,8 +36,8 @@ def load_usd_rates():
     """yfinance üzerinden geçmiş USD/TRY kurlarını tek seferde çeker ve hafızaya alır."""
     print("yfinance üzerinden USD/TRY geçmiş kurları çekiliyor...")
     try:
-        # 2005'ten bugüne kadarki kurları tek seferde indirir
-        df_usd = yf.download('TRY=X', start='2005-01-01', progress=False)
+        # HATA DÜZELTİLDİ: TRY=X yerine USDTRY=X kullanıldı
+        df_usd = yf.download('USDTRY=X', start='2005-01-01', progress=False)
         if not df_usd.empty:
             close_series = df_usd['Close']
             # yfinance'ın yeni sürümlerinde DataFrame gelebilir, bunu Series'e çeviriyoruz
@@ -65,7 +65,7 @@ def get_usd_rate(date_str):
     if not keys: return None
     if date_str < keys[0]: return USD_CACHE[keys[0]]
     
-    # Basit bir geriye dönük arama (Büyük ihtimalle ffill ile yukarda çözülmüştür)
+    # Basit bir geriye dönük arama 
     for k in reversed(keys):
         if k <= date_str:
             return USD_CACHE[k]
@@ -283,7 +283,7 @@ def main():
             
             # USD Dönüşümü
             usd_kuru = get_usd_rate(tam_tarih)
-            tutar_usd = (nakit_temettu / usd_kuru) if usd_kuru else 0.0
+            tutar_usd = (nakit_temettu / usd_kuru) if (usd_kuru and usd_kuru > 0) else 0.0
             
             if yil: 
                 processed_dividends.append({"Kod": kod, "Yil": yil, "Tutar": nakit_temettu, "Tutar_USD": tutar_usd})
