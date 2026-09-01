@@ -33,38 +33,92 @@ USD_CACHE = {}
 
 # 3. KATMAN: Sabit Yıllık Ortalama Kurlar (API'lerin tümü çökerse devreye girer)
 FALLBACK_YEARLY_RATES = {
-    "2010": 1.50, "2011": 1.67, "2012": 1.79, "2013": 1.90, "2014": 2.18, 
-    "2015": 2.72, "2016": 3.02, "2017": 3.64, "2018": 4.81, "2019": 5.67, 
-    "2020": 7.01, "2021": 8.89, "2022": 16.56, "2023": 23.70, "2024": 32.50, 
+    "2010": 1.50, "2011": 1.67, "2012": 1.79, "2013": 1.90, "2014": 2.18,
+    "2015": 2.72, "2016": 3.02, "2017": 3.64, "2018": 4.81, "2019": 5.67,
+    "2020": 7.01, "2021": 8.89, "2022": 16.56, "2023": 23.70, "2024": 32.50,
     "2025": 38.00, "2026": 42.00
 }
 
-def load_usd_rates():
-    """3 Katmanlı Güvenlikle Dolar Kurlarını Çeker"""
-    print("Dolar/TL kurları çekiliyor (Çoklu koruma devrede)...")
-    
-    # 1. KATMAN: Yahoo Finance (Daha güvenli yöntem)
-    try:
-        ticker = yf.Ticker("USDTRY=X")
-        df_usd = ticker.history(period="max")
-        if not df_usd.empty:
-            for date, row in df_usd.iterrows():
-                USD_CACHE[date.strftime('%Y-%m-%d')] = float(row['Close'])
-    except Exception:
-        pass
 
-    # 2. KATMAN: Avrupa Merkez Bankası Altyapılı Ücretsiz API (Frankfurter)
-    if len(USD_CACHE) < 100:
-        print("Yahoo engellendi, Alternatif Döviz API'sine geçiliyor...")
+def load_usd_rates():
+    """4 Katmanlı Güvenlikle Dolar/TL Kurlarını Çeker.
+
+    1) Yahoo Finance   -> günlük gerçek kapanış kurları (en isabetli)
+    2) Frankfurter API -> ECB tabanlı ücretsiz döviz API'si
+    3) exchangerate.host -> ikinci yedek ücretsiz döviz API'si
+    4) FALLBACK_YEARLY_RATES -> hiçbiri çalışmazsa yıllık sabit ortalama
+    """
+    print("Dolar/TL kurları çekiliyor (Çoklu koruma devrede)...")
+
+    # ------------------------------------------------------------------
+    # 1. KATMAN: Yahoo Finance
+    # NOT: Yahoo'da USD baz alınan paritelerde sembol formatı sadece
+    # hedef para birimi + "=X" şeklindedir (ör. "JPY=X", "TRY=X").
+    # "USDTRY=X" çoğu zaman boş/hatalı sonuç döner ve except bloğunda
+    # sessizce yutulup fark edilmeden 2. katmana düşülür. Bu yüzden
+    # doğru sembolü önce, eski/olası alternatif sembolü sonra deniyoruz.
+    # ------------------------------------------------------------------
+    for sembol in ("TRY=X", "USDTRY=X"):
         try:
-            resp = requests.get("https://api.frankfurter.app/2005-01-01..?from=USD&to=TRY", timeout=15)
+            ticker = yf.Ticker(sembol)
+            df_usd = ticker.history(period="max")
+            if not df_usd.empty:
+                for date, row in df_usd.iterrows():
+                    USD_CACHE[date.strftime('%Y-%m-%d')] = float(row['Close'])
+                print(f"Yahoo Finance ('{sembol}') üzerinden {len(df_usd)} günlük veri alındı.")
+                break
+            else:
+                print(f"Yahoo Finance ('{sembol}') boş veri döndürdü.")
+        except Exception as e:
+            print(f"Yahoo Finance ('{sembol}') hatası: {e}")
+
+    # ------------------------------------------------------------------
+    # 2. KATMAN: Avrupa Merkez Bankası Altyapılı Ücretsiz API (Frankfurter)
+    # ------------------------------------------------------------------
+    if len(USD_CACHE) < 100:
+        print("Yahoo yetersiz/engellendi, Frankfurter API'sine geçiliyor...")
+        try:
+            resp = requests.get(
+                "https://api.frankfurter.app/2005-01-01..?from=USD&to=TRY",
+                timeout=15
+            )
             if resp.status_code == 200:
                 rates = resp.json().get("rates", {})
                 for d_str, r_data in rates.items():
                     if "TRY" in r_data:
                         USD_CACHE[d_str] = float(r_data["TRY"])
-        except Exception:
-            pass
+                print(f"Frankfurter API üzerinden {len(rates)} günlük veri alındı.")
+            else:
+                print(f"Frankfurter API hata kodu: {resp.status_code}")
+        except Exception as e:
+            print(f"Frankfurter API hatası: {e}")
+
+    # ------------------------------------------------------------------
+    # 3. KATMAN: exchangerate.host (ikinci yedek ücretsiz API)
+    # ------------------------------------------------------------------
+    if len(USD_CACHE) < 100:
+        print("Frankfurter de yetersiz, exchangerate.host deneniyor...")
+        try:
+            resp = requests.get(
+                "https://api.exchangerate.host/timeseries",
+                params={
+                    "start_date": "2005-01-01",
+                    "end_date": pd.Timestamp.today().strftime('%Y-%m-%d'),
+                    "base": "USD",
+                    "symbols": "TRY"
+                },
+                timeout=20
+            )
+            if resp.status_code == 200:
+                rates = resp.json().get("rates", {})
+                for d_str, r_data in rates.items():
+                    if "TRY" in r_data:
+                        USD_CACHE[d_str] = float(r_data["TRY"])
+                print(f"exchangerate.host üzerinden {len(rates)} günlük veri alındı.")
+            else:
+                print(f"exchangerate.host hata kodu: {resp.status_code}")
+        except Exception as e:
+            print(f"exchangerate.host hatası: {e}")
 
     # Kurları ileriye doğru doldur (Hafta sonu boşluklarını kapatır)
     if USD_CACHE:
@@ -78,31 +132,42 @@ def load_usd_rates():
                 last_val = USD_CACHE[d_str]
             else:
                 USD_CACHE[d_str] = last_val
-                
+
     print(f"Toplam {len(USD_CACHE)} günlük kur verisi başarıyla hafızaya alındı.")
+    if len(USD_CACHE) < 100:
+        print(
+            "⚠️ UYARI: Hiçbir canlı kaynak yeterli veri sağlayamadı. "
+            "Sistem sabit yıllık ortalama kurlara (FALLBACK_YEARLY_RATES) "
+            "düşecek; Tutar_USD değerleri kaba tahmin olacaktır."
+        )
+
 
 def get_usd_rate(date_str, fallback_year=None):
     # Eğer API'den gelen tam gün verisi varsa onu kullan
-    if date_str and date_str in USD_CACHE: 
+    if date_str and date_str in USD_CACHE:
         return USD_CACHE[date_str]
-    
+
     # Yoksa en yakın geçmiş tarihi kullan
     if date_str and USD_CACHE:
         keys = sorted(USD_CACHE.keys())
-        if keys and date_str < keys[0]: return USD_CACHE[keys[0]]
+        if keys and date_str < keys[0]:
+            return USD_CACHE[keys[0]]
         for k in reversed(keys):
-            if k <= date_str: return USD_CACHE[k]
-            
+            if k <= date_str:
+                return USD_CACHE[k]
+
     # 3. KATMAN DEVREYE GİRER: Hiçbir kur bulunamazsa o yılın sabit ortalamasını kullan!
     if fallback_year and str(fallback_year) in FALLBACK_YEARLY_RATES:
         return FALLBACK_YEARLY_RATES[str(fallback_year)]
-        
-    return 30.0 # Son çare acil durum kuru
+
+    return 30.0  # Son çare acil durum kuru
+
 
 def get_session():
     s = requests.Session()
     s.headers.update(HEADERS)
     return s
+
 
 def fetch_with_retry(session, url, method="GET", json_payload=None):
     for attempt in range(1, RETRY_COUNT + 1):
@@ -118,19 +183,26 @@ def fetch_with_retry(session, url, method="GET", json_payload=None):
         time.sleep(RETRY_WAIT * attempt)
     return None
 
+
 def fetch_api_data(session, tanim_kodu):
     payload = {"hisseKodu": "", "hisseTanimKodu": tanim_kodu, "yil": 0, "zaman": "HEPSI", "endeksKodu": "09", "sektorKodu": ""}
     res_text = fetch_with_retry(session, API_URL, method="POST", json_payload=payload)
-    if not res_text: return []
+    if not res_text:
+        return []
     try:
         js = json.loads(res_text)
         data = js.get("value") or js.get("d") or js
-        if isinstance(data, str): data = json.loads(data)
-        if isinstance(data, list): return data
+        if isinstance(data, str):
+            data = json.loads(data)
+        if isinstance(data, list):
+            return data
         for k in data:
-            if isinstance(data[k], list): return data[k]
-    except Exception: pass
+            if isinstance(data[k], list):
+                return data[k]
+    except Exception:
+        pass
     return []
+
 
 def get_all_tickers(session):
     html = fetch_with_retry(session, LIST_URL)
@@ -138,32 +210,44 @@ def get_all_tickers(session):
     if html:
         pairs = re.findall(r'>([A-Z][A-Z0-9]{1,5})\s*\|\s*([^<\n]{2,60})<', html)
         for code, _name in pairs:
-            if re.fullmatch(r"[A-Z][A-Z0-9]{1,5}", code.strip()): tickers.add(code.strip())
+            if re.fullmatch(r"[A-Z][A-Z0-9]{1,5}", code.strip()):
+                tickers.add(code.strip())
     if not tickers:
         api_data = fetch_api_data(session, "04")
         for satir in api_data:
             kod = satir.get("SHHE_HS_KOD") or satir.get("HISSE_KODU") or ""
             if not kod:
                 for k, v in satir.items():
-                    if "KOD" in k.upper(): kod = v; break
+                    if "KOD" in k.upper():
+                        kod = v
+                        break
             if kod and isinstance(kod, str):
                 kod = kod.strip().upper()
-                if re.fullmatch(r"[A-Z][A-Z0-9]{1,5}", kod): tickers.add(kod)
-    if not tickers: raise RuntimeError("Hisse listesi alınamadı.")
+                if re.fullmatch(r"[A-Z][A-Z0-9]{1,5}", kod):
+                    tickers.add(kod)
+    if not tickers:
+        raise RuntimeError("Hisse listesi alınamadı.")
     return sorted(list(tickers))
 
+
 def find_dividend_table(html):
-    try: tables = pd.read_html(StringIO(html))
-    except ValueError: return None
+    try:
+        tables = pd.read_html(StringIO(html))
+    except ValueError:
+        return None
     for tbl in tables:
-        if sum(1 for hint in DIVIDEND_COLUMN_HINTS if hint in " ".join([str(c) for c in tbl.columns])) >= 2: return tbl
+        if sum(1 for hint in DIVIDEND_COLUMN_HINTS if hint in " ".join([str(c) for c in tbl.columns])) >= 2:
+            return tbl
     return None
+
 
 def clean_dividend_table(df, kod):
     rename_map = {}
     for c in df.columns:
-        if "Dağ. Tarihi" in str(c): rename_map[c] = "Dagitim_Tarihi"
-        elif "Temettü Verim" in str(c): rename_map[c] = "Temettu_Verim_%"
+        if "Dağ. Tarihi" in str(c):
+            rename_map[c] = "Dagitim_Tarihi"
+        elif "Temettü Verim" in str(c):
+            rename_map[c] = "Temettu_Verim_%"
     df = df.rename(columns=rename_map)
     keep_cols = [c for c in ["Dagitim_Tarihi", "Temettu_Verim_%"] if c in df.columns]
     df = df[keep_cols].copy()
@@ -174,42 +258,64 @@ def clean_dividend_table(df, kod):
     df.insert(0, "Kod", kod)
     return df
 
+
 def parse_turkce_sayi(val):
-    if pd.isna(val) or not val: return 0.0
-    if isinstance(val, (int, float)): return float(val)
-    try: return float(str(val).strip().replace(".", "").replace(",", "."))
-    except ValueError: return 0.0
+    if pd.isna(val) or not val:
+        return 0.0
+    if isinstance(val, (int, float)):
+        return float(val)
+    try:
+        return float(str(val).strip().replace(".", "").replace(",", "."))
+    except ValueError:
+        return 0.0
+
 
 def get_exact_date(val):
-    if pd.isna(val) or not val: return None
+    if pd.isna(val) or not val:
+        return None
     s = str(val).strip()
     m_ms = re.search(r'Date\(([-0-9]+)\)', s)
     if m_ms:
-        try: return time.strftime('%Y-%m-%d', time.gmtime(int(m_ms.group(1))/1000))
-        except Exception: pass
+        try:
+            return time.strftime('%Y-%m-%d', time.gmtime(int(m_ms.group(1)) / 1000))
+        except Exception:
+            pass
     m_iso = re.search(r'^(\d{4})-(\d{2})-(\d{2})', s)
-    if m_iso: return f"{m_iso.group(1)}-{m_iso.group(2)}-{m_iso.group(3)}"
+    if m_iso:
+        return f"{m_iso.group(1)}-{m_iso.group(2)}-{m_iso.group(3)}"
     m_tr = re.search(r'^(\d{2})[./-](\d{2})[./-](\d{4})', s)
-    if m_tr: return f"{m_tr.group(3)}-{m_tr.group(2)}-{m_tr.group(1)}"
+    if m_tr:
+        return f"{m_tr.group(3)}-{m_tr.group(2)}-{m_tr.group(1)}"
     return None
+
 
 def get_mantiki_yil(val):
-    if pd.isna(val) or not val: return None
+    if pd.isna(val) or not val:
+        return None
     s = str(val).strip()
     m_ms = re.search(r'Date\(([-0-9]+)\)', s)
     if m_ms:
-        try: return str(time.gmtime(int(m_ms.group(1))/1000).tm_year)
-        except Exception: pass
+        try:
+            return str(time.gmtime(int(m_ms.group(1)) / 1000).tm_year)
+        except Exception:
+            pass
     year_match = re.search(r'\b(19[8-9]\d|20\d\d)\b', s)
-    if year_match: return year_match.group(1)
+    if year_match:
+        return year_match.group(1)
     return None
 
+
 def parse_yield(val):
-    if pd.isna(val): return 0.0
+    if pd.isna(val):
+        return 0.0
     s = str(val).strip()
-    if not s: return 0.0
-    try: return float(s.replace('.', '').replace(',', '.')) if ',' in s else float(s)
-    except ValueError: return 0.0
+    if not s:
+        return 0.0
+    try:
+        return float(s.replace('.', '').replace(',', '.')) if ',' in s else float(s)
+    except ValueError:
+        return 0.0
+
 
 def upload_to_drive(filename):
     service_account_info = json.loads(os.environ['GCP_SERVICE_ACCOUNT_JSON'])
@@ -228,24 +334,28 @@ def upload_to_drive(filename):
         service.files().create(body={'name': filename, 'parents': [folder_id]}, media_body=media, fields='id').execute()
         print(f"{filename} Drive'a yeni dosya olarak yüklendi.")
 
+
 def main():
     print("Sistem başlatılıyor...")
     load_usd_rates()
     session = get_session()
-    
+
     tickers = get_all_tickers(session)
     print(f"Toplam {len(tickers)} adet hisse senedi bulundu.")
-    
+
     all_rows = []
     for kod in tickers:
         html = fetch_with_retry(session, BASE_URL.format(kod))
-        if not html: continue
+        if not html:
+            continue
         tbl = find_dividend_table(html)
-        if tbl is None: continue
+        if tbl is None:
+            continue
         cleaned = clean_dividend_table(tbl, kod)
-        if not cleaned.empty: all_rows.append(cleaned)
+        if not cleaned.empty:
+            all_rows.append(cleaned)
         time.sleep(REQUEST_DELAY)
-            
+
     df_verim_final = pd.DataFrame(columns=["Kod", "Yil", "Temettu_Verim_%"])
     if all_rows:
         df_scraped = pd.concat(all_rows, ignore_index=True)
@@ -261,27 +371,31 @@ def main():
         tarih = satir.get("SHHE_TARIH") or satir.get("TARIH") or ""
         if not kod or not tarih:
             for k, v in satir.items():
-                if not kod and "KOD" in k.upper(): kod = v
-                if not tarih and "TARIH" in k.upper(): tarih = v
-        
+                if not kod and "KOD" in k.upper():
+                    kod = v
+                if not tarih and "TARIH" in k.upper():
+                    tarih = v
+
         nakit_temettu = 0.0
         for k, v in satir.items():
             if ("TEM" in k.upper() and "TUTAR" in k.upper()) or "NAKIT" in k.upper():
                 val = parse_turkce_sayi(v)
-                if val > nakit_temettu: nakit_temettu = val
-        
+                if val > nakit_temettu:
+                    nakit_temettu = val
+
         if kod and tarih and nakit_temettu > 0:
             kod = str(kod).strip().upper()
             yil = get_mantiki_yil(tarih)
             tam_tarih = get_exact_date(tarih)
-            
+
             # GÜÇLENDİRİLMİŞ DOLAR HESAPLAMASI ÇAĞRILIYOR
             usd_kuru = get_usd_rate(tam_tarih, fallback_year=yil)
-            
+
             tutar_usd = (nakit_temettu / usd_kuru) if (usd_kuru and usd_kuru > 0) else 0.0
-            
-            if yil: processed_dividends.append({"Kod": kod, "Yil": yil, "Tutar": nakit_temettu, "Tutar_USD": tutar_usd})
-            
+
+            if yil:
+                processed_dividends.append({"Kod": kod, "Yil": yil, "Tutar": nakit_temettu, "Tutar_USD": tutar_usd})
+
     df_div_final = pd.DataFrame(columns=["Kod", "Yil", "Tutar", "Tutar_USD"])
     if processed_dividends:
         df_div_final = pd.DataFrame(processed_dividends).groupby(["Kod", "Yil"], as_index=False)[["Tutar", "Tutar_USD"]].sum()
@@ -293,27 +407,30 @@ def main():
         tarih = satir.get("SHHE_TARIH") or satir.get("TARIH") or ""
         if not kod or not tarih:
             for k, v in satir.items():
-                if not kod and "KOD" in k.upper(): kod = v
-                if not tarih and "TARIH" in k.upper(): tarih = v
+                if not kod and "KOD" in k.upper():
+                    kod = v
+                if not tarih and "TARIH" in k.upper():
+                    tarih = v
         if kod and tarih:
             kod = str(kod).strip().upper()
             yil = get_mantiki_yil(tarih)
-            if yil: processed_ipo.append({"Kod": kod, "Arz_Yili": int(yil)})
-            
+            if yil:
+                processed_ipo.append({"Kod": kod, "Arz_Yili": int(yil)})
+
     df_ipo_final = pd.DataFrame(columns=["Kod", "Arz_Yili"])
     if processed_ipo:
         df_ipo_final = pd.DataFrame(processed_ipo).groupby("Kod", as_index=False)["Arz_Yili"].min()
 
     df_base = pd.DataFrame({"Kod": tickers})
     df_base = pd.merge(df_base, df_ipo_final, on="Kod", how="left")
-    
+
     if df_div_final.empty and df_verim_final.empty:
         df_events = pd.DataFrame(columns=["Kod", "Yil", "Tutar", "Tutar_USD", "Temettu_Verim_%"])
     else:
         df_events = pd.merge(df_div_final, df_verim_final, on=["Kod", "Yil"], how="outer")
-        
+
     df_master = pd.merge(df_base, df_events, on="Kod", how="left")
-    
+
     df_master["Tutar"] = df_master["Tutar"].fillna(0.0)
     df_master["Tutar_USD"] = df_master["Tutar_USD"].fillna(0.0)
     df_master["Temettu_Verim_%"] = df_master["Temettu_Verim_%"].fillna(0.0)
@@ -321,9 +438,22 @@ def main():
     df_master["Arz_Yili"] = df_master["Arz_Yili"].fillna("")
     df_master = df_master[df_master["Kod"].str.strip() != ""]
 
+    # ------------------------------------------------------------------
+    # DOĞRULAMA LOGU: USD hesaplamasının gerçekten çalışıp çalışmadığını
+    # GitHub Actions loglarında görünür kılar. Bu satırlar olmadan bir
+    # önceki sürümde hata tamamen sessizdi.
+    # ------------------------------------------------------------------
+    dolu_usd_sayisi = int((df_master["Tutar_USD"] > 0).sum())
+    toplam_temettu_satiri = int((df_master["Tutar"] > 0).sum())
+    print(f"Kontrol: {toplam_temettu_satiri} satırda TL temettü var, "
+          f"bunlardan {dolu_usd_sayisi} tanesinde USD tutarı hesaplanabildi.")
+    if toplam_temettu_satiri > 0 and dolu_usd_sayisi == 0:
+        print("🔴 HATA: Hiçbir satırda USD tutarı hesaplanamadı! Kur verisi (USD_CACHE) tamamen boş olabilir.")
+
     out_path = "bist_temettu_master.csv"
     df_master.to_csv(out_path, index=False, encoding="utf-8")
     upload_to_drive(out_path)
+
 
 if __name__ == "__main__":
     main()
