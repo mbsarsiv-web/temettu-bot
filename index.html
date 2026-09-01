@@ -286,13 +286,16 @@
 
       if (verimVerisi && verimVerisi.length > 1) {
         var basliklarVerim = verimVerisi[0];
-        var kodIndeks = 0, yilIndeks = 1, verimIndeks = 2;
+        var kodIndeks = 0, yilIndeks = 1, verimIndeks = -1;
         for (var c = 0; c < basliklarVerim.length; c++) {
           var b = basliklarVerim[c].toString().toUpperCase().trim();
           if (b === "KOD") kodIndeks = c;
           else if (b === "YIL" || b === "TARIH" || b === "TARİH") yilIndeks = c;
           else if (b.indexOf("VERIM") > -1 || b.indexOf("VERİM") > -1) verimIndeks = c;
         }
+        
+        if (verimIndeks === -1) verimIndeks = 2; // Varsayılanı geri koyduk
+        
         for (var v = 1; v < verimVerisi.length; v++) {
           var kod = verimVerisi[v][kodIndeks];
           var tarih = verimVerisi[v][yilIndeks];
@@ -395,10 +398,13 @@
                 if (verimDegeri !== undefined && !isNaN(verimDegeri)) toplamVerim10Yil += verimDegeri;
               }
               var gosterilecekMetin = "%0.00";
+              
+              // GÜÇLENDİRİLDİ: / 100 hatası düzeltilerek gerçek % değerleri yansıtıldı
               if (verimDegeri !== undefined && !isNaN(verimDegeri)) {
-                var hesaplananVerim = (verimDegeri / 100).toFixed(2);
+                var hesaplananVerim = verimDegeri.toFixed(2);
                 gosterilecekMetin = "%" + hesaplananVerim;
               }
+              
               var formatliMiktarHover = Number(rawValue).toLocaleString('tr-TR') + ' TL';
               icSutunlarHtml += '<td data-value="' + rawValue + '"><span class="check-icon">' + gosterilecekMetin + '</span><span class="info-icon" title="Miktar: ' + formatliMiktarHover + '" onclick="event.stopPropagation(); gosterBilgi(\'' + hisseKodu + '\', \'' + sutunYili + '\', \'' + cell + '\')">ℹ️</span></td>';
             } else {
@@ -416,7 +422,8 @@
         icSutunlarHtml += formatGrowthCell(g5y, rawYogunluk);
         icSutunlarHtml += formatGrowthCell(g10y, rawYogunluk);
 
-        var ortalamaVerim = odemeYaptigiYilSayisi > 0 ? (toplamVerim10Yil / odemeYaptigiYilSayisi) / 100 : 0;
+        // GÜÇLENDİRİLDİ: / 100 hatası temizlendi.
+        var ortalamaVerim = odemeYaptigiYilSayisi > 0 ? (toplamVerim10Yil / odemeYaptigiYilSayisi) : 0;
         icSutunlarHtml += '<td class="trend-col">' + sparklineOlustur(sparkDegerler.slice(-8)) + '</td>';
 
         var artisSerisi = 0;
