@@ -266,9 +266,14 @@ def main():
     df_master = df_master[df_master["Kod"].str.strip() != ""]
 
     out_path = "bist_temettu_master.csv"
-    
-    # KRİTİK DÜZELTME 2: Google Sheets'in 1.52'yi 152 zannetmemesi için sayıları VİRGÜL ile kaydediyoruz!
-    df_master.to_csv(out_path, index=False, encoding="utf-8", decimal=",")
+
+    # KRİTİK DÜZELTME 3: Alan ayıracını (sep) noktalı virgüle (;) çevirdik.
+    # Önceki halde hem alan ayıracı hem ondalık ayıracı "," idi; pandas
+    # ondalıklı hücreleri tırnak içine alarak koruyordu ama bu, Apps Script /
+    # Drive tarafındaki farklı CSV yorumlayıcılarında (locale'e bağlı olarak)
+    # hücrelerin yanlış bölünmesine veya boş okunmasına yol açıyordu.
+    # sep=";" ile alan ve ondalık ayıracı artık asla çakışmıyor.
+    df_master.to_csv(out_path, index=False, encoding="utf-8", decimal=",", sep=";")
     
     upload_to_drive(out_path)
     print("Görev başarıyla tamamlandı!")
