@@ -24,7 +24,6 @@
     .search-wrap input:focus { border-color: #1a73e8; }
     .search-wrap span { position: absolute; left: 9px; top: 50%; transform: translateY(-50%); color: #9aa0a6; font-size: 13px; }
     .toolbar select { flex: 0 1 auto; padding: 6px 8px; border: 1px solid #dadce0; border-radius: 6px; font-size: 13px; font-family: 'Google Sans Text'; background: #fff; outline: none; cursor: pointer; }
-    .currency-toggle { background-color: #e8f0fe !important; color: #174ea6; font-weight: bold; border-color: #d2e3fc !important; }
     .clear-btn { color: #d93025; border-color: #f3c7c3; margin-left: auto; } 
     .kpi-badge { background-color: #e8f0fe; color: #1a73e8; font-size: 13px; font-weight: 700; padding: 6px 12px; border-radius: 16px; display: flex; align-items: center; gap: 6px; border: 1px solid #d2e3fc; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
     .kpi-badge .kpi-number { color: #174ea6; font-size: 14px; font-weight: 900; }
@@ -142,11 +141,6 @@
       📊 Gösterilen: <span id="kpiCount" class="kpi-number">-</span>
     </div>
     
-    <select id="currencyToggle" class="currency-toggle" onchange="this.blur(); changeCurrency()">
-      <option value="TL">Birim: TL (₺)</option>
-      <option value="USD">Birim: USD ($)</option>
-    </select>
-    
     <select id="filterYogunluk" onchange="this.blur(); uygula()">
       <option value="TÜMÜ">Yoğunluk: Tümü</option>
       <option value="1.00">1,00 (Kusursuz)</option>
@@ -199,20 +193,11 @@
   <script>
     var currentSortCol = -1; var currentSortOrder = "";
     var TUM_SATIRLAR = []; 
-    var GLOBAL_PAYLOAD = null; 
-    var currentCurrency = 'TL'; 
     
     var aramaZamanlayici;
     function aramaGeciktir() {
       clearTimeout(aramaZamanlayici);
       aramaZamanlayici = setTimeout(uygula, 400); 
-    }
-
-    function changeCurrency() {
-      currentCurrency = document.getElementById("currencyToggle").value;
-      if(GLOBAL_PAYLOAD) {
-        tabloyuCiz(GLOBAL_PAYLOAD);
-      }
     }
 
     function sayiyaCevir(s) {
@@ -228,14 +213,12 @@
       return "yog-low";
     }
 
-    function gosterBilgi(hisse, yil, miktar, curr) {
+    function gosterBilgi(hisse, yil, miktar) {
       document.getElementById('modalTitle').innerText = hisse + ' - ' + yil + ' Temettüsü';
       document.getElementById('modalContent').innerText = 'Ödenen Toplam Temettü';
       var sayisalMiktar = Number(sayiyaCevir(miktar));
-      var currSym = curr === 'USD' ? ' $' : ' TL';
-      var minDec = curr === 'USD' ? 2 : 0;
-      var formatliMiktar = isNaN(sayisalMiktar) ? miktar : sayisalMiktar.toLocaleString('tr-TR', {minimumFractionDigits: minDec, maximumFractionDigits: 2});
-      document.getElementById('modalAmount').innerText = formatliMiktar + currSym;
+      var formatliMiktar = isNaN(sayisalMiktar) ? miktar : sayisalMiktar.toLocaleString('tr-TR') + ' TL';
+      document.getElementById('modalAmount').innerText = formatliMiktar;
       document.getElementById('modalOverlay').style.display = 'block';
       document.getElementById('customModal').style.display = 'block';
     }
@@ -300,52 +283,31 @@
       var verimVerisi = payload.verimTablo;
 
       var verimMap = {};
-      var usdMap = {}; 
 
       if (verimVerisi && verimVerisi.length > 1) {
         var basliklarVerim = verimVerisi[0];
-        var kodIndeks = 0, yilIndeks = 1, verimIndeks = -1, usdIndeks = -1;
-        
+        var kodIndeks = 0, yilIndeks = 1, verimIndeks = 2;
         for (var c = 0; c < basliklarVerim.length; c++) {
           var b = basliklarVerim[c].toString().toUpperCase().trim();
           if (b === "KOD") kodIndeks = c;
           else if (b === "YIL" || b === "TARIH" || b === "TARİH") yilIndeks = c;
           else if (b.indexOf("VERIM") > -1 || b.indexOf("VERİM") > -1) verimIndeks = c;
-          else if (b === "TUTAR_USD") usdIndeks = c; 
         }
-        
         for (var v = 1; v < verimVerisi.length; v++) {
           var kod = verimVerisi[v][kodIndeks];
           var tarih = verimVerisi[v][yilIndeks];
-          
-          if (kod && tarih) {
+          var rawVerim = verimVerisi[v][verimIndeks];
+          if (kod && tarih && rawVerim !== undefined && rawVerim !== "") {
             var yil = "";
             var tStr = tarih.toString().trim();
             var yMatch = tStr.match(/(20\d\d|19\d\d)/);
             if (yMatch) yil = yMatch[1];
-            
             if (yil) {
               var anahtar = kod.toString().toUpperCase() + "_" + yil;
-              
-              if (verimIndeks > -1) {
-                var rawVerim = verimVerisi[v][verimIndeks];
-                if (rawVerim !== undefined && rawVerim !== "") {
-                  var sVerim = rawVerim.toString().replace(/%/g, '').replace(',', '.');
-                  var sayisalVerim = parseFloat(sVerim) || 0;
-                  if (verimMap[anahtar]) { verimMap[anahtar] += sayisalVerim; }
-                  else { verimMap[anahtar] = sayisalVerim; }
-                }
-              }
-              
-              if (usdIndeks > -1) {
-                var rawUsd = verimVerisi[v][usdIndeks];
-                if (rawUsd !== undefined && rawUsd !== "") {
-                  var sUsd = rawUsd.toString().replace(',', '.');
-                  var numUsd = parseFloat(sUsd) || 0;
-                  if (usdMap[anahtar]) { usdMap[anahtar] += numUsd; }
-                  else { usdMap[anahtar] = numUsd; }
-                }
-              }
+              var sVerim = rawVerim.toString().replace(/%/g, '').replace(',', '.');
+              var sayisalVerim = parseFloat(sVerim) || 0;
+              if (verimMap[anahtar]) { verimMap[anahtar] += sayisalVerim; }
+              else { verimMap[anahtar] = sayisalVerim; }
             }
           }
         }
@@ -397,23 +359,13 @@
       html += '</tr></thead><tbody id="tabloGovdesi">';
 
       var islenmisSatirlar = [];
-      var currencySymbol = currentCurrency === 'USD' ? ' $' : ' TL'; 
-      
       for (var i = 1; i < veri.length; i++) {
-        var satir = veri[i].slice(); 
+        var satir = veri[i];
         var rawYogunluk = parseFloat(satir[idxYogunluk] ? satir[idxYogunluk].toString().replace(',', '.') : 0) || 0;
         var gizliAdet2011 = parseInt(satir[idxGizli]) || 0;
         
         var hisseKodu = satir[0];
         if (!hisseKodu || hisseKodu.trim() === "") continue;
-
-        if (currentCurrency === 'USD') {
-            for (var j = 2; j < idxYogunluk; j++) {
-                var sutunYili = orjBasliklarTumu[j];
-                var anahtar = hisseKodu + "_" + sutunYili;
-                satir[j] = usdMap[anahtar] || 0; 
-            }
-        }
 
         var slicedSatir = satir.slice(0, idxYogunluk + 1);
         var slicedBasliklar = orjBasliklarTumu.slice(0, idxYogunluk + 1);
@@ -447,11 +399,8 @@
                 var hesaplananVerim = (verimDegeri / 100).toFixed(2);
                 gosterilecekMetin = "%" + hesaplananVerim;
               }
-              
-              var minDecHover = currentCurrency === 'USD' ? 2 : 0;
-              var formatliMiktarHover = Number(rawValue).toLocaleString('tr-TR', {minimumFractionDigits: minDecHover, maximumFractionDigits: 2}) + currencySymbol;
-              
-              icSutunlarHtml += '<td data-value="' + rawValue + '"><span class="check-icon">' + gosterilecekMetin + '</span><span class="info-icon" title="Miktar: ' + formatliMiktarHover + '" onclick="event.stopPropagation(); gosterBilgi(\'' + hisseKodu + '\', \'' + sutunYili + '\', \'' + cell + '\', \'' + currentCurrency + '\')">ℹ️</span></td>';
+              var formatliMiktarHover = Number(rawValue).toLocaleString('tr-TR') + ' TL';
+              icSutunlarHtml += '<td data-value="' + rawValue + '"><span class="check-icon">' + gosterilecekMetin + '</span><span class="info-icon" title="Miktar: ' + formatliMiktarHover + '" onclick="event.stopPropagation(); gosterBilgi(\'' + hisseKodu + '\', \'' + sutunYili + '\', \'' + cell + '\')">ℹ️</span></td>';
             } else {
               icSutunlarHtml += '<td data-value="0" class="empty-cell">-</td>';
             }
@@ -497,16 +446,11 @@
           if (j >= 2 && j < idxYogunluk) {
             var cMik = sayiyaCevir(satir[j]);
             var barHeight = maxMiktar > 0 ? (cMik / maxMiktar) * 100 : 0;
-            
-            var valTxt = '-';
-            if (cMik > 0) {
-                valTxt = currentCurrency === 'USD' ? Number(cMik).toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) : Number(cMik).toLocaleString('tr-TR');
-            }
-            
+            var valTxt = cMik > 0 ? Number(cMik).toLocaleString('tr-TR') : '-';
             var valClass = cMik > 0 ? 'bar-val' : 'bar-val empty-bar-val';
             var inlineBarStyles = cMik > 0 ? '' : 'background-color: transparent; box-shadow: none;';
             expandHtml += '<td><div class="bar-wrapper" style="display: flex; flex-direction: column; align-items: center;">';
-            expandHtml += '<div class="' + valClass + '" title="' + valTxt + currencySymbol + '">' + valTxt + '</div>';
+            expandHtml += '<div class="' + valClass + '" title="' + valTxt + '">' + valTxt + '</div>';
             expandHtml += '<div class="bar-container"><div class="bar" style="height: ' + Math.max(barHeight, cMik > 0 ? 2 : 0) + '%; ' + inlineBarStyles + '"></div></div>';
             expandHtml += '</div></td>';
           }
@@ -712,7 +656,6 @@
         if (data.hata) {
           document.getElementById('tableContainer').innerHTML = '<div class="error-msg">Sunucu hatası: ' + data.hata + '</div>';
         } else {
-          GLOBAL_PAYLOAD = data; 
           tabloyuCiz(data);
           tarihiYazdir(data.sonGuncelleme);
         }
