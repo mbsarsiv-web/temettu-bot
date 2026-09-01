@@ -25,8 +25,7 @@ HEADERS = {
 
 REQUEST_DELAY = 0.5
 RETRY_COUNT = 3
-RETRY_WAIT = 3.0 # Sunucu yavaşlıklarına karşı bekleme süresi artırıldı
-DIVIDEND_COLUMN_HINTS = ["tarih", "verim", "hisse başı", "nakit", "temettü"]
+RETRY_WAIT = 3.0
 
 def get_session():
     s = requests.Session()
@@ -37,17 +36,14 @@ def fetch_with_retry(session, url, method="GET", json_payload=None):
     for attempt in range(1, RETRY_COUNT + 1):
         try:
             if method == "POST":
-                resp = session.post(url, json=json_payload, timeout=35)
+                resp = session.post(url, json=json_payload, timeout=25)
             else:
-                resp = session.get(url, timeout=35)
-                
+                resp = session.get(url, timeout=25)
             if resp.status_code == 200:
                 return resp.text
-            else:
-                print(f"Uyarı: HTTP {resp.status_code} alındı.")
-        except requests.RequestException as e:
-            print(f"Bağlantı Hatası: {e}")
-        time.sleep(RETRY_WAIT * attempt)
+        except Exception:
+            pass
+        time.sleep(RETRY_WAIT)
     return None
 
 def fetch_api_data(session, tanim_kodu):
@@ -61,8 +57,7 @@ def fetch_api_data(session, tanim_kodu):
         if isinstance(data, list): return data
         for k in data:
             if isinstance(data[k], list): return data[k]
-    except Exception:
-        pass
+    except Exception: pass
     return []
 
 def get_all_tickers(session):
@@ -73,7 +68,6 @@ def get_all_tickers(session):
         for code, _name in pairs:
             if re.fullmatch(r"[A-Z][A-Z0-9]{1,5}", code.strip()):
                 tickers.add(code.strip())
-    
     if not tickers:
         api_data = fetch_api_data(session, "04")
         for satir in api_data:
@@ -85,20 +79,18 @@ def get_all_tickers(session):
                 kod = kod.strip().upper()
                 if re.fullmatch(r"[A-Z][A-Z0-9]{1,5}", kod):
                     tickers.add(kod)
-                    
-    if not tickers: raise RuntimeError("Hisse listesi alınamadı.")
     return sorted(list(tickers))
 
 def find_dividend_table(html):
     try:
         tables = pd.read_html(StringIO(html))
-    except ValueError:
+    except Exception:
         return None
     for tbl in tables:
         cols = [str(c).lower() for c in tbl.columns]
         joined = " ".join(cols)
-        hits = sum(1 for hint in DIVIDEND_COLUMN_HINTS if hint in joined)
-        if hits >= 2:
+        # İsmi ne kadar değiştirirse değiştirsin bu 3 kelimeden birini görürse tabloyu yakalar
+        if "verim" in joined and ("tarih" in joined or "dağ" in joined or "yıl" in joined):
             return tbl
     return None
 
@@ -106,20 +98,22 @@ def clean_dividend_table(df, kod):
     rename_map = {}
     for c in df.columns:
         c_str = str(c).lower().strip()
-        if "tarih" in c_str: rename_map[c] = "Dagitim_Tarihi"
-        elif "verim" in c_str: rename_map[c] = "Temettu_Verim_%"
-        
+        if "tarih" in c_str or "dağ" in c_str or "yıl" in c_str:
+            if "Dagitim_Tarihi" not in rename_map.values():
+                rename_map[c] = "Dagitim_Tarihi"
+        elif "verim" in c_str:
+            if "Temettu_Verim_%" not in rename_map.values():
+                rename_map[c] = "Temettu_Verim_%"
+                
     df = df.rename(columns=rename_map)
-    
-    # GÜVENLİK KALKANI: Eğer İş Yatırım kırık tablo gönderirse ve Tarih sütunu yoksa, çökmeden atla.
-    if "Dagitim_Tarihi" not in df.columns:
+    if "Dagitim_Tarihi" not in df.columns or "Temettu_Verim_%" not in df.columns:
         return pd.DataFrame()
         
-    keep_cols = [c for c in df.columns if c in ["Dagitim_Tarihi", "Temettu_Verim_%"]]
+    df = df.loc[:, ~df.columns.duplicated()]
+    keep_cols = ["Dagitim_Tarihi", "Temettu_Verim_%"]
     df = df[keep_cols].copy()
     
     df = df[df["Dagitim_Tarihi"].notna()]
-    df = df[df["Dagitim_Tarihi"].astype(str).str.strip() != ""]
     df = df.drop_duplicates()
     df.insert(0, "Kod", kod)
     return df
@@ -127,7 +121,16 @@ def clean_dividend_table(df, kod):
 def parse_turkce_sayi(val):
     if pd.isna(val) or not val: return 0.0
     if isinstance(val, (int, float)): return float(val)
-    try: return float(str(val).strip().replace(".", "").replace(",", "."))
+    s = str(val).strip()
+    if not s: return 0.0
+    if ',' in s and '.' in s:
+        if s.rfind(',') > s.rfind('.'):
+            s = s.replace('.', '').replace(',', '.')
+        else:
+            s = s.replace(',', '')
+    elif ',' in s:
+        s = s.replace(',', '.')
+    try: return float(s)
     except ValueError: return 0.0
 
 def get_mantiki_yil(val):
@@ -145,7 +148,7 @@ def parse_yield(val):
     if pd.isna(val): return 0.0
     s = str(val).strip().replace('%', '').replace('₺', '')
     if not s: return 0.0
-    if ',' in s: s = s.replace('.', '').replace(',', '.')
+    if ',' in s: s = s.replace(',', '.')
     try: return float(s)
     except ValueError: return 0.0
 
@@ -170,11 +173,9 @@ def main():
     print("Sistem başlatılıyor...")
     session = get_session()
     
-    print("Hisse listesi çekiliyor...")
     tickers = get_all_tickers(session)
     print(f"Toplam {len(tickers)} adet hisse senedi bulundu.")
     
-    print("Web sitesinden temettü verimleri taranıyor (Bu işlem birkaç dakika sürebilir)...")
     all_rows = []
     for kod in tickers:
         html = fetch_with_retry(session, BASE_URL.format(kod))
@@ -188,7 +189,6 @@ def main():
     df_verim_final = pd.DataFrame(columns=["Kod", "Yil", "Temettu_Verim_%"])
     if all_rows:
         df_scraped = pd.concat(all_rows, ignore_index=True)
-        # GÜVENLİK KALKANI 2: Eğer hiçbir veride Tarih yoksa boşuna işlem yapmaya kalkıp çökmesin
         if "Dagitim_Tarihi" in df_scraped.columns:
             df_scraped["Yil"] = df_scraped["Dagitim_Tarihi"].apply(get_mantiki_yil)
             df_scraped = df_scraped.dropna(subset=["Yil"])
@@ -196,7 +196,6 @@ def main():
                 df_scraped["Temettu_Verim_%"] = df_scraped["Temettu_Verim_%"].apply(parse_yield)
                 df_verim_final = df_scraped.groupby(["Kod", "Yil"], as_index=False)["Temettu_Verim_%"].sum()
 
-    print("API üzerinden Nakit Temettü tutarları çekiliyor...")
     raw_api_temettu = fetch_api_data(session, "04")
     processed_dividends = []
     for satir in raw_api_temettu:
@@ -221,7 +220,6 @@ def main():
         df_div_final = pd.DataFrame(processed_dividends)
         df_div_final = df_div_final.groupby(["Kod", "Yil"], as_index=False)["Tutar"].sum()
 
-    print("API üzerinden Halka Arz yılları çekiliyor...")
     raw_api_arz = fetch_api_data(session, "99")
     processed_ipo = []
     for satir in raw_api_arz:
@@ -241,7 +239,6 @@ def main():
         df_ipo_final = pd.DataFrame(processed_ipo)
         df_ipo_final = df_ipo_final.groupby("Kod", as_index=False)["Arz_Yili"].min()
 
-    print("Tüm veriler yapısal bir veri modeliyle (Left Join) birleştiriliyor...")
     df_base = pd.DataFrame({"Kod": tickers})
     df_base = pd.merge(df_base, df_ipo_final, on="Kod", how="left")
     
@@ -259,9 +256,10 @@ def main():
     df_master = df_master[df_master["Kod"].str.strip() != ""]
 
     out_path = "bist_temettu_master.csv"
-    df_master.to_csv(out_path, index=False, encoding="utf-8")
     
-    print("Drive'a yüklendi.")
+    # BU SATIR HAYAT KURTARAN NOKTA: Google Sheets'in virgülleri tanıması için decimal="," eklendi!
+    df_master.to_csv(out_path, index=False, encoding="utf-8", decimal=",")
+    
     upload_to_drive(out_path)
     print("Görev başarıyla tamamlandı!")
 
