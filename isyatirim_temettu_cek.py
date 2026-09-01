@@ -25,9 +25,7 @@ HEADERS = {
 
 REQUEST_DELAY = 0.5
 RETRY_COUNT = 3
-RETRY_WAIT = 2.0
-
-# GÜÇLENDİRİLDİ: İş Yatırım isim değiştirse bile tabloyu bulacak anahtar kelimeler
+RETRY_WAIT = 3.0 # Sunucu yavaşlıklarına karşı bekleme süresi artırıldı
 DIVIDEND_COLUMN_HINTS = ["tarih", "verim", "hisse başı", "nakit", "temettü"]
 
 def get_session():
@@ -39,9 +37,9 @@ def fetch_with_retry(session, url, method="GET", json_payload=None):
     for attempt in range(1, RETRY_COUNT + 1):
         try:
             if method == "POST":
-                resp = session.post(url, json=json_payload, timeout=25)
+                resp = session.post(url, json=json_payload, timeout=35)
             else:
-                resp = session.get(url, timeout=25)
+                resp = session.get(url, timeout=35)
                 
             if resp.status_code == 200:
                 return resp.text
@@ -108,16 +106,20 @@ def clean_dividend_table(df, kod):
     rename_map = {}
     for c in df.columns:
         c_str = str(c).lower().strip()
-        # GÜÇLENDİRİLDİ: Sütun isimleri tam eşleşmese de yakalayacak
         if "tarih" in c_str: rename_map[c] = "Dagitim_Tarihi"
         elif "verim" in c_str: rename_map[c] = "Temettu_Verim_%"
         
     df = df.rename(columns=rename_map)
+    
+    # GÜVENLİK KALKANI: Eğer İş Yatırım kırık tablo gönderirse ve Tarih sütunu yoksa, çökmeden atla.
+    if "Dagitim_Tarihi" not in df.columns:
+        return pd.DataFrame()
+        
     keep_cols = [c for c in df.columns if c in ["Dagitim_Tarihi", "Temettu_Verim_%"]]
     df = df[keep_cols].copy()
-    if "Dagitim_Tarihi" in df.columns:
-        df = df[df["Dagitim_Tarihi"].notna()]
-        df = df[df["Dagitim_Tarihi"].astype(str).str.strip() != ""]
+    
+    df = df[df["Dagitim_Tarihi"].notna()]
+    df = df[df["Dagitim_Tarihi"].astype(str).str.strip() != ""]
     df = df.drop_duplicates()
     df.insert(0, "Kod", kod)
     return df
@@ -141,7 +143,6 @@ def get_mantiki_yil(val):
 
 def parse_yield(val):
     if pd.isna(val): return 0.0
-    # GÜÇLENDİRİLDİ: Eğer sitede % işareti varsa onu temizleyip sayıyı kurtarır
     s = str(val).strip().replace('%', '').replace('₺', '')
     if not s: return 0.0
     if ',' in s: s = s.replace('.', '').replace(',', '.')
@@ -187,10 +188,13 @@ def main():
     df_verim_final = pd.DataFrame(columns=["Kod", "Yil", "Temettu_Verim_%"])
     if all_rows:
         df_scraped = pd.concat(all_rows, ignore_index=True)
-        df_scraped["Yil"] = df_scraped["Dagitim_Tarihi"].apply(get_mantiki_yil)
-        df_scraped = df_scraped.dropna(subset=["Yil"])
-        df_scraped["Temettu_Verim_%"] = df_scraped["Temettu_Verim_%"].apply(parse_yield)
-        df_verim_final = df_scraped.groupby(["Kod", "Yil"], as_index=False)["Temettu_Verim_%"].sum()
+        # GÜVENLİK KALKANI 2: Eğer hiçbir veride Tarih yoksa boşuna işlem yapmaya kalkıp çökmesin
+        if "Dagitim_Tarihi" in df_scraped.columns:
+            df_scraped["Yil"] = df_scraped["Dagitim_Tarihi"].apply(get_mantiki_yil)
+            df_scraped = df_scraped.dropna(subset=["Yil"])
+            if "Temettu_Verim_%" in df_scraped.columns:
+                df_scraped["Temettu_Verim_%"] = df_scraped["Temettu_Verim_%"].apply(parse_yield)
+                df_verim_final = df_scraped.groupby(["Kod", "Yil"], as_index=False)["Temettu_Verim_%"].sum()
 
     print("API üzerinden Nakit Temettü tutarları çekiliyor...")
     raw_api_temettu = fetch_api_data(session, "04")
@@ -257,6 +261,7 @@ def main():
     out_path = "bist_temettu_master.csv"
     df_master.to_csv(out_path, index=False, encoding="utf-8")
     
+    print("Drive'a yüklendi.")
     upload_to_drive(out_path)
     print("Görev başarıyla tamamlandı!")
 
