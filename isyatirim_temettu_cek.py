@@ -246,4 +246,30 @@ def main():
         df_ipo_final = pd.DataFrame(processed_ipo)
         df_ipo_final = df_ipo_final.groupby("Kod", as_index=False)["Arz_Yili"].min()
 
-    print("Tüm veriler yapısal bir veri modeliyle (Left
+    print("Tüm veriler yapısal bir veri modeliyle (Left Join) birleştiriliyor...")
+    
+    df_base = pd.DataFrame({"Kod": tickers})
+    df_base = pd.merge(df_base, df_ipo_final, on="Kod", how="left")
+    
+    if df_div_final.empty and df_verim_final.empty:
+        df_events = pd.DataFrame(columns=["Kod", "Yil", "Tutar", "Temettu_Verim_%"])
+    else:
+        df_events = pd.merge(df_div_final, df_verim_final, on=["Kod", "Yil"], how="outer")
+        
+    df_master = pd.merge(df_base, df_events, on="Kod", how="left")
+    
+    df_master["Tutar"] = df_master["Tutar"].fillna(0.0)
+    df_master["Temettu_Verim_%"] = df_master["Temettu_Verim_%"].fillna(0.0)
+    df_master["Yil"] = df_master["Yil"].fillna("")
+    df_master["Arz_Yili"] = df_master["Arz_Yili"].fillna("")
+    df_master = df_master[df_master["Kod"].str.strip() != ""]
+
+    out_path = "bist_temettu_master.csv"
+    df_master.to_csv(out_path, index=False, encoding="utf-8")
+    
+    print("Drive'a yükleme işlemi başlatılıyor...")
+    upload_to_drive(out_path)
+    print("Görev başarıyla tamamlandı!")
+
+if __name__ == "__main__":
+    main()
