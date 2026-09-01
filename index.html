@@ -207,6 +207,28 @@
       return parseFloat(temiz) || 0;
     }
 
+    // KRİTİK DÜZELTME: "temettü verim" sekmesinden gelen değerleri (virgüllü,
+    // noktalı veya doğrudan sayısal) güvenle çözen fonksiyon. Eskiden
+    // sadece basit bir replace(',', '.') kullanılıyordu ve CSV'nin ayıraç
+    // formatına bağlı olarak boş / hatalı sonuç üretebiliyordu.
+    function verimSayisiCoz(ham) {
+      if (ham === undefined || ham === null || ham === "") return NaN;
+      if (typeof ham === "number") return ham;
+      var s = ham.toString().trim().replace(/%/g, "");
+      if (s === "") return NaN;
+      if (s.indexOf(",") > -1 && s.indexOf(".") > -1) {
+        if (s.lastIndexOf(",") > s.lastIndexOf(".")) {
+          s = s.replace(/\./g, "").replace(",", ".");
+        } else {
+          s = s.replace(/,/g, "");
+        }
+      } else if (s.indexOf(",") > -1) {
+        s = s.replace(",", ".");
+      }
+      var n = parseFloat(s);
+      return isNaN(n) ? NaN : n;
+    }
+
     function yogunlukSinifi(deger) {
       if (deger >= 0.9) return "yog-high";
       if (deger >= 0.7) return "yog-mid";
@@ -294,26 +316,36 @@
           else if (b.indexOf("VERIM") > -1 || b.indexOf("VERİM") > -1) verimIndeks = c;
         }
         
-        if (verimIndeks === -1) verimIndeks = 2; // Varsayılanı geri koyduk
+        if (verimIndeks === -1) {
+          console.warn("Verim sütunu başlıklarda bulunamadı, varsayılan indeks (4) kullanılıyor.", basliklarVerim);
+          verimIndeks = 4;
+        }
         
+        var atlananSatir = 0;
         for (var v = 1; v < verimVerisi.length; v++) {
           var kod = verimVerisi[v][kodIndeks];
           var tarih = verimVerisi[v][yilIndeks];
           var rawVerim = verimVerisi[v][verimIndeks];
-          if (kod && tarih && rawVerim !== undefined && rawVerim !== "") {
-            var yil = "";
-            var tStr = tarih.toString().trim();
-            var yMatch = tStr.match(/(20\d\d|19\d\d)/);
-            if (yMatch) yil = yMatch[1];
-            if (yil) {
-              var anahtar = kod.toString().toUpperCase() + "_" + yil;
-              var sVerim = rawVerim.toString().replace(/%/g, '').replace(',', '.');
-              var sayisalVerim = parseFloat(sVerim) || 0;
-              if (verimMap[anahtar]) { verimMap[anahtar] += sayisalVerim; }
+
+          if (!kod || !tarih) { atlananSatir++; continue; }
+
+          var yil = "";
+          var tStr = tarih.toString().trim();
+          var yMatch = tStr.match(/(20\d\d|19\d\d)/);
+          if (yMatch) yil = yMatch[1];
+
+          if (yil) {
+            var sayisalVerim = verimSayisiCoz(rawVerim);
+            if (!isNaN(sayisalVerim)) {
+              var anahtar = kod.toString().trim().toUpperCase() + "_" + yil;
+              if (verimMap[anahtar] !== undefined) { verimMap[anahtar] += sayisalVerim; }
               else { verimMap[anahtar] = sayisalVerim; }
             }
           }
         }
+        console.log("Verim eşleşti: " + Object.keys(verimMap).length + " anahtar, atlanan satır: " + atlananSatir);
+      } else {
+        console.warn("verimTablo boş geldi — 'temettü verim' sekmesi dolu mu kontrol edin.");
       }
 
       var orjBasliklarTumu = veri[0];
