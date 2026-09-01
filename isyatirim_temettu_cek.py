@@ -26,7 +26,9 @@ HEADERS = {
 REQUEST_DELAY = 0.5
 RETRY_COUNT = 3
 RETRY_WAIT = 2.0
-DIVIDEND_COLUMN_HINTS = ["Dağ. Tarihi", "Temettü Verim", "Hisse Başı"]
+
+# GÜÇLENDİRİLDİ: İş Yatırım isim değiştirse bile tabloyu bulacak anahtar kelimeler
+DIVIDEND_COLUMN_HINTS = ["tarih", "verim", "hisse başı", "nakit", "temettü"]
 
 def get_session():
     s = requests.Session()
@@ -44,9 +46,9 @@ def fetch_with_retry(session, url, method="GET", json_payload=None):
             if resp.status_code == 200:
                 return resp.text
             else:
-                print(f"Uyarı: HTTP {resp.status_code} alındı. (Deneme {attempt}) - URL: {url[:60]}")
+                print(f"Uyarı: HTTP {resp.status_code} alındı.")
         except requests.RequestException as e:
-            print(f"Bağlantı Hatası (Deneme {attempt}): {e}")
+            print(f"Bağlantı Hatası: {e}")
         time.sleep(RETRY_WAIT * attempt)
     return None
 
@@ -68,32 +70,25 @@ def fetch_api_data(session, tanim_kodu):
 def get_all_tickers(session):
     html = fetch_with_retry(session, LIST_URL)
     tickers = set()
-    
     if html:
         pairs = re.findall(r'>([A-Z][A-Z0-9]{1,5})\s*\|\s*([^<\n]{2,60})<', html)
         for code, _name in pairs:
-            code = code.strip()
-            if re.fullmatch(r"[A-Z][A-Z0-9]{1,5}", code):
-                tickers.add(code)
+            if re.fullmatch(r"[A-Z][A-Z0-9]{1,5}", code.strip()):
+                tickers.add(code.strip())
     
     if not tickers:
-        print("HTML'den hisse listesi alınamadı. B Planı: API üzerinden deneniyor...")
         api_data = fetch_api_data(session, "04")
         for satir in api_data:
             kod = satir.get("SHHE_HS_KOD") or satir.get("HISSE_KODU") or ""
             if not kod:
                 for k, v in satir.items():
-                    if "KOD" in k.upper():
-                        kod = v
-                        break
+                    if "KOD" in k.upper(): kod = v; break
             if kod and isinstance(kod, str):
                 kod = kod.strip().upper()
                 if re.fullmatch(r"[A-Z][A-Z0-9]{1,5}", kod):
                     tickers.add(kod)
                     
-    if not tickers:
-        raise RuntimeError("Hisse listesi alınamadı.")
-        
+    if not tickers: raise RuntimeError("Hisse listesi alınamadı.")
     return sorted(list(tickers))
 
 def find_dividend_table(html):
@@ -102,7 +97,7 @@ def find_dividend_table(html):
     except ValueError:
         return None
     for tbl in tables:
-        cols = [str(c) for c in tbl.columns]
+        cols = [str(c).lower() for c in tbl.columns]
         joined = " ".join(cols)
         hits = sum(1 for hint in DIVIDEND_COLUMN_HINTS if hint in joined)
         if hits >= 2:
@@ -112,11 +107,13 @@ def find_dividend_table(html):
 def clean_dividend_table(df, kod):
     rename_map = {}
     for c in df.columns:
-        c_str = str(c)
-        if "Dağ. Tarihi" in c_str: rename_map[c] = "Dagitim_Tarihi"
-        elif "Temettü Verim" in c_str: rename_map[c] = "Temettu_Verim_%"
+        c_str = str(c).lower().strip()
+        # GÜÇLENDİRİLDİ: Sütun isimleri tam eşleşmese de yakalayacak
+        if "tarih" in c_str: rename_map[c] = "Dagitim_Tarihi"
+        elif "verim" in c_str: rename_map[c] = "Temettu_Verim_%"
+        
     df = df.rename(columns=rename_map)
-    keep_cols = [c for c in ["Dagitim_Tarihi", "Temettu_Verim_%"] if c in df.columns]
+    keep_cols = [c for c in df.columns if c in ["Dagitim_Tarihi", "Temettu_Verim_%"]]
     df = df[keep_cols].copy()
     if "Dagitim_Tarihi" in df.columns:
         df = df[df["Dagitim_Tarihi"].notna()]
@@ -128,8 +125,7 @@ def clean_dividend_table(df, kod):
 def parse_turkce_sayi(val):
     if pd.isna(val) or not val: return 0.0
     if isinstance(val, (int, float)): return float(val)
-    str_val = str(val).strip().replace(".", "").replace(",", ".")
-    try: return float(str_val)
+    try: return float(str(val).strip().replace(".", "").replace(",", "."))
     except ValueError: return 0.0
 
 def get_mantiki_yil(val):
@@ -137,23 +133,20 @@ def get_mantiki_yil(val):
     str_val = str(val).strip()
     m = re.search(r'Date\(([-0-9]+)\)', str_val)
     if m:
-        ms = int(m.group(1))
-        try: return str(time.gmtime(ms/1000).tm_year)
-        except Exception: return None
+        try: return str(time.gmtime(int(m.group(1))/1000).tm_year)
+        except Exception: pass
     year_match = re.search(r'\b(19[8-9]\d|20\d\d)\b', str_val)
     if year_match: return year_match.group(1)
     return None
 
 def parse_yield(val):
     if pd.isna(val): return 0.0
-    s = str(val).strip()
+    # GÜÇLENDİRİLDİ: Eğer sitede % işareti varsa onu temizleyip sayıyı kurtarır
+    s = str(val).strip().replace('%', '').replace('₺', '')
     if not s: return 0.0
-    if ',' in s:
-        s = s.replace('.', '').replace(',', '.')
-    try:
-        return float(s)
-    except ValueError:
-        return 0.0
+    if ',' in s: s = s.replace('.', '').replace(',', '.')
+    try: return float(s)
+    except ValueError: return 0.0
 
 def upload_to_drive(filename):
     service_account_info = json.loads(os.environ['GCP_SERVICE_ACCOUNT_JSON'])
@@ -163,15 +156,13 @@ def upload_to_drive(filename):
     )
     service = build('drive', 'v3', credentials=credentials)
     query = f"'{folder_id}' in parents and name='{filename}' and trashed=false"
-    results = service.files().list(q=query, fields="files(id)").execute()
-    items = results.get('files', [])
+    items = service.files().list(q=query, fields="files(id)").execute().get('files', [])
     media = MediaFileUpload(filename, mimetype='text/csv', resumable=True)
     if items:
         service.files().update(fileId=items[0]['id'], media_body=media).execute()
         print(f"{filename} Drive'da güncellendi.")
     else:
-        file_metadata = {'name': filename, 'parents': [folder_id]}
-        service.files().create(body=file_metadata, media_body=media, fields='id').execute()
+        service.files().create(body={'name': filename, 'parents': [folder_id]}, media_body=media, fields='id').execute()
         print(f"{filename} Drive'a yeni dosya olarak yüklendi.")
 
 def main():
@@ -247,7 +238,6 @@ def main():
         df_ipo_final = df_ipo_final.groupby("Kod", as_index=False)["Arz_Yili"].min()
 
     print("Tüm veriler yapısal bir veri modeliyle (Left Join) birleştiriliyor...")
-    
     df_base = pd.DataFrame({"Kod": tickers})
     df_base = pd.merge(df_base, df_ipo_final, on="Kod", how="left")
     
@@ -267,7 +257,6 @@ def main():
     out_path = "bist_temettu_master.csv"
     df_master.to_csv(out_path, index=False, encoding="utf-8")
     
-    print("Drive'a yükleme işlemi başlatılıyor...")
     upload_to_drive(out_path)
     print("Görev başarıyla tamamlandı!")
 
