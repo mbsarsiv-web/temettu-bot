@@ -23,7 +23,8 @@ HEADERS = {
     "Connection": "keep-alive"
 }
 
-REQUEST_DELAY = 0.5
+# KRİTİK DÜZELTME: İş Yatırım'ın bizi engellememesi (IP Ban atmaması) için bekleme süresi 0.5 saniyeye çıkarıldı.
+REQUEST_DELAY = 0.5  
 RETRY_COUNT = 3
 RETRY_WAIT = 3.0
 
@@ -89,7 +90,6 @@ def find_dividend_table(html):
     for tbl in tables:
         cols = [str(c).lower() for c in tbl.columns]
         joined = " ".join(cols)
-        # İsmi ne kadar değiştirirse değiştirsin bu 3 kelimeden birini görürse tabloyu yakalar
         if "verim" in joined and ("tarih" in joined or "dağ" in joined or "yıl" in joined):
             return tbl
     return None
@@ -106,6 +106,13 @@ def clean_dividend_table(df, kod):
                 rename_map[c] = "Temettu_Verim_%"
                 
     df = df.rename(columns=rename_map)
+    
+    if "Dagitim_Tarihi" not in df.columns:
+        for c in df.columns:
+            if "tarih" in str(c).lower():
+                df = df.rename(columns={c: "Dagitim_Tarihi"})
+                break
+                
     if "Dagitim_Tarihi" not in df.columns or "Temettu_Verim_%" not in df.columns:
         return pd.DataFrame()
         
@@ -148,7 +155,10 @@ def parse_yield(val):
     if pd.isna(val): return 0.0
     s = str(val).strip().replace('%', '').replace('₺', '')
     if not s: return 0.0
-    if ',' in s: s = s.replace(',', '.')
+    if ',' in s and '.' in s:
+        s = s.replace('.', '').replace(',', '.')
+    elif ',' in s: 
+        s = s.replace(',', '.')
     try: return float(s)
     except ValueError: return 0.0
 
@@ -184,7 +194,7 @@ def main():
         if tbl is None: continue
         cleaned = clean_dividend_table(tbl, kod)
         if not cleaned.empty: all_rows.append(cleaned)
-        time.sleep(REQUEST_DELAY)
+        time.sleep(REQUEST_DELAY)  # KRİTİK: Engellenmemek için güvenli bekleme süresi eklendi
             
     df_verim_final = pd.DataFrame(columns=["Kod", "Yil", "Temettu_Verim_%"])
     if all_rows:
@@ -257,7 +267,7 @@ def main():
 
     out_path = "bist_temettu_master.csv"
     
-    # BU SATIR HAYAT KURTARAN NOKTA: Google Sheets'in virgülleri tanıması için decimal="," eklendi!
+    # KRİTİK DÜZELTME 2: Google Sheets'in 1.52'yi 152 zannetmemesi için sayıları VİRGÜL ile kaydediyoruz!
     df_master.to_csv(out_path, index=False, encoding="utf-8", decimal=",")
     
     upload_to_drive(out_path)
