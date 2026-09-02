@@ -23,7 +23,6 @@ HEADERS = {
     "Connection": "keep-alive"
 }
 
-# KRİTİK DÜZELTME: İş Yatırım'ın bizi engellememesi (IP Ban atmaması) için bekleme süresi 0.5 saniyeye çıkarıldı.
 REQUEST_DELAY = 0.5  
 RETRY_COUNT = 3
 RETRY_WAIT = 3.0
@@ -87,15 +86,6 @@ def find_dividend_table(html):
         tables = pd.read_html(StringIO(html))
     except Exception:
         return None
-    # KRİTİK DÜZELTME 10: Sayfada "Temettü Verim" kelimesini içeren İKİ tablo
-    # var: "Temettü Tahmin" (gelecek tahmini, çoklu yıl tek hücrede birleşik
-    # - örn "4,74   7,44") ve "Temettü Gerçekleşen/Planlanan" (asıl istediğimiz,
-    # tek değerli temiz geçmiş veri). Eski kod "dağ" substring'i yüzünden
-    # "Dağıtma Oranı" içeren TAHMİN tablosunu da yanlışlıkla eşleştirebiliyordu.
-    # Artık: "tarih" kelimesi ZORUNLU (sadece "dağ" yetmez) VE "kapanış" (tahmin
-    # tablosuna özgü "Kapanış Fiyat" sütunu) İÇERMEYEN tabloları arıyoruz;
-    # birden fazla aday varsa en çok satırlı olanı (gerçek geçmiş veri,
-    # tahminden çok daha uzun) seçiyoruz.
     adaylar = []
     for tbl in tables:
         cols = [str(c).lower() for c in tbl.columns]
@@ -179,11 +169,6 @@ def parse_yield(val):
         deger = float(s)
     except ValueError:
         return 0.0
-    # KRİTİK DÜZELTME 10 (devamı): Gerçek bir yıllık temettü verimi pratikte
-    # asla %100'ü geçmez. Yanlış tablo/hücre birleşmesi gibi bir ayrıştırma
-    # hatası olursa (örn. "4,74 7,44" gibi birleşik hücreler), sonuç genelde
-    # anormal derecede büyük çıkar. Böyle değerleri 0 kabul ederek çöp veriyi
-    # panele hiç taşımıyoruz.
     if deger > 100:
         return 0.0
     return deger
@@ -220,7 +205,7 @@ def main():
         if tbl is None: continue
         cleaned = clean_dividend_table(tbl, kod)
         if not cleaned.empty: all_rows.append(cleaned)
-        time.sleep(REQUEST_DELAY)  # KRİTİK: Engellenmemek için güvenli bekleme süresi eklendi
+        time.sleep(REQUEST_DELAY)
             
     df_verim_final = pd.DataFrame(columns=["Kod", "Yil", "Temettu_Verim_%"])
     if all_rows:
@@ -293,13 +278,8 @@ def main():
 
     out_path = "bist_temettu_master.csv"
 
-    # KRİTİK DÜZELTME 3: Alan ayıracını (sep) noktalı virgüle (;) çevirdik.
-    # Önceki halde hem alan ayıracı hem ondalık ayıracı "," idi; pandas
-    # ondalıklı hücreleri tırnak içine alarak koruyordu ama bu, Apps Script /
-    # Drive tarafındaki farklı CSV yorumlayıcılarında (locale'e bağlı olarak)
-    # hücrelerin yanlış bölünmesine veya boş okunmasına yol açıyordu.
-    # sep=";" ile alan ve ondalık ayıracı artık asla çakışmıyor.
-    df_master.to_csv(out_path, index=False, encoding="utf-8", decimal=",", sep=";")
+    # KRİTİK DÜZELTME: decimal="." yapıldı
+    df_master.to_csv(out_path, index=False, encoding="utf-8", decimal=".", sep=";")
     
     upload_to_drive(out_path)
     print("Görev başarıyla tamamlandı!")
