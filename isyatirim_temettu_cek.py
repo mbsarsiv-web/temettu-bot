@@ -32,13 +32,17 @@ def get_session():
     s.headers.update(HEADERS)
     return s
 
-def fetch_with_retry(session, url, method="GET", json_payload=None):
+def fetch_with_retry(session, url, method="GET", json_payload=None, extra_headers=None):
     for attempt in range(1, RETRY_COUNT + 1):
         try:
+            req_headers = session.headers.copy()
+            if extra_headers:
+                req_headers.update(extra_headers)
+                
             if method == "POST":
-                resp = session.post(url, json=json_payload, timeout=30)
+                resp = session.post(url, json=json_payload, headers=req_headers, timeout=30)
             else:
-                resp = session.get(url, timeout=30)
+                resp = session.get(url, headers=req_headers, timeout=30)
             if resp.status_code == 200:
                 return resp.text
         except Exception:
@@ -48,7 +52,13 @@ def fetch_with_retry(session, url, method="GET", json_payload=None):
 
 def fetch_api_data(session, tanim_kodu):
     payload = {"hisseKodu": "", "hisseTanimKodu": tanim_kodu, "yil": 0, "zaman": "HEPSI", "endeksKodu": "09", "sektorKodu": ""}
-    res_text = fetch_with_retry(session, API_URL, method="POST", json_payload=payload)
+    # API'nin boş dönmesini engelleyen kritik kimlik başlıkları:
+    api_headers = {
+        "Accept": "application/json",
+        "X-Requested-With": "XMLHttpRequest",
+        "Content-Type": "application/json; charset=utf-8"
+    }
+    res_text = fetch_with_retry(session, API_URL, method="POST", json_payload=payload, extra_headers=api_headers)
     if not res_text: return []
     try:
         js = json.loads(res_text)
@@ -83,17 +93,17 @@ def get_all_tickers(session):
 
 def find_dividend_table(html):
     try:
-        # Virgül ve nokta karmaşasını pandas seviyesinde kökten çözüyoruz.
-        tables = pd.read_html(StringIO(html), decimal=',', thousands='.')
+        tables = pd.read_html(StringIO(html)) # HTML parser çökertici parametreler silindi.
     except Exception:
         return None
     adaylar = []
     for tbl in tables:
         cols = [str(c).lower() for c in tbl.columns]
         joined = " ".join(cols)
-        # Sadece "verim" ve "tarih" kelimelerine odaklanıyoruz. 
-        # Kapanış kısıtlaması kaldırıldı, veri kaçması imkansızlaştırıldı.
-        if "verim" in joined and "tarih" in joined:
+        verim_var = "verim" in joined
+        tarih_var = "tarih" in joined
+        tahmin_tablosu_mu = "kapanış" in joined or "kapanis" in joined
+        if verim_var and tarih_var and not tahmin_tablosu_mu:
             adaylar.append(tbl)
             
     if not adaylar:
@@ -174,7 +184,7 @@ def parse_yield(val):
     elif ',' in s: 
         s = s.replace(',', '.')
     try:
-        # > 100 sınırı çöpe atıldı. Veri neyse o.
+        # > 100 sınırı çöpe atıldı. Gerçek değer neyse o!
         return float(s)
     except ValueError:
         return ""
@@ -221,7 +231,6 @@ def main():
             df_scraped = df_scraped.dropna(subset=["Yil"])
             if "Temettu_Verim_%" in df_scraped.columns:
                 df_scraped["Temettu_Verim_%"] = df_scraped["Temettu_Verim_%"].apply(parse_yield)
-                # Sadece geçerli sayılarda toplama yapar.
                 df_verim_final = df_scraped[pd.to_numeric(df_scraped['Temettu_Verim_%'], errors='coerce').notnull()].copy()
                 df_verim_final["Temettu_Verim_%"] = df_verim_final["Temettu_Verim_%"].astype(float)
                 df_verim_final = df_verim_final.groupby(["Kod", "Yil"], as_index=False)["Temettu_Verim_%"].sum()
@@ -280,7 +289,6 @@ def main():
     df_master = pd.merge(df_base, df_events, on="Kod", how="left")
     
     df_master["Tutar"] = df_master["Tutar"].fillna(0.0)
-    # Temettü verimlerini yalan yere 0.0'a TAMAMLAMIYORUZ. Boş ise boş, dolu ise dolu kalır.
     df_master["Temettu_Verim_%"] = df_master["Temettu_Verim_%"].fillna("")
     df_master["Yil"] = df_master["Yil"].fillna("")
     df_master["Arz_Yili"] = df_master["Arz_Yili"].fillna("")
