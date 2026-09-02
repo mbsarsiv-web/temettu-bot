@@ -686,7 +686,13 @@
 
     var GAS_API_URL = "https://script.google.com/macros/s/AKfycby6iVQLzx9Daf-tVCf3dSSg1PW2CA8CdZzVQ4U7_OS4ILEQgOoQqVb-OhzypXEPdVXm/exec";
 
-    fetch(GAS_API_URL)
+    // KRİTİK DÜZELTME 6: Tarayıcı/ağ katmanı bazen doGet() GET isteğinin
+    // sonucunu önbelleğe alıp eski (küçük/eksik) veriyi tekrar sunabiliyordu.
+    // Her istekte benzersiz bir sorgu parametresi ekleyip cache:'no-store'
+    // kullanarak bu isteğin HER ZAMAN taze veri getirmesini garanti ediyoruz.
+    var onbellekKirici = "?t=" + new Date().getTime();
+
+    fetch(GAS_API_URL + onbellekKirici, { cache: "no-store" })
       .then(function(response) {
         if (!response.ok) throw new Error("Ağ hatası veya geçersiz yanıt");
         return response.json();
