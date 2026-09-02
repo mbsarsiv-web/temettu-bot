@@ -52,7 +52,6 @@ def fetch_with_retry(session, url, method="GET", json_payload=None, extra_header
 
 def fetch_api_data(session, tanim_kodu):
     payload = {"hisseKodu": "", "hisseTanimKodu": tanim_kodu, "yil": 0, "zaman": "HEPSI", "endeksKodu": "09", "sektorKodu": ""}
-    # API'nin boş dönmesini engelleyen kritik kimlik başlıkları:
     api_headers = {
         "Accept": "application/json",
         "X-Requested-With": "XMLHttpRequest",
@@ -93,17 +92,16 @@ def get_all_tickers(session):
 
 def find_dividend_table(html):
     try:
-        tables = pd.read_html(StringIO(html)) # HTML parser çökertici parametreler silindi.
+        # KESİN DÜZELTME: Pandas'ın virgülleri silip (1,94 -> 194) yapmasını engellemek için 
+        # thousands='_' ataması yapıldı. Artık 1,94'e dokunamayacak, saf metin olarak bırakacak!
+        tables = pd.read_html(StringIO(html), thousands='_', decimal='.')
     except Exception:
         return None
     adaylar = []
     for tbl in tables:
         cols = [str(c).lower() for c in tbl.columns]
         joined = " ".join(cols)
-        verim_var = "verim" in joined
-        tarih_var = "tarih" in joined
-        tahmin_tablosu_mu = "kapanış" in joined or "kapanis" in joined
-        if verim_var and tarih_var and not tahmin_tablosu_mu:
+        if "verim" in joined and "tarih" in joined:
             adaylar.append(tbl)
             
     if not adaylar:
@@ -184,7 +182,6 @@ def parse_yield(val):
     elif ',' in s: 
         s = s.replace(',', '.')
     try:
-        # > 100 sınırı çöpe atıldı. Gerçek değer neyse o!
         return float(s)
     except ValueError:
         return ""
