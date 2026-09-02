@@ -311,9 +311,9 @@
         var kodIndeks = 0, yilIndeks = 1, verimIndeks = -1;
         for (var c = 0; c < basliklarVerim.length; c++) {
           var b = basliklarVerim[c].toString().toUpperCase().trim();
-          if (b === "KOD") kodIndeks = c;
-          else if (b === "YIL" || b === "TARIH" || b === "TARİH") yilIndeks = c;
-          else if (b.indexOf("VERIM") > -1 || b.indexOf("VERİM") > -1) verimIndeks = c;
+          if (b === "KOD" && kodIndeks === 0) kodIndeks = c;
+          else if ((b === "YIL" || b === "TARIH" || b === "TARİH") && yilIndeks === 1) yilIndeks = c;
+          else if (verimIndeks === -1 && (b.indexOf("VERIM") > -1 || b.indexOf("VERİM") > -1) && basliklarVerim[c].toString().trim() !== "") verimIndeks = c;
         }
         
         if (verimIndeks === -1) {
