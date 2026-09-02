@@ -24,7 +24,7 @@ HEADERS = {
 }
 
 REQUEST_DELAY = 0.5  
-RETRY_COUNT = 3
+RETRY_COUNT = 5
 RETRY_WAIT = 3.0
 
 def get_session():
@@ -36,9 +36,9 @@ def fetch_with_retry(session, url, method="GET", json_payload=None):
     for attempt in range(1, RETRY_COUNT + 1):
         try:
             if method == "POST":
-                resp = session.post(url, json=json_payload, timeout=25)
+                resp = session.post(url, json=json_payload, timeout=30)
             else:
-                resp = session.get(url, timeout=25)
+                resp = session.get(url, timeout=30)
             if resp.status_code == 200:
                 return resp.text
         except Exception:
@@ -83,24 +83,29 @@ def get_all_tickers(session):
 
 def find_dividend_table(html):
     try:
-        tables = pd.read_html(StringIO(html))
+        # Virgül ve nokta karmaşasını pandas seviyesinde kökten çözüyoruz.
+        tables = pd.read_html(StringIO(html), decimal=',', thousands='.')
     except Exception:
         return None
     adaylar = []
     for tbl in tables:
         cols = [str(c).lower() for c in tbl.columns]
         joined = " ".join(cols)
-        verim_var = "verim" in joined
-        tarih_var = "tarih" in joined
-        tahmin_tablosu_mu = "kapanış" in joined or "kapanis" in joined
-        if verim_var and tarih_var and not tahmin_tablosu_mu:
+        # Sadece "verim" ve "tarih" kelimelerine odaklanıyoruz. 
+        # Kapanış kısıtlaması kaldırıldı, veri kaçması imkansızlaştırıldı.
+        if "verim" in joined and "tarih" in joined:
             adaylar.append(tbl)
+            
     if not adaylar:
         return None
+        
     adaylar.sort(key=lambda t: len(t), reverse=True)
     return adaylar[0]
 
 def clean_dividend_table(df, kod):
+    if isinstance(df.columns, pd.MultiIndex):
+        df.columns = ['_'.join(map(str, col)).strip() for col in df.columns]
+        
     rename_map = {}
     for c in df.columns:
         c_str = str(c).lower().strip()
@@ -158,20 +163,21 @@ def get_mantiki_yil(val):
     return None
 
 def parse_yield(val):
-    if pd.isna(val): return 0.0
-    s = str(val).strip().replace('%', '').replace('₺', '')
-    if not s: return 0.0
+    if pd.isna(val): return ""
+    s = str(val).strip().replace('%', '').replace('₺', '').replace('TL', '')
+    if not s or s == '-': return ""
     if ',' in s and '.' in s:
-        s = s.replace('.', '').replace(',', '.')
+        if s.rfind(',') > s.rfind('.'):
+            s = s.replace('.', '').replace(',', '.')
+        else:
+            s = s.replace(',', '')
     elif ',' in s: 
         s = s.replace(',', '.')
     try:
-        deger = float(s)
+        # > 100 sınırı çöpe atıldı. Veri neyse o.
+        return float(s)
     except ValueError:
-        return 0.0
-    if deger > 100:
-        return 0.0
-    return deger
+        return ""
 
 def upload_to_drive(filename):
     service_account_info = json.loads(os.environ['GCP_SERVICE_ACCOUNT_JSON'])
@@ -215,7 +221,10 @@ def main():
             df_scraped = df_scraped.dropna(subset=["Yil"])
             if "Temettu_Verim_%" in df_scraped.columns:
                 df_scraped["Temettu_Verim_%"] = df_scraped["Temettu_Verim_%"].apply(parse_yield)
-                df_verim_final = df_scraped.groupby(["Kod", "Yil"], as_index=False)["Temettu_Verim_%"].sum()
+                # Sadece geçerli sayılarda toplama yapar.
+                df_verim_final = df_scraped[pd.to_numeric(df_scraped['Temettu_Verim_%'], errors='coerce').notnull()].copy()
+                df_verim_final["Temettu_Verim_%"] = df_verim_final["Temettu_Verim_%"].astype(float)
+                df_verim_final = df_verim_final.groupby(["Kod", "Yil"], as_index=False)["Temettu_Verim_%"].sum()
 
     raw_api_temettu = fetch_api_data(session, "04")
     processed_dividends = []
@@ -271,16 +280,14 @@ def main():
     df_master = pd.merge(df_base, df_events, on="Kod", how="left")
     
     df_master["Tutar"] = df_master["Tutar"].fillna(0.0)
-    df_master["Temettu_Verim_%"] = df_master["Temettu_Verim_%"].fillna(0.0)
+    # Temettü verimlerini yalan yere 0.0'a TAMAMLAMIYORUZ. Boş ise boş, dolu ise dolu kalır.
+    df_master["Temettu_Verim_%"] = df_master["Temettu_Verim_%"].fillna("")
     df_master["Yil"] = df_master["Yil"].fillna("")
     df_master["Arz_Yili"] = df_master["Arz_Yili"].fillna("")
     df_master = df_master[df_master["Kod"].str.strip() != ""]
 
     out_path = "bist_temettu_master.csv"
-
-    # KRİTİK DÜZELTME: decimal="." yapıldı
     df_master.to_csv(out_path, index=False, encoding="utf-8", decimal=".", sep=";")
-    
     upload_to_drive(out_path)
     print("Görev başarıyla tamamlandı!")
 
