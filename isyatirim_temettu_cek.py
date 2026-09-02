@@ -87,12 +87,28 @@ def find_dividend_table(html):
         tables = pd.read_html(StringIO(html))
     except Exception:
         return None
+    # KRİTİK DÜZELTME 10: Sayfada "Temettü Verim" kelimesini içeren İKİ tablo
+    # var: "Temettü Tahmin" (gelecek tahmini, çoklu yıl tek hücrede birleşik
+    # - örn "4,74   7,44") ve "Temettü Gerçekleşen/Planlanan" (asıl istediğimiz,
+    # tek değerli temiz geçmiş veri). Eski kod "dağ" substring'i yüzünden
+    # "Dağıtma Oranı" içeren TAHMİN tablosunu da yanlışlıkla eşleştirebiliyordu.
+    # Artık: "tarih" kelimesi ZORUNLU (sadece "dağ" yetmez) VE "kapanış" (tahmin
+    # tablosuna özgü "Kapanış Fiyat" sütunu) İÇERMEYEN tabloları arıyoruz;
+    # birden fazla aday varsa en çok satırlı olanı (gerçek geçmiş veri,
+    # tahminden çok daha uzun) seçiyoruz.
+    adaylar = []
     for tbl in tables:
         cols = [str(c).lower() for c in tbl.columns]
         joined = " ".join(cols)
-        if "verim" in joined and ("tarih" in joined or "dağ" in joined or "yıl" in joined):
-            return tbl
-    return None
+        verim_var = "verim" in joined
+        tarih_var = "tarih" in joined
+        tahmin_tablosu_mu = "kapanış" in joined or "kapanis" in joined
+        if verim_var and tarih_var and not tahmin_tablosu_mu:
+            adaylar.append(tbl)
+    if not adaylar:
+        return None
+    adaylar.sort(key=lambda t: len(t), reverse=True)
+    return adaylar[0]
 
 def clean_dividend_table(df, kod):
     rename_map = {}
@@ -159,8 +175,18 @@ def parse_yield(val):
         s = s.replace('.', '').replace(',', '.')
     elif ',' in s: 
         s = s.replace(',', '.')
-    try: return float(s)
-    except ValueError: return 0.0
+    try:
+        deger = float(s)
+    except ValueError:
+        return 0.0
+    # KRİTİK DÜZELTME 10 (devamı): Gerçek bir yıllık temettü verimi pratikte
+    # asla %100'ü geçmez. Yanlış tablo/hücre birleşmesi gibi bir ayrıştırma
+    # hatası olursa (örn. "4,74 7,44" gibi birleşik hücreler), sonuç genelde
+    # anormal derecede büyük çıkar. Böyle değerleri 0 kabul ederek çöp veriyi
+    # panele hiç taşımıyoruz.
+    if deger > 100:
+        return 0.0
+    return deger
 
 def upload_to_drive(filename):
     service_account_info = json.loads(os.environ['GCP_SERVICE_ACCOUNT_JSON'])
