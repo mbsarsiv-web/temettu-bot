@@ -19,15 +19,17 @@
     
     /* Kayan Yazı (Ticker) Stilleri */
     .ticker-wrap { background: #ffffff; margin: 6px 10px 0 10px; border-radius: 6px; box-shadow: 0 1px 4px rgba(0,0,0,0.05); overflow: hidden; height: 26px; display: flex; align-items: center; border: 1px solid #e0e0e0; flex-shrink: 0; }
-    .ticker-move { display: inline-block; white-space: nowrap; padding-left: 20px; animation: tickerScroll 85s linear infinite; font-size: 12px; color: #3c4043; }
+    .ticker-move { display: inline-block; white-space: nowrap; padding-left: 20px; animation: tickerScroll 100s linear infinite; font-size: 12px; color: #3c4043; }
     .ticker-wrap:hover .ticker-move { animation-play-state: paused; }
     @keyframes tickerScroll { 0% { transform: translate3d(0, 0, 0); } 100% { transform: translate3d(-50%, 0, 0); } }
     .ticker-title { background: #1a73e8; color: #ffffff; font-weight: 700; padding: 2px 8px; border-radius: 4px; margin-right: 10px; font-size: 11px; letter-spacing: 0.4px; display: inline-block; }
     .ticker-title.five-yr { background: #0f9d58; margin-left: 35px; }
+    .ticker-title.streak-yr { background: #e37400; margin-left: 35px; }
     .ticker-item { display: inline-block; margin-right: 16px; font-weight: 500; }
     .ticker-rank { color: #5f6368; font-weight: 700; margin-right: 2px; }
     .ticker-code { color: #202124; font-weight: 700; }
     .ticker-val { color: #0f9d58; font-weight: 700; margin-left: 3px; }
+    .ticker-streak-val { color: #e37400; font-weight: 700; margin-left: 3px; }
 
     .icon-btn { border: 1px solid #dadce0; background: #fff; border-radius: 6px; padding: 6px 12px; font-size: 12px; color: #3c4043; cursor: pointer; font-family: 'Google Sans Text'; display: flex; align-items: center; gap: 5px; transition: background 0.2s; }
     .icon-btn:hover { background: #f1f3f4; }
@@ -317,24 +319,45 @@
 
       var top10 = sampiyonAdaylari.slice().filter(function(x) { return x.toplam10 > 0; });
       top10.sort(function(a, b) { return b.toplam10 - a.toplam10; });
-      top10 = top10.slice(0, 20);
+      top10 = top10.slice(0, 15);
 
       var top5 = sampiyonAdaylari.slice().filter(function(x) { return x.toplam5 > 0; });
       top5.sort(function(a, b) { return b.toplam5 - a.toplam5; });
-      top5 = top5.slice(0, 20);
+      top5 = top5.slice(0, 15);
 
-      if (top10.length === 0 && top5.length === 0) return;
+      var topArtis = sampiyonAdaylari.slice().filter(function(x) { return x.artisSerisi >= 2; });
+      topArtis.sort(function(a, b) {
+        if (b.artisSerisi !== a.artisSerisi) return b.artisSerisi - a.artisSerisi;
+        if (Math.abs(b.ortalamaVerim - a.ortalamaVerim) > 0.0001) return b.ortalamaVerim - a.ortalamaVerim;
+        return a.hisse.localeCompare(b.hisse);
+      });
+      topArtis = topArtis.slice(0, 15);
 
-      var parcaHtml = '<span class="ticker-title">🏆 SON 10 YIL TEMETTÜ ŞAMPİYONLARI</span>';
-      for (var i = 0; i < top10.length; i++) {
-        var deger10 = top10[i].toplam10.toFixed(2).replace('.', ',');
-        parcaHtml += '<span class="ticker-item"><span class="ticker-rank">' + (i + 1) + '.</span> <span class="ticker-code">' + top10[i].hisse + '</span><span class="ticker-val">(%' + deger10 + ')</span></span>';
+      if (top10.length === 0 && top5.length === 0 && topArtis.length === 0) return;
+
+      var parcaHtml = '';
+
+      if (top10.length > 0) {
+        parcaHtml += '<span class="ticker-title">🏆 SON 10 YIL TEMETTÜ ŞAMPİYONLARI</span>';
+        for (var i = 0; i < top10.length; i++) {
+          var deger10 = top10[i].toplam10.toFixed(2).replace('.', ',');
+          parcaHtml += '<span class="ticker-item"><span class="ticker-rank">' + (i + 1) + '.</span> <span class="ticker-code">' + top10[i].hisse + '</span><span class="ticker-val">(%' + deger10 + ')</span></span>';
+        }
       }
 
-      parcaHtml += '<span class="ticker-title five-yr">⭐ SON 5 YIL TEMETTÜ ŞAMPİYONLARI</span>';
-      for (var j = 0; j < top5.length; j++) {
-        var deger5 = top5[j].toplam5.toFixed(2).replace('.', ',');
-        parcaHtml += '<span class="ticker-item"><span class="ticker-rank">' + (j + 1) + '.</span> <span class="ticker-code">' + top5[j].hisse + '</span><span class="ticker-val">(%' + deger5 + ')</span></span>';
+      if (top5.length > 0) {
+        parcaHtml += '<span class="ticker-title five-yr">⭐ SON 5 YIL TEMETTÜ ŞAMPİYONLARI</span>';
+        for (var j = 0; j < top5.length; j++) {
+          var deger5 = top5[j].toplam5.toFixed(2).replace('.', ',');
+          parcaHtml += '<span class="ticker-item"><span class="ticker-rank">' + (j + 1) + '.</span> <span class="ticker-code">' + top5[j].hisse + '</span><span class="ticker-val">(%' + deger5 + ')</span></span>';
+        }
+      }
+
+      if (topArtis.length > 0) {
+        parcaHtml += '<span class="ticker-title streak-yr">📈 DÜZENLİ TEMETTÜ ARTIRANLAR</span>';
+        for (var k = 0; k < topArtis.length; k++) {
+          parcaHtml += '<span class="ticker-item"><span class="ticker-rank">' + (k + 1) + '.</span> <span class="ticker-code">' + topArtis[k].hisse + '</span><span class="ticker-streak-val">(' + topArtis[k].artisSerisi + ' Yıl)</span></span>';
+        }
       }
 
       var bosluk = '<span style="display:inline-block; width: 50px;"></span>';
@@ -514,7 +537,6 @@
             }
           }
         }
-        sampiyonAdaylari.push({ hisse: temizKod, toplam10: sampiyon10Toplam, toplam5: sampiyon5Toplam });
 
         icSutunlarHtml += formatGrowthCell(g5y, rawYogunluk);
         icSutunlarHtml += formatGrowthCell(g10y, rawYogunluk);
@@ -539,6 +561,14 @@
             }
           }
         }
+
+        sampiyonAdaylari.push({
+          hisse: temizKod,
+          toplam10: sampiyon10Toplam,
+          toplam5: sampiyon5Toplam,
+          artisSerisi: artisSerisi,
+          ortalamaVerim: ortalamaVerim
+        });
 
         var ortVerimFormatli = odemeYaptigiYilSayisi > 0 ? "%" + ortalamaVerim.toFixed(2) : "?";
 
