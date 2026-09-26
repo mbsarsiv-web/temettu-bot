@@ -92,8 +92,6 @@ def get_all_tickers(session):
 
 def find_dividend_table(html):
     try:
-        # KESİN DÜZELTME: Pandas'ın virgülleri silip (1,94 -> 194) yapmasını engellemek için 
-        # thousands='_' ataması yapıldı. Artık 1,94'e dokunamayacak, saf metin olarak bırakacak!
         tables = pd.read_html(StringIO(html), thousands='_', decimal='.')
     except Exception:
         return None
@@ -288,20 +286,47 @@ def main():
         df_ipo_final = pd.DataFrame(processed_ipo)
         df_ipo_final = df_ipo_final.groupby("Kod", as_index=False)["Arz_Yili"].min()
 
+    # YENİ EKLENEN BÖLÜM: Bedelsiz Bölünme Verilerini (02) Çekip İşleme
+    raw_api_bedelsiz = fetch_api_data(session, "02")
+    processed_splits = []
+    for satir in raw_api_bedelsiz:
+        kod = satir.get("SHHE_HS_KOD") or satir.get("HISSE_KODU") or ""
+        tarih = satir.get("SHHE_TARIH") or satir.get("TARIH") or ""
+        if not kod or not tarih:
+            for k, v in satir.items():
+                if not kod and "KOD" in k.upper(): kod = v
+                if not tarih and "TARIH" in k.upper(): tarih = v
+        bedelsiz_oran = 0.0
+        for k, v in satir.items():
+            if "BEDELSIZ" in k.upper() and "ORAN" in k.upper():
+                val = parse_turkce_sayi(v)
+                if val > 0: bedelsiz_oran += val
+        if kod and tarih and bedelsiz_oran > 0:
+            kod = str(kod).strip().upper()
+            yil = get_mantiki_yil(tarih)
+            if yil: processed_splits.append({"Kod": kod, "Yil": yil, "Bedelsiz_Oran": bedelsiz_oran})
+            
+    df_splits_final = pd.DataFrame(columns=["Kod", "Yil", "Bedelsiz_Oran"])
+    if processed_splits:
+        df_splits_final = pd.DataFrame(processed_splits)
+        df_splits_final = df_splits_final.groupby(["Kod", "Yil"], as_index=False)["Bedelsiz_Oran"].sum()
+
     df_base = pd.DataFrame({"Kod": tickers})
     df_base = pd.merge(df_base, df_ipo_final, on="Kod", how="left")
     
     if df_div_final.empty and df_verim_final.empty:
-        df_events = pd.DataFrame(columns=["Kod", "Yil", "Tutar", "Temettu_Verim_%", "Hisse_Basi_TL"])
+        df_events = pd.DataFrame(columns=["Kod", "Yil", "Tutar", "Temettu_Verim_%", "Hisse_Basi_TL", "Bedelsiz_Oran"])
     else:
         df_events = pd.merge(df_div_final, df_verim_final, on=["Kod", "Yil"], how="outer")
         df_events = pd.merge(df_events, df_hb_final, on=["Kod", "Yil"], how="left")
+        df_events = pd.merge(df_events, df_splits_final, on=["Kod", "Yil"], how="left")
         
     df_master = pd.merge(df_base, df_events, on="Kod", how="left")
     
     df_master["Tutar"] = df_master["Tutar"].fillna(0.0)
     df_master["Temettu_Verim_%"] = df_master["Temettu_Verim_%"].fillna("")
     df_master["Hisse_Basi_TL"] = df_master["Hisse_Basi_TL"].fillna("")
+    df_master["Bedelsiz_Oran"] = df_master["Bedelsiz_Oran"].fillna("")
     df_master["Yil"] = df_master["Yil"].fillna("")
     df_master["Arz_Yili"] = df_master["Arz_Yili"].fillna("")
     df_master = df_master[df_master["Kod"].str.strip() != ""]
@@ -309,7 +334,7 @@ def main():
     out_path = "bist_temettu_master.csv"
     df_master.to_csv(out_path, index=False, encoding="utf-8", decimal=".", sep=";")
     upload_to_drive(out_path)
-    print("Görev başarıyla tamamlandı!")
+    print("Görev başarıyla tamamlandı! Bölünme verileri sisteme eklendi.")
 
 if __name__ == "__main__":
     main()
