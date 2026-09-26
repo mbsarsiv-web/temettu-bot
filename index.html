@@ -17,7 +17,6 @@
     .header h2 { margin: 0; color: #202124; font-size: 18px; letter-spacing: 0.5px; }
     .update-text { font-size: 12px; color: #5f6368; font-weight: 500; letter-spacing: 0.5px; position: absolute; right: 0; display: flex; align-items: center; gap: 10px; }
     
-    /* Kayan Yazı (Ticker) Stilleri */
     .ticker-wrap { background: #ffffff; margin: 6px 10px 0 10px; border-radius: 6px; box-shadow: 0 1px 4px rgba(0,0,0,0.05); overflow: hidden; height: 26px; display: flex; align-items: center; border: 1px solid #e0e0e0; flex-shrink: 0; }
     .ticker-move { display: inline-block; white-space: nowrap; padding-left: 20px; animation: tickerScroll 100s linear infinite; font-size: 12px; color: #3c4043; }
     .ticker-wrap:hover .ticker-move { animation-play-state: paused; }
@@ -380,19 +379,28 @@
       var verimVerisi = payload.verimTablo;
 
       var verimMap = {};
+      var hisseBasiMap = {};
+      var hisseBasiSutunuVarMi = false;
 
       if (verimVerisi && verimVerisi.length > 1) {
         var basliklarVerim = verimVerisi[0];
-        var kodIndeks = 0, yilIndeks = 1, verimIndeks = -1;
+        var kodIndeks = 0, yilIndeks = 1, verimIndeks = -1, hisseBasiIndeks = -1;
         for (var c = 0; c < basliklarVerim.length; c++) {
           var b = basliklarVerim[c].toString().toUpperCase().trim();
           if (b === "KOD" && kodIndeks === 0) kodIndeks = c;
           else if ((b === "YIL" || b === "TARIH" || b === "TARİH") && yilIndeks === 1) yilIndeks = c;
           else if (verimIndeks === -1 && (b.indexOf("VERIM") > -1 || b.indexOf("VERİM") > -1) && basliklarVerim[c].toString().trim() !== "") verimIndeks = c;
+          else if (hisseBasiIndeks === -1 && (b.indexOf("HISSE") > -1 || b.indexOf("HİSSE") > -1)) hisseBasiIndeks = c;
         }
         
         if (verimIndeks === -1) {
           verimIndeks = 4;
+        }
+        if (hisseBasiIndeks === -1 && basliklarVerim.length >= 6) {
+          hisseBasiIndeks = 5;
+        }
+        if (hisseBasiIndeks > -1) {
+          hisseBasiSutunuVarMi = true;
         }
         
         for (var v = 1; v < verimVerisi.length; v++) {
@@ -408,11 +416,19 @@
           if (yMatch) yil = yMatch[1];
 
           if (yil) {
+            var anahtar = kod.toString().trim().toUpperCase() + "_" + yil;
             var sayisalVerim = verimSayisiCoz(rawVerim);
             if (!isNaN(sayisalVerim)) {
-              var anahtar = kod.toString().trim().toUpperCase() + "_" + yil;
               if (verimMap[anahtar] !== undefined) { verimMap[anahtar] += sayisalVerim; }
               else { verimMap[anahtar] = sayisalVerim; }
+            }
+            if (hisseBasiSutunuVarMi) {
+              var rawHB = verimVerisi[v][hisseBasiIndeks];
+              var sayisalHB = verimSayisiCoz(rawHB);
+              if (!isNaN(sayisalHB) && sayisalHB > 0) {
+                if (hisseBasiMap[anahtar] !== undefined) { hisseBasiMap[anahtar] += sayisalHB; }
+                else { hisseBasiMap[anahtar] = sayisalHB; }
+              }
             }
           }
         }
@@ -544,10 +560,15 @@
         var ortalamaVerim = odemeYaptigiYilSayisi > 0 ? (toplamVerim10Yil / odemeYaptigiYilSayisi) : 0;
         icSutunlarHtml += '<td class="trend-col">' + sparklineOlustur(sparkDegerler.slice(-8)) + '</td>';
 
-        // 2011'den güncel yıla kadar tüm geçmiş üzerinden gerçek artış serisi hesabı
         var tumYillarDegerler = [];
         for (var idxY = 2; idxY < idxYogunluk; idxY++) {
-          tumYillarDegerler.push(sayiyaCevir(satir[idxY]));
+          var yilBaslik = orjBasliklarTumu[idxY].toString().trim();
+          if (hisseBasiSutunuVarMi) {
+            var hbDeger = hisseBasiMap[temizKod + "_" + yilBaslik] || 0;
+            tumYillarDegerler.push(hbDeger);
+          } else {
+            tumYillarDegerler.push(sayiyaCevir(satir[idxY]));
+          }
         }
 
         var artisSerisi = 0;
