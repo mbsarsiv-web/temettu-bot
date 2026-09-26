@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Temettü Yoğunluk Analizi</title>
+  <title>TEMETTÜ ANALİZİ</title>
   <base target="_top">
   <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Text:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
@@ -12,13 +12,26 @@
     ::-webkit-scrollbar-track { background: #f1f3f4; border-radius: 4px; }
     ::-webkit-scrollbar-thumb { background: #c1c3c6; border-radius: 4px; }
     ::-webkit-scrollbar-thumb:hover { background: #a8aaad; }
-    .header { background-color: #ffffff; padding: 10px 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); z-index: 20; position: relative; }
-    .header-content { max-width: 1400px; margin: 0 auto; display: flex; justify-content: center; align-items: center; position: relative; min-height: 20px; }
-    .header h2 { margin: 0; color: #202124; font-size: 19px; }
+    .header { background-color: #ffffff; padding: 5px 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); z-index: 20; position: relative; }
+    .header-content { max-width: 1400px; margin: 0 auto; display: flex; justify-content: center; align-items: center; position: relative; min-height: 22px; }
+    .header h2 { margin: 0; color: #202124; font-size: 18px; letter-spacing: 0.5px; }
     .update-text { font-size: 12px; color: #5f6368; font-weight: 500; letter-spacing: 0.5px; position: absolute; right: 0; display: flex; align-items: center; gap: 10px; }
+    
+    /* Kayan Yazı (Ticker) Stilleri */
+    .ticker-wrap { background: #ffffff; margin: 6px 10px 0 10px; border-radius: 6px; box-shadow: 0 1px 4px rgba(0,0,0,0.05); overflow: hidden; height: 26px; display: flex; align-items: center; border: 1px solid #e0e0e0; flex-shrink: 0; }
+    .ticker-move { display: inline-block; white-space: nowrap; padding-left: 20px; animation: tickerScroll 85s linear infinite; font-size: 12px; color: #3c4043; }
+    .ticker-wrap:hover .ticker-move { animation-play-state: paused; }
+    @keyframes tickerScroll { 0% { transform: translate3d(0, 0, 0); } 100% { transform: translate3d(-50%, 0, 0); } }
+    .ticker-title { background: #1a73e8; color: #ffffff; font-weight: 700; padding: 2px 8px; border-radius: 4px; margin-right: 10px; font-size: 11px; letter-spacing: 0.4px; display: inline-block; }
+    .ticker-title.five-yr { background: #0f9d58; margin-left: 35px; }
+    .ticker-item { display: inline-block; margin-right: 16px; font-weight: 500; }
+    .ticker-rank { color: #5f6368; font-weight: 700; margin-right: 2px; }
+    .ticker-code { color: #202124; font-weight: 700; }
+    .ticker-val { color: #0f9d58; font-weight: 700; margin-left: 3px; }
+
     .icon-btn { border: 1px solid #dadce0; background: #fff; border-radius: 6px; padding: 6px 12px; font-size: 12px; color: #3c4043; cursor: pointer; font-family: 'Google Sans Text'; display: flex; align-items: center; gap: 5px; transition: background 0.2s; }
     .icon-btn:hover { background: #f1f3f4; }
-    .toolbar { background: #ffffff; padding: 8px 15px; margin: 10px 10px 0 10px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.05); display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+    .toolbar { background: #ffffff; padding: 8px 15px; margin: 6px 10px 0 10px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.05); display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
     .search-wrap { position: relative; flex: 0 1 150px; min-width: 120px; } 
     .search-wrap input { width: 100%; box-sizing: border-box; padding: 6px 10px 6px 30px; border: 1px solid #dadce0; border-radius: 6px; font-size: 13px; font-family: 'Google Sans Text'; outline: none; transition: border-color 0.2s; }
     .search-wrap input:focus { border-color: #1a73e8; }
@@ -34,7 +47,7 @@
     table { width: 100%; border-collapse: collapse; table-layout: auto; }
     td { padding: 6px 4px; text-align: center; border-bottom: 1px solid #e8eaed; font-size: 11px; white-space: nowrap; }
     th { padding: 6px 4px; text-align: center; border-bottom: 1px solid #e8eaed; font-size: 12px; white-space: nowrap; font-weight: 700; }
-    thead tr:nth-child(1) th { background-color: #d9ead3; position: sticky; top: 0; z-index: 11; border-bottom: 1px solid #b2d2a4; font-size: 14px; }
+    thead tr:nth-child(1) th { background-color: #d9ead3; position: sticky; top: 0; z-index: 11; border-bottom: 1px solid #b2d2a4; font-size: 15px; }
     thead tr:nth-child(2) th { background-color: #e5f2e0; position: sticky; z-index: 10; padding-bottom: 8px; }
     .col-filter { width: 90%; padding: 2px; border: 1px solid #b2d2a4; border-radius: 4px; font-size: 10px; outline: none; }
     td:first-child { font-weight: 700; font-size: 12px; color: #1a73e8; background-color: #fafbfc; position: sticky; left: 0; z-index: 2; box-shadow: 1px 0px 0px #e8eaed; }
@@ -75,9 +88,10 @@
     #modalOverlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 9998; }
     .modal-btn { margin-top: 20px; padding: 10px 25px; background: #0f9d58; color: white; border: none; border-radius: 6px; font-size: 14px; font-weight: bold; cursor: pointer; font-family: 'Google Sans Text'; }
     @media (max-width: 799px) {
-      .header-content { flex-direction: column; align-items: flex-start; gap: 8px; }
-      .update-text { position: relative; width: 100%; justify-content: flex-start; margin-top: 4px; }
-      .toolbar { gap: 6px; }
+      .header-content { flex-direction: column; align-items: flex-start; gap: 4px; }
+      .update-text { position: relative; width: 100%; justify-content: flex-start; margin-top: 2px; }
+      .ticker-wrap { margin: 5px 5px 0 5px; }
+      .toolbar { gap: 6px; margin: 5px 5px 0 5px; }
       .search-wrap { width: 100%; flex: 1 1 100%; }
       .toolbar select { flex: 1 1 45%; min-width: 0; font-size: 12px; padding: 6px 4px; }
       .kpi-badge { width: 100%; flex: 1 1 100%; justify-content: center; margin-bottom: 2px; }
@@ -87,7 +101,8 @@
     }
     @media (min-width: 800px) { 
       body { font-size: 90%; } 
-      .toolbar { flex-wrap: nowrap !important; overflow-x: hidden; padding: 6px 10px; gap: 5px; }
+      .ticker-wrap { margin: 5px 8px 0 8px; height: 24px; }
+      .toolbar { flex-wrap: nowrap !important; overflow-x: hidden; padding: 6px 10px; gap: 5px; margin: 5px 8px 0 8px; }
       .toolbar > * { flex: 1 1 auto; min-width: 0; }
       .toolbar select { font-size: 11px; padding: 4px 2px; text-overflow: ellipsis; }
       .search-wrap { flex: 0 1 110px; min-width: 80px; }
@@ -97,6 +112,7 @@
       .table-container { overflow-x: hidden; margin: 8px; }
       table { table-layout: fixed; width: 100%; }
       td, th { font-size: 10px !important; padding: 2px 1px !important; overflow: hidden; text-overflow: ellipsis; }
+      thead tr:nth-child(1) th { font-size: 12px !important; padding: 5px 1px !important; }
       td:first-child, .arz-yili { font-size: 11px !important; }
       .col-filter { font-size: 9px; padding: 0; width: 95%; }
       .info-icon { font-size: 9px; margin-left: 1px; }
@@ -124,11 +140,15 @@
 
   <div class="header">
     <div class="header-content">
-      <h2>Temettü Yoğunluk Analizi</h2>
+      <h2>TEMETTÜ ANALİZİ</h2>
       <div id="updateDate" class="update-text">
         <span id="updateDateText">(SON GÜNCELLEME: Yükleniyor...)</span>
       </div>
     </div>
+  </div>
+
+  <div class="ticker-wrap" id="tickerBanner" style="display: none;">
+    <div class="ticker-move" id="tickerContent"></div>
   </div>
 
   <div class="toolbar">
@@ -292,6 +312,42 @@
       return html;
     }
 
+    function kayanYaziOlustur(sampiyonAdaylari) {
+      if (!sampiyonAdaylari || sampiyonAdaylari.length === 0) return;
+
+      var top10 = sampiyonAdaylari.slice().filter(function(x) { return x.toplam10 > 0; });
+      top10.sort(function(a, b) { return b.toplam10 - a.toplam10; });
+      top10 = top10.slice(0, 20);
+
+      var top5 = sampiyonAdaylari.slice().filter(function(x) { return x.toplam5 > 0; });
+      top5.sort(function(a, b) { return b.toplam5 - a.toplam5; });
+      top5 = top5.slice(0, 20);
+
+      if (top10.length === 0 && top5.length === 0) return;
+
+      var parcaHtml = '<span class="ticker-title">🏆 SON 10 YIL TEMETTÜ ŞAMPİYONLARI</span>';
+      for (var i = 0; i < top10.length; i++) {
+        var deger10 = top10[i].toplam10.toFixed(2).replace('.', ',');
+        parcaHtml += '<span class="ticker-item"><span class="ticker-rank">' + (i + 1) + '.</span> <span class="ticker-code">' + top10[i].hisse + '</span><span class="ticker-val">(%' + deger10 + ')</span></span>';
+      }
+
+      parcaHtml += '<span class="ticker-title five-yr">⭐ SON 5 YIL TEMETTÜ ŞAMPİYONLARI</span>';
+      for (var j = 0; j < top5.length; j++) {
+        var deger5 = top5[j].toplam5.toFixed(2).replace('.', ',');
+        parcaHtml += '<span class="ticker-item"><span class="ticker-rank">' + (j + 1) + '.</span> <span class="ticker-code">' + top5[j].hisse + '</span><span class="ticker-val">(%' + deger5 + ')</span></span>';
+      }
+
+      var bosluk = '<span style="display:inline-block; width: 50px;"></span>';
+      var tamIcerik = parcaHtml + bosluk + parcaHtml + bosluk;
+
+      var banner = document.getElementById('tickerBanner');
+      var content = document.getElementById('tickerContent');
+      if (banner && content) {
+        content.innerHTML = tamIcerik;
+        banner.style.display = 'flex';
+      }
+    }
+
     function tabloyuCiz(payload) {
       if (!payload || !payload.anaTablo || payload.anaTablo.length <= 1) {
         document.getElementById('tableContainer').innerHTML = '<div class="error-msg">Gösterilecek veri bulunamadı. Lütfen sistemi onarın.</div>';
@@ -347,6 +403,7 @@
 
       var guncelYil = new Date().getFullYear();
       var minGorunurYil = guncelYil - 9;
+      var min5Yil = guncelYil - 4;
       var y1 = minGorunurYil.toString().slice(-2);
       var y2 = guncelYil.toString().slice(-2);
 
@@ -385,6 +442,8 @@
       html += '</tr></thead><tbody id="tabloGovdesi">';
 
       var islenmisSatirlar = [];
+      var sampiyonAdaylari = [];
+
       for (var i = 1; i < veri.length; i++) {
         var satir = veri[i];
         var rawYogunluk = parseFloat(satir[idxYogunluk] ? satir[idxYogunluk].toString().replace(',', '.') : 0) || 0;
@@ -392,6 +451,7 @@
         
         var hisseKodu = satir[0];
         if (!hisseKodu || hisseKodu.trim() === "") continue;
+        var temizKod = hisseKodu.toString().trim().toUpperCase();
 
         var slicedSatir = satir.slice(0, idxYogunluk + 1);
         var slicedBasliklar = orjBasliklarTumu.slice(0, idxYogunluk + 1);
@@ -442,6 +502,19 @@
             icSutunlarHtml += '<td data-value="' + rawYogunluk + '" class="tight-col"><span class="yog-badge ' + yogunlukSinifi(rawYogunluk) + '">' + fmtYogunluk + '</span></td>';
           }
         }
+
+        var sampiyon10Toplam = 0;
+        var sampiyon5Toplam = 0;
+        for (var yilS = minGorunurYil; yilS <= guncelYil; yilS++) {
+          var vVal = verimMap[temizKod + "_" + yilS];
+          if (vVal !== undefined && !isNaN(vVal) && vVal > 0) {
+            sampiyon10Toplam += vVal;
+            if (yilS >= min5Yil) {
+              sampiyon5Toplam += vVal;
+            }
+          }
+        }
+        sampiyonAdaylari.push({ hisse: temizKod, toplam10: sampiyon10Toplam, toplam5: sampiyon5Toplam });
 
         icSutunlarHtml += formatGrowthCell(g5y, rawYogunluk);
         icSutunlarHtml += formatGrowthCell(g10y, rawYogunluk);
@@ -516,6 +589,7 @@
 
       document.getElementById('tableContainer').innerHTML = html;
       TUM_SATIRLAR = islenmisSatirlar;
+      kayanYaziOlustur(sampiyonAdaylari);
       initFiltre();
       kpiGuncelle();
     }
