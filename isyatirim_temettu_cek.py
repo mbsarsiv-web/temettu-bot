@@ -123,6 +123,9 @@ def clean_dividend_table(df, kod):
         elif "verim" in c_str:
             if "Temettu_Verim_%" not in rename_map.values():
                 rename_map[c] = "Temettu_Verim_%"
+        elif "hisse" in c_str:
+            if "Hisse_Basi_TL" not in rename_map.values():
+                rename_map[c] = "Hisse_Basi_TL"
                 
     df = df.rename(columns=rename_map)
     
@@ -135,8 +138,11 @@ def clean_dividend_table(df, kod):
     if "Dagitim_Tarihi" not in df.columns or "Temettu_Verim_%" not in df.columns:
         return pd.DataFrame()
         
+    if "Hisse_Basi_TL" not in df.columns:
+        df["Hisse_Basi_TL"] = ""
+        
     df = df.loc[:, ~df.columns.duplicated()]
-    keep_cols = ["Dagitim_Tarihi", "Temettu_Verim_%"]
+    keep_cols = ["Dagitim_Tarihi", "Temettu_Verim_%", "Hisse_Basi_TL"]
     df = df[keep_cols].copy()
     
     df = df[df["Dagitim_Tarihi"].notna()]
@@ -221,6 +227,7 @@ def main():
         time.sleep(REQUEST_DELAY)
             
     df_verim_final = pd.DataFrame(columns=["Kod", "Yil", "Temettu_Verim_%"])
+    df_hb_final = pd.DataFrame(columns=["Kod", "Yil", "Hisse_Basi_TL"])
     if all_rows:
         df_scraped = pd.concat(all_rows, ignore_index=True)
         if "Dagitim_Tarihi" in df_scraped.columns:
@@ -231,6 +238,12 @@ def main():
                 df_verim_final = df_scraped[pd.to_numeric(df_scraped['Temettu_Verim_%'], errors='coerce').notnull()].copy()
                 df_verim_final["Temettu_Verim_%"] = df_verim_final["Temettu_Verim_%"].astype(float)
                 df_verim_final = df_verim_final.groupby(["Kod", "Yil"], as_index=False)["Temettu_Verim_%"].sum()
+            if "Hisse_Basi_TL" in df_scraped.columns:
+                df_scraped["Hisse_Basi_TL"] = df_scraped["Hisse_Basi_TL"].apply(parse_yield)
+                df_hb_temp = df_scraped[pd.to_numeric(df_scraped['Hisse_Basi_TL'], errors='coerce').notnull()].copy()
+                if not df_hb_temp.empty:
+                    df_hb_temp["Hisse_Basi_TL"] = df_hb_temp["Hisse_Basi_TL"].astype(float)
+                    df_hb_final = df_hb_temp.groupby(["Kod", "Yil"], as_index=False)["Hisse_Basi_TL"].sum()
 
     raw_api_temettu = fetch_api_data(session, "04")
     processed_dividends = []
@@ -279,14 +292,16 @@ def main():
     df_base = pd.merge(df_base, df_ipo_final, on="Kod", how="left")
     
     if df_div_final.empty and df_verim_final.empty:
-        df_events = pd.DataFrame(columns=["Kod", "Yil", "Tutar", "Temettu_Verim_%"])
+        df_events = pd.DataFrame(columns=["Kod", "Yil", "Tutar", "Temettu_Verim_%", "Hisse_Basi_TL"])
     else:
         df_events = pd.merge(df_div_final, df_verim_final, on=["Kod", "Yil"], how="outer")
+        df_events = pd.merge(df_events, df_hb_final, on=["Kod", "Yil"], how="left")
         
     df_master = pd.merge(df_base, df_events, on="Kod", how="left")
     
     df_master["Tutar"] = df_master["Tutar"].fillna(0.0)
     df_master["Temettu_Verim_%"] = df_master["Temettu_Verim_%"].fillna("")
+    df_master["Hisse_Basi_TL"] = df_master["Hisse_Basi_TL"].fillna("")
     df_master["Yil"] = df_master["Yil"].fillna("")
     df_master["Arz_Yili"] = df_master["Arz_Yili"].fillna("")
     df_master = df_master[df_master["Kod"].str.strip() != ""]
