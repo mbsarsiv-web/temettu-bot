@@ -544,17 +544,21 @@
         var ortalamaVerim = odemeYaptigiYilSayisi > 0 ? (toplamVerim10Yil / odemeYaptigiYilSayisi) : 0;
         icSutunlarHtml += '<td class="trend-col">' + sparklineOlustur(sparkDegerler.slice(-8)) + '</td>';
 
+        // 2011'den güncel yıla kadar tüm geçmiş üzerinden gerçek artış serisi hesabı
+        var tumYillarDegerler = [];
+        for (var idxY = 2; idxY < idxYogunluk; idxY++) {
+          tumYillarDegerler.push(sayiyaCevir(satir[idxY]));
+        }
+
         var artisSerisi = 0;
-        if (sparkDegerler.length > 0) {
-          var sonMiktar = sparkDegerler[sparkDegerler.length - 1]; 
+        if (tumYillarDegerler.length > 0) {
+          var sonMiktar = tumYillarDegerler[tumYillarDegerler.length - 1]; 
           if (sonMiktar > 0) {
-            artisSerisi = 1;
-            for (var k = sparkDegerler.length - 2; k >= 0; k--) {
-              var onceki = sparkDegerler[k];
-              if (sonMiktar > onceki) {
+            for (var k = tumYillarDegerler.length - 2; k >= 0; k--) {
+              var onceki = tumYillarDegerler[k];
+              if (onceki > 0 && sonMiktar > onceki) {
                 artisSerisi++;
                 sonMiktar = onceki;
-                if (onceki === 0) break; 
               } else {
                 break; 
               }
