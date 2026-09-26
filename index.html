@@ -380,28 +380,27 @@
 
       var verimMap = {};
       var hisseBasiMap = {};
+      var bedelsizMap = {};
       var hisseBasiSutunuVarMi = false;
+      var bedelsizSutunuVarMi = false;
 
       if (verimVerisi && verimVerisi.length > 1) {
         var basliklarVerim = verimVerisi[0];
-        var kodIndeks = 0, yilIndeks = 1, verimIndeks = -1, hisseBasiIndeks = -1;
+        var kodIndeks = 0, yilIndeks = 1, verimIndeks = -1, hisseBasiIndeks = -1, bedelsizIndeks = -1;
         for (var c = 0; c < basliklarVerim.length; c++) {
           var b = basliklarVerim[c].toString().toUpperCase().trim();
           if (b === "KOD" && kodIndeks === 0) kodIndeks = c;
           else if ((b === "YIL" || b === "TARIH" || b === "TARİH") && yilIndeks === 1) yilIndeks = c;
           else if (verimIndeks === -1 && (b.indexOf("VERIM") > -1 || b.indexOf("VERİM") > -1) && basliklarVerim[c].toString().trim() !== "") verimIndeks = c;
           else if (hisseBasiIndeks === -1 && (b.indexOf("HISSE") > -1 || b.indexOf("HİSSE") > -1)) hisseBasiIndeks = c;
+          else if (bedelsizIndeks === -1 && (b.indexOf("BEDELSIZ") > -1 || b.indexOf("BEDELSİZ") > -1 || b.indexOf("ORAN") > -1)) bedelsizIndeks = c;
         }
         
-        if (verimIndeks === -1) {
-          verimIndeks = 4;
-        }
-        if (hisseBasiIndeks === -1 && basliklarVerim.length >= 6) {
-          hisseBasiIndeks = 5;
-        }
-        if (hisseBasiIndeks > -1) {
-          hisseBasiSutunuVarMi = true;
-        }
+        if (verimIndeks === -1) { verimIndeks = 4; }
+        if (hisseBasiIndeks === -1 && basliklarVerim.length >= 6) { hisseBasiIndeks = 5; }
+        
+        if (hisseBasiIndeks > -1) { hisseBasiSutunuVarMi = true; }
+        if (bedelsizIndeks > -1) { bedelsizSutunuVarMi = true; }
         
         for (var v = 1; v < verimVerisi.length; v++) {
           var kod = verimVerisi[v][kodIndeks];
@@ -418,16 +417,28 @@
           if (yil) {
             var anahtar = kod.toString().trim().toUpperCase() + "_" + yil;
             var sayisalVerim = verimSayisiCoz(rawVerim);
+            
             if (!isNaN(sayisalVerim)) {
               if (verimMap[anahtar] !== undefined) { verimMap[anahtar] += sayisalVerim; }
               else { verimMap[anahtar] = sayisalVerim; }
             }
+            
             if (hisseBasiSutunuVarMi) {
               var rawHB = verimVerisi[v][hisseBasiIndeks];
               var sayisalHB = verimSayisiCoz(rawHB);
               if (!isNaN(sayisalHB) && sayisalHB > 0) {
                 if (hisseBasiMap[anahtar] !== undefined) { hisseBasiMap[anahtar] += sayisalHB; }
                 else { hisseBasiMap[anahtar] = sayisalHB; }
+              }
+            }
+            
+            // YENİ EKLENEN: Bedelsiz Haritalaması
+            if (bedelsizSutunuVarMi) {
+              var rawBedelsiz = verimVerisi[v][bedelsizIndeks];
+              var sayisalBedelsiz = verimSayisiCoz(rawBedelsiz);
+              if (!isNaN(sayisalBedelsiz) && sayisalBedelsiz > 0) {
+                if (bedelsizMap[anahtar] !== undefined) { bedelsizMap[anahtar] += sayisalBedelsiz; }
+                else { bedelsizMap[anahtar] = sayisalBedelsiz; }
               }
             }
           }
@@ -548,9 +559,7 @@
           var vVal = verimMap[temizKod + "_" + yilS];
           if (vVal !== undefined && !isNaN(vVal) && vVal > 0) {
             sampiyon10Toplam += vVal;
-            if (yilS >= min5Yil) {
-              sampiyon5Toplam += vVal;
-            }
+            if (yilS >= min5Yil) { sampiyon5Toplam += vVal; }
           }
         }
 
@@ -561,6 +570,8 @@
         icSutunlarHtml += '<td class="trend-col">' + sparklineOlustur(sparkDegerler.slice(-8)) + '</td>';
 
         var tumYillarDegerler = [];
+        var tumYillarBedelsiz = []; // YENİ: Her yılın bedelsiz oranını tutacak dizi
+        
         for (var idxY = 2; idxY < idxYogunluk; idxY++) {
           var yilBaslik = orjBasliklarTumu[idxY].toString().trim();
           if (hisseBasiSutunuVarMi) {
@@ -569,22 +580,40 @@
           } else {
             tumYillarDegerler.push(sayiyaCevir(satir[idxY]));
           }
+          // YENİ: Bedelsiz haritasından ilgili yılın oranını al
+          tumYillarBedelsiz.push(bedelsizMap[temizKod + "_" + yilBaslik] || 0);
         }
 
+        // YENİ EKLENEN BÖLÜM: Düzeltme Katsayısı Algoritması (Sadece Artış Serisi için)
         var artisSerisi = 0;
         if (tumYillarDegerler.length > 0) {
-          var sonMiktar = tumYillarDegerler[tumYillarDegerler.length - 1]; 
-          if (sonMiktar > 0) {
-            for (var k = tumYillarDegerler.length - 2; k >= 0; k--) {
-              var onceki = tumYillarDegerler[k];
-              if (onceki > 0 && sonMiktar > onceki) {
-                artisSerisi++;
-                sonMiktar = onceki;
-              } else {
-                break; 
-              }
+            var adjDegerler = [];
+            var cumulativeMultiplier = 1.0;
+            
+            // Geriye dönük çarpan uygulayarak düzeltilmiş (adjusted) geçmiş değerleri hesapla
+            for (var k = tumYillarDegerler.length - 1; k >= 0; k--) {
+                var oran = tumYillarBedelsiz[k];
+                if (oran > 0) {
+                    cumulativeMultiplier *= (1 + (oran / 100)); // Örn: %1100 -> 12 katına çıkar
+                }
+                var adj = tumYillarDegerler[k] / cumulativeMultiplier;
+                adjDegerler.unshift(adj); // Başa ekleyerek kronolojik sırayı korur
             }
-          }
+
+            // Hesaplanan düzeltilmiş değerler üzerinden artış serisini say
+            var sonMiktar = adjDegerler[adjDegerler.length - 1]; 
+            if (sonMiktar > 0) {
+                for (var k = adjDegerler.length - 2; k >= 0; k--) {
+                    var onceki = adjDegerler[k];
+                    // Küsurat hatalarını aşmak için ufak bir tolerans aralığı ile büyüme tespiti
+                    if (onceki > 0 && (sonMiktar - onceki) > -0.0001) {
+                        artisSerisi++;
+                        sonMiktar = onceki;
+                    } else {
+                        break; 
+                    }
+                }
+            }
         }
 
         sampiyonAdaylari.push({
