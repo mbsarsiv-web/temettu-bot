@@ -148,6 +148,63 @@ def clean_dividend_table(df, kod):
     df.insert(0, "Kod", kod)
     return df
 
+# YENİ EKLENEN FONKSİYON: Bölünme tablosunu HTML üzerinden kazır
+def find_split_table(html):
+    try:
+        tables = pd.read_html(StringIO(html), thousands='_', decimal='.')
+    except Exception:
+        return None
+    adaylar = []
+    for tbl in tables:
+        cols = [str(c).lower() for c in tbl.columns]
+        joined = " ".join(cols)
+        # Tabloda bedelsiz, oran ve tarih kelimeleri varsa o tabloyu al
+        if "bedelsiz" in joined and "oran" in joined and "tarih" in joined:
+            adaylar.append(tbl)
+    if not adaylar:
+        return None
+    adaylar.sort(key=lambda t: len(t), reverse=True)
+    return adaylar[0]
+
+# YENİ EKLENEN FONKSİYON: Bölünme tablosunu temizleyip yıla dönüştürür
+def clean_split_table(df, kod):
+    if isinstance(df.columns, pd.MultiIndex):
+        df.columns = ['_'.join(map(str, col)).strip() for col in df.columns]
+        
+    tarih_col = None
+    bedelsiz_cols = []
+    for c in df.columns:
+        c_str = str(c).lower().strip()
+        if "tarih" in c_str:
+            tarih_col = c
+        elif "bedelsiz" in c_str and "oran" in c_str:
+            bedelsiz_cols.append(c)
+            
+    if not tarih_col or not bedelsiz_cols:
+        return pd.DataFrame()
+        
+    df_out = pd.DataFrame()
+    df_out["Kod"] = [kod] * len(df)
+    
+    # Tarihten yılı ayıkla
+    def get_year(d):
+        s = str(d).strip()
+        m = re.search(r'\b(19[8-9]\d|20\d\d)\b', s)
+        return m.group(1) if m else None
+        
+    df_out["Yil"] = df[tarih_col].apply(get_year)
+    
+    # Tüm bedelsiz oran sütunlarını topla (IK Oran + Temettü Oran)
+    oranlar = pd.Series(0.0, index=range(len(df)))
+    for bc in bedelsiz_cols:
+        oranlar += df[bc].apply(parse_turkce_sayi)
+        
+    df_out["Bedelsiz_Oran"] = oranlar
+    df_out = df_out[df_out["Bedelsiz_Oran"] > 0]
+    df_out = df_out[df_out["Yil"].notna()]
+    
+    return df_out[["Kod", "Yil", "Bedelsiz_Oran"]]
+
 def parse_turkce_sayi(val):
     if pd.isna(val) or not val: return 0.0
     if isinstance(val, (int, float)): return float(val)
@@ -215,13 +272,24 @@ def main():
     print(f"Toplam {len(tickers)} adet hisse senedi bulundu.")
     
     all_rows = []
+    all_splits = [] # Bedelsizleri tutacak liste
+    
     for kod in tickers:
         html = fetch_with_retry(session, BASE_URL.format(kod))
         if not html: continue
+        
+        # 1. Temettü Tablosunu HTML'den Bul ve Temizle
         tbl = find_dividend_table(html)
-        if tbl is None: continue
-        cleaned = clean_dividend_table(tbl, kod)
-        if not cleaned.empty: all_rows.append(cleaned)
+        if tbl is not None:
+            cleaned = clean_dividend_table(tbl, kod)
+            if not cleaned.empty: all_rows.append(cleaned)
+            
+        # 2. Bölünme (Sermaye Artırımı) Tablosunu HTML'den Bul ve Temizle
+        tbl_split = find_split_table(html)
+        if tbl_split is not None:
+            cleaned_split = clean_split_table(tbl_split, kod)
+            if not cleaned_split.empty: all_splits.append(cleaned_split)
+            
         time.sleep(REQUEST_DELAY)
             
     df_verim_final = pd.DataFrame(columns=["Kod", "Yil", "Temettu_Verim_%"])
@@ -242,6 +310,12 @@ def main():
                 if not df_hb_temp.empty:
                     df_hb_temp["Hisse_Basi_TL"] = df_hb_temp["Hisse_Basi_TL"].astype(float)
                     df_hb_final = df_hb_temp.groupby(["Kod", "Yil"], as_index=False)["Hisse_Basi_TL"].sum()
+
+    # Bedelsiz verilerini HTML kazımasından birleştir
+    df_splits_html = pd.DataFrame(columns=["Kod", "Yil", "Bedelsiz_Oran"])
+    if all_splits:
+        df_splits_html = pd.concat(all_splits, ignore_index=True)
+        df_splits_html = df_splits_html.groupby(["Kod", "Yil"], as_index=False)["Bedelsiz_Oran"].sum()
 
     raw_api_temettu = fetch_api_data(session, "04")
     processed_dividends = []
@@ -286,40 +360,6 @@ def main():
         df_ipo_final = pd.DataFrame(processed_ipo)
         df_ipo_final = df_ipo_final.groupby("Kod", as_index=False)["Arz_Yili"].min()
 
-    # DÜZELTİLMİŞ BÖLÜM: Tanım kodu 01 yapıldı ve anahtar araması (I/İ sorunu) genişletildi
-    raw_api_bedelsiz = fetch_api_data(session, "01")
-    if not raw_api_bedelsiz:
-        raw_api_bedelsiz = fetch_api_data(session, "") # API boş dönerse tümünü (HEPSI) çek
-        
-    processed_splits = []
-    for satir in raw_api_bedelsiz:
-        kod = satir.get("SHHE_HS_KOD") or satir.get("HISSE_KODU") or ""
-        tarih = satir.get("SHHE_TARIH") or satir.get("TARIH") or ""
-        
-        if not kod or not tarih:
-            for k, v in satir.items():
-                k_upper = str(k).upper().replace('İ', 'I')
-                if not kod and "KOD" in k_upper: kod = v
-                if not tarih and "TARIH" in k_upper: tarih = v
-                
-        bedelsiz_oran = 0.0
-        for k, v in satir.items():
-            k_upper = str(k).upper().replace('İ', 'I')
-            # Hem BDLSZ hem BEDELSIZ aranır, büyük-küçük İ/I hatası önlenir
-            if ("BEDELSIZ" in k_upper or "BDLSZ" in k_upper) and "ORAN" in k_upper:
-                val = parse_turkce_sayi(v)
-                if val > 0: bedelsiz_oran += val
-                
-        if kod and tarih and bedelsiz_oran > 0:
-            kod = str(kod).strip().upper()
-            yil = get_mantiki_yil(tarih)
-            if yil: processed_splits.append({"Kod": kod, "Yil": yil, "Bedelsiz_Oran": bedelsiz_oran})
-            
-    df_splits_final = pd.DataFrame(columns=["Kod", "Yil", "Bedelsiz_Oran"])
-    if processed_splits:
-        df_splits_final = pd.DataFrame(processed_splits)
-        df_splits_final = df_splits_final.groupby(["Kod", "Yil"], as_index=False)["Bedelsiz_Oran"].sum()
-
     df_base = pd.DataFrame({"Kod": tickers})
     df_base = pd.merge(df_base, df_ipo_final, on="Kod", how="left")
     
@@ -328,7 +368,8 @@ def main():
     else:
         df_events = pd.merge(df_div_final, df_verim_final, on=["Kod", "Yil"], how="outer")
         df_events = pd.merge(df_events, df_hb_final, on=["Kod", "Yil"], how="left")
-        df_events = pd.merge(df_events, df_splits_final, on=["Kod", "Yil"], how="left")
+        # Bölünme bilgisini OUTER olarak ekliyoruz ki kaybolmasın
+        df_events = pd.merge(df_events, df_splits_html, on=["Kod", "Yil"], how="outer")
         
     df_master = pd.merge(df_base, df_events, on="Kod", how="left")
     
@@ -343,7 +384,7 @@ def main():
     out_path = "bist_temettu_master.csv"
     df_master.to_csv(out_path, index=False, encoding="utf-8", decimal=".", sep=";")
     upload_to_drive(out_path)
-    print("Görev başarıyla tamamlandı! Bölünme verileri sisteme eklendi.")
+    print("Görev başarıyla tamamlandı! Bölünme verileri sisteme HTML'den çekilerek eklendi.")
 
 if __name__ == "__main__":
     main()
