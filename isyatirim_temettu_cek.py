@@ -36,27 +36,17 @@ def fetch_with_retry(session, url, method="GET", json_payload=None, extra_header
     for attempt in range(1, RETRY_COUNT + 1):
         try:
             req_headers = session.headers.copy()
-            if extra_headers:
-                req_headers.update(extra_headers)
-                
-            if method == "POST":
-                resp = session.post(url, json=json_payload, headers=req_headers, timeout=30)
-            else:
-                resp = session.get(url, headers=req_headers, timeout=30)
-            if resp.status_code == 200:
-                return resp.text
-        except Exception:
-            pass
+            if extra_headers: req_headers.update(extra_headers)
+            if method == "POST": resp = session.post(url, json=json_payload, headers=req_headers, timeout=30)
+            else: resp = session.get(url, headers=req_headers, timeout=30)
+            if resp.status_code == 200: return resp.text
+        except Exception: pass
         time.sleep(RETRY_WAIT)
     return None
 
 def fetch_api_data(session, tanim_kodu):
     payload = {"hisseKodu": "", "hisseTanimKodu": tanim_kodu, "yil": 0, "zaman": "HEPSI", "endeksKodu": "09", "sektorKodu": ""}
-    api_headers = {
-        "Accept": "application/json",
-        "X-Requested-With": "XMLHttpRequest",
-        "Content-Type": "application/json; charset=utf-8"
-    }
+    api_headers = {"Accept": "application/json", "X-Requested-With": "XMLHttpRequest", "Content-Type": "application/json; charset=utf-8"}
     res_text = fetch_with_retry(session, API_URL, method="POST", json_payload=payload, extra_headers=api_headers)
     if not res_text: return []
     try:
@@ -69,13 +59,19 @@ def fetch_api_data(session, tanim_kodu):
     except Exception: pass
     return []
 
-# YENİ VE KESİN ÇÖZÜM: İş Yatırım'ı atlayıp veriyi Yahoo Finance üzerinden çeken fonksiyon
+def parse_date_to_yyyymmdd(val):
+    if pd.isna(val) or not val: return "9999-99-99"
+    s = str(val).strip()
+    m = re.search(r'Date\(([-0-9]+)\)', s)
+    if m: return time.strftime('%Y-%m-%d', time.gmtime(int(m.group(1))/1000))
+    m2 = re.search(r'(\d{2})[\./-](\d{2})[\./-](\d{4})', s)
+    if m2: return f"{m2.group(3)}-{m2.group(2)}-{m2.group(1)}"
+    return "9999-99-99"
+
 def fetch_splits_yahoo(kod):
     splits = []
     url = f"https://query2.finance.yahoo.com/v8/finance/chart/{kod}.IS?interval=1mo&range=15y&events=split"
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-    }
+    headers = {"User-Agent": "Mozilla/5.0"}
     try:
         resp = requests.get(url, headers=headers, timeout=10)
         if resp.status_code == 200:
@@ -87,17 +83,15 @@ def fetch_splits_yahoo(kod):
                 for ts, split_data in split_events.items():
                     num = split_data.get("numerator", 1.0)
                     den = split_data.get("denominator", 1.0)
-                    # Matematiksel bölünme oranı (Örn: 1 payın 12 pay olması = %1100 bedelsiz)
                     if den > 0 and num > den:
                         b_oran = ((num / den) - 1.0) * 100
                         yil = str(time.gmtime(int(ts)).tm_year)
-                        splits.append({"Kod": kod, "Yil": yil, "Bedelsiz_Oran": b_oran})
+                        exact_date = time.strftime('%Y-%m-%d', time.gmtime(int(ts)))
+                        splits.append({"Kod": kod, "Yil": yil, "Bedelsiz_Oran": b_oran, "Split_Date": exact_date})
                         print(f" >>> BİLGİ: [YF] {kod} için {yil} yılında %{b_oran:.1f} bedelsiz yakalandı!")
-    except Exception:
-        pass
+    except Exception: pass
     return splits
 
-# İhtiyat amaçlı İş Yatırım İkincil Tarama (Eğer Yahoo'da yoksa zorla)
 def fetch_stock_splits_isyatirim(session, kod):
     splits = []
     for tk in ["", "01", "02", "03", "04"]:
@@ -109,23 +103,13 @@ def fetch_stock_splits_isyatirim(session, kod):
                 js = json.loads(res)
                 data = js.get("value") or js.get("d") or js
                 if isinstance(data, str): data = json.loads(data)
-                
-                rows = []
-                if isinstance(data, list): rows = data
-                elif isinstance(data, dict):
-                    for k in data:
-                        if isinstance(data[k], list):
-                            rows = data[k]
-                            break
-                            
+                rows = data if isinstance(data, list) else (data[list(data.keys())[0]] if isinstance(data, dict) else [])
                 found = False
                 for satir in rows:
                     tarih = satir.get("SHHE_TARIH") or satir.get("TARIH") or ""
                     if not tarih:
                         for k, v in satir.items():
-                            if "TARIH" in str(k).upper().replace('İ', 'I'):
-                                tarih = v; break
-                                
+                            if "TARIH" in str(k).upper().replace('İ', 'I'): tarih = v; break
                     b_oran = 0.0
                     for k, v in satir.items():
                         k_upper = str(k).upper().replace('İ', 'I')
@@ -133,16 +117,14 @@ def fetch_stock_splits_isyatirim(session, kod):
                             if "NAKIT" not in k_upper and "BEDELLI" not in k_upper:
                                 val = parse_turkce_sayi(v)
                                 if val > 0: b_oran += val
-                    
                     if tarih and b_oran > 0:
                         yil = get_mantiki_yil(tarih)
+                        exact_date = parse_date_to_yyyymmdd(tarih)
                         if yil:
-                            splits.append({"Kod": kod, "Yil": yil, "Bedelsiz_Oran": b_oran})
+                            splits.append({"Kod": kod, "Yil": yil, "Bedelsiz_Oran": b_oran, "Split_Date": exact_date})
                             found = True
-                if found:
-                    return splits
-            except Exception:
-                pass
+                if found: return splits
+            except Exception: pass
     return splits
 
 def get_all_tickers(session):
@@ -151,8 +133,7 @@ def get_all_tickers(session):
     if html:
         pairs = re.findall(r'>([A-Z][A-Z0-9]{1,5})\s*\|\s*([^<\n]{2,60})<', html)
         for code, _name in pairs:
-            if re.fullmatch(r"[A-Z][A-Z0-9]{1,5}", code.strip()):
-                tickers.add(code.strip())
+            if re.fullmatch(r"[A-Z][A-Z0-9]{1,5}", code.strip()): tickers.add(code.strip())
     if not tickers:
         api_data = fetch_api_data(session, "04")
         for satir in api_data:
@@ -162,28 +143,22 @@ def get_all_tickers(session):
                     if "KOD" in k.upper(): kod = v; break
             if kod and isinstance(kod, str):
                 kod = kod.strip().upper()
-                if re.fullmatch(r"[A-Z][A-Z0-9]{1,5}", kod):
-                    tickers.add(kod)
+                if re.fullmatch(r"[A-Z][A-Z0-9]{1,5}", kod): tickers.add(kod)
     return sorted(list(tickers))
 
 def find_dividend_table(html):
-    try:
-        tables = pd.read_html(StringIO(html), thousands='_', decimal='.')
-    except Exception:
-        return None
+    try: tables = pd.read_html(StringIO(html), thousands='_', decimal='.')
+    except Exception: return None
     adaylar = []
     for tbl in tables:
-        cols = [str(c).lower() for c in tbl.columns]
-        joined = " ".join(cols)
-        if "verim" in joined and "tarih" in joined:
-            adaylar.append(tbl)
+        joined = " ".join([str(c).lower() for c in tbl.columns])
+        if "verim" in joined and "tarih" in joined: adaylar.append(tbl)
     if not adaylar: return None
     adaylar.sort(key=lambda t: len(t), reverse=True)
     return adaylar[0]
 
 def clean_dividend_table(df, kod):
-    if isinstance(df.columns, pd.MultiIndex):
-        df.columns = ['_'.join(map(str, col)).strip() for col in df.columns]
+    if isinstance(df.columns, pd.MultiIndex): df.columns = ['_'.join(map(str, col)).strip() for col in df.columns]
     rename_map = {}
     for c in df.columns:
         c_str = str(c).lower().strip()
@@ -201,10 +176,8 @@ def clean_dividend_table(df, kod):
     if "Dagitim_Tarihi" not in df.columns or "Temettu_Verim_%" not in df.columns: return pd.DataFrame()
     if "Hisse_Basi_TL" not in df.columns: df["Hisse_Basi_TL"] = ""
     df = df.loc[:, ~df.columns.duplicated()]
-    keep_cols = ["Dagitim_Tarihi", "Temettu_Verim_%", "Hisse_Basi_TL"]
-    df = df[keep_cols].copy()
-    df = df[df["Dagitim_Tarihi"].notna()]
-    df = df.drop_duplicates()
+    df = df[["Dagitim_Tarihi", "Temettu_Verim_%", "Hisse_Basi_TL"]].copy()
+    df = df[df["Dagitim_Tarihi"].notna()].drop_duplicates()
     df.insert(0, "Kod", kod)
     return df
 
@@ -262,16 +235,13 @@ def upload_to_drive(filename):
 def main():
     print("Sistem başlatılıyor...")
     session = get_session()
-    
     tickers = get_all_tickers(session)
-    print(f"Toplam {len(tickers)} adet hisse senedi bulundu.")
-    print("Bedelsiz oranları engelsiz ağdan (YF) çekiliyor, lütfen bekleyin...\n")
+    print(f"Toplam {len(tickers)} adet hisse senedi bulundu. Zaman kaydırmalı (Time-Shift) koruma aktif.\n")
     
     all_rows = []
     all_extracted_splits = []
     
     for kod in tickers:
-        # 1. Temettü özetini çek (İş Yatırım HTML)
         html = fetch_with_retry(session, BASE_URL.format(kod), method="GET")
         if html:
             tbl_div = find_dividend_table(html)
@@ -279,25 +249,28 @@ def main():
                 cleaned = clean_dividend_table(tbl_div, kod)
                 if not cleaned.empty: all_rows.append(cleaned)
                 
-        # 2. Bedelsiz Oranlarını çek (Yahoo Finance Bypass)
         yf_splits = fetch_splits_yahoo(kod)
-        if yf_splits:
-            all_extracted_splits.extend(yf_splits)
+        if yf_splits: all_extracted_splits.extend(yf_splits)
         else:
-            # 3. İhtiyat: Yahoo'da yoksa İş Yatırım'ı zorla
             is_splits = fetch_stock_splits_isyatirim(session, kod)
-            if is_splits:
-                all_extracted_splits.extend(is_splits)
-                
+            if is_splits: all_extracted_splits.extend(is_splits)
         time.sleep(REQUEST_DELAY)
             
     df_verim_final = pd.DataFrame(columns=["Kod", "Yil", "Temettu_Verim_%"])
     df_hb_final = pd.DataFrame(columns=["Kod", "Yil", "Hisse_Basi_TL"])
+    first_div_dates = {}
+    
     if all_rows:
         df_scraped = pd.concat(all_rows, ignore_index=True)
         if "Dagitim_Tarihi" in df_scraped.columns:
             df_scraped["Yil"] = df_scraped["Dagitim_Tarihi"].apply(get_mantiki_yil)
+            # Zaman kaydırması yapabilmek için temettülerin net tarihlerini çekiyoruz
+            df_scraped["Div_Date"] = df_scraped["Dagitim_Tarihi"].apply(parse_date_to_yyyymmdd)
             df_scraped = df_scraped.dropna(subset=["Yil"])
+            
+            # Her hissenin o yılki EN İLK temettü tarihini referans olarak al
+            first_div_dates = df_scraped.sort_values("Div_Date").groupby(["Kod", "Yil"])["Div_Date"].first().to_dict()
+            
             if "Temettu_Verim_%" in df_scraped.columns:
                 df_scraped["Temettu_Verim_%"] = df_scraped["Temettu_Verim_%"].apply(parse_yield)
                 df_verim_final = df_scraped[pd.to_numeric(df_scraped['Temettu_Verim_%'], errors='coerce').notnull()].copy()
@@ -312,9 +285,27 @@ def main():
 
     df_splits_final = pd.DataFrame(columns=["Kod", "Yil", "Bedelsiz_Oran"])
     if all_extracted_splits:
-        df_splits_final = pd.DataFrame(all_extracted_splits)
-        # Güvenlik ağı: Aynı yıla ait mükerrer verileri engelle, en yüksek oranı baz al
-        df_splits_final = df_splits_final.groupby(["Kod", "Yil"], as_index=False)["Bedelsiz_Oran"].max()
+        for s in all_extracted_splits:
+            k = s["Kod"]
+            y = s["Yil"]
+            s_date = s.get("Split_Date", "9999-99-99")
+            
+            d_date = first_div_dates.get((k, y))
+            # KRİTİK DÜZELTME: Bölünme, temettüden ÖNCE yapıldıysa;
+            # Geçmişi ezmemesi için bölünmeyi bir önceki yıla kaydırıyoruz. (Zaman Yolculuğu)
+            if d_date and s_date < d_date:
+                s["Yil"] = str(int(y) - 1)
+                print(f" >>> DÜZELTME: {k} hissesinin {y} yılındaki bedelsizi temettüden önce! Yıl {s['Yil']} olarak kaydırıldı.")
+                
+        df_temp = pd.DataFrame(all_extracted_splits)
+        
+        # Aynı yıla kayan veya aynı yılda birden fazla olan bölünmeleri bileşik (kümülatif) hesapla
+        def calc_compound(series):
+            res = 1.0
+            for val in series: res *= (1.0 + (float(val) / 100.0))
+            return (res - 1.0) * 100.0
+            
+        df_splits_final = df_temp.groupby(["Kod", "Yil"], as_index=False).agg({"Bedelsiz_Oran": calc_compound})
 
     raw_api_temettu = fetch_api_data(session, "04")
     processed_dividends = []
@@ -382,7 +373,7 @@ def main():
     out_path = "bist_temettu_master.csv"
     df_master.to_csv(out_path, index=False, encoding="utf-8", decimal=".", sep=";")
     upload_to_drive(out_path)
-    print("\nGörev başarıyla tamamlandı! Bedelsiz verileri Yahoo Bypass ile tabloya eklendi.")
+    print("\nGörev başarıyla tamamlandı! Hatalı yıllara zaman kaydırması başarıyla uygulandı.")
 
 if __name__ == "__main__":
     main()
