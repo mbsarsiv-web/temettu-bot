@@ -286,21 +286,30 @@ def main():
         df_ipo_final = pd.DataFrame(processed_ipo)
         df_ipo_final = df_ipo_final.groupby("Kod", as_index=False)["Arz_Yili"].min()
 
-    # YENİ EKLENEN BÖLÜM: Bedelsiz Bölünme Verilerini (02) Çekip İşleme
-    raw_api_bedelsiz = fetch_api_data(session, "02")
+    # DÜZELTİLMİŞ BÖLÜM: Tanım kodu 01 yapıldı ve anahtar araması (I/İ sorunu) genişletildi
+    raw_api_bedelsiz = fetch_api_data(session, "01")
+    if not raw_api_bedelsiz:
+        raw_api_bedelsiz = fetch_api_data(session, "") # API boş dönerse tümünü (HEPSI) çek
+        
     processed_splits = []
     for satir in raw_api_bedelsiz:
         kod = satir.get("SHHE_HS_KOD") or satir.get("HISSE_KODU") or ""
         tarih = satir.get("SHHE_TARIH") or satir.get("TARIH") or ""
+        
         if not kod or not tarih:
             for k, v in satir.items():
-                if not kod and "KOD" in k.upper(): kod = v
-                if not tarih and "TARIH" in k.upper(): tarih = v
+                k_upper = str(k).upper().replace('İ', 'I')
+                if not kod and "KOD" in k_upper: kod = v
+                if not tarih and "TARIH" in k_upper: tarih = v
+                
         bedelsiz_oran = 0.0
         for k, v in satir.items():
-            if "BEDELSIZ" in k.upper() and "ORAN" in k.upper():
+            k_upper = str(k).upper().replace('İ', 'I')
+            # Hem BDLSZ hem BEDELSIZ aranır, büyük-küçük İ/I hatası önlenir
+            if ("BEDELSIZ" in k_upper or "BDLSZ" in k_upper) and "ORAN" in k_upper:
                 val = parse_turkce_sayi(v)
                 if val > 0: bedelsiz_oran += val
+                
         if kod and tarih and bedelsiz_oran > 0:
             kod = str(kod).strip().upper()
             yil = get_mantiki_yil(tarih)
