@@ -17,13 +17,15 @@ API_URL = "https://www.isyatirim.com.tr/_layouts/15/IsYatirim.Website/StockInfo/
 
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
-    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+    "Accept": "application/json, text/javascript, */*; q=0.01",
     "Accept-Language": "tr-TR,tr;q=0.9,en-US;q=0.8,en;q=0.7",
     "Cache-Control": "no-cache",
-    "Connection": "keep-alive"
+    "Connection": "keep-alive",
+    "X-Requested-With": "XMLHttpRequest",
+    "Content-Type": "application/json; charset=utf-8"
 }
 
-REQUEST_DELAY = 0.5  
+REQUEST_DELAY = 0.3  
 RETRY_COUNT = 5
 RETRY_WAIT = 3.0
 
@@ -52,12 +54,7 @@ def fetch_with_retry(session, url, method="GET", json_payload=None, extra_header
 
 def fetch_api_data(session, tanim_kodu):
     payload = {"hisseKodu": "", "hisseTanimKodu": tanim_kodu, "yil": 0, "zaman": "HEPSI", "endeksKodu": "09", "sektorKodu": ""}
-    api_headers = {
-        "Accept": "application/json",
-        "X-Requested-With": "XMLHttpRequest",
-        "Content-Type": "application/json; charset=utf-8"
-    }
-    res_text = fetch_with_retry(session, API_URL, method="POST", json_payload=payload, extra_headers=api_headers)
+    res_text = fetch_with_retry(session, API_URL, method="POST", json_payload=payload)
     if not res_text: return []
     try:
         js = json.loads(res_text)
@@ -69,8 +66,53 @@ def fetch_api_data(session, tanim_kodu):
     except Exception: pass
     return []
 
+# YENİ EKLENEN KESİN ÇÖZÜM: Hisseye Özel Bedelsiz Çekme Fonksiyonu
+def fetch_stock_splits(session, kod):
+    splits = []
+    # 1 ve 2 kodları İş Yatırım'da sermaye artırımlarını temsil eder. İkisini de tarıyoruz.
+    for tk in ["1", "2", ""]:
+        payload = {"hisseKodu": kod, "hisseTanimKodu": tk, "yil": 0, "zaman": "HEPSI", "endeksKodu": "09", "sektorKodu": ""}
+        res = fetch_with_retry(session, API_URL, method="POST", json_payload=payload)
+        
+        if res:
+            try:
+                js = json.loads(res)
+                data = js.get("value") or js.get("d") or js
+                if isinstance(data, str): data = json.loads(data)
+                
+                rows = []
+                if isinstance(data, list): rows = data
+                elif isinstance(data, dict):
+                    for k in data:
+                        if isinstance(data[k], list):
+                            rows = data[k]
+                            break
+                
+                found_split = False
+                for satir in rows:
+                    tarih = satir.get("SHHE_TARIH") or satir.get("TARIH") or ""
+                    bedelsiz_oran = 0.0
+                    for k, v in satir.items():
+                        k_upper = str(k).upper().replace('İ', 'I')
+                        if ("BEDELSIZ" in k_upper or "BDLSZ" in k_upper) and "ORAN" in k_upper:
+                            val = parse_turkce_sayi(v)
+                            if val > 0: bedelsiz_oran += val
+                    
+                    if tarih and bedelsiz_oran > 0:
+                        found_split = True
+                        yil = get_mantiki_yil(tarih)
+                        if yil:
+                            splits.append({"Kod": kod, "Yil": yil, "Bedelsiz_Oran": bedelsiz_oran})
+                            print(f">>> BİLGİ: {kod} için {yil} yılında %{bedelsiz_oran} bedelsiz bulundu ve eklendi!")
+                
+                if found_split:
+                    return splits # Bulduğunda diğer tanım kodlarını taramayı bırakır
+            except Exception:
+                pass
+    return splits
+
 def get_all_tickers(session):
-    html = fetch_with_retry(session, LIST_URL)
+    html = fetch_with_retry(session, LIST_URL, method="GET")
     tickers = set()
     if html:
         pairs = re.findall(r'>([A-Z][A-Z0-9]{1,5})\s*\|\s*([^<\n]{2,60})<', html)
@@ -148,63 +190,6 @@ def clean_dividend_table(df, kod):
     df.insert(0, "Kod", kod)
     return df
 
-# YENİ EKLENEN FONKSİYON: Bölünme tablosunu HTML üzerinden kazır
-def find_split_table(html):
-    try:
-        tables = pd.read_html(StringIO(html), thousands='_', decimal='.')
-    except Exception:
-        return None
-    adaylar = []
-    for tbl in tables:
-        cols = [str(c).lower() for c in tbl.columns]
-        joined = " ".join(cols)
-        # Tabloda bedelsiz, oran ve tarih kelimeleri varsa o tabloyu al
-        if "bedelsiz" in joined and "oran" in joined and "tarih" in joined:
-            adaylar.append(tbl)
-    if not adaylar:
-        return None
-    adaylar.sort(key=lambda t: len(t), reverse=True)
-    return adaylar[0]
-
-# YENİ EKLENEN FONKSİYON: Bölünme tablosunu temizleyip yıla dönüştürür
-def clean_split_table(df, kod):
-    if isinstance(df.columns, pd.MultiIndex):
-        df.columns = ['_'.join(map(str, col)).strip() for col in df.columns]
-        
-    tarih_col = None
-    bedelsiz_cols = []
-    for c in df.columns:
-        c_str = str(c).lower().strip()
-        if "tarih" in c_str:
-            tarih_col = c
-        elif "bedelsiz" in c_str and "oran" in c_str:
-            bedelsiz_cols.append(c)
-            
-    if not tarih_col or not bedelsiz_cols:
-        return pd.DataFrame()
-        
-    df_out = pd.DataFrame()
-    df_out["Kod"] = [kod] * len(df)
-    
-    # Tarihten yılı ayıkla
-    def get_year(d):
-        s = str(d).strip()
-        m = re.search(r'\b(19[8-9]\d|20\d\d)\b', s)
-        return m.group(1) if m else None
-        
-    df_out["Yil"] = df[tarih_col].apply(get_year)
-    
-    # Tüm bedelsiz oran sütunlarını topla (IK Oran + Temettü Oran)
-    oranlar = pd.Series(0.0, index=range(len(df)))
-    for bc in bedelsiz_cols:
-        oranlar += df[bc].apply(parse_turkce_sayi)
-        
-    df_out["Bedelsiz_Oran"] = oranlar
-    df_out = df_out[df_out["Bedelsiz_Oran"] > 0]
-    df_out = df_out[df_out["Yil"].notna()]
-    
-    return df_out[["Kod", "Yil", "Bedelsiz_Oran"]]
-
 def parse_turkce_sayi(val):
     if pd.isna(val) or not val: return 0.0
     if isinstance(val, (int, float)): return float(val)
@@ -270,25 +255,24 @@ def main():
     
     tickers = get_all_tickers(session)
     print(f"Toplam {len(tickers)} adet hisse senedi bulundu.")
+    print("Bedelsiz oranları ve temettüler tek tek taranıyor, lütfen bekleyin...\n")
     
     all_rows = []
-    all_splits = [] # Bedelsizleri tutacak liste
+    processed_splits = []
     
     for kod in tickers:
-        html = fetch_with_retry(session, BASE_URL.format(kod))
-        if not html: continue
+        # 1. Temettü özetini çek
+        html = fetch_with_retry(session, BASE_URL.format(kod), method="GET")
+        if html:
+            tbl = find_dividend_table(html)
+            if tbl is not None:
+                cleaned = clean_dividend_table(tbl, kod)
+                if not cleaned.empty: all_rows.append(cleaned)
         
-        # 1. Temettü Tablosunu HTML'den Bul ve Temizle
-        tbl = find_dividend_table(html)
-        if tbl is not None:
-            cleaned = clean_dividend_table(tbl, kod)
-            if not cleaned.empty: all_rows.append(cleaned)
-            
-        # 2. Bölünme (Sermaye Artırımı) Tablosunu HTML'den Bul ve Temizle
-        tbl_split = find_split_table(html)
-        if tbl_split is not None:
-            cleaned_split = clean_split_table(tbl_split, kod)
-            if not cleaned_split.empty: all_splits.append(cleaned_split)
+        # 2. AJAX Kanalından SADECE bu hissenin bedelsizini çek
+        stock_splits = fetch_stock_splits(session, kod)
+        if stock_splits:
+            processed_splits.extend(stock_splits)
             
         time.sleep(REQUEST_DELAY)
             
@@ -311,11 +295,10 @@ def main():
                     df_hb_temp["Hisse_Basi_TL"] = df_hb_temp["Hisse_Basi_TL"].astype(float)
                     df_hb_final = df_hb_temp.groupby(["Kod", "Yil"], as_index=False)["Hisse_Basi_TL"].sum()
 
-    # Bedelsiz verilerini HTML kazımasından birleştir
-    df_splits_html = pd.DataFrame(columns=["Kod", "Yil", "Bedelsiz_Oran"])
-    if all_splits:
-        df_splits_html = pd.concat(all_splits, ignore_index=True)
-        df_splits_html = df_splits_html.groupby(["Kod", "Yil"], as_index=False)["Bedelsiz_Oran"].sum()
+    df_splits_final = pd.DataFrame(columns=["Kod", "Yil", "Bedelsiz_Oran"])
+    if processed_splits:
+        df_splits_final = pd.DataFrame(processed_splits)
+        df_splits_final = df_splits_final.groupby(["Kod", "Yil"], as_index=False)["Bedelsiz_Oran"].sum()
 
     raw_api_temettu = fetch_api_data(session, "04")
     processed_dividends = []
@@ -363,13 +346,12 @@ def main():
     df_base = pd.DataFrame({"Kod": tickers})
     df_base = pd.merge(df_base, df_ipo_final, on="Kod", how="left")
     
-    if df_div_final.empty and df_verim_final.empty:
+    if df_div_final.empty and df_verim_final.empty and df_splits_final.empty:
         df_events = pd.DataFrame(columns=["Kod", "Yil", "Tutar", "Temettu_Verim_%", "Hisse_Basi_TL", "Bedelsiz_Oran"])
     else:
         df_events = pd.merge(df_div_final, df_verim_final, on=["Kod", "Yil"], how="outer")
-        df_events = pd.merge(df_events, df_hb_final, on=["Kod", "Yil"], how="left")
-        # Bölünme bilgisini OUTER olarak ekliyoruz ki kaybolmasın
-        df_events = pd.merge(df_events, df_splits_html, on=["Kod", "Yil"], how="outer")
+        df_events = pd.merge(df_events, df_hb_final, on=["Kod", "Yil"], how="outer")
+        df_events = pd.merge(df_events, df_splits_final, on=["Kod", "Yil"], how="outer")
         
     df_master = pd.merge(df_base, df_events, on="Kod", how="left")
     
@@ -384,7 +366,7 @@ def main():
     out_path = "bist_temettu_master.csv"
     df_master.to_csv(out_path, index=False, encoding="utf-8", decimal=".", sep=";")
     upload_to_drive(out_path)
-    print("Görev başarıyla tamamlandı! Bölünme verileri sisteme HTML'den çekilerek eklendi.")
+    print("\nGörev başarıyla tamamlandı! Bölünme verileri doğrudan AJAX kanalından sökülerek eklendi.")
 
 if __name__ == "__main__":
     main()
