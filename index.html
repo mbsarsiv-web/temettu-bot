@@ -432,7 +432,6 @@
               }
             }
             
-            // YENİ EKLENEN: Bedelsiz Haritalaması
             if (bedelsizSutunuVarMi) {
               var rawBedelsiz = verimVerisi[v][bedelsizIndeks];
               var sayisalBedelsiz = verimSayisiCoz(rawBedelsiz);
@@ -569,48 +568,64 @@
         var ortalamaVerim = odemeYaptigiYilSayisi > 0 ? (toplamVerim10Yil / odemeYaptigiYilSayisi) : 0;
         icSutunlarHtml += '<td class="trend-col">' + sparklineOlustur(sparkDegerler.slice(-8)) + '</td>';
 
-        var tumYillarDegerler = [];
-        var tumYillarBedelsiz = []; // YENİ: Her yılın bedelsiz oranını tutacak dizi
+        // KATMANLI HESAPLAMA (Ödeme -> Saf Nakit -> Düzeltilmiş Hisse Başı) DİZİLERİNİN OLUŞTURULMASI
+        var tumYillarTutar = [];
+        var tumYillarDPS = [];
+        var tumYillarBedelsiz = [];
         
         for (var idxY = 2; idxY < idxYogunluk; idxY++) {
           var yilBaslik = orjBasliklarTumu[idxY].toString().trim();
+          var tDeger = sayiyaCevir(satir[idxY]); // Pivot Tablodan gelen Toplam Nakit Tutar
+          tumYillarTutar.push(tDeger);
+          
           if (hisseBasiSutunuVarMi) {
             var hbDeger = hisseBasiMap[temizKod + "_" + yilBaslik] || 0;
-            tumYillarDegerler.push(hbDeger);
+            // Eğer hisse başı boş gelirse kurtarıcı olarak Toplam Tutar referans alınır (eşitlik bozulmasın diye)
+            tumYillarDPS.push(hbDeger > 0 ? hbDeger : tDeger);
           } else {
-            tumYillarDegerler.push(sayiyaCevir(satir[idxY]));
+            tumYillarDPS.push(tDeger);
           }
-          // YENİ: Bedelsiz haritasından ilgili yılın oranını al
           tumYillarBedelsiz.push(bedelsizMap[temizKod + "_" + yilBaslik] || 0);
         }
 
-        // YENİ EKLENEN BÖLÜM: Düzeltme Katsayısı Algoritması (Sadece Artış Serisi için)
+        // KATMANLI BÜYÜME ALGORİTMASI 
         var artisSerisi = 0;
-        if (tumYillarDegerler.length > 0) {
-            var adjDegerler = [];
+        if (tumYillarTutar.length > 0) {
+            var adjDPS = [];
             var cumulativeMultiplier = 1.0;
             
-            // Geriye dönük çarpan uygulayarak düzeltilmiş (adjusted) geçmiş değerleri hesapla
-            for (var k = tumYillarDegerler.length - 1; k >= 0; k--) {
+            // Hazırlık Katmanı: Bedelsizlere göre geriye dönük hisse başı temettü düzeltmesi
+            for (var k = tumYillarDPS.length - 1; k >= 0; k--) {
                 var oran = tumYillarBedelsiz[k];
                 if (oran > 0) {
-                    cumulativeMultiplier *= (1 + (oran / 100)); // Örn: %1100 -> 12 katına çıkar
+                    cumulativeMultiplier *= (1 + (oran / 100));
                 }
-                var adj = tumYillarDegerler[k] / cumulativeMultiplier;
-                adjDegerler.unshift(adj); // Başa ekleyerek kronolojik sırayı korur
+                var adj = tumYillarDPS[k] / cumulativeMultiplier;
+                adjDPS.unshift(adj); 
             }
 
-            // Hesaplanan düzeltilmiş değerler üzerinden artış serisini say
-            var sonMiktar = adjDegerler[adjDegerler.length - 1]; 
-            if (sonMiktar > 0) {
-                for (var k = adjDegerler.length - 2; k >= 0; k--) {
-                    var onceki = adjDegerler[k];
-                    // Küsurat hatalarını aşmak için ufak bir tolerans aralığı ile büyüme tespiti
-                    if (onceki > 0 && (sonMiktar - onceki) > -0.0001) {
+            var sonTutar = tumYillarTutar[tumYillarTutar.length - 1]; 
+            var sonAdjDPS = adjDPS[adjDPS.length - 1];
+
+            // 1. Katman: Şirket o yıl hiç ödeme yapmamışsa seri doğrudan kilitlenir
+            if (sonTutar > 0 && sonAdjDPS > 0) {
+                for (var k = tumYillarTutar.length - 2; k >= 0; k--) {
+                    var oncekiTutar = tumYillarTutar[k];
+                    var oncekiAdjDPS = adjDPS[k];
+                    
+                    // 2. Katman: TOPLAM NAKİT KESİNLİKLE BÜYÜMELİ (> 0.0001 fark ile YGGYO elenir)
+                    var isTutarArtmis = oncekiTutar > 0 && (sonTutar - oncekiTutar) > 0.0001;
+                    
+                    // 3. Katman: DÜZELTİLMİŞ HİSSE BAŞI KESİNLİKLE BÜYÜMELİ (> 0.00001 fark ile elenir)
+                    var isDPSArtmis = oncekiAdjDPS > 0 && (sonAdjDPS - oncekiAdjDPS) > 0.00001;
+
+                    // Hem şirketin kasasından çıkan para büyümüş olacak, hem yatırımcıya düşen lot başı reel pay büyüyecek
+                    if (isTutarArtmis && isDPSArtmis) {
                         artisSerisi++;
-                        sonMiktar = onceki;
+                        sonTutar = oncekiTutar;
+                        sonAdjDPS = oncekiAdjDPS;
                     } else {
-                        break; 
+                        break; // Şartlardan herhangi biri sağlanmazsa seri anında sıfırlanır
                     }
                 }
             }
