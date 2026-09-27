@@ -17,15 +17,13 @@ API_URL = "https://www.isyatirim.com.tr/_layouts/15/IsYatirim.Website/StockInfo/
 
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
-    "Accept": "application/json, text/javascript, */*; q=0.01",
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
     "Accept-Language": "tr-TR,tr;q=0.9,en-US;q=0.8,en;q=0.7",
     "Cache-Control": "no-cache",
-    "Connection": "keep-alive",
-    "X-Requested-With": "XMLHttpRequest",
-    "Content-Type": "application/json; charset=utf-8"
+    "Connection": "keep-alive"
 }
 
-REQUEST_DELAY = 0.3  
+REQUEST_DELAY = 0.5  
 RETRY_COUNT = 5
 RETRY_WAIT = 3.0
 
@@ -54,7 +52,12 @@ def fetch_with_retry(session, url, method="GET", json_payload=None, extra_header
 
 def fetch_api_data(session, tanim_kodu):
     payload = {"hisseKodu": "", "hisseTanimKodu": tanim_kodu, "yil": 0, "zaman": "HEPSI", "endeksKodu": "09", "sektorKodu": ""}
-    res_text = fetch_with_retry(session, API_URL, method="POST", json_payload=payload)
+    api_headers = {
+        "Accept": "application/json",
+        "X-Requested-With": "XMLHttpRequest",
+        "Content-Type": "application/json; charset=utf-8"
+    }
+    res_text = fetch_with_retry(session, API_URL, method="POST", json_payload=payload, extra_headers=api_headers)
     if not res_text: return []
     try:
         js = json.loads(res_text)
@@ -66,53 +69,8 @@ def fetch_api_data(session, tanim_kodu):
     except Exception: pass
     return []
 
-# YENİ EKLENEN KESİN ÇÖZÜM: Hisseye Özel Bedelsiz Çekme Fonksiyonu
-def fetch_stock_splits(session, kod):
-    splits = []
-    # 1 ve 2 kodları İş Yatırım'da sermaye artırımlarını temsil eder. İkisini de tarıyoruz.
-    for tk in ["1", "2", ""]:
-        payload = {"hisseKodu": kod, "hisseTanimKodu": tk, "yil": 0, "zaman": "HEPSI", "endeksKodu": "09", "sektorKodu": ""}
-        res = fetch_with_retry(session, API_URL, method="POST", json_payload=payload)
-        
-        if res:
-            try:
-                js = json.loads(res)
-                data = js.get("value") or js.get("d") or js
-                if isinstance(data, str): data = json.loads(data)
-                
-                rows = []
-                if isinstance(data, list): rows = data
-                elif isinstance(data, dict):
-                    for k in data:
-                        if isinstance(data[k], list):
-                            rows = data[k]
-                            break
-                
-                found_split = False
-                for satir in rows:
-                    tarih = satir.get("SHHE_TARIH") or satir.get("TARIH") or ""
-                    bedelsiz_oran = 0.0
-                    for k, v in satir.items():
-                        k_upper = str(k).upper().replace('İ', 'I')
-                        if ("BEDELSIZ" in k_upper or "BDLSZ" in k_upper) and "ORAN" in k_upper:
-                            val = parse_turkce_sayi(v)
-                            if val > 0: bedelsiz_oran += val
-                    
-                    if tarih and bedelsiz_oran > 0:
-                        found_split = True
-                        yil = get_mantiki_yil(tarih)
-                        if yil:
-                            splits.append({"Kod": kod, "Yil": yil, "Bedelsiz_Oran": bedelsiz_oran})
-                            print(f">>> BİLGİ: {kod} için {yil} yılında %{bedelsiz_oran} bedelsiz bulundu ve eklendi!")
-                
-                if found_split:
-                    return splits # Bulduğunda diğer tanım kodlarını taramayı bırakır
-            except Exception:
-                pass
-    return splits
-
 def get_all_tickers(session):
-    html = fetch_with_retry(session, LIST_URL, method="GET")
+    html = fetch_with_retry(session, LIST_URL)
     tickers = set()
     if html:
         pairs = re.findall(r'>([A-Z][A-Z0-9]{1,5})\s*\|\s*([^<\n]{2,60})<', html)
@@ -132,6 +90,7 @@ def get_all_tickers(session):
                     tickers.add(kod)
     return sorted(list(tickers))
 
+# Orijinal Temettü Tablosu Bulucu
 def find_dividend_table(html):
     try:
         tables = pd.read_html(StringIO(html), thousands='_', decimal='.')
@@ -143,52 +102,76 @@ def find_dividend_table(html):
         joined = " ".join(cols)
         if "verim" in joined and "tarih" in joined:
             adaylar.append(tbl)
-            
-    if not adaylar:
+    if not adaylar: return None
+    adaylar.sort(key=lambda t: len(t), reverse=True)
+    return adaylar[0]
+
+# YENİ: Web sayfasındaki HTML tablosundan doğrudan Bedelsiz bulucu
+def find_split_table_html(html):
+    try:
+        tables = pd.read_html(StringIO(html), thousands='_', decimal='.')
+    except Exception:
         return None
-        
+    adaylar = []
+    for tbl in tables:
+        cols = [str(c).lower() for c in tbl.columns]
+        joined = " ".join(cols)
+        if "tarih" in joined and "bedelsiz" in joined:
+            adaylar.append(tbl)
+    if not adaylar: return None
     adaylar.sort(key=lambda t: len(t), reverse=True)
     return adaylar[0]
 
 def clean_dividend_table(df, kod):
     if isinstance(df.columns, pd.MultiIndex):
         df.columns = ['_'.join(map(str, col)).strip() for col in df.columns]
-        
     rename_map = {}
     for c in df.columns:
         c_str = str(c).lower().strip()
         if "tarih" in c_str or "dağ" in c_str or "yıl" in c_str:
-            if "Dagitim_Tarihi" not in rename_map.values():
-                rename_map[c] = "Dagitim_Tarihi"
+            if "Dagitim_Tarihi" not in rename_map.values(): rename_map[c] = "Dagitim_Tarihi"
         elif "verim" in c_str:
-            if "Temettu_Verim_%" not in rename_map.values():
-                rename_map[c] = "Temettu_Verim_%"
+            if "Temettu_Verim_%" not in rename_map.values(): rename_map[c] = "Temettu_Verim_%"
         elif "hisse" in c_str:
-            if "Hisse_Basi_TL" not in rename_map.values():
-                rename_map[c] = "Hisse_Basi_TL"
-                
+            if "Hisse_Basi_TL" not in rename_map.values(): rename_map[c] = "Hisse_Basi_TL"
     df = df.rename(columns=rename_map)
-    
     if "Dagitim_Tarihi" not in df.columns:
         for c in df.columns:
             if "tarih" in str(c).lower():
-                df = df.rename(columns={c: "Dagitim_Tarihi"})
-                break
-                
-    if "Dagitim_Tarihi" not in df.columns or "Temettu_Verim_%" not in df.columns:
-        return pd.DataFrame()
-        
-    if "Hisse_Basi_TL" not in df.columns:
-        df["Hisse_Basi_TL"] = ""
-        
+                df = df.rename(columns={c: "Dagitim_Tarihi"}); break
+    if "Dagitim_Tarihi" not in df.columns or "Temettu_Verim_%" not in df.columns: return pd.DataFrame()
+    if "Hisse_Basi_TL" not in df.columns: df["Hisse_Basi_TL"] = ""
     df = df.loc[:, ~df.columns.duplicated()]
     keep_cols = ["Dagitim_Tarihi", "Temettu_Verim_%", "Hisse_Basi_TL"]
     df = df[keep_cols].copy()
-    
     df = df[df["Dagitim_Tarihi"].notna()]
     df = df.drop_duplicates()
     df.insert(0, "Kod", kod)
     return df
+
+# YENİ: HTML Tablosunun içinden bedelsizleri güvenle koparıp alan fonksiyon
+def extract_splits_from_df(df, kod):
+    splits = []
+    if isinstance(df.columns, pd.MultiIndex):
+        df.columns = ['_'.join(map(str, col)).strip() for col in df.columns]
+    tarih_col = None
+    bedelsiz_cols = []
+    for c in df.columns:
+        c_str = str(c).lower().strip()
+        if "tarih" in c_str or "dağ" in c_str: tarih_col = c
+        elif "bedelsiz" in c_str and "oran" in c_str: bedelsiz_cols.append(c)
+    
+    if tarih_col and bedelsiz_cols:
+        for idx, row in df.iterrows():
+            tarih = row[tarih_col]
+            b_oran = 0.0
+            for bc in bedelsiz_cols:
+                val = parse_turkce_sayi(row[bc])
+                if val > 0: b_oran += val
+            if b_oran > 0:
+                yil = get_mantiki_yil(tarih)
+                if yil: splits.append({"Kod": kod, "Yil": yil, "Bedelsiz_Oran": b_oran})
+    return splits
 
 def parse_turkce_sayi(val):
     if pd.isna(val) or not val: return 0.0
@@ -196,12 +179,9 @@ def parse_turkce_sayi(val):
     s = str(val).strip()
     if not s: return 0.0
     if ',' in s and '.' in s:
-        if s.rfind(',') > s.rfind('.'):
-            s = s.replace('.', '').replace(',', '.')
-        else:
-            s = s.replace(',', '')
-    elif ',' in s:
-        s = s.replace(',', '.')
+        if s.rfind(',') > s.rfind('.'): s = s.replace('.', '').replace(',', '.')
+        else: s = s.replace(',', '')
+    elif ',' in s: s = s.replace(',', '.')
     try: return float(s)
     except ValueError: return 0.0
 
@@ -221,16 +201,11 @@ def parse_yield(val):
     s = str(val).strip().replace('%', '').replace('₺', '').replace('TL', '')
     if not s or s == '-': return ""
     if ',' in s and '.' in s:
-        if s.rfind(',') > s.rfind('.'):
-            s = s.replace('.', '').replace(',', '.')
-        else:
-            s = s.replace(',', '')
-    elif ',' in s: 
-        s = s.replace(',', '.')
-    try:
-        return float(s)
-    except ValueError:
-        return ""
+        if s.rfind(',') > s.rfind('.'): s = s.replace('.', '').replace(',', '.')
+        else: s = s.replace(',', '')
+    elif ',' in s: s = s.replace(',', '.')
+    try: return float(s)
+    except ValueError: return ""
 
 def upload_to_drive(filename):
     service_account_info = json.loads(os.environ['GCP_SERVICE_ACCOUNT_JSON'])
@@ -255,25 +230,23 @@ def main():
     
     tickers = get_all_tickers(session)
     print(f"Toplam {len(tickers)} adet hisse senedi bulundu.")
-    print("Bedelsiz oranları ve temettüler tek tek taranıyor, lütfen bekleyin...\n")
     
     all_rows = []
-    processed_splits = []
+    all_extracted_splits = []
     
+    # 1. VEKTÖR: HTML Üzerinden Doğrudan Tarama
     for kod in tickers:
-        # 1. Temettü özetini çek
         html = fetch_with_retry(session, BASE_URL.format(kod), method="GET")
         if html:
-            tbl = find_dividend_table(html)
-            if tbl is not None:
-                cleaned = clean_dividend_table(tbl, kod)
+            tbl_div = find_dividend_table(html)
+            if tbl_div is not None:
+                cleaned = clean_dividend_table(tbl_div, kod)
                 if not cleaned.empty: all_rows.append(cleaned)
-        
-        # 2. AJAX Kanalından SADECE bu hissenin bedelsizini çek
-        stock_splits = fetch_stock_splits(session, kod)
-        if stock_splits:
-            processed_splits.extend(stock_splits)
-            
+                
+            tbl_split = find_split_table_html(html)
+            if tbl_split is not None:
+                html_splits = extract_splits_from_df(tbl_split, kod)
+                all_extracted_splits.extend(html_splits)
         time.sleep(REQUEST_DELAY)
             
     df_verim_final = pd.DataFrame(columns=["Kod", "Yil", "Temettu_Verim_%"])
@@ -295,34 +268,58 @@ def main():
                     df_hb_temp["Hisse_Basi_TL"] = df_hb_temp["Hisse_Basi_TL"].astype(float)
                     df_hb_final = df_hb_temp.groupby(["Kod", "Yil"], as_index=False)["Hisse_Basi_TL"].sum()
 
-    df_splits_final = pd.DataFrame(columns=["Kod", "Yil", "Bedelsiz_Oran"])
-    if processed_splits:
-        df_splits_final = pd.DataFrame(processed_splits)
-        df_splits_final = df_splits_final.groupby(["Kod", "Yil"], as_index=False)["Bedelsiz_Oran"].sum()
-
-    raw_api_temettu = fetch_api_data(session, "04")
     processed_dividends = []
-    for satir in raw_api_temettu:
-        kod = satir.get("SHHE_HS_KOD") or satir.get("HISSE_KODU") or ""
-        tarih = satir.get("SHHE_TARIH") or satir.get("TARIH") or ""
-        if not kod or not tarih:
-            for k, v in satir.items():
-                if not kod and "KOD" in k.upper(): kod = v
-                if not tarih and "TARIH" in k.upper(): tarih = v
-        nakit_temettu = 0.0
-        for k, v in satir.items():
-            if ("TEM" in k.upper() and "TUTAR" in k.upper()) or "NAKIT" in k.upper():
-                val = parse_turkce_sayi(v)
-                if val > nakit_temettu: nakit_temettu = val
-        if kod and tarih and nakit_temettu > 0:
-            kod = str(kod).strip().upper()
-            yil = get_mantiki_yil(tarih)
-            if yil: processed_dividends.append({"Kod": kod, "Yil": yil, "Tutar": nakit_temettu})
+    
+    # 2. ve 3. VEKTÖR: Tüm Olası API Kodlarını "Ağ" Gibi Tarama (Halı Bombardımanı)
+    bulk_codes = ["04", "02", "01", "2", "1", ""]
+    for bulk_code in bulk_codes:
+        raw_api = fetch_api_data(session, bulk_code)
+        for satir in raw_api:
+            kod = satir.get("SHHE_HS_KOD") or satir.get("HISSE_KODU") or ""
+            tarih = satir.get("SHHE_TARIH") or satir.get("TARIH") or ""
             
+            if not kod or not tarih:
+                for k, v in satir.items():
+                    k_upper = str(k).upper().replace('İ', 'I')
+                    if not kod and "KOD" in k_upper: kod = v
+                    if not tarih and "TARIH" in k_upper: tarih = v
+                    
+            if kod and tarih:
+                kod = str(kod).strip().upper()
+                yil = get_mantiki_yil(tarih)
+                if yil:
+                    # Temettüleri sadece 04 kodundan topla (Orijinal yapı)
+                    if bulk_code == "04":
+                        nakit_temettu = 0.0
+                        for k, v in satir.items():
+                            k_upper = str(k).upper().replace('İ', 'I')
+                            if ("TEM" in k_upper and "TUTAR" in k_upper) or "NAKIT" in k_upper:
+                                val = parse_turkce_sayi(v)
+                                if val > nakit_temettu: nakit_temettu = val
+                        if nakit_temettu > 0:
+                            processed_dividends.append({"Kod": kod, "Yil": yil, "Tutar": nakit_temettu})
+                            
+                    # Bedelsiz Oranları HANGİ KODDAN GELİRSE GELSİN (04 dahil) topla
+                    bedelsiz_oran = 0.0
+                    for k, v in satir.items():
+                        k_upper = str(k).upper().replace('İ', 'I')
+                        if ("BEDELS" in k_upper or "BDLSZ" in k_upper) and "ORAN" in k_upper:
+                            val = parse_turkce_sayi(v)
+                            if val > 0: bedelsiz_oran += val
+                    
+                    if bedelsiz_oran > 0:
+                        all_extracted_splits.append({"Kod": kod, "Yil": yil, "Bedelsiz_Oran": bedelsiz_oran})
+
     df_div_final = pd.DataFrame(columns=["Kod", "Yil", "Tutar"])
     if processed_dividends:
         df_div_final = pd.DataFrame(processed_dividends)
         df_div_final = df_div_final.groupby(["Kod", "Yil"], as_index=False)["Tutar"].sum()
+
+    df_splits_final = pd.DataFrame(columns=["Kod", "Yil", "Bedelsiz_Oran"])
+    if all_extracted_splits:
+        df_splits_final = pd.DataFrame(all_extracted_splits)
+        # Tüm vektörlerden gelen kopya kayıtları engellemek için max() ile en iyisini alıyoruz
+        df_splits_final = df_splits_final.groupby(["Kod", "Yil"], as_index=False)["Bedelsiz_Oran"].max()
 
     raw_api_arz = fetch_api_data(session, "99")
     processed_ipo = []
@@ -351,6 +348,7 @@ def main():
     else:
         df_events = pd.merge(df_div_final, df_verim_final, on=["Kod", "Yil"], how="outer")
         df_events = pd.merge(df_events, df_hb_final, on=["Kod", "Yil"], how="outer")
+        # OUTER merge sayesinde hissenin temettüsü olmasa bile bedelsizi tabloya eklenir
         df_events = pd.merge(df_events, df_splits_final, on=["Kod", "Yil"], how="outer")
         
     df_master = pd.merge(df_base, df_events, on="Kod", how="left")
@@ -366,7 +364,7 @@ def main():
     out_path = "bist_temettu_master.csv"
     df_master.to_csv(out_path, index=False, encoding="utf-8", decimal=".", sep=";")
     upload_to_drive(out_path)
-    print("\nGörev başarıyla tamamlandı! Bölünme verileri doğrudan AJAX kanalından sökülerek eklendi.")
+    print("\nGörev başarıyla tamamlandı! Ağ yöntemiyle tüm bedelsizler zorla çekildi.")
 
 if __name__ == "__main__":
     main()
