@@ -311,7 +311,7 @@
       var html = '<div class="sparkline">';
       degerler.forEach(function(v) {
         var h = maxV > 0 ? Math.max((v / maxV) * 100, v > 0 ? 8 : 0) : 0;
-        html += '<div style="height:' + h + '%;' + (v > 0 ? '' : 'background:transparent;') + '"></div>';
+        html += '<div style="height:' + h + '%;' + (v > 0 ? '' : 'background:transparent;') + '</div>';
       });
       html += '</div>';
       return html;
@@ -667,14 +667,14 @@
             var adjDPS = [];
             var cumulativeMultiplier = 1.0;
             
-            // GEÇMİŞTEN GÜNÜMÜZE İLERİYE DOĞRU (FORWARD-ADJUSTED) HESAPLAMA EKLENDİ
-            for (var k = 0; k < tumYillarDPS.length; k++) {
+            // KUSURSUZ ÇALIŞAN ORİJİNAL (GERİYE DÖNÜK) ALGORİTMAYA GERİ DÖNÜLDÜ
+            for (var k = tumYillarDPS.length - 1; k >= 0; k--) {
                 var oran = tumYillarBedelsiz[k];
                 if (oran > 0) {
                     cumulativeMultiplier *= (1 + (oran / 100));
                 }
-                var adj = tumYillarDPS[k] * cumulativeMultiplier;
-                adjDPS.push(adj); 
+                var adj = tumYillarDPS[k] / cumulativeMultiplier;
+                adjDPS.unshift(adj); 
             }
 
             var sonTutar = tumYillarTutar[tumYillarTutar.length - 1]; 
