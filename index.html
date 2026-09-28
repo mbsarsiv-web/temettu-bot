@@ -362,7 +362,6 @@
         }
       }
       
-      // SIRA DEĞİŞİKLİĞİ: Düzenli temettü artıranlar önce gelecek
       if (topArtis.length > 0) {
         parcaHtml += '<span class="ticker-title streak-yr">📈 DÜZENLİ TEMETTÜ ARTIRANLAR</span>';
         for (var k = 0; k < topArtis.length; k++) {
@@ -599,7 +598,6 @@
         var dagitma10YilSayisi = 0;
         var dagitma5YilSayisi = 0;
         
-        // 2 yıl üst üste kuralı için değişkenler
         var ardisikSifir10 = 0, maxArdisikSifir10 = 0;
         var ardisikSifir5 = 0, maxArdisikSifir5 = 0;
         
@@ -607,27 +605,24 @@
           var vVal = verimMap[temizKod + "_" + yilS];
           var temettuVerdi = (vVal !== undefined && !isNaN(vVal) && vVal > 0);
           
-          // 10 Yıllık Periyot Kontrolü
           if (temettuVerdi) {
             sampiyon10Toplam += vVal;
-            ardisikSifir10 = 0; // Seriyi sıfırla
+            ardisikSifir10 = 0;
           } else {
             ardisikSifir10++;
             if (ardisikSifir10 > maxArdisikSifir10) maxArdisikSifir10 = ardisikSifir10;
           }
           
-          // 5 Yıllık Periyot Kontrolü
           if (yilS >= min5Yil) {
             if (temettuVerdi) {
               sampiyon5Toplam += vVal;
-              ardisikSifir5 = 0; // Seriyi sıfırla
+              ardisikSifir5 = 0;
             } else {
               ardisikSifir5++;
               if (ardisikSifir5 > maxArdisikSifir5) maxArdisikSifir5 = ardisikSifir5;
             }
           }
           
-          // Dağıtma Oranı Toplamları
           var doVal = dagitmaMap[temizKod + "_" + yilS];
           if (doVal !== undefined && !isNaN(doVal) && doVal > 0) {
             dagitma10Toplam += doVal;
@@ -639,7 +634,6 @@
           }
         }
 
-        // İki yıl üst üste temettü vermeyenleri SIFIRLA (Şampiyonlar listesine giremez)
         var ortDagitma10 = (maxArdisikSifir10 >= 2) ? 0 : (dagitma10YilSayisi > 0 ? (dagitma10Toplam / dagitma10YilSayisi) : 0);
         var ortDagitma5 = (maxArdisikSifir5 >= 2) ? 0 : (dagitma5YilSayisi > 0 ? (dagitma5Toplam / dagitma5YilSayisi) : 0);
 
@@ -673,13 +667,14 @@
             var adjDPS = [];
             var cumulativeMultiplier = 1.0;
             
-            for (var k = tumYillarDPS.length - 1; k >= 0; k--) {
+            // GEÇMİŞTEN GÜNÜMÜZE İLERİYE DOĞRU (FORWARD-ADJUSTED) HESAPLAMA EKLENDİ
+            for (var k = 0; k < tumYillarDPS.length; k++) {
                 var oran = tumYillarBedelsiz[k];
                 if (oran > 0) {
                     cumulativeMultiplier *= (1 + (oran / 100));
                 }
-                var adj = tumYillarDPS[k] / cumulativeMultiplier;
-                adjDPS.unshift(adj); 
+                var adj = tumYillarDPS[k] * cumulativeMultiplier;
+                adjDPS.push(adj); 
             }
 
             var sonTutar = tumYillarTutar[tumYillarTutar.length - 1]; 
