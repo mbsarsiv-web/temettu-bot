@@ -664,34 +664,42 @@
 
         var artisSerisi = 0;
         if (tumYillarTutar.length > 0) {
-            var adjDPS = [];
-            var cumulativeMultiplier = 1.0;
-            
-            // KUSURSUZ ÇALIŞAN ORİJİNAL (GERİYE DÖNÜK) ALGORİTMAYA GERİ DÖNÜLDÜ
-            for (var k = tumYillarDPS.length - 1; k >= 0; k--) {
-                var oran = tumYillarBedelsiz[k];
-                if (oran > 0) {
-                    cumulativeMultiplier *= (1 + (oran / 100));
+            var sonAktifIdx = -1;
+            for (var k = tumYillarTutar.length - 1; k >= 0; k--) {
+                if (tumYillarTutar[k] > 0 && tumYillarDPS[k] > 0) {
+                    sonAktifIdx = k;
+                    break; 
                 }
-                var adj = tumYillarDPS[k] / cumulativeMultiplier;
-                adjDPS.unshift(adj); 
             }
 
-            var sonTutar = tumYillarTutar[tumYillarTutar.length - 1]; 
-            var sonAdjDPS = adjDPS[adjDPS.length - 1];
-
-            if (sonTutar > 0 && sonAdjDPS > 0) {
-                for (var k = tumYillarTutar.length - 2; k >= 0; k--) {
-                    var oncekiTutar = tumYillarTutar[k];
-                    var oncekiAdjDPS = adjDPS[k];
+            if (sonAktifIdx > 0) {
+                var currIdx = sonAktifIdx;
+                
+                while (currIdx > 0) {
+                    var prevIdx = currIdx - 1;
                     
-                    var isTutarArtmis = oncekiTutar > 0 && (sonTutar - oncekiTutar) > 0.0001;
-                    var isDPSArtmis = oncekiAdjDPS > 0 && (sonAdjDPS - oncekiAdjDPS) > 0.00001;
-
+                    var currTutar = tumYillarTutar[currIdx];
+                    var currDPS = tumYillarDPS[currIdx];
+                    
+                    var prevTutar = tumYillarTutar[prevIdx];
+                    var prevDPS = tumYillarDPS[prevIdx];
+                    
+                    if (prevTutar <= 0 || prevDPS <= 0) {
+                        break;
+                    }
+                    
+                    var currLot = currTutar / currDPS;
+                    var prevLot = prevTutar / prevDPS;
+                    
+                    var carpan = currLot / prevLot;
+                    var prevAdjDPS = prevDPS / carpan; 
+                    
+                    var isTutarArtmis = (currTutar - prevTutar) > 0.0001;
+                    var isDPSArtmis = (currDPS - prevAdjDPS) > 0.00001;
+                    
                     if (isTutarArtmis && isDPSArtmis) {
-                        artisSerisi++;
-                        sonTutar = oncekiTutar;
-                        sonAdjDPS = oncekiAdjDPS;
+                        artisSerisi++;       
+                        currIdx = prevIdx;   
                     } else {
                         break; 
                     }
