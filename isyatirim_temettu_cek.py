@@ -162,21 +162,28 @@ def clean_dividend_table(df, kod):
     rename_map = {}
     for c in df.columns:
         c_str = str(c).lower().strip()
-        if "tarih" in c_str or "dağ" in c_str or "yıl" in c_str:
+        if "dağıtma" in c_str or "dagitma" in c_str:
+            if "Dagitma_Orani" not in rename_map.values(): rename_map[c] = "Dagitma_Orani"
+        elif "tarih" in c_str or "dağ" in c_str or "yıl" in c_str:
             if "Dagitim_Tarihi" not in rename_map.values(): rename_map[c] = "Dagitim_Tarihi"
         elif "verim" in c_str:
             if "Temettu_Verim_%" not in rename_map.values(): rename_map[c] = "Temettu_Verim_%"
         elif "hisse" in c_str:
             if "Hisse_Basi_TL" not in rename_map.values(): rename_map[c] = "Hisse_Basi_TL"
+            
     df = df.rename(columns=rename_map)
+    
     if "Dagitim_Tarihi" not in df.columns:
         for c in df.columns:
             if "tarih" in str(c).lower():
                 df = df.rename(columns={c: "Dagitim_Tarihi"}); break
+                
     if "Dagitim_Tarihi" not in df.columns or "Temettu_Verim_%" not in df.columns: return pd.DataFrame()
     if "Hisse_Basi_TL" not in df.columns: df["Hisse_Basi_TL"] = ""
+    if "Dagitma_Orani" not in df.columns: df["Dagitma_Orani"] = ""
+    
     df = df.loc[:, ~df.columns.duplicated()]
-    df = df[["Dagitim_Tarihi", "Temettu_Verim_%", "Hisse_Basi_TL"]].copy()
+    df = df[["Dagitim_Tarihi", "Temettu_Verim_%", "Hisse_Basi_TL", "Dagitma_Orani"]].copy()
     df = df[df["Dagitim_Tarihi"].notna()].drop_duplicates()
     df.insert(0, "Kod", kod)
     return df
@@ -258,17 +265,16 @@ def main():
             
     df_verim_final = pd.DataFrame(columns=["Kod", "Yil", "Temettu_Verim_%"])
     df_hb_final = pd.DataFrame(columns=["Kod", "Yil", "Hisse_Basi_TL"])
+    df_do_final = pd.DataFrame(columns=["Kod", "Yil", "Dagitma_Orani"])
     first_div_dates = {}
     
     if all_rows:
         df_scraped = pd.concat(all_rows, ignore_index=True)
         if "Dagitim_Tarihi" in df_scraped.columns:
             df_scraped["Yil"] = df_scraped["Dagitim_Tarihi"].apply(get_mantiki_yil)
-            # Zaman kaydırması yapabilmek için temettülerin net tarihlerini çekiyoruz
             df_scraped["Div_Date"] = df_scraped["Dagitim_Tarihi"].apply(parse_date_to_yyyymmdd)
             df_scraped = df_scraped.dropna(subset=["Yil"])
             
-            # Her hissenin o yılki EN İLK temettü tarihini referans olarak al
             first_div_dates = df_scraped.sort_values("Div_Date").groupby(["Kod", "Yil"])["Div_Date"].first().to_dict()
             
             if "Temettu_Verim_%" in df_scraped.columns:
@@ -276,12 +282,20 @@ def main():
                 df_verim_final = df_scraped[pd.to_numeric(df_scraped['Temettu_Verim_%'], errors='coerce').notnull()].copy()
                 df_verim_final["Temettu_Verim_%"] = df_verim_final["Temettu_Verim_%"].astype(float)
                 df_verim_final = df_verim_final.groupby(["Kod", "Yil"], as_index=False)["Temettu_Verim_%"].sum()
+                
             if "Hisse_Basi_TL" in df_scraped.columns:
                 df_scraped["Hisse_Basi_TL"] = df_scraped["Hisse_Basi_TL"].apply(parse_yield)
                 df_hb_temp = df_scraped[pd.to_numeric(df_scraped['Hisse_Basi_TL'], errors='coerce').notnull()].copy()
                 if not df_hb_temp.empty:
                     df_hb_temp["Hisse_Basi_TL"] = df_hb_temp["Hisse_Basi_TL"].astype(float)
                     df_hb_final = df_hb_temp.groupby(["Kod", "Yil"], as_index=False)["Hisse_Basi_TL"].sum()
+                    
+            if "Dagitma_Orani" in df_scraped.columns:
+                df_scraped["Dagitma_Orani"] = df_scraped["Dagitma_Orani"].apply(parse_yield)
+                df_do_temp = df_scraped[pd.to_numeric(df_scraped['Dagitma_Orani'], errors='coerce').notnull()].copy()
+                if not df_do_temp.empty:
+                    df_do_temp["Dagitma_Orani"] = df_do_temp["Dagitma_Orani"].astype(float)
+                    df_do_final = df_do_temp.groupby(["Kod", "Yil"], as_index=False)["Dagitma_Orani"].sum()
 
     df_splits_final = pd.DataFrame(columns=["Kod", "Yil", "Bedelsiz_Oran"])
     if all_extracted_splits:
@@ -291,15 +305,11 @@ def main():
             s_date = s.get("Split_Date", "9999-99-99")
             
             d_date = first_div_dates.get((k, y))
-            # KRİTİK DÜZELTME: Bölünme, temettüden ÖNCE yapıldıysa;
-            # Geçmişi ezmemesi için bölünmeyi bir önceki yıla kaydırıyoruz. (Zaman Yolculuğu)
             if d_date and s_date < d_date:
                 s["Yil"] = str(int(y) - 1)
                 print(f" >>> DÜZELTME: {k} hissesinin {y} yılındaki bedelsizi temettüden önce! Yıl {s['Yil']} olarak kaydırıldı.")
                 
         df_temp = pd.DataFrame(all_extracted_splits)
-        
-        # Aynı yıla kayan veya aynı yılda birden fazla olan bölünmeleri bileşik (kümülatif) hesapla
         def calc_compound(series):
             res = 1.0
             for val in series: res *= (1.0 + (float(val) / 100.0))
@@ -354,10 +364,14 @@ def main():
     df_base = pd.merge(df_base, df_ipo_final, on="Kod", how="left")
     
     if df_div_final.empty and df_verim_final.empty and df_splits_final.empty:
-        df_events = pd.DataFrame(columns=["Kod", "Yil", "Tutar", "Temettu_Verim_%", "Hisse_Basi_TL", "Bedelsiz_Oran"])
+        df_events = pd.DataFrame(columns=["Kod", "Yil", "Tutar", "Temettu_Verim_%", "Hisse_Basi_TL", "Bedelsiz_Oran", "Dagitma_Orani"])
     else:
         df_events = pd.merge(df_div_final, df_verim_final, on=["Kod", "Yil"], how="outer")
         df_events = pd.merge(df_events, df_hb_final, on=["Kod", "Yil"], how="outer")
+        if not df_do_final.empty:
+            df_events = pd.merge(df_events, df_do_final, on=["Kod", "Yil"], how="outer")
+        else:
+            df_events["Dagitma_Orani"] = ""
         df_events = pd.merge(df_events, df_splits_final, on=["Kod", "Yil"], how="outer")
         
     df_master = pd.merge(df_base, df_events, on="Kod", how="left")
@@ -365,6 +379,7 @@ def main():
     df_master["Tutar"] = df_master["Tutar"].fillna(0.0)
     df_master["Temettu_Verim_%"] = df_master["Temettu_Verim_%"].fillna("")
     df_master["Hisse_Basi_TL"] = df_master["Hisse_Basi_TL"].fillna("")
+    df_master["Dagitma_Orani"] = df_master["Dagitma_Orani"].fillna("")
     df_master["Bedelsiz_Oran"] = df_master["Bedelsiz_Oran"].fillna("")
     df_master["Yil"] = df_master["Yil"].fillna("")
     df_master["Arz_Yili"] = df_master["Arz_Yili"].fillna("")
@@ -373,7 +388,7 @@ def main():
     out_path = "bist_temettu_master.csv"
     df_master.to_csv(out_path, index=False, encoding="utf-8", decimal=".", sep=";")
     upload_to_drive(out_path)
-    print("\nGörev başarıyla tamamlandı! Hatalı yıllara zaman kaydırması başarıyla uygulandı.")
+    print("\nGörev başarıyla tamamlandı! Hatalı yıllara zaman kaydırması uygulandı ve Dağıtma Oranları çekildi.")
 
 if __name__ == "__main__":
     main()
