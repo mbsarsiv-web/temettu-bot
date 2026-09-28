@@ -18,7 +18,7 @@
     .update-text { font-size: 12px; color: #5f6368; font-weight: 500; letter-spacing: 0.5px; position: absolute; right: 0; display: flex; align-items: center; gap: 10px; }
     
     .ticker-wrap { background: #ffffff; margin: 6px 10px 0 10px; border-radius: 6px; box-shadow: 0 1px 4px rgba(0,0,0,0.05); overflow: hidden; height: 26px; display: flex; align-items: center; border: 1px solid #e0e0e0; flex-shrink: 0; }
-    .ticker-move { display: inline-block; white-space: nowrap; padding-left: 20px; animation: tickerScroll 100s linear infinite; font-size: 12px; color: #3c4043; }
+    .ticker-move { display: inline-block; white-space: nowrap; padding-left: 20px; animation: tickerScroll 120s linear infinite; font-size: 12px; color: #3c4043; }
     .ticker-wrap:hover .ticker-move { animation-play-state: paused; }
     @keyframes tickerScroll { 0% { transform: translate3d(0, 0, 0); } 100% { transform: translate3d(-50%, 0, 0); } }
     .ticker-title { background: #1a73e8; color: #ffffff; font-weight: 700; padding: 2px 8px; border-radius: 4px; margin-right: 10px; font-size: 11px; letter-spacing: 0.4px; display: inline-block; }
@@ -327,16 +327,22 @@
       var top5 = sampiyonAdaylari.slice().filter(function(x) { return x.toplam5 > 0; });
       top5.sort(function(a, b) { return b.toplam5 - a.toplam5; });
       top5 = top5.slice(0, 15);
+      
+      var topDO10 = sampiyonAdaylari.slice().filter(function(x) { return x.ortDagitma10 > 0; });
+      topDO10.sort(function(a, b) { return b.ortDagitma10 - a.ortDagitma10; });
+      topDO10 = topDO10.slice(0, 15);
 
-      var topArtis = sampiyonAdaylari.slice().filter(function(x) { return x.artisSerisi >= 2; });
+      var topDO5 = sampiyonAdaylari.slice().filter(function(x) { return x.ortDagitma5 > 0; });
+      topDO5.sort(function(a, b) { return b.ortDagitma5 - a.ortDagitma5; });
+      topDO5 = topDO5.slice(0, 15);
+
+      var topArtis = sampiyonAdaylari.slice().filter(function(x) { return x.artisSerisi >= 3; });
       topArtis.sort(function(a, b) {
         if (b.artisSerisi !== a.artisSerisi) return b.artisSerisi - a.artisSerisi;
         if (Math.abs(b.ortalamaVerim - a.ortalamaVerim) > 0.0001) return b.ortalamaVerim - a.ortalamaVerim;
         return a.hisse.localeCompare(b.hisse);
       });
       topArtis = topArtis.slice(0, 15);
-
-      if (top10.length === 0 && top5.length === 0 && topArtis.length === 0) return;
 
       var parcaHtml = '';
 
@@ -353,6 +359,22 @@
         for (var j = 0; j < top5.length; j++) {
           var deger5 = top5[j].toplam5.toFixed(2).replace('.', ',');
           parcaHtml += '<span class="ticker-item"><span class="ticker-rank">' + (j + 1) + '.</span> <span class="ticker-code">' + top5[j].hisse + '</span><span class="ticker-val">(%' + deger5 + ')</span></span>';
+        }
+      }
+      
+      if (topDO10.length > 0) {
+        parcaHtml += '<span class="ticker-title" style="background:#673ab7; margin-left:35px;">💎 SON 10 YIL KÂR DAĞITMA ŞAMPİYONLARI</span>';
+        for (var m = 0; m < topDO10.length; m++) {
+          var d10 = topDO10[m].ortDagitma10.toFixed(1).replace('.', ',');
+          parcaHtml += '<span class="ticker-item"><span class="ticker-rank">' + (m + 1) + '.</span> <span class="ticker-code">' + topDO10[m].hisse + '</span><span class="ticker-val" style="color:#673ab7;">(Ort. %' + d10 + ')</span></span>';
+        }
+      }
+
+      if (topDO5.length > 0) {
+        parcaHtml += '<span class="ticker-title" style="background:#9c27b0; margin-left:35px;">🌟 SON 5 YIL KÂR DAĞITMA ŞAMPİYONLARI</span>';
+        for (var n = 0; n < topDO5.length; n++) {
+          var d5 = topDO5[n].ortDagitma5.toFixed(1).replace('.', ',');
+          parcaHtml += '<span class="ticker-item"><span class="ticker-rank">' + (n + 1) + '.</span> <span class="ticker-code">' + topDO5[n].hisse + '</span><span class="ticker-val" style="color:#9c27b0;">(Ort. %' + d5 + ')</span></span>';
         }
       }
 
@@ -385,19 +407,22 @@
       var verimMap = {};
       var hisseBasiMap = {};
       var bedelsizMap = {};
+      var dagitmaMap = {};
       var hisseBasiSutunuVarMi = false;
       var bedelsizSutunuVarMi = false;
+      var dagitmaSutunuVarMi = false;
 
       if (verimVerisi && verimVerisi.length > 1) {
         var basliklarVerim = verimVerisi[0];
-        var kodIndeks = 0, yilIndeks = 1, verimIndeks = -1, hisseBasiIndeks = -1, bedelsizIndeks = -1;
+        var kodIndeks = 0, yilIndeks = 1, verimIndeks = -1, hisseBasiIndeks = -1, bedelsizIndeks = -1, dagitmaIndeks = -1;
         for (var c = 0; c < basliklarVerim.length; c++) {
           var b = basliklarVerim[c].toString().toUpperCase().trim();
           if (b === "KOD" && kodIndeks === 0) kodIndeks = c;
           else if ((b === "YIL" || b === "TARIH" || b === "TARİH") && yilIndeks === 1) yilIndeks = c;
           else if (verimIndeks === -1 && (b.indexOf("VERIM") > -1 || b.indexOf("VERİM") > -1) && basliklarVerim[c].toString().trim() !== "") verimIndeks = c;
           else if (hisseBasiIndeks === -1 && (b.indexOf("HISSE") > -1 || b.indexOf("HİSSE") > -1)) hisseBasiIndeks = c;
-          else if (bedelsizIndeks === -1 && (b.indexOf("BEDELSIZ") > -1 || b.indexOf("BEDELSİZ") > -1 || b.indexOf("ORAN") > -1)) bedelsizIndeks = c;
+          else if (dagitmaIndeks === -1 && (b.indexOf("DAGITMA") > -1 || b.indexOf("DAĞITMA") > -1)) dagitmaIndeks = c;
+          else if (bedelsizIndeks === -1 && (b.indexOf("BEDELSIZ") > -1 || b.indexOf("BEDELSİZ") > -1 || (b.indexOf("ORAN") > -1 && b.indexOf("DAGITMA") === -1 && b.indexOf("DAĞITMA") === -1))) bedelsizIndeks = c;
         }
         
         if (verimIndeks === -1) { verimIndeks = 4; }
@@ -405,6 +430,7 @@
         
         if (hisseBasiIndeks > -1) { hisseBasiSutunuVarMi = true; }
         if (bedelsizIndeks > -1) { bedelsizSutunuVarMi = true; }
+        if (dagitmaIndeks > -1) { dagitmaSutunuVarMi = true; }
         
         for (var v = 1; v < verimVerisi.length; v++) {
           var kod = verimVerisi[v][kodIndeks];
@@ -442,6 +468,15 @@
               if (!isNaN(sayisalBedelsiz) && sayisalBedelsiz > 0) {
                 if (bedelsizMap[anahtar] !== undefined) { bedelsizMap[anahtar] += sayisalBedelsiz; }
                 else { bedelsizMap[anahtar] = sayisalBedelsiz; }
+              }
+            }
+            
+            if (dagitmaSutunuVarMi) {
+              var rawDO = verimVerisi[v][dagitmaIndeks];
+              var sayisalDO = verimSayisiCoz(rawDO);
+              if (!isNaN(sayisalDO) && sayisalDO > 0) {
+                if (dagitmaMap[anahtar] !== undefined) { dagitmaMap[anahtar] += sayisalDO; }
+                else { dagitmaMap[anahtar] = sayisalDO; }
               }
             }
           }
@@ -558,11 +593,26 @@
 
         var sampiyon10Toplam = 0;
         var sampiyon5Toplam = 0;
+        var dagitma10Toplam = 0;
+        var dagitma5Toplam = 0;
+        var dagitma10YilSayisi = 0;
+        var dagitma5YilSayisi = 0;
+        
         for (var yilS = minGorunurYil; yilS <= guncelYil; yilS++) {
           var vVal = verimMap[temizKod + "_" + yilS];
           if (vVal !== undefined && !isNaN(vVal) && vVal > 0) {
             sampiyon10Toplam += vVal;
             if (yilS >= min5Yil) { sampiyon5Toplam += vVal; }
+          }
+          
+          var doVal = dagitmaMap[temizKod + "_" + yilS];
+          if (doVal !== undefined && !isNaN(doVal) && doVal > 0) {
+            dagitma10Toplam += doVal;
+            dagitma10YilSayisi++;
+            if (yilS >= min5Yil) {
+                dagitma5Toplam += doVal;
+                dagitma5YilSayisi++;
+            }
           }
         }
 
@@ -570,6 +620,9 @@
         icSutunlarHtml += formatGrowthCell(g10y, rawYogunluk);
 
         var ortalamaVerim = odemeYaptigiYilSayisi > 0 ? (toplamVerim10Yil / odemeYaptigiYilSayisi) : 0;
+        var ortDagitma10 = dagitma10YilSayisi > 0 ? (dagitma10Toplam / dagitma10YilSayisi) : 0;
+        var ortDagitma5 = dagitma5YilSayisi > 0 ? (dagitma5Toplam / dagitma5YilSayisi) : 0;
+        
         icSutunlarHtml += '<td class="trend-col">' + sparklineOlustur(sparkDegerler.slice(-8)) + '</td>';
 
         var tumYillarTutar = [];
@@ -631,7 +684,9 @@
           toplam10: sampiyon10Toplam,
           toplam5: sampiyon5Toplam,
           artisSerisi: artisSerisi,
-          ortalamaVerim: ortalamaVerim
+          ortalamaVerim: ortalamaVerim,
+          ortDagitma10: ortDagitma10,
+          ortDagitma5: ortDagitma5
         });
 
         var ortVerimFormatli = odemeYaptigiYilSayisi > 0 ? "%" + ortalamaVerim.toFixed(2) : "?";
