@@ -320,19 +320,19 @@
     function kayanYaziOlustur(sampiyonAdaylari) {
       if (!sampiyonAdaylari || sampiyonAdaylari.length === 0) return;
 
-      var top10 = sampiyonAdaylari.slice().filter(function(x) { return x.toplam10 > 0; });
+      var top10 = sampiyonAdaylari.slice().filter(function(x) { return x.toplam10 > 0 && x.ortalamaVerim >= 2.5; });
       top10.sort(function(a, b) { return b.toplam10 - a.toplam10; });
       top10 = top10.slice(0, 15);
 
-      var top5 = sampiyonAdaylari.slice().filter(function(x) { return x.toplam5 > 0; });
+      var top5 = sampiyonAdaylari.slice().filter(function(x) { return x.toplam5 > 0 && x.ortalamaVerim >= 2.5; });
       top5.sort(function(a, b) { return b.toplam5 - a.toplam5; });
       top5 = top5.slice(0, 15);
       
-      var topDO10 = sampiyonAdaylari.slice().filter(function(x) { return x.ortDagitma10 > 0; });
+      var topDO10 = sampiyonAdaylari.slice().filter(function(x) { return x.ortDagitma10 > 0 && x.ortalamaVerim >= 2.5; });
       topDO10.sort(function(a, b) { return b.ortDagitma10 - a.ortDagitma10; });
       topDO10 = topDO10.slice(0, 15);
 
-      var topDO5 = sampiyonAdaylari.slice().filter(function(x) { return x.ortDagitma5 > 0; });
+      var topDO5 = sampiyonAdaylari.slice().filter(function(x) { return x.ortDagitma5 > 0 && x.ortalamaVerim >= 2.5; });
       topDO5.sort(function(a, b) { return b.ortDagitma5 - a.ortDagitma5; });
       topDO5 = topDO5.slice(0, 15);
 
@@ -373,7 +373,7 @@
         parcaHtml += '<span class="ticker-title" style="background:#673ab7; margin-left:35px;">💎 SON 10 YIL ORT. KAR DAĞITMA ŞAMPİYONLARI</span>';
         for (var m = 0; m < topDO10.length; m++) {
           var d10 = topDO10[m].ortDagitma10.toFixed(1).replace('.', ',');
-          parcaHtml += '<span class="ticker-item"><span class="ticker-rank">' + (m + 1) + '.</span> <span class="ticker-code">' + topDO10[m].hisse + '</span><span class="ticker-val" style="color:#673ab7;">(Ort. %' + d10 + ')</span></span>';
+          parcaHtml += '<span class="ticker-item"><span class="ticker-rank">' + (m + 1) + '.</span> <span class="ticker-code">' + topDO10[m].hisse + '</span><span class="ticker-val" style="color:#673ab7;">(%' + d10 + ')</span></span>';
         }
       }
 
@@ -381,7 +381,7 @@
         parcaHtml += '<span class="ticker-title" style="background:#9c27b0; margin-left:35px;">🌟 SON 5 YIL ORT. KAR DAĞITMA ŞAMPİYONLARI</span>';
         for (var n = 0; n < topDO5.length; n++) {
           var d5 = topDO5[n].ortDagitma5.toFixed(1).replace('.', ',');
-          parcaHtml += '<span class="ticker-item"><span class="ticker-rank">' + (n + 1) + '.</span> <span class="ticker-code">' + topDO5[n].hisse + '</span><span class="ticker-val" style="color:#9c27b0;">(Ort. %' + d5 + ')</span></span>';
+          parcaHtml += '<span class="ticker-item"><span class="ticker-rank">' + (n + 1) + '.</span> <span class="ticker-code">' + topDO5[n].hisse + '</span><span class="ticker-val" style="color:#9c27b0;">(%' + d5 + ')</span></span>';
         }
       }
 
