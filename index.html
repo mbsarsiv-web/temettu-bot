@@ -641,14 +641,18 @@
         var artisSerisi = 0;
         if (tumYillarTutar.length > 0) {
             var sonAktifIdx = -1;
+            var sonAktifYil = 0;
+            
             for (var k = tumYillarTutar.length - 1; k >= 0; k--) {
                 if (tumYillarTutar[k] > 0 && tumYillarDPS[k] > 0) {
                     sonAktifIdx = k;
+                    sonAktifYil = parseInt(orjBasliklarTumu[k + 2]);
                     break; 
                 }
             }
 
-            if (sonAktifIdx > 0) {
+            // GÜVENLİK KİLİDİ: Son ödeme yılı Güncel Yıl (2026) veya bir önceki yıl (2025) değilse seriyi hesaplama (0 kalsın)
+            if (sonAktifIdx > 0 && sonAktifYil >= (guncelYil - 1)) {
                 var currIdx = sonAktifIdx;
                 
                 while (currIdx > 0) {
