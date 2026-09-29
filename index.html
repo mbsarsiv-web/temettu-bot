@@ -2,12 +2,12 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>TEMETTÜ ANALİZ</title>
   <base target="_top">
   <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Text:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
-    body { font-family: 'Google Sans Text', sans-serif; margin: 0; padding: 0; background-color: #f1f3f4; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+    body { font-family: 'Google Sans Text', sans-serif; margin: 0; padding: 0; background-color: #f1f3f4; height: 100vh; height: 100dvh; display: flex; flex-direction: column; overflow: hidden; }
     ::-webkit-scrollbar { width: 8px; height: 8px; }
     ::-webkit-scrollbar-track { background: #f1f3f4; border-radius: 4px; }
     ::-webkit-scrollbar-thumb { background: #c1c3c6; border-radius: 4px; }
@@ -83,7 +83,7 @@
     .bar-container { height: 90px; width: 100%; display: flex; align-items: flex-end; justify-content: center; margin-top: 5px; }
     .bar { width: 28px; background-color: #81c995; border-radius: 4px 4px 0 0; transition: all 0.3s ease; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
     .bar:hover { background-color: #0f9d58; transform: scaleY(1.02); }
-    .bar-val { font-size: 9px; color: #3c4043; font-weight: 600; max-width: 42px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin: 0 auto; }
+    .bar-val { font-size: 9px; color: #3c4043; font-weight: 600; white-space: nowrap; margin: 0 auto; }
     .empty-bar-val { color: #bdc1c6; font-weight: normal; }
     #customModal { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 25px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); z-index: 9999; text-align: center; min-width: 280px; }
     #modalOverlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 9998; }
@@ -226,6 +226,16 @@
       aramaZamanlayici = setTimeout(uygula, 400); 
     }
 
+    function escapeHtml(str) {
+      if (!str) return "";
+      return str.toString()
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
     function sayiyaCevir(s) {
       if (s === undefined || s === null || s === '') return 0;
       if (typeof s === 'number') return s; 
@@ -328,11 +338,11 @@
     function kayanYaziOlustur(sampiyonAdaylari) {
       if (!sampiyonAdaylari || sampiyonAdaylari.length === 0) return;
 
-      var top10 = sampiyonAdaylari.slice().filter(function(x) { return x.toplam10 > 0 && x.ortalamaVerim >= 2.5; });
+      var top10 = sampiyonAdaylari.slice().filter(function(x) { return x.toplam10 > 0; });
       top10.sort(function(a, b) { return b.toplam10 - a.toplam10; });
       top10 = top10.slice(0, 15);
 
-      var top5 = sampiyonAdaylari.slice().filter(function(x) { return x.toplam5 > 0 && x.ortalamaVerim >= 2.5; });
+      var top5 = sampiyonAdaylari.slice().filter(function(x) { return x.toplam5 > 0; });
       top5.sort(function(a, b) { return b.toplam5 - a.toplam5; });
       top5 = top5.slice(0, 15);
 
@@ -391,21 +401,18 @@
       var verimMap = {};
       var hisseBasiMap = {};
       var bedelsizMap = {};
-      var dagitmaMap = {};
       var hisseBasiSutunuVarMi = false;
       var bedelsizSutunuVarMi = false;
-      var dagitmaSutunuVarMi = false;
 
       if (verimVerisi && verimVerisi.length > 1) {
         var basliklarVerim = verimVerisi[0];
-        var kodIndeks = 0, yilIndeks = 1, verimIndeks = -1, hisseBasiIndeks = -1, bedelsizIndeks = -1, dagitmaIndeks = -1;
+        var kodIndeks = 0, yilIndeks = 1, verimIndeks = -1, hisseBasiIndeks = -1, bedelsizIndeks = -1;
         for (var c = 0; c < basliklarVerim.length; c++) {
           var b = basliklarVerim[c].toString().toUpperCase().trim();
           if (b === "KOD" && kodIndeks === 0) kodIndeks = c;
           else if ((b === "YIL" || b === "TARIH" || b === "TARİH") && yilIndeks === 1) yilIndeks = c;
           else if (verimIndeks === -1 && (b.indexOf("VERIM") > -1 || b.indexOf("VERİM") > -1) && basliklarVerim[c].toString().trim() !== "") verimIndeks = c;
           else if (hisseBasiIndeks === -1 && (b.indexOf("HISSE") > -1 || b.indexOf("HİSSE") > -1)) hisseBasiIndeks = c;
-          else if (dagitmaIndeks === -1 && (b.indexOf("DAGITMA") > -1 || b.indexOf("DAĞITMA") > -1)) dagitmaIndeks = c;
           else if (bedelsizIndeks === -1 && (b.indexOf("BEDELSIZ") > -1 || b.indexOf("BEDELSİZ") > -1 || (b.indexOf("ORAN") > -1 && b.indexOf("DAGITMA") === -1 && b.indexOf("DAĞITMA") === -1))) bedelsizIndeks = c;
         }
         
@@ -414,7 +421,6 @@
         
         if (hisseBasiIndeks > -1) { hisseBasiSutunuVarMi = true; }
         if (bedelsizIndeks > -1) { bedelsizSutunuVarMi = true; }
-        if (dagitmaIndeks > -1) { dagitmaSutunuVarMi = true; }
         
         for (var v = 1; v < verimVerisi.length; v++) {
           var kod = verimVerisi[v][kodIndeks];
@@ -452,15 +458,6 @@
               if (!isNaN(sayisalBedelsiz) && sayisalBedelsiz > 0) {
                 if (bedelsizMap[anahtar] !== undefined) { bedelsizMap[anahtar] += sayisalBedelsiz; }
                 else { bedelsizMap[anahtar] = sayisalBedelsiz; }
-              }
-            }
-            
-            if (dagitmaSutunuVarMi) {
-              var rawDO = verimVerisi[v][dagitmaIndeks];
-              var sayisalDO = verimSayisiCoz(rawDO);
-              if (!isNaN(sayisalDO) && sayisalDO > 0) {
-                if (dagitmaMap[anahtar] !== undefined) { dagitmaMap[anahtar] += sayisalDO; }
-                else { dagitmaMap[anahtar] = sayisalDO; }
               }
             }
           }
@@ -599,13 +596,6 @@
 
         var sampiyon10Toplam = 0;
         var sampiyon5Toplam = 0;
-        var dagitma10Toplam = 0;
-        var dagitma5Toplam = 0;
-        var dagitma10YilSayisi = 0;
-        var dagitma5YilSayisi = 0;
-        
-        var ardisikSifir10 = 0, maxArdisikSifir10 = 0;
-        var ardisikSifir5 = 0, maxArdisikSifir5 = 0;
         
         for (var yilS = minGorunurYil; yilS <= guncelYil; yilS++) {
           var vVal = verimMap[temizKod + "_" + yilS];
@@ -613,35 +603,11 @@
           
           if (temettuVerdi) {
             sampiyon10Toplam += vVal;
-            ardisikSifir10 = 0;
-          } else {
-            ardisikSifir10++;
-            if (ardisikSifir10 > maxArdisikSifir10) maxArdisikSifir10 = ardisikSifir10;
-          }
-          
-          if (yilS >= min5Yil) {
-            if (temettuVerdi) {
-              sampiyon5Toplam += vVal;
-              ardisikSifir5 = 0;
-            } else {
-              ardisikSifir5++;
-              if (ardisikSifir5 > maxArdisikSifir5) maxArdisikSifir5 = ardisikSifir5;
-            }
-          }
-          
-          var doVal = dagitmaMap[temizKod + "_" + yilS];
-          if (doVal !== undefined && !isNaN(doVal) && doVal > 0) {
-            dagitma10Toplam += doVal;
-            dagitma10YilSayisi++;
             if (yilS >= min5Yil) {
-                dagitma5Toplam += doVal;
-                dagitma5YilSayisi++;
+              sampiyon5Toplam += vVal;
             }
           }
         }
-
-        var ortDagitma10 = (maxArdisikSifir10 >= 2) ? 0 : (dagitma10YilSayisi > 0 ? (dagitma10Toplam / dagitma10YilSayisi) : 0);
-        var ortDagitma5 = (maxArdisikSifir5 >= 2) ? 0 : (dagitma5YilSayisi > 0 ? (dagitma5Toplam / dagitma5YilSayisi) : 0);
 
         icSutunlarHtml += formatGrowthCell(g5y, rawYogunluk);
         icSutunlarHtml += formatGrowthCell(g10y, rawYogunluk);
@@ -652,7 +618,6 @@
 
         var tumYillarTutar = [];
         var tumYillarDPS = [];
-        var tumYillarBedelsiz = [];
         
         for (var idxY = 2; idxY < idxYogunluk; idxY++) {
           var yilBaslik = orjBasliklarTumu[idxY].toString().trim();
@@ -665,7 +630,6 @@
           } else {
             tumYillarDPS.push(tDeger);
           }
-          tumYillarBedelsiz.push(bedelsizMap[temizKod + "_" + yilBaslik] || 0);
         }
 
         var artisSerisi = 0;
@@ -721,9 +685,7 @@
           toplam10: sampiyon10Toplam,
           toplam5: sampiyon5Toplam,
           artisSerisi: artisSerisi,
-          ortalamaVerim: ortalamaVerim,
-          ortDagitma10: ortDagitma10,
-          ortDagitma5: ortDagitma5
+          ortalamaVerim: ortalamaVerim
         });
 
         var ortVerimFormatli = odemeYaptigiYilSayisi > 0 ? "%" + ortalamaVerim.toFixed(2) : "?";
@@ -766,7 +728,8 @@
 
       for (var r = 0; r < islenmisSatirlar.length; r++) {
         var sId = islenmisSatirlar[r].satirId;
-        html += '<tr class="main-row" data-order="' + r + '" onclick="toggleRow(\'expand-' + sId + '\')">';
+        var hKod = islenmisSatirlar[r].hisse;
+        html += '<tr class="main-row" data-order="' + r + '" data-hisse="' + hKod + '" data-expand="expand-' + sId + '" onclick="toggleRow(\'expand-' + sId + '\')">';
         html += islenmisSatirlar[r].htmlGovde;
         html += '</tr>';
         html += islenmisSatirlar[r].expandGovde;
@@ -790,7 +753,8 @@
       var trs = document.querySelectorAll("#tabloGovdesi tr.main-row");
       var hSet = new Set();
       for (var i = 0; i < trs.length; i++) {
-        hSet.add(trs[i].cells[0].innerText.trim().toUpperCase());
+        var hKod = trs[i].getAttribute("data-hisse") || trs[i].cells[0].innerText.trim().toUpperCase();
+        hSet.add(hKod);
       }
       var hSel = document.getElementById("filterHisse");
       Array.from(hSet).sort().forEach(v => hSel.innerHTML += '<option value="' + v + '">' + v + '</option>');
@@ -824,6 +788,8 @@
       document.getElementById('filterVerim').value = "TÜMÜ";
       document.getElementById('filterArtis').value = "TÜMÜ"; 
       document.getElementById('genelSirala').value = "";
+      var fHisse = document.getElementById('filterHisse');
+      if (fHisse) fHisse.value = "TÜMÜ";
       document.querySelectorAll('.year-sort').forEach(x => x.value = "");
       currentSortCol = -1; currentSortOrder = "";
       uygula();
@@ -837,22 +803,25 @@
       var chipRow = document.getElementById('chipRow');
       chipRow.innerHTML = "";
       var arama = document.getElementById('hisseArama').value.trim();
+      var fHisseEl = document.getElementById('filterHisse');
+      var fHisse = fHisseEl ? fHisseEl.value : "TÜMÜ";
       var fY = document.getElementById('filterYogunluk').value;
       var fV = document.getElementById('filterVerim').value;
       var fA = document.getElementById('filterArtis').value;
       var genelSort = document.getElementById('genelSirala');
 
-      if (arama) chipEkle('<div class="chip">Arama: "' + arama + '"<span onclick="document.getElementById(\'hisseArama\').value=\'\';uygula();">✕</span></div>');
+      if (arama) chipEkle('<div class="chip">Arama: "' + escapeHtml(arama) + '"<span onclick="document.getElementById(\'hisseArama\').value=\'\';uygula();">✕</span></div>');
+      if (fHisse !== "TÜMÜ") chipEkle('<div class="chip">Hisse: ' + escapeHtml(fHisse) + '<span onclick="document.getElementById(\'filterHisse\').value=\'TÜMÜ\';uygula();">✕</span></div>');
       if (fY !== "TÜMÜ") {
         var ySelect = document.getElementById("filterYogunluk");
         var yLabel = ySelect.options[ySelect.selectedIndex].text;
-        chipEkle('<div class="chip">' + yLabel + '<span onclick="document.getElementById(\'filterYogunluk\').value=\'TÜMÜ\';uygula();">✕</span></div>');
+        chipEkle('<div class="chip">' + escapeHtml(yLabel) + '<span onclick="document.getElementById(\'filterYogunluk\').value=\'TÜMÜ\';uygula();">✕</span></div>');
       }
       if (fA !== "TÜMÜ") {
-        chipEkle('<div class="chip">Artış ≥ ' + fA + ' Yıl<span onclick="document.getElementById(\'filterArtis\').value=\'TÜMÜ\';uygula();">✕</span></div>');
+        chipEkle('<div class="chip">Artış ≥ ' + escapeHtml(fA) + ' Yıl<span onclick="document.getElementById(\'filterArtis\').value=\'TÜMÜ\';uygula();">✕</span></div>');
       }
-      if (fV !== "TÜMÜ") chipEkle('<div class="chip">Verim > %' + fV + '<span onclick="document.getElementById(\'filterVerim\').value=\'TÜMÜ\';uygula();">✕</span></div>');
-      if (genelSort.value) chipEkle('<div class="chip">' + genelSort.options[genelSort.selectedIndex].text + '<span onclick="document.getElementById(\'genelSirala\').value=\'\';uygula();">✕</span></div>');
+      if (fV !== "TÜMÜ") chipEkle('<div class="chip">Verim > %' + escapeHtml(fV) + '<span onclick="document.getElementById(\'filterVerim\').value=\'TÜMÜ\';uygula();">✕</span></div>');
+      if (genelSort.value) chipEkle('<div class="chip">' + escapeHtml(genelSort.options[genelSort.selectedIndex].text) + '<span onclick="document.getElementById(\'genelSirala\').value=\'\';uygula();">✕</span></div>');
     }
 
     function kpiGuncelle() {
@@ -862,20 +831,21 @@
 
     function uygula() {
       var arama = document.getElementById("hisseArama").value.trim().toUpperCase();
+      var fHisseEl = document.getElementById("filterHisse");
+      var fHisse = fHisseEl ? fHisseEl.value : "TÜMÜ";
       var fY = document.getElementById("filterYogunluk").value;
       var fV = document.getElementById("filterVerim").value;
       var fA = document.getElementById("filterArtis").value;
       var mainTrs = Array.from(document.querySelectorAll("#tabloGovdesi tr.main-row"));
 
       mainTrs.forEach(tr => {
-        var hisseKodu = tr.cells[0].innerText.trim().toUpperCase();
-        var yogunlukHucresi = tr.cells[tr.cells.length - 4].innerText.trim();
-        
+        var hisseKodu = tr.getAttribute("data-hisse") || tr.cells[0].innerText.trim().toUpperCase();
         var hisseObj = HISSE_MAP[hisseKodu];
         var ortVerim = hisseObj ? hisseObj.ortalamaVerim : 0;
-        var verimSarti = (fV === "TÜMÜ") ? true : (ortVerim >= parseFloat(fV));
+        var numYog = hisseObj ? hisseObj.yogunluk : (parseFloat(tr.cells[tr.cells.length - 4].innerText.trim().replace(',', '.')) || 0);
 
-        var numYog = parseFloat(yogunlukHucresi.replace(',', '.')) || 0;
+        var hisseSecimSarti = (fHisse === "TÜMÜ") ? true : (hisseKodu === fHisse);
+        var verimSarti = (fV === "TÜMÜ") ? true : (ortVerim >= parseFloat(fV));
         var yogunlukSarti = true;
         
         if (fY !== "TÜMÜ") {
@@ -893,11 +863,11 @@
             artisSarti = (hisseObj.artisSerisi >= parseInt(fA));
         }
 
-        var gozukmeli = (arama === "" || hisseKodu.indexOf(arama) > -1) && yogunlukSarti && verimSarti && artisSarti;
+        var gozukmeli = (arama === "" || hisseKodu.indexOf(arama) > -1) && hisseSecimSarti && yogunlukSarti && verimSarti && artisSarti;
         tr.style.display = gozukmeli ? "" : "none";
 
-        var expandId = tr.getAttribute("onclick").match(/'([^']+)'/)[1];
-        var expandRow = document.getElementById(expandId);
+        var expandId = tr.getAttribute("data-expand");
+        var expandRow = expandId ? document.getElementById(expandId) : null;
         if (!gozukmeli && expandRow) expandRow.classList.remove("active");
       });
 
@@ -911,13 +881,13 @@
         });
       } else if (genelSort) {
         mainTrs.sort((a, b) => {
-          var ha = a.cells[0].innerText.trim(), hb = b.cells[0].innerText.trim();
+          var ha = a.getAttribute("data-hisse") || a.cells[0].innerText.trim(), hb = b.getAttribute("data-hisse") || b.cells[0].innerText.trim();
           var sa = HISSE_MAP[ha] || {};
           var sb = HISSE_MAP[hb] || {};
           if (genelSort === "YOG_DESC") return (sb.yogunluk || 0) - (sa.yogunluk || 0);
           if (genelSort === "VERIM_DESC") return (sb.ortalamaVerim || 0) - (sa.ortalamaVerim || 0);
-          if (genelSort === "G5_DESC") return (sb.g5 || -999) - (sa.g5 || -999); 
-          if (genelSort === "G10_DESC") return (sb.g10 || -999) - (sa.g10 || -999);
+          if (genelSort === "G5_DESC") return (sb.g5 !== null && sb.g5 !== undefined ? sb.g5 : -999) - (sa.g5 !== null && sa.g5 !== undefined ? sa.g5 : -999); 
+          if (genelSort === "G10_DESC") return (sb.g10 !== null && sb.g10 !== undefined ? sb.g10 : -999) - (sa.g10 !== null && sa.g10 !== undefined ? sa.g10 : -999);
           if (genelSort === "HISSE_ASC") return ha.localeCompare(hb);
           return 0;
         });
@@ -928,8 +898,8 @@
       var govde = document.getElementById("tabloGovdesi");
       mainTrs.forEach(tr => {
         govde.appendChild(tr);
-        var expandId = tr.getAttribute("onclick").match(/'([^']+)'/)[1];
-        var expandRow = document.getElementById(expandId);
+        var expandId = tr.getAttribute("data-expand");
+        var expandRow = expandId ? document.getElementById(expandId) : null;
         if (expandRow) govde.appendChild(expandRow);
       });
 
