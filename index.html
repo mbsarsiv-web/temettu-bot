@@ -545,7 +545,7 @@
         if (!rawHisseKodu || rawHisseKodu.trim() === "") continue;
         var temizKod = rawHisseKodu.toString().trim().toUpperCase();
 
-        // T.B.H. (5Y ve 10Y) için Kümülatif Bedelsiz Düzeltmeli DPS Dizisi (Madde 1 & Madde 2 Uygulandı)
+        // T.B.H. (5Y ve 10Y) ve Artış Serisi için Kümülatif Bedelsiz Düzeltmeli DPS Dizisi
         var duzeltilmisSatir = [satir[0], satir[1]];
         var kumulatifBedelsizCarpani = 1.0;
         for (var idxB = 2; idxB < idxYogunluk; idxB++) {
@@ -648,16 +648,14 @@
         
         icSutunlarHtml += '<td class="trend-col">' + sparklineOlustur(sparkDegerler.slice(-8)) + '</td>';
 
+        // Madde 4: Artış Serisi hesabı doğrudan duzeltilmisSatir (resmi bedelsiz düzeltmeli DPS) dizisine bağlandı
         var tumYillarTutar = [];
-        var tumYillarDPS = [];
+        var tumYillarAdjDPS = [];
         
         for (var idxY = 2; idxY < idxYogunluk; idxY++) {
-          var yilBaslik = orjBasliklarTumu[idxY].toString().trim();
           var tDeger = sayiyaCevir(satir[idxY]); 
           tumYillarTutar.push(tDeger);
-          
-          var hbDeger = hisseBasiSutunuVarMi ? (hisseBasiMap[temizKod + "_" + yilBaslik] || 0) : 0;
-          tumYillarDPS.push(hbDeger > 0 ? hbDeger : 0);
+          tumYillarAdjDPS.push(duzeltilmisSatir[idxY] || 0);
         }
 
         var artisSerisi = 0;
@@ -666,7 +664,7 @@
             var sonAktifYil = 0;
             
             for (var k = tumYillarTutar.length - 1; k >= 0; k--) {
-                if (tumYillarTutar[k] > 0 && tumYillarDPS[k] > 0) {
+                if (tumYillarTutar[k] > 0 && tumYillarAdjDPS[k] > 0) {
                     sonAktifIdx = k;
                     sonAktifYil = parseInt(orjBasliklarTumu[k + 2]);
                     break; 
@@ -680,23 +678,17 @@
                     var prevIdx = currIdx - 1;
                     
                     var currTutar = tumYillarTutar[currIdx];
-                    var currDPS = tumYillarDPS[currIdx];
+                    var currAdjDPS = tumYillarAdjDPS[currIdx];
                     
                     var prevTutar = tumYillarTutar[prevIdx];
-                    var prevDPS = tumYillarDPS[prevIdx];
+                    var prevAdjDPS = tumYillarAdjDPS[prevIdx];
                     
-                    if (prevTutar <= 0 || prevDPS <= 0) {
+                    if (prevTutar <= 0 || prevAdjDPS <= 0) {
                         break;
                     }
                     
-                    var currLot = currTutar / currDPS;
-                    var prevLot = prevTutar / prevDPS;
-                    
-                    var carpan = currLot / prevLot;
-                    var prevAdjDPS = prevDPS / carpan; 
-                    
                     var isTutarArtmis = (currTutar - prevTutar) > 0.0001;
-                    var isDPSArtmis = (currDPS - prevAdjDPS) > 0.00001;
+                    var isDPSArtmis = (currAdjDPS - prevAdjDPS) > 0.00001;
                     
                     if (isTutarArtmis && isDPSArtmis) {
                         artisSerisi++;       
