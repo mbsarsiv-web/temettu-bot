@@ -525,10 +525,32 @@
         if (!rawHisseKodu || rawHisseKodu.trim() === "") continue;
         var temizKod = rawHisseKodu.toString().trim().toUpperCase();
 
-        var slicedSatir = satir.slice(0, idxYogunluk + 1);
+        // T.B.H. (5Y ve 10Y) için Kümülatif Bedelsiz Düzeltmeli DPS Dizisi
+        var duzeltilmisSatir = [satir[0], satir[1]];
+        var kumulatifBedelsizCarpani = 1.0;
+        for (var idxB = 2; idxB < idxYogunluk; idxB++) {
+          var yilBaslikB = orjBasliklarTumu[idxB].toString().trim();
+          var tDegerB = sayiyaCevir(satir[idxB]);
+          var bOran = bedelsizMap[temizKod + "_" + yilBaslikB] || 0;
+          if (bOran > 0) {
+            kumulatifBedelsizCarpani = kumulatifBedelsizCarpani * (1 + (bOran / 100));
+          }
+          var hbDegerB = hisseBasiSutunuVarMi ? (hisseBasiMap[temizKod + "_" + yilBaslikB] || 0) : 0;
+          var adjDPS = 0;
+          if (tDegerB > 0) {
+            if (hbDegerB > 0) {
+              adjDPS = hbDegerB * kumulatifBedelsizCarpani;
+            } else {
+              adjDPS = tDegerB;
+            }
+          }
+          duzeltilmisSatir.push(adjDPS);
+        }
+        duzeltilmisSatir.push(satir[idxYogunluk]);
+
         var slicedBasliklar = orjBasliklarTumu.slice(0, idxYogunluk + 1);
-        var g5y = getDynamicGrowth(slicedSatir, 5, slicedBasliklar);
-        var g10y = getDynamicGrowth(slicedSatir, 10, slicedBasliklar);
+        var g5y = getDynamicGrowth(duzeltilmisSatir, 5, slicedBasliklar);
+        var g10y = getDynamicGrowth(duzeltilmisSatir, 10, slicedBasliklar);
 
         var icSutunlarHtml = '';
         var maxMiktar = 0;
