@@ -311,7 +311,7 @@
       var html = '<div class="sparkline">';
       degerler.forEach(function(v) {
         var h = maxV > 0 ? Math.max((v / maxV) * 100, v > 0 ? 8 : 0) : 0;
-        html += '<div style="height:' + h + '%;' + (v > 0 ? '' : 'background:transparent;') + '</div>';
+        html += '<div style="height:' + h + '%;' + (v > 0 ? '' : 'background:transparent;') + '"></div>';
       });
       html += '</div>';
       return html;
