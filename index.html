@@ -218,6 +218,7 @@
   <script>
     var currentSortCol = -1; var currentSortOrder = "";
     var TUM_SATIRLAR = []; 
+    var HISSE_MAP = {};
     
     var aramaZamanlayici;
     function aramaGeciktir() {
@@ -315,6 +316,13 @@
       });
       html += '</div>';
       return html;
+    }
+
+    function formatKisaSayi(deger) {
+      if (deger >= 1e9) return (deger / 1e9).toFixed(1).replace('.0', '').replace('.', ',') + ' Mr ₺';
+      if (deger >= 1e6) return (deger / 1e6).toFixed(1).replace('.0', '').replace('.', ',') + ' Mn ₺';
+      if (deger >= 1e3) return (deger / 1e3).toFixed(1).replace('.0', '').replace('.', ',') + ' B ₺';
+      return deger.toLocaleString('tr-TR') + ' ₺';
     }
 
     function kayanYaziOlustur(sampiyonAdaylari) {
@@ -485,12 +493,12 @@
         if (skipIndices.indexOf(i) > -1) continue;
         var baslikMetni = orjBasliklarTumu[i];
         if (i === 1) html += '<th class="arz-col">ARZ</th>';
-        else if (i === idxYogunluk) html += '<th class="tight-col">YOĞ. (' + y1 + '-' + y2 + ')</th>';
+        else if (i === idxYogunluk) html += '<th class="tight-col" title="Temettü Ödeme Yoğunluğu (' + y1 + '-' + y2 + ' Yılları Arası)">YOĞ. (' + y1 + '-' + y2 + ')</th>';
         else html += '<th>' + baslikMetni + '</th>';
       }
-      html += '<th class="tight-col">T. B. H. (5Y)</th>';
-      html += '<th class="tight-col">T. B. H. (10Y)</th>';
-      html += '<th class="trend-col">TREND</th>';
+      html += '<th class="tight-col" title="Temettü Büyüme Hızı (Son 5 Yıllık Bileşik Getiri)">T. B. H. (5Y)</th>';
+      html += '<th class="tight-col" title="Temettü Büyüme Hızı (Son 10 Yıllık Bileşik Getiri)">T. B. H. (10Y)</th>';
+      html += '<th class="trend-col" title="Son 8 Yılın Dağıtılan TL Trendi">TREND</th>';
       html += '</tr><tr>';
 
       for (var i = 0; i <= idxYogunluk; i++) {
@@ -513,9 +521,9 @@
         var rawYogunluk = parseFloat(satir[idxYogunluk] ? satir[idxYogunluk].toString().replace(',', '.') : 0) || 0;
         var gizliAdet2011 = parseInt(satir[idxGizli]) || 0;
         
-        var hisseKodu = satir[0];
-        if (!hisseKodu || hisseKodu.trim() === "") continue;
-        var temizKod = hisseKodu.toString().trim().toUpperCase();
+        var rawHisseKodu = satir[0];
+        if (!rawHisseKodu || rawHisseKodu.trim() === "") continue;
+        var temizKod = rawHisseKodu.toString().trim().toUpperCase();
 
         var slicedSatir = satir.slice(0, idxYogunluk + 1);
         var slicedBasliklar = orjBasliklarTumu.slice(0, idxYogunluk + 1);
@@ -538,7 +546,7 @@
 
             if (rawValue > 0) {
               var sutunYili = orjBasliklarTumu[j];
-              var verimDegeri = verimMap[hisseKodu + "_" + sutunYili];
+              var verimDegeri = verimMap[temizKod + "_" + sutunYili];
               var sutunYiliNum = parseInt(sutunYili);
               
               if (!isNaN(sutunYiliNum) && sutunYiliNum >= minGorunurYil && sutunYiliNum <= guncelYil) {
@@ -554,7 +562,7 @@
               }
               
               var formatliMiktarHover = Number(rawValue).toLocaleString('tr-TR') + ' TL';
-              icSutunlarHtml += '<td data-value="' + rawValue + '"><span class="check-icon">' + gosterilecekMetin + '</span><span class="info-icon" title="Miktar: ' + formatliMiktarHover + '" onclick="event.stopPropagation(); gosterBilgi(\'' + hisseKodu + '\', \'' + sutunYili + '\', \'' + cell + '\')">ℹ️</span></td>';
+              icSutunlarHtml += '<td data-value="' + rawValue + '"><span class="check-icon">' + gosterilecekMetin + '</span><span class="info-icon" title="Miktar: ' + formatliMiktarHover + '" onclick="event.stopPropagation(); gosterBilgi(\'' + temizKod + '\', \'' + sutunYili + '\', \'' + cell + '\')">ℹ️</span></td>';
             } else {
               icSutunlarHtml += '<td data-value="0" class="empty-cell">-</td>';
             }
@@ -651,7 +659,6 @@
                 }
             }
 
-            // GÜVENLİK KİLİDİ: Son ödeme yılı Güncel Yıl (2026) veya bir önceki yıl (2025) değilse seriyi hesaplama (0 kalsın)
             if (sonAktifIdx > 0 && sonAktifYil >= (guncelYil - 1)) {
                 var currIdx = sonAktifIdx;
                 
@@ -706,11 +713,11 @@
           if (j >= 2 && j < idxYogunluk) {
             var cMik = sayiyaCevir(satir[j]);
             var barHeight = maxMiktar > 0 ? (cMik / maxMiktar) * 100 : 0;
-            var valTxt = cMik > 0 ? Number(cMik).toLocaleString('tr-TR') : '-';
+            var valTxt = cMik > 0 ? formatKisaSayi(cMik) : '-';
             var valClass = cMik > 0 ? 'bar-val' : 'bar-val empty-bar-val';
             var inlineBarStyles = cMik > 0 ? '' : 'background-color: transparent; box-shadow: none;';
             expandHtml += '<td><div class="bar-wrapper" style="display: flex; flex-direction: column; align-items: center;">';
-            expandHtml += '<div class="' + valClass + '" title="' + valTxt + '">' + valTxt + '</div>';
+            expandHtml += '<div class="' + valClass + '" title="' + Number(cMik).toLocaleString('tr-TR') + ' TL">' + valTxt + '</div>';
             expandHtml += '<div class="bar-container"><div class="bar" style="height: ' + Math.max(barHeight, cMik > 0 ? 2 : 0) + '%; ' + inlineBarStyles + '"></div></div>';
             expandHtml += '</div></td>';
           }
@@ -722,7 +729,7 @@
         expandHtml += '</tr>';
 
         islenmisSatirlar.push({
-          hisse: hisseKodu, yogunluk: rawYogunluk, gizliAdet: gizliAdet2011,
+          hisse: temizKod, yogunluk: rawYogunluk, gizliAdet: gizliAdet2011,
           ortalamaVerim: ortalamaVerim, g10: g10y.val, g5: g5y.val, artisSerisi: artisSerisi,
           htmlGovde: icSutunlarHtml, expandGovde: expandHtml, satirId: i
         });
@@ -746,6 +753,12 @@
 
       document.getElementById('tableContainer').innerHTML = html;
       TUM_SATIRLAR = islenmisSatirlar;
+      
+      HISSE_MAP = {};
+      for(var z=0; z<TUM_SATIRLAR.length; z++) {
+        HISSE_MAP[TUM_SATIRLAR[z].hisse] = TUM_SATIRLAR[z];
+      }
+
       kayanYaziOlustur(sampiyonAdaylari);
       initFiltre();
       kpiGuncelle();
@@ -755,7 +768,7 @@
       var trs = document.querySelectorAll("#tabloGovdesi tr.main-row");
       var hSet = new Set();
       for (var i = 0; i < trs.length; i++) {
-        hSet.add(trs[i].cells[0].innerText.trim());
+        hSet.add(trs[i].cells[0].innerText.trim().toUpperCase());
       }
       var hSel = document.getElementById("filterHisse");
       Array.from(hSet).sort().forEach(v => hSel.innerHTML += '<option value="' + v + '">' + v + '</option>');
@@ -836,7 +849,7 @@
         var hisseKodu = tr.cells[0].innerText.trim().toUpperCase();
         var yogunlukHucresi = tr.cells[tr.cells.length - 4].innerText.trim();
         
-        var hisseObj = TUM_SATIRLAR.find(s => s.hisse === hisseKodu);
+        var hisseObj = HISSE_MAP[hisseKodu];
         var ortVerim = hisseObj ? hisseObj.ortalamaVerim : 0;
         var verimSarti = (fV === "TÜMÜ") ? true : (ortVerim >= parseFloat(fV));
 
@@ -877,8 +890,8 @@
       } else if (genelSort) {
         mainTrs.sort((a, b) => {
           var ha = a.cells[0].innerText.trim(), hb = b.cells[0].innerText.trim();
-          var sa = TUM_SATIRLAR.find(s => s.hisse === ha) || {};
-          var sb = TUM_SATIRLAR.find(s => s.hisse === hb) || {};
+          var sa = HISSE_MAP[ha] || {};
+          var sb = HISSE_MAP[hb] || {};
           if (genelSort === "YOG_DESC") return (sb.yogunluk || 0) - (sa.yogunluk || 0);
           if (genelSort === "VERIM_DESC") return (sb.ortalamaVerim || 0) - (sa.ortalamaVerim || 0);
           if (genelSort === "G5_DESC") return (sb.g5 || -999) - (sa.g5 || -999); 
