@@ -187,9 +187,10 @@
     </select>
 
     <select id="filterDonem" onchange="this.blur(); uygula()">
-      <option value="10">Dönem: Son 10 Yıl</option>
-      <option value="5">Dönem: Son 5 Yıl</option>
-      <option value="3">Dönem: Son 3 Yıl</option>
+      <option value="TÜMÜ">Tümü</option>
+      <option value="3">Son 3 Yıl</option>
+      <option value="5">Son 5 Yıl</option>
+      <option value="10">Son 10 Yıl</option>
     </select>
 
     <select id="filterVerim" onchange="this.blur(); uygula()">
@@ -820,7 +821,7 @@
     function filtreleriTemizle() {
       document.getElementById('hisseArama').value = "";
       document.getElementById('filterYogunluk').value = "TÜMÜ";
-      document.getElementById('filterDonem').value = "10";
+      document.getElementById('filterDonem').value = "TÜMÜ";
       document.getElementById('filterVerim').value = "TÜMÜ";
       document.getElementById('filterArtis').value = "TÜMÜ"; 
       document.getElementById('genelSirala').value = "";
@@ -857,8 +858,8 @@
       if (fA !== "TÜMÜ") {
         chipEkle('<div class="chip">Artış ≥ ' + escapeHtml(fA) + ' Yıl<span onclick="document.getElementById(\'filterArtis\').value=\'TÜMÜ\';uygula();">✕</span></div>');
       }
-      if (fD !== "10") {
-        chipEkle('<div class="chip">Son ' + escapeHtml(fD) + ' Yıl<span onclick="document.getElementById(\'filterDonem\').value=\'10\';uygula();">✕</span></div>');
+      if (fD !== "TÜMÜ") {
+        chipEkle('<div class="chip">Son ' + escapeHtml(fD) + ' Yıl<span onclick="document.getElementById(\'filterDonem\').value=\'TÜMÜ\';uygula();">✕</span></div>');
       }
       if (fV !== "TÜMÜ") chipEkle('<div class="chip">Verim > %' + escapeHtml(fV) + '<span onclick="document.getElementById(\'filterVerim\').value=\'TÜMÜ\';uygula();">✕</span></div>');
       if (genelSort.value) chipEkle('<div class="chip">' + escapeHtml(genelSort.options[genelSort.selectedIndex].text) + '<span onclick="document.getElementById(\'genelSirala\').value=\'\';uygula();">✕</span></div>');
@@ -892,7 +893,7 @@
           var baslikEl = expandRow.querySelector(".ort-verim-baslik");
           var degerEl = expandRow.querySelector(".ort-verim-deger");
           if (baslikEl) {
-            baslikEl.innerText = fD === "10" ? "Ortalama Temettü Verimi" : "Ortalama Temettü Verimi (Son " + fD + " Yıl)";
+            baslikEl.innerText = (fD === "TÜMÜ" || fD === "10") ? "Ortalama Temettü Verimi" : "Ortalama Temettü Verimi (Son " + fD + " Yıl)";
           }
           if (degerEl) {
             degerEl.innerText = odemeSayisi > 0 ? "%" + ortVerim.toFixed(2) : "?";
@@ -944,7 +945,7 @@
           if (genelSort === "HISSE_ASC") return ha.localeCompare(hb);
           return 0;
         });
-      } else if (fD !== "10") {
+      } else if (fD === "3" || fD === "5") {
         mainTrs.sort((a, b) => {
           var ha = a.getAttribute("data-hisse") || a.cells[0].innerText.trim(), hb = b.getAttribute("data-hisse") || b.cells[0].innerText.trim();
           var sa = HISSE_MAP[ha] || {};
