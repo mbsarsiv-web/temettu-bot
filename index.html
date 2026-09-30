@@ -65,7 +65,6 @@
     .warning-flag { color: #d93025; font-size: 10px; margin-left: 2px; cursor: help; font-weight: 800; }
     .check-icon { color: #0f9d58; font-size: 14px; font-weight: bold; }
     
-    /* BEDELSİZ ALT ÇİZGİ TASARIMI */
     .bedelsiz-cizgi { text-decoration: underline; text-decoration-style: dotted; text-decoration-color: #e37400; text-decoration-thickness: 2px; text-underline-offset: 3px; cursor: help; }
 
     .info-icon { font-size: 13px; cursor: pointer; margin-left: 3px; color: #5f6368; transition: transform 0.2s; display: inline-block; }
@@ -120,22 +119,24 @@
       .search-wrap input { font-size: 11px; padding: 4px 5px 4px 22px; }
       .search-wrap span { font-size: 11px; left: 5px; }
       .icon-btn, .kpi-badge { font-size: 11px; padding: 4px 6px; white-space: nowrap; flex: 0 0 auto; }
-      .table-container { overflow-x: hidden; margin: 8px; }
-      table { table-layout: fixed; width: 100%; }
+      .table-container { overflow-x: auto; margin: 8px; }
+      table { table-layout: fixed; width: 100%; min-width: 900px; }
       td, th { font-size: 10px !important; padding: 2px 1px !important; overflow: hidden; text-overflow: ellipsis; }
       thead tr:nth-child(1) th { font-size: 12px !important; padding: 5px 1px !important; }
       td:first-child, .arz-yili { font-size: 11px !important; }
       .col-filter { font-size: 9px; padding: 0; width: 95%; }
-      #tbhBasYil, #tbhBitYil { width: 58px !important; padding: 1px 3px; font-size: 10px !important; font-weight: 700 !important; }
-      .tbh-cell { font-size: 11px !important; font-weight: 700 !important; }
-      .tbh-cell.growth-plus, .tbh-cell.growth-minus { font-size: 11px !important; font-weight: 700 !important; }
-      .info-icon { font-size: 9px; margin-left: 1px; }
-      .check-icon { font-size: 10px; }
-      tr:first-child th:nth-child(1) { width: 6.5%; } 
+      #tbhBasYil, #tbhBitYil { width: 50px !important; padding: 1px 2px; font-size: 11px !important; font-weight: 700 !important; height: 20px; }
+      
+      .tbh-cell { font-size: 13px !important; font-weight: 800 !important; line-height: 1.1; }
+      .tbh-cell.growth-plus, .tbh-cell.growth-minus { font-size: 13px !important; font-weight: 900 !important; }
+      .check-icon { font-size: 13px !important; font-weight: 800 !important; line-height: 1.1; }
+      .info-icon { font-size: 10px; margin-left: 2px; vertical-align: text-bottom; }
+      
+      tr:first-child th:nth-child(1) { width: 6%; } 
       tr:first-child th:nth-child(2) { width: 3.5%; } 
-      tr:first-child th:nth-child(13) { width: 6%; } 
-      tr:first-child th:nth-child(14) { width: 11.5%; font-size: 11px !important; letter-spacing: -0.2px; } 
-      tr:first-child th:nth-child(15) { width: 5.5%; } 
+      tr:first-child th:nth-child(13) { width: 5.5%; } 
+      tr:first-child th:nth-child(14) { width: 13.5%; font-size: 11px !important; letter-spacing: -0.2px; } 
+      tr:first-child th:nth-child(15) { width: 6%; } 
       .bar, .main-row, .main-row td:first-child, .info-icon { transition: none !important; }
       .bar:hover, .info-icon:hover { transform: none !important; }
     }
@@ -381,7 +382,7 @@
       var html = '<div class="sparkline">';
       degerler.forEach(function(v) {
         var h = maxV > 0 ? Math.max((v / maxV) * 100, v > 0 ? 8 : 0) : 0;
-        html += '<div style="height:' + h + '%;' + (v > 0 ? '' : 'background:transparent;') + '</div>';
+        html += '<div style="height:' + h + '%;' + (v > 0 ? '' : 'background:transparent;') + '"></div>';
       });
       html += '</div>';
       return html;
