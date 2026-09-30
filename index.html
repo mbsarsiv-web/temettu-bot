@@ -55,7 +55,7 @@
     .col-filter.year-sort { width: 80%; max-width: 50px; }
     
     .tbh-select-wrap { display: flex; justify-content: center; align-items: center; gap: 4px; }
-    #tbhBasYil, #tbhBitYil { width: 68px !important; height: 26px; padding: 1px 4px; font-weight: 800 !important; font-size: 13px !important; font-family: 'Google Sans Text', sans-serif; color: #202124; transition: outline 0.2s; border-radius: 5px; }
+    #tbhBasYil, #tbhBitYil { width: 64px !important; height: 22px; padding: 0 4px; font-weight: 800 !important; font-size: 12px !important; font-family: 'Google Sans Text', sans-serif; color: #202124; transition: outline 0.2s; border-radius: 4px; }
     #tbhBasYil option, #tbhBitYil option { font-weight: 700; }
     td:first-child { font-weight: 700; font-size: 12px; color: #1a73e8; background-color: #fafbfc; position: sticky; left: 0; z-index: 2; box-shadow: 1px 0px 0px #e8eaed; }
     thead tr:nth-child(1) th:first-child { background-color: #d9ead3; position: sticky; left: 0; z-index: 15; }
@@ -79,9 +79,9 @@
     .arz-col { width: 35px; min-width: 35px; padding-left: 2px !important; padding-right: 2px !important; }
     .arz-yili { font-weight: 700; font-size: 12px; color: #3c4043; }
     .tight-col { width: 75px; padding-left: 2px !important; padding-right: 2px !important; }
-    .trend-col { width: 55px; }
+    .trend-col { width: 55px; min-width: 55px; }
     .sparkline { display: flex; align-items: flex-end; justify-content: center; gap: 2px; height: 22px; }
-    .sparkline div { width: 4px; background: #81c995; border-radius: 1px 1px 0 0; transition: height 0.3s ease; }
+    .sparkline div { width: 4px; flex-shrink: 0; background: #81c995; border-radius: 1px 1px 0 0; transition: height 0.3s ease; }
     .error-msg { padding: 20px; text-align: center; color: #d93025; font-weight: 500; font-size: 14px; background: #fce8e6; margin: 20px; border-radius: 8px; border: 1px solid #f28b82; }
     .main-row { cursor: pointer; transition: background-color 0.3s ease; background-color: #ffffff; }
     .main-row td:first-child { background-color: #fafbfc; transition: background-color 0.3s ease; }
@@ -122,7 +122,7 @@
       .search-wrap span { font-size: 11px; left: 5px; }
       .icon-btn, .kpi-badge { font-size: 11px; padding: 4px 6px; white-space: nowrap; flex: 0 0 auto; }
       .table-container { overflow-x: auto; margin: 8px; }
-      table { table-layout: fixed; width: 100%; min-width: 900px; }
+      table { table-layout: fixed; width: 100%; min-width: 950px; }
       td, th { font-size: 10px !important; padding: 2px 1px !important; overflow: hidden; text-overflow: ellipsis; }
       thead tr:nth-child(1) th { font-size: 12px !important; padding: 5px 1px !important; }
       td:first-child, .arz-yili { font-size: 11px !important; }
@@ -130,12 +130,12 @@
       .col-filter { font-size: 9px; padding: 0; width: 100%; }
       .col-filter.year-sort { width: 85%; max-width: 44px; margin: 0 auto; display: block; padding: 1px 0; }
       
-      #tbhBasYil, #tbhBitYil { width: 64px !important; height: 24px; padding: 1px 4px; font-size: 12px !important; font-weight: 800 !important; border-radius: 5px; }
-      .tbh-select-wrap span { font-size: 14px !important; }
+      #tbhBasYil, #tbhBitYil { width: 54px !important; height: 20px; padding: 0px 2px; font-size: 11px !important; font-weight: 800 !important; border-radius: 4px; }
+      .tbh-select-wrap span { font-size: 12px !important; }
       
-      .tbh-cell { font-size: 13px !important; font-weight: 800 !important; line-height: 1.1; }
-      .tbh-cell.growth-plus, .tbh-cell.growth-minus { font-size: 13px !important; font-weight: 900 !important; }
-      .check-icon { font-size: 13px !important; font-weight: 800 !important; line-height: 1.1; }
+      .tbh-cell { font-size: 12px !important; font-weight: 800 !important; line-height: 1.1; }
+      .tbh-cell.growth-plus, .tbh-cell.growth-minus { font-size: 12px !important; font-weight: 900 !important; }
+      .check-icon { font-size: 12px !important; font-weight: 800 !important; line-height: 1.1; }
       .info-icon { font-size: 10px; margin-left: 2px; vertical-align: text-bottom; }
       
       tr:first-child th:nth-child(1) { width: 6%; } 
@@ -388,7 +388,7 @@
       var html = '<div class="sparkline">';
       degerler.forEach(function(v) {
         var h = maxV > 0 ? Math.max((v / maxV) * 100, v > 0 ? 8 : 0) : 0;
-        html += '<div style="height:' + h + '%;' + (v > 0 ? '' : 'background:transparent;') + '</div>';
+        html += '<div style="height:' + h + '%;' + (v > 0 ? '' : 'background:transparent;') + '"></div>';
       });
       html += '</div>';
       return html;
