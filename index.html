@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>TEMETTÜ ANALİZ</title>
   <base target="_top">
-  <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Text:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Text:wght@400;500;700;800;900&display=swap" rel="stylesheet">
   <style>
     body { font-family: 'Google Sans Text', sans-serif; margin: 0; padding: 0; background-color: #f1f3f4; height: 100vh; height: 100dvh; display: flex; flex-direction: column; overflow: hidden; }
     ::-webkit-scrollbar { width: 8px; height: 8px; }
@@ -52,12 +52,16 @@
     thead tr:nth-child(2) th { background-color: #e5f2e0; position: sticky; z-index: 10; padding-bottom: 8px; }
     .col-filter { width: 90%; padding: 2px; border: 1px solid #b2d2a4; border-radius: 4px; font-size: 10px; outline: none; text-align: center; text-align-last: center; }
     .col-filter option { text-align: center; }
+    #tbhBasYil, #tbhBitYil { font-weight: 800 !important; font-family: 'Google Sans Text', sans-serif; color: #202124; }
+    #tbhBasYil option, #tbhBitYil option { font-weight: 700; }
     td:first-child { font-weight: 700; font-size: 12px; color: #1a73e8; background-color: #fafbfc; position: sticky; left: 0; z-index: 2; box-shadow: 1px 0px 0px #e8eaed; }
     thead tr:nth-child(1) th:first-child { background-color: #d9ead3; position: sticky; left: 0; z-index: 15; }
     thead tr:nth-child(2) th:first-child { background-color: #e5f2e0; position: sticky; left: 0; z-index: 15; }
-    .growth-plus { color: #0f9d58; font-weight: bold; font-size: 15px; }
-    .growth-minus { color: #d93025; font-weight: bold; font-size: 15px; }
-    .warning-flag { color: #d93025; font-size: 10px; margin-left: 2px; cursor: help; font-weight: bold; }
+    .growth-plus { color: #0f9d58; font-weight: 900; font-size: 15px; }
+    .growth-minus { color: #d93025; font-weight: 900; font-size: 15px; }
+    .tbh-cell { font-weight: 800 !important; font-size: 14px; }
+    .tbh-cell.growth-plus, .tbh-cell.growth-minus { font-weight: 900 !important; font-size: 15px; }
+    .warning-flag { color: #d93025; font-size: 10px; margin-left: 2px; cursor: help; font-weight: 800; }
     .check-icon { color: #0f9d58; font-size: 14px; font-weight: bold; }
     .info-icon { font-size: 13px; cursor: pointer; margin-left: 3px; color: #5f6368; transition: transform 0.2s; display: inline-block; }
     .info-icon:hover { transform: scale(1.2); }
@@ -117,6 +121,9 @@
       thead tr:nth-child(1) th { font-size: 12px !important; padding: 5px 1px !important; }
       td:first-child, .arz-yili { font-size: 11px !important; }
       .col-filter { font-size: 9px; padding: 0; width: 95%; }
+      #tbhBasYil, #tbhBitYil { font-size: 10px !important; font-weight: 800 !important; }
+      .tbh-cell { font-size: 11px !important; font-weight: 800 !important; }
+      .tbh-cell.growth-plus, .tbh-cell.growth-minus { font-size: 11px !important; font-weight: 900 !important; }
       .info-icon { font-size: 9px; margin-left: 1px; }
       .check-icon { font-size: 10px; }
       tr:first-child th:nth-child(1) { width: 6.5%; } 
