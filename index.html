@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>TEMETTÜ ANALİZ</title>
   <base target="_top">
-  <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Text:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Text:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
     body { font-family: 'Google Sans Text', sans-serif; margin: 0; padding: 0; background-color: #f1f3f4; height: 100vh; height: 100dvh; display: flex; flex-direction: column; overflow: hidden; }
     ::-webkit-scrollbar { width: 8px; height: 8px; }
@@ -53,16 +53,15 @@
     .col-filter { width: 90%; padding: 2px; border: 1px solid #b2d2a4; border-radius: 4px; font-size: 10px; outline: none; text-align: center; text-align-last: center; }
     .col-filter option { text-align: center; }
     .tbh-select-wrap { display: flex; justify-content: center; align-items: center; gap: 4px; }
-    #tbhBasYil, #tbhBitYil { width: 64px !important; padding: 1px 4px; font-weight: 800 !important; font-family: 'Google Sans Text', sans-serif; color: #202124; }
+    #tbhBasYil, #tbhBitYil { width: 64px !important; padding: 1px 4px; font-weight: 700 !important; font-family: 'Google Sans Text', sans-serif; color: #202124; transition: outline 0.2s; }
     #tbhBasYil option, #tbhBitYil option { font-weight: 700; }
     td:first-child { font-weight: 700; font-size: 12px; color: #1a73e8; background-color: #fafbfc; position: sticky; left: 0; z-index: 2; box-shadow: 1px 0px 0px #e8eaed; }
     thead tr:nth-child(1) th:first-child { background-color: #d9ead3; position: sticky; left: 0; z-index: 15; }
     thead tr:nth-child(2) th:first-child { background-color: #e5f2e0; position: sticky; left: 0; z-index: 15; }
-    .growth-plus { color: #0f9d58; font-weight: 900; font-size: 15px; }
-    .growth-minus { color: #d93025; font-weight: 900; font-size: 15px; }
-    .tbh-cell { font-weight: 800 !important; font-size: 14px; }
-    .tbh-cell.growth-plus, .tbh-cell.growth-minus { font-weight: 900 !important; font-size: 15px; }
-    .warning-flag { color: #d93025; font-size: 10px; margin-left: 2px; cursor: help; font-weight: 800; }
+    .growth-plus { color: #0f9d58; font-weight: 700; font-size: 15px; }
+    .growth-minus { color: #d93025; font-weight: 700; font-size: 15px; }
+    .tbh-cell { font-weight: 700 !important; font-size: 14px; }
+    .tbh-cell.growth-plus, .tbh-cell.growth-minus { font-weight: 700 !important; font-size: 15px; }
     .check-icon { color: #0f9d58; font-size: 14px; font-weight: bold; }
     .info-icon { font-size: 13px; cursor: pointer; margin-left: 3px; color: #5f6368; transition: transform 0.2s; display: inline-block; }
     .info-icon:hover { transform: scale(1.2); }
@@ -122,9 +121,9 @@
       thead tr:nth-child(1) th { font-size: 12px !important; padding: 5px 1px !important; }
       td:first-child, .arz-yili { font-size: 11px !important; }
       .col-filter { font-size: 9px; padding: 0; width: 95%; }
-      #tbhBasYil, #tbhBitYil { width: 58px !important; padding: 1px 3px; font-size: 10px !important; font-weight: 800 !important; }
-      .tbh-cell { font-size: 11px !important; font-weight: 800 !important; }
-      .tbh-cell.growth-plus, .tbh-cell.growth-minus { font-size: 11px !important; font-weight: 900 !important; }
+      #tbhBasYil, #tbhBitYil { width: 58px !important; padding: 1px 3px; font-size: 10px !important; font-weight: 700 !important; }
+      .tbh-cell { font-size: 11px !important; font-weight: 700 !important; }
+      .tbh-cell.growth-plus, .tbh-cell.growth-minus { font-size: 11px !important; font-weight: 700 !important; }
       .info-icon { font-size: 9px; margin-left: 1px; }
       .check-icon { font-size: 10px; }
       tr:first-child th:nth-child(1) { width: 6.5%; } 
@@ -305,43 +304,25 @@
     }
 
     function getDynamicGrowthByYears(satir, basYil, bitYil, orjBasliklar) {
-      var hedefIlkIndeks = -1;
-      var maxIndeks = -1;
+      var NA = { val: null };
+      var iBas = -1, iBit = -1;
       for (var m = 2; m < orjBasliklar.length - 1; m++) {
-        var yStr = orjBasliklar[m].toString().trim();
-        if (yStr === basYil.toString()) hedefIlkIndeks = m;
-        if (yStr === bitYil.toString()) maxIndeks = m;
+        var y = orjBasliklar[m].toString().trim();
+        if (y === String(basYil)) iBas = m;
+        if (y === String(bitYil)) iBit = m;
       }
-      if (hedefIlkIndeks === -1 || maxIndeks === -1 || maxIndeks <= hedefIlkIndeks) {
-        return { val: null, isCut: false, refYear: "", kesilenYil: "" };
-      }
-      var adimSayisi = maxIndeks - hedefIlkIndeks;
-      var yilFarki = adimSayisi + 1;
-      var sonYilIndeks = -1;
-      for (var k = maxIndeks; k >= 2; k--) {
-        if (sayiyaCevir(satir[k]) > 0) { sonYilIndeks = k; break; }
-      }
-      if (sonYilIndeks === -1) return { val: null, isCut: false, refYear: "", kesilenYil: "" };
-      var ilkYilIndeks = sonYilIndeks - adimSayisi;
-      if (ilkYilIndeks < 2) return { val: null, isCut: false, refYear: "", kesilenYil: "" };
-      var sonDeger = sayiyaCevir(satir[sonYilIndeks]);
-      var ilkDeger = sayiyaCevir(satir[ilkYilIndeks]);
-      if (ilkDeger <= 0) return { val: null, isCut: false, refYear: "", kesilenYil: "" };
-      var cagr = (Math.pow((sonDeger / ilkDeger), (1 / yilFarki)) - 1) * 100;
-      var isCut = sonYilIndeks < maxIndeks;
-      var kesilenYil = orjBasliklar[maxIndeks];
-      var refYear = isCut ? "'" + kesilenYil.toString().slice(-2) + " Yok" : "";
-      return { val: cagr, isCut: isCut, refYear: refYear, kesilenYil: kesilenYil };
+      if (iBas === -1 || iBit === -1 || iBit <= iBas) return NA;
+      var ilk = sayiyaCevir(satir[iBas]);
+      var son = sayiyaCevir(satir[iBit]);
+      if (ilk <= 0 || son <= 0) return NA;
+      var cagr = (Math.pow(son / ilk, 1 / (iBit - iBas)) - 1) * 100;
+      return { val: cagr };
     }
 
-    function formatGrowthCell(data, yogunluk) {
-      if (yogunluk === 0 || data.val === null) return '<td data-value="-999" class="empty-cell tight-col tbh-cell">N/A</td>';
-      var cls = data.val >= 0 ? 'growth-plus' : 'growth-minus';
-      var text = '%' + data.val.toFixed(1);
-      if (data.isCut) {
-        text += ' <span class="warning-flag" title="Dikkat: Bu şirketin ' + data.kesilenYil + ' yılında temettü ödemesi bulunmuyor!">⚠️' + data.refYear + '</span>';
-      }
-      return '<td class="' + cls + ' tight-col tbh-cell" data-value="' + data.val + '">' + text + '</td>';
+    function formatGrowthCell(gData) {
+      if (gData.val === null) return '<td class="empty-cell tight-col tbh-cell" data-value="-999">N/A</td>';
+      var cls = gData.val >= 0 ? 'growth-plus' : 'growth-minus';
+      return '<td class="' + cls + ' tight-col tbh-cell" data-value="' + gData.val + '">%' + gData.val.toFixed(1) + '</td>';
     }
 
     function tbhGuncelle() {
@@ -350,6 +331,14 @@
       if (!basEl || !bitEl) return;
       var basYil = basEl.value;
       var bitYil = bitEl.value;
+
+      if (parseInt(basYil) >= parseInt(bitYil)) {
+        basEl.style.outline = "2px solid #d93025";
+        bitEl.style.outline = "2px solid #d93025";
+        return; 
+      }
+      basEl.style.outline = "";
+      bitEl.style.outline = "";
 
       var mainTrs = document.querySelectorAll("#tabloGovdesi tr.main-row");
       mainTrs.forEach(function(tr) {
@@ -360,19 +349,15 @@
         hisseObj.tbh = gData.val;
         var tbhTd = tr.querySelector(".tbh-cell");
         if (tbhTd) {
-          if (hisseObj.yogunluk === 0 || gData.val === null) {
+          if (gData.val === null) {
             tbhTd.className = "empty-cell tight-col tbh-cell";
             tbhTd.setAttribute("data-value", "-999");
             tbhTd.innerHTML = "N/A";
           } else {
             var cls = gData.val >= 0 ? "growth-plus" : "growth-minus";
-            var text = "%" + gData.val.toFixed(1);
-            if (gData.isCut) {
-              text += ' <span class="warning-flag" title="Dikkat: Bu şirketin ' + gData.kesilenYil + ' yılında temettü ödemesi bulunmuyor!">⚠️' + gData.refYear + '</span>';
-            }
             tbhTd.className = cls + " tight-col tbh-cell";
             tbhTd.setAttribute("data-value", gData.val);
-            tbhTd.innerHTML = text;
+            tbhTd.innerHTML = "%" + gData.val.toFixed(1);
           }
         }
       });
@@ -603,7 +588,7 @@
         else if (i === idxYogunluk) html += '<th class="tight-col"></th>'; 
         else html += '<th><select class="col-filter year-sort" onchange="sira(this)"><option value="">Sırala</option><option value="DESC">Büyük</option><option value="ASC">Küçük</option></select></th>';
       }
-      html += '<th class="tight-col"><div class="tbh-select-wrap"><select id="tbhBasYil" class="col-filter" onchange="this.blur(); tbhGuncelle()">' + basOptionsHtml + '</select><select id="tbhBitYil" class="col-filter" onchange="this.blur(); tbhGuncelle()">' + bitOptionsHtml + '</select></div></th>';
+      html += '<th class="tight-col"><div class="tbh-select-wrap"><select id="tbhBasYil" class="col-filter" onchange="this.blur(); tbhGuncelle()">' + basOptionsHtml + '</select><span style="font-weight:bold; color:#5f6368; font-size:12px;">→</span><select id="tbhBitYil" class="col-filter" onchange="this.blur(); tbhGuncelle()">' + bitOptionsHtml + '</select></div></th>';
       html += '<th class="trend-col"></th>';
       html += '</tr></thead><tbody id="tabloGovdesi">';
 
@@ -712,7 +697,7 @@
           }
         }
 
-        icSutunlarHtml += formatGrowthCell(gTbh, rawYogunluk);
+        icSutunlarHtml += formatGrowthCell(gTbh);
 
         var ortalamaVerim = odemeYaptigiYilSayisi > 0 ? (toplamVerim10Yil / odemeYaptigiYilSayisi) : 0;
         var ortalamaVerim5 = odemeYaptigiYilSayisi5 > 0 ? (toplamVerim5Yil / odemeYaptigiYilSayisi5) : 0;
@@ -720,7 +705,7 @@
         
         icSutunlarHtml += '<td class="trend-col">' + sparklineOlustur(sparkDegerler.slice(-8)) + '</td>';
 
-        // Madde 4: Artış Serisi hesabı doğrudan duzeltilmisSatir (resmi bedelsiz düzeltmeli DPS) dizisine bağlandı
+        // Artış Serisi hesabı
         var tumYillarTutar = [];
         var tumYillarAdjDPS = [];
         
@@ -995,9 +980,16 @@
 
       if (currentSortCol > -1) {
         mainTrs.sort((a, b) => {
-          var valA = parseFloat(a.cells[currentSortCol].getAttribute("data-value")) || 0;
-          var valB = parseFloat(b.cells[currentSortCol].getAttribute("data-value")) || 0;
-          return currentSortOrder === "DESC" ? valB - valA : valA - valB;
+          var valA = a.cells[currentSortCol].getAttribute("data-value");
+          var valB = b.cells[currentSortCol].getAttribute("data-value");
+          var numA = parseFloat(valA);
+          var numB = parseFloat(valB);
+          var isNaNA = isNaN(numA) || valA === "-999";
+          var isNaNB = isNaN(numB) || valB === "-999";
+          if (isNaNA && isNaNB) return 0;
+          if (isNaNA) return 1;
+          if (isNaNB) return -1;
+          return currentSortOrder === "DESC" ? numB - numA : numA - numB;
         });
       } else if (genelSort) {
         mainTrs.sort((a, b) => {
@@ -1006,7 +998,15 @@
           var sb = HISSE_MAP[hb] || {};
           if (genelSort === "YOG_DESC") return (sb.yogunluk || 0) - (sa.yogunluk || 0);
           if (genelSort === "VERIM_DESC") return seciliDonemVerimiAl(sb, fD) - seciliDonemVerimiAl(sa, fD);
-          if (genelSort === "TBH_DESC") return (sb.tbh !== null && sb.tbh !== undefined ? sb.tbh : -999) - (sa.tbh !== null && sa.tbh !== undefined ? sa.tbh : -999);
+          if (genelSort === "TBH_DESC") {
+            var tbhA = sa.tbh; var tbhB = sb.tbh;
+            var isNaNA = tbhA === null || tbhA === undefined || tbhA === -999;
+            var isNaNB = tbhB === null || tbhB === undefined || tbhB === -999;
+            if (isNaNA && isNaNB) return 0;
+            if (isNaNA) return 1;
+            if (isNaNB) return -1;
+            return tbhB - tbhA;
+          }
           if (genelSort === "HISSE_ASC") return ha.localeCompare(hb);
           return 0;
         });
