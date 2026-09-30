@@ -52,7 +52,8 @@
     thead tr:nth-child(2) th { background-color: #e5f2e0; position: sticky; z-index: 10; padding-bottom: 8px; }
     .col-filter { width: 90%; padding: 2px; border: 1px solid #b2d2a4; border-radius: 4px; font-size: 10px; outline: none; text-align: center; text-align-last: center; }
     .col-filter option { text-align: center; }
-    #tbhBasYil, #tbhBitYil { font-weight: 800 !important; font-family: 'Google Sans Text', sans-serif; color: #202124; }
+    .tbh-select-wrap { display: flex; justify-content: center; align-items: center; gap: 3px; }
+    #tbhBasYil, #tbhBitYil { width: 54px !important; padding: 1px 2px; font-weight: 800 !important; font-family: 'Google Sans Text', sans-serif; color: #202124; }
     #tbhBasYil option, #tbhBitYil option { font-weight: 700; }
     td:first-child { font-weight: 700; font-size: 12px; color: #1a73e8; background-color: #fafbfc; position: sticky; left: 0; z-index: 2; box-shadow: 1px 0px 0px #e8eaed; }
     thead tr:nth-child(1) th:first-child { background-color: #d9ead3; position: sticky; left: 0; z-index: 15; }
@@ -121,15 +122,15 @@
       thead tr:nth-child(1) th { font-size: 12px !important; padding: 5px 1px !important; }
       td:first-child, .arz-yili { font-size: 11px !important; }
       .col-filter { font-size: 9px; padding: 0; width: 95%; }
-      #tbhBasYil, #tbhBitYil { font-size: 10px !important; font-weight: 800 !important; }
+      #tbhBasYil, #tbhBitYil { width: 46px !important; padding: 0 1px; font-size: 10px !important; font-weight: 800 !important; }
       .tbh-cell { font-size: 11px !important; font-weight: 800 !important; }
       .tbh-cell.growth-plus, .tbh-cell.growth-minus { font-size: 11px !important; font-weight: 900 !important; }
       .info-icon { font-size: 9px; margin-left: 1px; }
       .check-icon { font-size: 10px; }
       tr:first-child th:nth-child(1) { width: 6.5%; } 
       tr:first-child th:nth-child(2) { width: 3.5%; } 
-      tr:first-child th:nth-child(13) { width: 5.5%; } 
-      tr:first-child th:nth-child(14) { width: 15%; } 
+      tr:first-child th:nth-child(13) { width: 6%; } 
+      tr:first-child th:nth-child(14) { width: 10.5%; font-size: 11px !important; letter-spacing: -0.2px; } 
       tr:first-child th:nth-child(15) { width: 5.5%; } 
       .bar, .main-row, .main-row td:first-child, .info-icon { transition: none !important; }
       .bar:hover, .info-icon:hover { transform: none !important; }
@@ -334,13 +335,13 @@
     }
 
     function formatGrowthCell(data, yogunluk) {
-      if (yogunluk === 0 || data.val === null) return '<td colspan="2" data-value="-999" class="empty-cell tight-col tbh-cell">N/A</td>';
+      if (yogunluk === 0 || data.val === null) return '<td data-value="-999" class="empty-cell tight-col tbh-cell">N/A</td>';
       var cls = data.val >= 0 ? 'growth-plus' : 'growth-minus';
       var text = '%' + data.val.toFixed(1);
       if (data.isCut) {
         text += ' <span class="warning-flag" title="Dikkat: Bu şirketin ' + data.kesilenYil + ' yılında temettü ödemesi bulunmuyor!">⚠️' + data.refYear + '</span>';
       }
-      return '<td colspan="2" class="' + cls + ' tight-col tbh-cell" data-value="' + data.val + '">' + text + '</td>';
+      return '<td class="' + cls + ' tight-col tbh-cell" data-value="' + data.val + '">' + text + '</td>';
     }
 
     function tbhGuncelle() {
@@ -591,7 +592,7 @@
         else if (i === idxYogunluk) html += '<th class="tight-col" title="Temettü Ödeme Yoğunluğu (' + y1 + '-' + y2 + ' Yılları Arası)">YOĞ. (' + y1 + '-' + y2 + ')</th>';
         else html += '<th>' + baslikMetni + '</th>';
       }
-      html += '<th colspan="2" class="tight-col" title="Seçilen Yıllar Arası Bileşik Temettü Büyüme Hızı">TEMETTÜ BÜYÜME HIZI</th>';
+      html += '<th class="tight-col" title="Seçilen Yıllar Arası Bileşik Temettü Büyüme Hızı">TEMETTÜ BÜYÜME HIZI</th>';
       html += '<th class="trend-col" title="Son 8 Yılın Dağıtılan TL Trendi">TREND</th>';
       html += '</tr><tr>';
 
@@ -602,8 +603,7 @@
         else if (i === idxYogunluk) html += '<th class="tight-col"></th>'; 
         else html += '<th><select class="col-filter year-sort" onchange="sira(this)"><option value="">Sırala</option><option value="DESC">Büyük</option><option value="ASC">Küçük</option></select></th>';
       }
-      html += '<th class="tight-col"><select id="tbhBasYil" class="col-filter" onchange="this.blur(); tbhGuncelle()">' + basOptionsHtml + '</select></th>';
-      html += '<th class="tight-col"><select id="tbhBitYil" class="col-filter" onchange="this.blur(); tbhGuncelle()">' + bitOptionsHtml + '</select></th>';
+      html += '<th class="tight-col"><div class="tbh-select-wrap"><select id="tbhBasYil" class="col-filter" onchange="this.blur(); tbhGuncelle()">' + basOptionsHtml + '</select><select id="tbhBitYil" class="col-filter" onchange="this.blur(); tbhGuncelle()">' + bitOptionsHtml + '</select></div></th>';
       html += '<th class="trend-col"></th>';
       html += '</tr></thead><tbody id="tabloGovdesi">';
 
@@ -798,7 +798,7 @@
             expandHtml += '</div></td>';
           }
         }
-        expandHtml += '<td colspan="4" style="vertical-align: middle; padding: 12px 4px;">';
+        expandHtml += '<td colspan="3" style="vertical-align: middle; padding: 12px 4px;">';
         expandHtml += '<div style="background: #f1f8f3; border: 1px solid #b2d2a4; border-radius: 8px; padding: 10px 2px; text-align: center; margin: 0; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">';
         expandHtml += '<div class="ort-verim-baslik" style="color: #5f6368; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; white-space: normal; line-height: 1.2;">Ortalama Temettü Verimi</div>';
         expandHtml += '<div class="ort-verim-deger" style="color: #0f9d58; font-size: 24px; font-weight: 900;">' + ortVerimFormatli + '</div></div></td>';
