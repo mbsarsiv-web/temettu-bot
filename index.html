@@ -62,6 +62,7 @@
     .growth-minus { color: #d93025; font-weight: 700; font-size: 15px; }
     .tbh-cell { font-weight: 700 !important; font-size: 14px; }
     .tbh-cell.growth-plus, .tbh-cell.growth-minus { font-weight: 700 !important; font-size: 15px; }
+    .warning-flag { color: #d93025; font-size: 10px; margin-left: 2px; cursor: help; font-weight: 800; }
     .check-icon { color: #0f9d58; font-size: 14px; font-weight: bold; }
     .info-icon { font-size: 13px; cursor: pointer; margin-left: 3px; color: #5f6368; transition: transform 0.2s; display: inline-block; }
     .info-icon:hover { transform: scale(1.2); }
@@ -283,12 +284,19 @@
       return "yog-low";
     }
 
-    function gosterBilgi(hisse, yil, miktar) {
-      document.getElementById('modalTitle').innerText = hisse + ' - ' + yil + ' Temettüsü';
-      document.getElementById('modalContent').innerText = 'Ödenen Toplam Temettü';
+    function gosterBilgi(hisse, yil, miktar, bedelsiz) {
+      document.getElementById('modalTitle').innerText = hisse + ' - ' + yil;
       var sayisalMiktar = Number(sayiyaCevir(miktar));
       var formatliMiktar = isNaN(sayisalMiktar) ? miktar : sayisalMiktar.toLocaleString('tr-TR') + ' TL';
-      document.getElementById('modalAmount').innerText = formatliMiktar;
+      
+      var altMetin = sayisalMiktar > 0 ? 'Ödenen Toplam Temettü' : 'Nakit Temettü Ödemesi Yok';
+      if (bedelsiz && bedelsiz > 0) {
+        var fmtBedelsiz = (bedelsiz % 1 === 0) ? bedelsiz.toString() : bedelsiz.toFixed(2);
+        altMetin += '\n🎁 Ayrıca %' + fmtBedelsiz + ' Bedelsiz Bölünme';
+      }
+      
+      document.getElementById('modalContent').innerText = altMetin;
+      document.getElementById('modalAmount').innerText = sayisalMiktar > 0 ? formatliMiktar : '';
       document.getElementById('modalOverlay').style.display = 'block';
       document.getElementById('customModal').style.display = 'block';
     }
@@ -643,8 +651,12 @@
             if (rawValue > maxMiktar) maxMiktar = rawValue;
             sparkDegerler.push(rawValue);
 
+            var sutunYili = orjBasliklarTumu[j];
+            var bedelsizOrani = bedelsizMap[temizKod + "_" + sutunYili] || 0;
+            var fmtBedelsiz = (bedelsizOrani % 1 === 0) ? bedelsizOrani.toString() : bedelsizOrani.toFixed(2);
+            var bedelsizHtml = bedelsizOrani > 0 ? '<span title="%' + fmtBedelsiz + ' Bedelsiz Bölünme" style="cursor:help; margin-left:2px; font-size:12px;">🎁</span>' : '';
+
             if (rawValue > 0) {
-              var sutunYili = orjBasliklarTumu[j];
               var verimDegeri = verimMap[temizKod + "_" + sutunYili];
               var sutunYiliNum = parseInt(sutunYili);
               
@@ -669,9 +681,16 @@
               }
               
               var formatliMiktarHover = Number(rawValue).toLocaleString('tr-TR') + ' TL';
-              icSutunlarHtml += '<td data-value="' + rawValue + '"><span class="check-icon">' + gosterilecekMetin + '</span><span class="info-icon" title="Miktar: ' + formatliMiktarHover + '" onclick="event.stopPropagation(); gosterBilgi(\'' + temizKod + '\', \'' + sutunYili + '\', \'' + cell + '\')">ℹ️</span></td>';
+              if (bedelsizOrani > 0) formatliMiktarHover += ' (Ayrıca %' + fmtBedelsiz + ' Bedelsiz)';
+              
+              icSutunlarHtml += '<td data-value="' + rawValue + '"><span class="check-icon">' + gosterilecekMetin + '</span>' + bedelsizHtml + '<span class="info-icon" title="Miktar: ' + formatliMiktarHover + '" onclick="event.stopPropagation(); gosterBilgi(\'' + temizKod + '\', \'' + sutunYili + '\', \'' + cell + '\', ' + bedelsizOrani + ')">ℹ️</span></td>';
             } else {
-              icSutunlarHtml += '<td data-value="0" class="empty-cell">-</td>';
+              if (bedelsizOrani > 0) {
+                var formatliMiktarHover = 'Nakit Yok (Sadece %' + fmtBedelsiz + ' Bedelsiz)';
+                icSutunlarHtml += '<td data-value="0" class="empty-cell">- ' + bedelsizHtml + '<span class="info-icon" title="' + formatliMiktarHover + '" onclick="event.stopPropagation(); gosterBilgi(\'' + temizKod + '\', \'' + sutunYili + '\', \'0\', ' + bedelsizOrani + ')">ℹ️</span></td>';
+              } else {
+                icSutunlarHtml += '<td data-value="0" class="empty-cell">-</td>';
+              }
             }
           }
           else if (j === 0) icSutunlarHtml += '<td>' + cell + '</td>';
