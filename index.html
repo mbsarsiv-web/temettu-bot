@@ -67,7 +67,7 @@
     .warning-flag { color: #d93025; font-size: 10px; margin-left: 2px; cursor: help; font-weight: 700; }
     .check-icon { color: #0f9d58; font-size: 13px; font-weight: bold; }
     
-    .bedelsiz-cizgi { text-decoration: underline; text-decoration-style: dotted; text-decoration-color: #e37400; text-decoration-thickness: 2px; text-underline-offset: 3px; cursor: help; }
+    .bedelsiz-hucre { background-color: #fff3e0; }
 
     .info-icon { font-size: 12px; cursor: pointer; margin-left: 3px; color: #5f6368; transition: transform 0.2s; display: inline-block; }
     .info-icon:hover { transform: scale(1.2); }
@@ -659,7 +659,8 @@
             var sutunYili = orjBasliklarTumu[j];
             var bedelsizOrani = bedelsizMap[temizKod + "_" + sutunYili] || 0;
             var fmtBedelsiz = (bedelsizOrani % 1 === 0) ? bedelsizOrani.toString() : bedelsizOrani.toFixed(2);
-            var spanClass = bedelsizOrani > 0 ? 'check-icon bedelsiz-cizgi' : 'check-icon';
+            var spanClass = 'check-icon';
+            var tdClassAttr = bedelsizOrani > 0 ? ' class="bedelsiz-hucre"' : '';
             var titleAttr = bedelsizOrani > 0 ? ' title="Ayrıca %' + fmtBedelsiz + ' Bedelsiz"' : '';
 
             if (rawValue > 0) {
@@ -690,11 +691,11 @@
               if (bedelsizOrani > 0) formatliMiktarHover += ' (Ayrıca %' + fmtBedelsiz + ' Bedelsiz)';
               
               var spanGosterilecek = '<span class="' + spanClass + '"' + titleAttr + '>' + gosterilecekMetin + '</span>';
-              icSutunlarHtml += '<td data-value="' + rawValue + '">' + spanGosterilecek + '<span class="info-icon" title="Miktar: ' + formatliMiktarHover + '" onclick="event.stopPropagation(); gosterBilgi(\'' + temizKod + '\', \'' + sutunYili + '\', \'' + cell + '\', ' + bedelsizOrani + ')">ℹ️</span></td>';
+              icSutunlarHtml += '<td data-value="' + rawValue + '"' + tdClassAttr + '>' + spanGosterilecek + '<span class="info-icon" title="Miktar: ' + formatliMiktarHover + '" onclick="event.stopPropagation(); gosterBilgi(\'' + temizKod + '\', \'' + sutunYili + '\', \'' + cell + '\', ' + bedelsizOrani + ')">ℹ️</span></td>';
             } else {
               if (bedelsizOrani > 0) {
                 var formatliMiktarHover = 'Nakit Yok (Sadece %' + fmtBedelsiz + ' Bedelsiz)';
-                icSutunlarHtml += '<td data-value="0" class="empty-cell"><span class="bedelsiz-cizgi" title="Sadece %' + fmtBedelsiz + ' Bedelsiz Bölünme">-</span><span class="info-icon" title="' + formatliMiktarHover + '" onclick="event.stopPropagation(); gosterBilgi(\'' + temizKod + '\', \'' + sutunYili + '\', \'0\', ' + bedelsizOrani + ')">ℹ️</span></td>';
+                icSutunlarHtml += '<td data-value="0" class="empty-cell bedelsiz-hucre"><span title="Sadece %' + fmtBedelsiz + ' Bedelsiz Bölünme">-</span><span class="info-icon" title="' + formatliMiktarHover + '" onclick="event.stopPropagation(); gosterBilgi(\'' + temizKod + '\', \'' + sutunYili + '\', \'0\', ' + bedelsizOrani + ')">ℹ️</span></td>';
               } else {
                 icSutunlarHtml += '<td data-value="0" class="empty-cell">-</td>';
               }
