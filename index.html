@@ -420,7 +420,7 @@
         parcaHtml += '<span class="ticker-title">🏆 SON 10 YIL TEMETTÜ ŞAMPİYONLARI</span>';
         for (var i = 0; i < top10.length; i++) {
           var deger10 = top10[i].toplam10.toFixed(2).replace('.', ',');
-          parcaHtml += '<span class="ticker-item"><span class="ticker-rank">' + (i + 1) + '.</span> <span class="ticker-code">' + top10[i].hisse + '</span><span class="ticker-val">(%' + deger10 + ')</span></span>';
+          parcaHtml += '<span class="ticker-item"><span class="ticker-rank">' + (i + 1) + '.</span> <span class="ticker-code">' + escapeHtml(top10[i].hisse) + '</span><span class="ticker-val">(%' + deger10 + ')</span></span>';
         }
       }
 
@@ -428,14 +428,14 @@
         parcaHtml += '<span class="ticker-title five-yr">⭐ SON 5 YIL TEMETTÜ ŞAMPİYONLARI</span>';
         for (var j = 0; j < top5.length; j++) {
           var deger5 = top5[j].toplam5.toFixed(2).replace('.', ',');
-          parcaHtml += '<span class="ticker-item"><span class="ticker-rank">' + (j + 1) + '.</span> <span class="ticker-code">' + top5[j].hisse + '</span><span class="ticker-val">(%' + deger5 + ')</span></span>';
+          parcaHtml += '<span class="ticker-item"><span class="ticker-rank">' + (j + 1) + '.</span> <span class="ticker-code">' + escapeHtml(top5[j].hisse) + '</span><span class="ticker-val">(%' + deger5 + ')</span></span>';
         }
       }
       
       if (topArtis.length > 0) {
         parcaHtml += '<span class="ticker-title streak-yr">📈 DÜZENLİ TEMETTÜ ARTIRANLAR</span>';
         for (var k = 0; k < topArtis.length; k++) {
-          parcaHtml += '<span class="ticker-item"><span class="ticker-rank">' + (k + 1) + '.</span> <span class="ticker-code">' + topArtis[k].hisse + '</span><span class="ticker-streak-val">(' + topArtis[k].artisSerisi + ' Yıl)</span></span>';
+          parcaHtml += '<span class="ticker-item"><span class="ticker-rank">' + (k + 1) + '.</span> <span class="ticker-code">' + escapeHtml(topArtis[k].hisse) + '</span><span class="ticker-streak-val">(' + topArtis[k].artisSerisi + ' Yıl)</span></span>';
         }
       }
 
@@ -487,7 +487,7 @@
           else if ((b === "YIL" || b === "TARIH" || b === "TARİH") && yilIndeks === 1) yilIndeks = c;
           else if (verimIndeks === -1 && (b.indexOf("VERIM") > -1 || b.indexOf("VERİM") > -1) && basliklarVerim[c].toString().trim() !== "") verimIndeks = c;
           else if (hisseBasiIndeks === -1 && (b.indexOf("HISSE") > -1 || b.indexOf("HİSSE") > -1)) hisseBasiIndeks = c;
-          else if (bedelsizIndeks === -1 && (b.indexOf("BEDELSIZ") > -1 || b.indexOf("BEDELSİZ") > -1 || (b.indexOf("ORAN") > -1 && b.indexOf("DAGITMA") === -1 && b.indexOf("DAĞITMA") === -1))) bedelsizIndeks = c;
+          else if (bedelsizIndeks === -1 && (b.indexOf("BEDELSIZ") > -1 || b.indexOf("BEDELSİZ") > -1)) bedelsizIndeks = c;
         }
         
         if (verimIndeks === -1) { verimIndeks = 4; }
@@ -615,7 +615,7 @@
         var gizliAdet2011 = parseInt(satir[idxGizli]) || 0;
         
         var rawHisseKodu = satir[0];
-        if (!rawHisseKodu || rawHisseKodu.trim() === "") continue;
+        if (rawHisseKodu === undefined || rawHisseKodu === null || rawHisseKodu.toString().trim() === "") continue;
         var temizKod = rawHisseKodu.toString().trim().toUpperCase();
 
         // T.B.H. ve Artış Serisi için Kümülatif Bedelsiz Düzeltmeli DPS Dizisi
@@ -691,7 +691,7 @@
               if (bedelsizOrani > 0) formatliMiktarHover += ' (Ayrıca %' + fmtBedelsiz + ' Bedelsiz)';
               
               var spanGosterilecek = '<span class="' + spanClass + '"' + titleAttr + '>' + gosterilecekMetin + '</span>';
-              icSutunlarHtml += '<td data-value="' + rawValue + '"' + tdClassAttr + '>' + spanGosterilecek + '<span class="info-icon" title="Miktar: ' + formatliMiktarHover + '" onclick="event.stopPropagation(); gosterBilgi(\'' + temizKod + '\', \'' + sutunYili + '\', \'' + cell + '\', ' + bedelsizOrani + ')">ℹ️</span></td>';
+              icSutunlarHtml += '<td data-value="' + rawValue + '"' + tdClassAttr + '>' + spanGosterilecek + '<span class="info-icon" title="Miktar: ' + formatliMiktarHover + '" onclick="event.stopPropagation(); gosterBilgi(\'' + temizKod + '\', \'' + sutunYili + '\', ' + rawValue + ', ' + bedelsizOrani + ')">ℹ️</span></td>';
             } else {
               if (bedelsizOrani > 0) {
                 var formatliMiktarHover = 'Nakit Yok (Sadece %' + fmtBedelsiz + ' Bedelsiz)';
@@ -1089,14 +1089,14 @@
       })
       .then(function(data) {
         if (data.hata) {
-          document.getElementById('tableContainer').innerHTML = '<div class="error-msg">Sunucu hatası: ' + data.hata + '</div>';
+          document.getElementById('tableContainer').innerHTML = '<div class="error-msg">Sunucu hatası: ' + escapeHtml(data.hata) + '</div>';
         } else {
           tabloyuCiz(data);
           tarihiYazdir(data.sonGuncelleme);
         }
       })
       .catch(function(hata) {
-        document.getElementById('tableContainer').innerHTML = '<div class="error-msg">Veriler yüklenemedi: ' + hata.message + '</div>';
+        document.getElementById('tableContainer').innerHTML = '<div class="error-msg">Veriler yüklenemedi: ' + escapeHtml(hata.message) + '</div>';
       });
   </script>
 </body>
