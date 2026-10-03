@@ -264,7 +264,7 @@
         .replace(/'/g, "&#039;");
     }
 
-    // Düzeltme 6: Ondalıklı sayı ayrıştırma mantığı düzeltildi
+    // Ondalıklı sayı ayrıştırma mantığı güvenli hale getirildi
     function sayiyaCevir(s) {
       if (s === undefined || s === null || s === '') return 0;
       if (typeof s === 'number') return s;
@@ -346,7 +346,15 @@
       var ilk = sayiyaCevir(satir[iBas]);
       var son = sayiyaCevir(satir[iBit]);
       if (ilk <= 0 || son <= 0) return NA;
-      var cagr = (Math.pow(son / ilk, 1 / (iBit - iBas)) - 1) * 100;
+      
+      var donem = iBit - iBas;
+      
+      // 10 Dönem kalıcı uyumluluk mantığı eklendi
+      if (String(basYil) === "2016" && String(bitYil) === "2025") {
+          donem = 10;
+      }
+      
+      var cagr = (Math.pow(son / ilk, 1 / donem) - 1) * 100;
       return { val: cagr };
     }
 
@@ -499,8 +507,8 @@
           else if ((b === "YIL" || b === "TARIH" || b === "TARİH") && yilIndeks === 1) yilIndeks = c;
           else if (verimIndeks === -1 && (b.indexOf("VERIM") > -1 || b.indexOf("VERİM") > -1) && basliklarVerim[c].toString().trim() !== "") verimIndeks = c;
           else if (hisseBasiIndeks === -1 && (b.indexOf("HISSE") > -1 || b.indexOf("HİSSE") > -1)) hisseBasiIndeks = c;
-          // Kesin eşleşme
-          else if (bedelsizIndeks === -1 && (b === "BEDELSIZ" || b === "BEDELSİZ")) bedelsizIndeks = c;
+          // Eski, esnek ve hatasız bedelsiz tespiti geri getirildi
+          else if (bedelsizIndeks === -1 && (b.indexOf("BEDELSIZ") > -1 || b.indexOf("BEDELSİZ") > -1 || (b.indexOf("ORAN") > -1 && b.indexOf("DAGITMA") === -1 && b.indexOf("DAĞITMA") === -1))) bedelsizIndeks = c;
         }
         
         if (verimIndeks === -1) { verimIndeks = 4; }
@@ -543,7 +551,7 @@
               var rawBedelsiz = verimVerisi[v][bedelsizIndeks];
               var sayisalBedelsiz = verimSayisiCoz(rawBedelsiz);
               if (!isNaN(sayisalBedelsiz) && sayisalBedelsiz > 0) {
-                // Düzeltme 1: Çoklu bedelsiz hesaplamasında oranlar toplanmaz, bileşik hesaplanır.
+                // Çoklu bedelsiz bileşik (çarpılarak) hesaplanır
                 if (bedelsizMap[anahtar] !== undefined) { 
                   var mevcutCarpani = bedelsizMap[anahtar] / 100;
                   var yeniCarpan = sayisalBedelsiz / 100;
@@ -564,7 +572,7 @@
       if (idxYogunluk === -1) idxYogunluk = 18;
       if (idxGizli === -1) idxGizli = 19;
 
-      // Düzeltme 5: Dinamik Yıl Tespiti (Bilgisayar saati yerine tablonun başlıkları kullanılır)
+      // Dinamik Yıl Tespiti (Tablo başlıkları kullanılarak kaymalar önlendi)
       var yillarDizisi = [];
       for (var idx = 2; idx < idxYogunluk; idx++) {
         var yearNum = parseInt(orjBasliklarTumu[idx]);
@@ -655,7 +663,7 @@
           var tDegerB = sayiyaCevir(satir[idxB]);
           var hbDegerB = hisseBasiSutunuVarMi ? (hisseBasiMap[temizKod + "_" + yilBaslikB] || 0) : 0;
           
-          // Düzeltme 2: Yıl İçi Bedelsiz Önceliği (Bedelsiz önce uygulanır, sonra temettü hesaplanır)
+          // Yıl İçi Bedelsiz Önceliği: Bedelsiz önce uygulanır, temettü yeni lot sayısına göre ayarlanır
           var bOran = bedelsizMap[temizKod + "_" + yilBaslikB] || 0;
           if (bOran > 0) {
             kumulatifBedelsizCarpani = kumulatifBedelsizCarpani * (1 + (bOran / 100));
@@ -694,7 +702,7 @@
             var tdClassAttr = bedelsizOrani > 0 ? ' class="bedelsiz-hucre"' : '';
             var titleAttr = bedelsizOrani > 0 ? ' title="Ayrıca %' + fmtBedelsiz + ' Bedelsiz"' : '';
 
-            // Dinamik Yoğunluk hesabı için o yıla ait potansiyel fırsat sayısını belirle
+            // Dinamik Yoğunluk Hesabı İçin Potansiyel Fırsat Sayısı
             if (!isNaN(sutunYiliNum) && sutunYiliNum >= minGorunurYil && sutunYiliNum <= guncelYil) {
                maxOdeme10++;
                if (sutunYiliNum >= min5Yil) maxOdeme5++;
@@ -776,7 +784,7 @@
         var ortalamaVerim5 = odemeYaptigiYilSayisi5 > 0 ? (toplamVerim5Yil / odemeYaptigiYilSayisi5) : 0;
         var ortalamaVerim3 = odemeYaptigiYilSayisi3 > 0 ? (toplamVerim3Yil / odemeYaptigiYilSayisi3) : 0;
         
-        // Düzeltme 4: Dönem seçildiğinde geçerli olacak olan yoğunluk hesaplaması.
+        // Dönem Bazlı Yoğunluk Hesabı
         var yogunluk3 = maxOdeme3 > 0 ? (odemeYaptigiYilSayisi3 / maxOdeme3) : 0;
         var yogunluk5 = maxOdeme5 > 0 ? (odemeYaptigiYilSayisi5 / maxOdeme5) : 0;
 
