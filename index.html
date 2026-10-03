@@ -71,8 +71,8 @@
     .check-icon { color: #0f9d58; font-size: 13px; font-weight: bold; }
     .bedelsiz-hucre { background-color: #fff3e0; }
 
-    /* İkon düzeltmesi: Emoji yerine eski tarz font formatı kullanıldı */
-    .info-icon { font-size: 11px; cursor: pointer; margin-left: 3px; color: #5f6368; font-weight: 700; font-family: 'Google Sans Text', serif; display: inline-block; transition: transform 0.2s; }
+    /* İkon düzeltmesi: Eski format, font-family olmadan salt metin i */
+    .info-icon { font-size: 11px; cursor: pointer; margin-left: 3px; color: #5f6368; font-weight: bold; display: inline-block; transition: transform 0.2s; }
     .info-icon:hover { transform: scale(1.2); }
     
     .empty-cell { color: #bdc1c6; }
@@ -281,7 +281,6 @@
         .replace(/'/g, "&#039;");
     }
 
-    // Orijinal, güvenilir sayı çeviri fonksiyonu (noktayı siler, virgülü kuruş yapar)
     function sayiyaCevir(s) {
       if (s === undefined || s === null || s === '') return 0;
       if (typeof s === 'number') return s;
@@ -366,7 +365,6 @@
       
       let donem = iBit - iBas;
       
-      // Hariç tutulan kural korundu: TBH 10 yıl sabitlemesi
       if (String(basYil) === "2016" && String(bitYil) === "2025") {
           donem = 10;
       }
@@ -501,14 +499,11 @@
       return hisseObj.odemeYil10;
     }
 
-    // YENİ: Kronolojik bedelsiz motoru için güvenli tarih okuyucu
     function parseDateSafely(str, defaultYear) {
       if (!str) return new Date(defaultYear, 0, 1).getTime();
       let s = str.toString().trim();
-      // Örnek: "11.03.2023", "20/05/1997" formatlarını okur
       let p = s.match(/(\d{1,2})[\.\-\/](\d{1,2})[\.\-\/](\d{4})/);
       if (p) return new Date(parseInt(p[3]), parseInt(p[2])-1, parseInt(p[1])).getTime();
-      // Sadece yıl geldiyse "2023" yıl sonunu baz alır
       let y = s.match(/^(\d{4})$/);
       if (y) return new Date(parseInt(y[1]), 11, 31).getTime();
       return new Date(defaultYear, 0, 1).getTime();
@@ -525,7 +520,7 @@
       let verimMap = {};
       let hisseBasiMap = {};
       let bedelsizMap = {};
-      let eventsMap = {}; // YENİ: Kronolojik olay haritası
+      let eventsMap = {}; 
       let hisseBasiSutunuVarMi = false;
       let bedelsizSutunuVarMi = false;
 
@@ -595,7 +590,6 @@
             }
           }
 
-          // YENİ: Kronolojik hesaplama için olayların tarih sırasıyla toplanması
           if (yilNum > 0) {
             let tVal = parseDateSafely(tarih, yilNum);
             let hb = verimSayisiCoz(rawHB);
@@ -604,7 +598,6 @@
             if (!eventsMap[tKod]) eventsMap[tKod] = [];
 
             if (!isNaN(bd) && bd > 0) {
-              // Standart prosedür: Aynı güne denk gelirlerse temettü eski lotla uygulansın diye bedelsiz 1 milisaniye önceye atılır
               eventsMap[tKod].push({ type: 'BEDELSIZ', time: tVal - 1, val: bd, year: yilNum });
             }
             if (!isNaN(hb) && hb > 0) {
@@ -614,19 +607,18 @@
         }
       }
 
-      // YENİ: Hisse bazlı kronolojik lot/temettü simülasyonunun çalıştırılması
       let adjDPSMap = {}; 
       for (let tKod in eventsMap) {
         let evs = eventsMap[tKod];
-        evs.sort((a, b) => a.time - b.time); // Tarihlere göre küçükten büyüğe sıralama
+        evs.sort((a, b) => a.time - b.time); 
         
         let lot = 1.0;
         adjDPSMap[tKod] = {};
         for (let e of evs) {
           if (e.type === 'BEDELSIZ') {
-            lot = lot * (1 + (e.val / 100)); // Bedelsiz önce geldiyse lotu artırır
+            lot = lot * (1 + (e.val / 100)); 
           } else if (e.type === 'TEMETTU') {
-            adjDPSMap[tKod][e.year] = (adjDPSMap[tKod][e.year] || 0) + (e.val * lot); // Temettü o tarihteki lottan hesaplanır
+            adjDPSMap[tKod][e.year] = (adjDPSMap[tKod][e.year] || 0) + (e.val * lot); 
           }
         }
       }
@@ -724,7 +716,10 @@
         if (rawHisseKodu === undefined || rawHisseKodu === null || rawHisseKodu.toString().trim() === "") continue;
         let temizKod = rawHisseKodu.toString().trim().toUpperCase();
 
-        if (islenmisHisselerSet.has(temizKod)) continue; 
+        if (islenmisHisselerSet.has(temizKod)) {
+          console.warn("Dikkat: Yinelenen hisse kodu tespit edildi ve atlandı: " + temizKod);
+          continue; 
+        }
         islenmisHisselerSet.add(temizKod);
 
         let duzeltilmisSatir = [satir[0], satir[1]];
@@ -800,7 +795,7 @@
               
               let spanGosterilecek = '<span class="' + spanClass + '"' + titleAttr + '>' + gosterilecekMetin + '</span>';
               
-              // İkon orijinal hale dönüştürüldü (i harfi)
+              // İkon orijinal metin tabanlı formata ("i") ve fontuna çevrildi
               icSutunlarHtml += '<td data-value="' + rawValue + '"' + tdClassAttr + '>' + spanGosterilecek + '<span class="info-icon" title="Miktar: ' + formatliMiktarHover + '" onclick="event.stopPropagation(); gosterBilgi(\'' + temizKod + '\', \'' + sutunYili + '\', ' + rawValue + ', ' + bedelsizOrani + ')">i</span></td>';
             } else {
               if (bedelsizOrani > 0) {
