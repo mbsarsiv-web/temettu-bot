@@ -281,6 +281,7 @@
         .replace(/'/g, "&#039;");
     }
 
+    // Orijinal, güvenilir sayı çeviri fonksiyonu (noktayı siler, virgülü kuruş yapar)
     function sayiyaCevir(s) {
       if (s === undefined || s === null || s === '') return 0;
       if (typeof s === 'number') return s;
@@ -365,6 +366,7 @@
       
       let donem = iBit - iBas;
       
+      // Hariç tutulan kural korundu: TBH 10 yıl sabitlemesi
       if (String(basYil) === "2016" && String(bitYil) === "2025") {
           donem = 10;
       }
@@ -501,10 +503,15 @@
 
     // YENİ: Kronolojik bedelsiz motoru için güvenli tarih okuyucu
     function parseDateSafely(str, defaultYear) {
-      if (!str) return new Date(defaultYear, 0, 1);
-      let p = str.toString().match(/(\d{1,2})[\.\-\/](\d{1,2})[\.\-\/](\d{4})/);
-      if (p) return new Date(parseInt(p[3]), parseInt(p[2])-1, parseInt(p[1]));
-      return new Date(defaultYear, 0, 1);
+      if (!str) return new Date(defaultYear, 0, 1).getTime();
+      let s = str.toString().trim();
+      // Örnek: "11.03.2023", "20/05/1997" formatlarını okur
+      let p = s.match(/(\d{1,2})[\.\-\/](\d{1,2})[\.\-\/](\d{4})/);
+      if (p) return new Date(parseInt(p[3]), parseInt(p[2])-1, parseInt(p[1])).getTime();
+      // Sadece yıl geldiyse "2023" yıl sonunu baz alır
+      let y = s.match(/^(\d{4})$/);
+      if (y) return new Date(parseInt(y[1]), 11, 31).getTime();
+      return new Date(defaultYear, 0, 1).getTime();
     }
 
     function tabloyuCiz(payload) {
@@ -553,7 +560,6 @@
           let tStr = tarih.toString().trim();
           let yMatch = tStr.match(/(20\d\d|19\d\d)/);
           if (yMatch) yil = yMatch[1];
-
           let yilNum = yil ? parseInt(yil) : 0;
           let tKod = kod.toString().trim().toUpperCase();
 
@@ -589,38 +595,38 @@
             }
           }
 
-          // YENİ: Kronolojik hesaplama için verilerin toplanması
+          // YENİ: Kronolojik hesaplama için olayların tarih sırasıyla toplanması
           if (yilNum > 0) {
-            let tObj = parseDateSafely(tarih, yilNum);
+            let tVal = parseDateSafely(tarih, yilNum);
             let hb = verimSayisiCoz(rawHB);
             let bd = verimSayisiCoz(rawBedelsiz);
 
             if (!eventsMap[tKod]) eventsMap[tKod] = [];
 
-            if (!isNaN(hb) && hb > 0) {
-              eventsMap[tKod].push({ type: 'TEMETTU', date: tObj, val: hb, year: yilNum });
-            }
             if (!isNaN(bd) && bd > 0) {
-              // Aynı güne denk gelirse, temettünün eski lotla ödenmesi için bedelsiz 1 saniye sonraya atılır
-              eventsMap[tKod].push({ type: 'BEDELSIZ', date: new Date(tObj.getTime() + 1000), val: bd, year: yilNum });
+              // Standart prosedür: Aynı güne denk gelirlerse temettü eski lotla uygulansın diye bedelsiz 1 milisaniye önceye atılır
+              eventsMap[tKod].push({ type: 'BEDELSIZ', time: tVal - 1, val: bd, year: yilNum });
+            }
+            if (!isNaN(hb) && hb > 0) {
+              eventsMap[tKod].push({ type: 'TEMETTU', time: tVal, val: hb, year: yilNum });
             }
           }
         }
       }
 
-      // YENİ: Hisse bazlı kronolojik simülasyonun çalıştırılması
+      // YENİ: Hisse bazlı kronolojik lot/temettü simülasyonunun çalıştırılması
       let adjDPSMap = {}; 
       for (let tKod in eventsMap) {
         let evs = eventsMap[tKod];
-        evs.sort((a, b) => a.date.getTime() - b.date.getTime());
+        evs.sort((a, b) => a.time - b.time); // Tarihlere göre küçükten büyüğe sıralama
         
         let lot = 1.0;
         adjDPSMap[tKod] = {};
         for (let e of evs) {
-          if (e.type === 'TEMETTU') {
-            adjDPSMap[tKod][e.year] = (adjDPSMap[tKod][e.year] || 0) + (e.val * lot);
-          } else if (e.type === 'BEDELSIZ') {
-            lot = lot * (1 + (e.val / 100));
+          if (e.type === 'BEDELSIZ') {
+            lot = lot * (1 + (e.val / 100)); // Bedelsiz önce geldiyse lotu artırır
+          } else if (e.type === 'TEMETTU') {
+            adjDPSMap[tKod][e.year] = (adjDPSMap[tKod][e.year] || 0) + (e.val * lot); // Temettü o tarihteki lottan hesaplanır
           }
         }
       }
@@ -718,10 +724,7 @@
         if (rawHisseKodu === undefined || rawHisseKodu === null || rawHisseKodu.toString().trim() === "") continue;
         let temizKod = rawHisseKodu.toString().trim().toUpperCase();
 
-        if (islenmisHisselerSet.has(temizKod)) {
-          console.warn("Dikkat: Yinelenen hisse kodu tespit edildi ve atlandı: " + temizKod);
-          continue; 
-        }
+        if (islenmisHisselerSet.has(temizKod)) continue; 
         islenmisHisselerSet.add(temizKod);
 
         let duzeltilmisSatir = [satir[0], satir[1]];
@@ -730,7 +733,6 @@
           let yilBaslikB = parseInt(orjBasliklarTumu[idxB].toString().trim());
           let tDegerB = sayiyaCevir(satir[idxB]);
           
-          // YENİ: Kronolojik hesaplanan verinin satıra işlenmesi
           let aDPS = 0;
           if (tDegerB > 0 && adjDPSMap[temizKod] && adjDPSMap[temizKod][yilBaslikB]) {
               aDPS = adjDPSMap[temizKod][yilBaslikB];
@@ -797,6 +799,8 @@
               if (bedelsizOrani > 0) formatliMiktarHover += ' (Ayrıca %' + fmtBedelsiz + ' Bedelsiz)';
               
               let spanGosterilecek = '<span class="' + spanClass + '"' + titleAttr + '>' + gosterilecekMetin + '</span>';
+              
+              // İkon orijinal hale dönüştürüldü (i harfi)
               icSutunlarHtml += '<td data-value="' + rawValue + '"' + tdClassAttr + '>' + spanGosterilecek + '<span class="info-icon" title="Miktar: ' + formatliMiktarHover + '" onclick="event.stopPropagation(); gosterBilgi(\'' + temizKod + '\', \'' + sutunYili + '\', ' + rawValue + ', ' + bedelsizOrani + ')">i</span></td>';
             } else {
               if (bedelsizOrani > 0) {
@@ -1243,7 +1247,7 @@
           if (parsed.v === 2 && parsed.data) {
             tabloyuCiz(parsed.data);
             uygula();
-            document.getElementById('updateDateText').innerText = 'SON GÜNCELLEME: ' + parsed.data.sonGuncelleme + ' (Önbellek)';
+            document.getElementById('updateDateText').innerText = 'SON GÜNCELLEME: ' + escapeHtml(parsed.data.sonGuncelleme) + ' (Önbellek)';
           }
         } catch(e) {
           console.warn("Önbellek veri ayrıştırma hatası:", e);
