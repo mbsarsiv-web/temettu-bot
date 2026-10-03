@@ -743,10 +743,6 @@
         let toplamVerim3Yil = 0, odemeYaptigiYilSayisi3 = 0, maxOdeme3 = 0;
         let sparkDegerler = [];
 
-        // Yıllık bazda bedelsiz ve tutar takibi (Artış serisi algoritması için)
-        let tumYillarTutar = [];
-        let tumYillarBedelsiz = [];
-
         for (let j = 0; j <= idxYogunluk; j++) {
           if (skipIndices.indexOf(j) > -1) continue;
           let cell = satir[j];
@@ -762,10 +758,6 @@
             let spanClass = 'check-icon';
             let tdClassAttr = bedelsizOrani > 0 ? ' class="bedelsiz-hucre"' : '';
             let titleAttr = bedelsizOrani > 0 ? ' title="Ayrıca %' + fmtBedelsiz + ' Bedelsiz"' : '';
-            
-            // Seriyi hesaplamak için tüm değerleri depoluyoruz
-            tumYillarTutar.push(rawValue);
-            tumYillarBedelsiz.push(bedelsizOrani);
 
             if (!isNaN(sutunYiliNum) && sutunYiliNum >= minGorunurYil && sutunYiliNum <= guncelYil) {
                maxOdeme10++;
@@ -854,15 +846,25 @@
 
         icSutunlarHtml += '<td class="trend-col">' + sparklineOlustur(sparkDegerler.slice(-8)) + '</td>';
 
-        // GÜNCEL DÜZENLİ TEMETTÜ (VEYA BEDELSİZ) ARTIRMA ALGORİTMASI
+        let tumYillarTutar = [];
+        let tumYillarAdjDPS = [];
+        
+        // ÖNEMLİ: Artış serisi için GEÇMİŞ TÜM YILLARI çekiyoruz
+        for (let idxY = 2; idxY < idxYogunluk; idxY++) {
+          let tDeger = sayiyaCevir(satir[idxY]); 
+          tumYillarTutar.push(tDeger);
+          tumYillarAdjDPS.push(duzeltilmisSatir[idxY] || 0);
+        }
+
+        // GÜNCEL DÜZENLİ TEMETTÜ ARTIRANLAR ALGORİTMASI
         let artisSerisi = 0;
         if (tumYillarTutar.length > 0) {
             let sonAktifIdx = -1;
             let sonAktifYil = 0;
             
-            // Geçmişe doğru tarayıp temettü YA DA bedelsiz verdiği son aktif yılı buluyoruz
+            // Son aktif (temettü verdiği) yılı bul
             for (let k = tumYillarTutar.length - 1; k >= 0; k--) {
-                if (tumYillarTutar[k] > 0 || tumYillarBedelsiz[k] > 0) {
+                if (tumYillarTutar[k] > 0 && tumYillarAdjDPS[k] > 0) {
                     sonAktifIdx = k;
                     sonAktifYil = parseInt(orjBasliklarTumu[k + 2]);
                     break; 
@@ -876,22 +878,21 @@
                     let prevIdx = currIdx - 1;
                     
                     let currTutar = tumYillarTutar[currIdx];
+                    let currAdjDPS = tumYillarAdjDPS[currIdx];
                     let prevTutar = tumYillarTutar[prevIdx];
-                    let currBedelsiz = tumYillarBedelsiz[currIdx];
-                    let prevBedelsiz = tumYillarBedelsiz[prevIdx];
+                    let prevAdjDPS = tumYillarAdjDPS[prevIdx];
                     
-                    // Bir önceki yıl hiçbir şey (Nakit de Bedelsiz de) vermediyse seri biter
-                    if (prevTutar <= 0 && prevBedelsiz <= 0) {
+                    // ŞART: Bir önceki yıl temettü vermediyse seri BOZULUR! 
+                    // (Temettü vermeyen hisse listede yer alamaz)
+                    if (prevTutar <= 0 || prevAdjDPS <= 0) {
                         break;
                     }
                     
-                    // Şart 1: Nakit temettü miktarı bir önceki yıla göre artmış mı?
-                    let isTutarArtmis = (currTutar - prevTutar) > 0.0001;
-                    // Şart 2: Şirket o yıl bedelsiz hisse dağıtmış mı?
-                    let bedelsizVerdi = (currBedelsiz > 0);
+                    // ARTIŞ KISTASI: Nominal tutar değil, "Düzeltilmiş Hisse Başı Temettü (adjDPS)" artmalı.
+                    // Böylece şirketin verdiği bedelsizler de doğrudan hesaba katılır ve seriyi devam ettirir.
+                    let isDPSArtmis = (currAdjDPS - prevAdjDPS) > 0.00001;
                     
-                    // Nakitini artırmışsa VEYA yatırımcısına bedelsiz fonlama sağlamışsa seriye devam eder
-                    if (isTutarArtmis || bedelsizVerdi) {
+                    if (isDPSArtmis) {
                         artisSerisi++;       
                         currIdx = prevIdx;   
                     } else {
