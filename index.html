@@ -71,7 +71,6 @@
     .check-icon { color: #0f9d58; font-size: 13px; font-weight: bold; }
     .bedelsiz-hucre { background-color: #fff3e0; }
 
-    /* İkon düzeltmesi: ℹ️ Emojisiyle değiştirildiği için font-weight kaldırıldı */
     .info-icon { font-size: 13px; cursor: pointer; margin-left: 3px; color: #5f6368; display: inline-block; transition: transform 0.2s; }
     .info-icon:hover { transform: scale(1.2); }
     
@@ -598,7 +597,7 @@
             if (!eventsMap[tKod]) eventsMap[tKod] = [];
 
             if (!isNaN(bd) && bd > 0) {
-              eventsMap[tKod].push({ type: 'BEDELSIZ', time: tVal - 1, val: bd, year: yilNum });
+              eventsMap[tKod].push({ type: 'BEDELSIZ', time: tVal, val: bd, year: yilNum });
             }
             if (!isNaN(hb) && hb > 0) {
               eventsMap[tKod].push({ type: 'TEMETTU', time: tVal, val: hb, year: yilNum });
@@ -717,7 +716,6 @@
         let temizKod = rawHisseKodu.toString().trim().toUpperCase();
 
         if (islenmisHisselerSet.has(temizKod)) {
-          console.warn("Dikkat: Yinelenen hisse kodu tespit edildi ve atlandı: " + temizKod);
           continue; 
         }
         islenmisHisselerSet.add(temizKod);
@@ -745,6 +743,10 @@
         let toplamVerim3Yil = 0, odemeYaptigiYilSayisi3 = 0, maxOdeme3 = 0;
         let sparkDegerler = [];
 
+        // Yıllık bazda bedelsiz ve tutar takibi (Artış serisi algoritması için)
+        let tumYillarTutar = [];
+        let tumYillarBedelsiz = [];
+
         for (let j = 0; j <= idxYogunluk; j++) {
           if (skipIndices.indexOf(j) > -1) continue;
           let cell = satir[j];
@@ -760,6 +762,10 @@
             let spanClass = 'check-icon';
             let tdClassAttr = bedelsizOrani > 0 ? ' class="bedelsiz-hucre"' : '';
             let titleAttr = bedelsizOrani > 0 ? ' title="Ayrıca %' + fmtBedelsiz + ' Bedelsiz"' : '';
+            
+            // Seriyi hesaplamak için tüm değerleri depoluyoruz
+            tumYillarTutar.push(rawValue);
+            tumYillarBedelsiz.push(bedelsizOrani);
 
             if (!isNaN(sutunYiliNum) && sutunYiliNum >= minGorunurYil && sutunYiliNum <= guncelYil) {
                maxOdeme10++;
@@ -795,7 +801,6 @@
               
               let spanGosterilecek = '<span class="' + spanClass + '"' + titleAttr + '>' + gosterilecekMetin + '</span>';
               
-              // İkon ℹ️ emojisine çevrildi
               icSutunlarHtml += '<td data-value="' + rawValue + '"' + tdClassAttr + '>' + spanGosterilecek + '<span class="info-icon" title="Miktar: ' + formatliMiktarHover + '" onclick="event.stopPropagation(); gosterBilgi(\'' + temizKod + '\', \'' + sutunYili + '\', ' + rawValue + ', ' + bedelsizOrani + ')">ℹ️</span></td>';
             } else {
               if (bedelsizOrani > 0) {
@@ -849,22 +854,15 @@
 
         icSutunlarHtml += '<td class="trend-col">' + sparklineOlustur(sparkDegerler.slice(-8)) + '</td>';
 
-        let tumYillarTutar = [];
-        let tumYillarAdjDPS = [];
-        
-        for (let idxY = 2; idxY < idxYogunluk; idxY++) {
-          let tDeger = sayiyaCevir(satir[idxY]); 
-          tumYillarTutar.push(tDeger);
-          tumYillarAdjDPS.push(duzeltilmisSatir[idxY] || 0);
-        }
-
+        // GÜNCEL DÜZENLİ TEMETTÜ (VEYA BEDELSİZ) ARTIRMA ALGORİTMASI
         let artisSerisi = 0;
         if (tumYillarTutar.length > 0) {
             let sonAktifIdx = -1;
             let sonAktifYil = 0;
             
+            // Geçmişe doğru tarayıp temettü YA DA bedelsiz verdiği son aktif yılı buluyoruz
             for (let k = tumYillarTutar.length - 1; k >= 0; k--) {
-                if (tumYillarTutar[k] > 0 && tumYillarAdjDPS[k] > 0) {
+                if (tumYillarTutar[k] > 0 || tumYillarBedelsiz[k] > 0) {
                     sonAktifIdx = k;
                     sonAktifYil = parseInt(orjBasliklarTumu[k + 2]);
                     break; 
@@ -876,17 +874,24 @@
                 
                 while (currIdx > 0) {
                     let prevIdx = currIdx - 1;
-                    let currAdjDPS = tumYillarAdjDPS[currIdx];
-                    let prevAdjDPS = tumYillarAdjDPS[prevIdx];
                     
-                    if (tumYillarTutar[prevIdx] <= 0 || prevAdjDPS <= 0) {
+                    let currTutar = tumYillarTutar[currIdx];
+                    let prevTutar = tumYillarTutar[prevIdx];
+                    let currBedelsiz = tumYillarBedelsiz[currIdx];
+                    let prevBedelsiz = tumYillarBedelsiz[prevIdx];
+                    
+                    // Bir önceki yıl hiçbir şey (Nakit de Bedelsiz de) vermediyse seri biter
+                    if (prevTutar <= 0 && prevBedelsiz <= 0) {
                         break;
                     }
                     
-                    // SADECE "DÜZELTİLMİŞ" HİSSE BAŞI TEMETTÜ ARTIŞINI BAZ ALIYORUZ
-                    let isDPSArtmis = (currAdjDPS - prevAdjDPS) > 0.00001;
+                    // Şart 1: Nakit temettü miktarı bir önceki yıla göre artmış mı?
+                    let isTutarArtmis = (currTutar - prevTutar) > 0.0001;
+                    // Şart 2: Şirket o yıl bedelsiz hisse dağıtmış mı?
+                    let bedelsizVerdi = (currBedelsiz > 0);
                     
-                    if (isDPSArtmis) {
+                    // Nakitini artırmışsa VEYA yatırımcısına bedelsiz fonlama sağlamışsa seriye devam eder
+                    if (isTutarArtmis || bedelsizVerdi) {
                         artisSerisi++;       
                         currIdx = prevIdx;   
                     } else {
