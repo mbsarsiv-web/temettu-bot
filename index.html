@@ -264,11 +264,23 @@
         .replace(/'/g, "&#039;");
     }
 
+    // Düzeltme 6: Ondalıklı sayı ayrıştırma mantığı düzeltildi
     function sayiyaCevir(s) {
       if (s === undefined || s === null || s === '') return 0;
-      if (typeof s === 'number') return s; 
-      var temiz = s.toString().replace(/TL/g, '').replace(/\s/g, '').replace(/\./g, '').replace(/,/g, '.');
-      return parseFloat(temiz) || 0;
+      if (typeof s === 'number') return s;
+      var str = s.toString().replace(/TL/g, '').replace(/\s/g, '').trim();
+      if (str === "") return 0;
+      if (str.indexOf(",") > -1 && str.indexOf(".") > -1) {
+        if (str.lastIndexOf(",") > str.lastIndexOf(".")) {
+          str = str.replace(/\./g, "").replace(",", ".");
+        } else {
+          str = str.replace(/,/g, "");
+        }
+      } else if (str.indexOf(",") > -1) {
+        str = str.replace(",", ".");
+      }
+      var n = parseFloat(str);
+      return isNaN(n) ? 0 : n;
     }
 
     function verimSayisiCoz(ham) {
@@ -487,7 +499,8 @@
           else if ((b === "YIL" || b === "TARIH" || b === "TARİH") && yilIndeks === 1) yilIndeks = c;
           else if (verimIndeks === -1 && (b.indexOf("VERIM") > -1 || b.indexOf("VERİM") > -1) && basliklarVerim[c].toString().trim() !== "") verimIndeks = c;
           else if (hisseBasiIndeks === -1 && (b.indexOf("HISSE") > -1 || b.indexOf("HİSSE") > -1)) hisseBasiIndeks = c;
-          else if (bedelsizIndeks === -1 && (b.indexOf("BEDELSIZ") > -1 || b.indexOf("BEDELSİZ") > -1)) bedelsizIndeks = c;
+          // Kesin eşleşme
+          else if (bedelsizIndeks === -1 && (b === "BEDELSIZ" || b === "BEDELSİZ")) bedelsizIndeks = c;
         }
         
         if (verimIndeks === -1) { verimIndeks = 4; }
@@ -530,8 +543,15 @@
               var rawBedelsiz = verimVerisi[v][bedelsizIndeks];
               var sayisalBedelsiz = verimSayisiCoz(rawBedelsiz);
               if (!isNaN(sayisalBedelsiz) && sayisalBedelsiz > 0) {
-                if (bedelsizMap[anahtar] !== undefined) { bedelsizMap[anahtar] += sayisalBedelsiz; }
-                else { bedelsizMap[anahtar] = sayisalBedelsiz; }
+                // Düzeltme 1: Çoklu bedelsiz hesaplamasında oranlar toplanmaz, bileşik hesaplanır.
+                if (bedelsizMap[anahtar] !== undefined) { 
+                  var mevcutCarpani = bedelsizMap[anahtar] / 100;
+                  var yeniCarpan = sayisalBedelsiz / 100;
+                  bedelsizMap[anahtar] = ((1 + mevcutCarpani) * (1 + yeniCarpan) - 1) * 100;
+                }
+                else { 
+                  bedelsizMap[anahtar] = sayisalBedelsiz; 
+                }
               }
             }
           }
@@ -544,7 +564,16 @@
       if (idxYogunluk === -1) idxYogunluk = 18;
       if (idxGizli === -1) idxGizli = 19;
 
-      var guncelYil = new Date().getFullYear();
+      // Düzeltme 5: Dinamik Yıl Tespiti (Bilgisayar saati yerine tablonun başlıkları kullanılır)
+      var yillarDizisi = [];
+      for (var idx = 2; idx < idxYogunluk; idx++) {
+        var yearNum = parseInt(orjBasliklarTumu[idx]);
+        if (!isNaN(yearNum)) {
+          yillarDizisi.push(yearNum);
+        }
+      }
+      var guncelYil = yillarDizisi.length > 0 ? Math.max.apply(null, yillarDizisi) : new Date().getFullYear();
+      
       var minGorunurYil = guncelYil - 9;
       var min5Yil = guncelYil - 4;
       var min3Yil = guncelYil - 2;
@@ -588,7 +617,7 @@
         var baslikMetni = orjBasliklarTumu[i];
         if (i === 1) html += '<th class="arz-col">ARZ</th>';
         else if (i === idxYogunluk) html += '<th class="tight-col" title="Temettü Ödeme Yoğunluğu (' + y1 + '-' + y2 + ' Yılları Arası)">YOĞ. (' + y1 + '-' + y2 + ')</th>';
-        else html += '<th>' + baslikMetni + '</th>';
+        else html += '<th>' + escapeHtml(baslikMetni) + '</th>';
       }
       html += '<th class="tight-col" title="Seçilen Yıllar Arası Bileşik Temettü Büyüme Hızı">TEMETTÜ BÜYÜME HIZI</th>';
       html += '<th class="trend-col" title="Son 8 Yılın Dağıtılan TL Trendi">TREND</th>';
@@ -626,16 +655,17 @@
           var tDegerB = sayiyaCevir(satir[idxB]);
           var hbDegerB = hisseBasiSutunuVarMi ? (hisseBasiMap[temizKod + "_" + yilBaslikB] || 0) : 0;
           
+          // Düzeltme 2: Yıl İçi Bedelsiz Önceliği (Bedelsiz önce uygulanır, sonra temettü hesaplanır)
+          var bOran = bedelsizMap[temizKod + "_" + yilBaslikB] || 0;
+          if (bOran > 0) {
+            kumulatifBedelsizCarpani = kumulatifBedelsizCarpani * (1 + (bOran / 100));
+          }
+
           var adjDPS = 0;
           if (tDegerB > 0 && hbDegerB > 0) {
             adjDPS = hbDegerB * kumulatifBedelsizCarpani;
           }
           duzeltilmisSatir.push(adjDPS);
-
-          var bOran = bedelsizMap[temizKod + "_" + yilBaslikB] || 0;
-          if (bOran > 0) {
-            kumulatifBedelsizCarpani = kumulatifBedelsizCarpani * (1 + (bOran / 100));
-          }
         }
         duzeltilmisSatir.push(satir[idxYogunluk]);
 
@@ -643,9 +673,9 @@
 
         var icSutunlarHtml = '';
         var maxMiktar = 0;
-        var toplamVerim10Yil = 0, odemeYaptigiYilSayisi = 0;
-        var toplamVerim5Yil = 0, odemeYaptigiYilSayisi5 = 0;
-        var toplamVerim3Yil = 0, odemeYaptigiYilSayisi3 = 0;
+        var toplamVerim10Yil = 0, odemeYaptigiYilSayisi = 0, maxOdeme10 = 0;
+        var toplamVerim5Yil = 0, odemeYaptigiYilSayisi5 = 0, maxOdeme5 = 0;
+        var toplamVerim3Yil = 0, odemeYaptigiYilSayisi3 = 0, maxOdeme3 = 0;
         var sparkDegerler = [];
 
         for (var j = 0; j <= idxYogunluk; j++) {
@@ -657,15 +687,22 @@
             sparkDegerler.push(rawValue);
 
             var sutunYili = orjBasliklarTumu[j];
+            var sutunYiliNum = parseInt(sutunYili);
             var bedelsizOrani = bedelsizMap[temizKod + "_" + sutunYili] || 0;
             var fmtBedelsiz = (bedelsizOrani % 1 === 0) ? bedelsizOrani.toString() : bedelsizOrani.toFixed(2);
             var spanClass = 'check-icon';
             var tdClassAttr = bedelsizOrani > 0 ? ' class="bedelsiz-hucre"' : '';
             var titleAttr = bedelsizOrani > 0 ? ' title="Ayrıca %' + fmtBedelsiz + ' Bedelsiz"' : '';
 
+            // Dinamik Yoğunluk hesabı için o yıla ait potansiyel fırsat sayısını belirle
+            if (!isNaN(sutunYiliNum) && sutunYiliNum >= minGorunurYil && sutunYiliNum <= guncelYil) {
+               maxOdeme10++;
+               if (sutunYiliNum >= min5Yil) maxOdeme5++;
+               if (sutunYiliNum >= min3Yil) maxOdeme3++;
+            }
+
             if (rawValue > 0) {
               var verimDegeri = verimMap[temizKod + "_" + sutunYili];
-              var sutunYiliNum = parseInt(sutunYili);
               
               if (!isNaN(sutunYiliNum) && sutunYiliNum >= minGorunurYil && sutunYiliNum <= guncelYil) {
                 if (verimDegeri !== undefined && !isNaN(verimDegeri)) {
@@ -701,8 +738,8 @@
               }
             }
           }
-          else if (j === 0) icSutunlarHtml += '<td>' + cell + '</td>';
-          else if (j === 1) icSutunlarHtml += '<td class="arz-yili arz-col">' + (cell || "-") + '</td>';
+          else if (j === 0) icSutunlarHtml += '<td>' + escapeHtml(cell) + '</td>';
+          else if (j === 1) icSutunlarHtml += '<td class="arz-yili arz-col">' + escapeHtml(cell || "-") + '</td>';
           else if (j === idxYogunluk) {
             var fmtYogunluk = rawYogunluk.toFixed(2).replace('.', ',');
             icSutunlarHtml += '<td data-value="' + rawYogunluk + '" class="tight-col"><span class="yog-badge ' + yogunlukSinifi(rawYogunluk) + '">' + fmtYogunluk + '</span></td>';
@@ -739,6 +776,10 @@
         var ortalamaVerim5 = odemeYaptigiYilSayisi5 > 0 ? (toplamVerim5Yil / odemeYaptigiYilSayisi5) : 0;
         var ortalamaVerim3 = odemeYaptigiYilSayisi3 > 0 ? (toplamVerim3Yil / odemeYaptigiYilSayisi3) : 0;
         
+        // Düzeltme 4: Dönem seçildiğinde geçerli olacak olan yoğunluk hesaplaması.
+        var yogunluk3 = maxOdeme3 > 0 ? (odemeYaptigiYilSayisi3 / maxOdeme3) : 0;
+        var yogunluk5 = maxOdeme5 > 0 ? (odemeYaptigiYilSayisi5 / maxOdeme5) : 0;
+
         icSutunlarHtml += '<td class="trend-col">' + sparklineOlustur(sparkDegerler.slice(-8)) + '</td>';
 
         // Artış Serisi hesabı
@@ -826,7 +867,7 @@
         expandHtml += '</tr>';
 
         islenmisSatirlar.push({
-          hisse: temizKod, yogunluk: rawYogunluk, gizliAdet: gizliAdet2011,
+          hisse: temizKod, yogunluk: rawYogunluk, yogunluk5: yogunluk5, yogunluk3: yogunluk3, gizliAdet: gizliAdet2011,
           ortalamaVerim: ortalamaVerim, ortalamaVerim5: ortalamaVerim5, ortalamaVerim3: ortalamaVerim3,
           odemeYil10: odemeYaptigiYilSayisi, odemeYil5: odemeYaptigiYilSayisi5, odemeYil3: odemeYaptigiYilSayisi3,
           tbh: gData.val, duzeltilmisSatir: duzeltilmisSatir, artisSerisi: artisSerisi,
@@ -972,7 +1013,10 @@
         var hisseObj = HISSE_MAP[hisseKodu];
         var ortVerim = seciliDonemVerimiAl(hisseObj, fD);
         var odemeSayisi = seciliDonemAdetAl(hisseObj, fD);
-        var numYog = hisseObj ? hisseObj.yogunluk : 0;
+        
+        var aktifYogunluk = hisseObj ? hisseObj.yogunluk : 0;
+        if (fD === "3") aktifYogunluk = hisseObj ? hisseObj.yogunluk3 : 0;
+        else if (fD === "5") aktifYogunluk = hisseObj ? hisseObj.yogunluk5 : 0;
 
         var expandId = tr.getAttribute("data-expand");
         var expandRow = expandId ? document.getElementById(expandId) : null;
@@ -989,15 +1033,17 @@
 
         var hisseSecimSarti = (fHisse === "TÜMÜ") ? true : (hisseKodu === fHisse);
         var verimSarti = (fV === "TÜMÜ") ? true : (ortVerim >= parseFloat(fV));
-        var yogunlukSarti = true;
         
+        var yogunlukSarti = true;
         if (fY !== "TÜMÜ") {
           if (fY === "0") {
-            yogunlukSarti = (numYog === 0);
+            yogunlukSarti = (aktifYogunluk === 0);
           } else if (fY === "1.00") {
-            yogunlukSarti = Math.abs(numYog - 1.0) < 0.001; 
+            yogunlukSarti = Math.abs(aktifYogunluk - 1.0) < 0.001; 
+          } else if (fY === "0.01") {
+            yogunlukSarti = (aktifYogunluk > 0);
           } else {
-            yogunlukSarti = (numYog >= parseFloat(fY));
+            yogunlukSarti = (aktifYogunluk >= parseFloat(fY));
           }
         }
 
@@ -1051,7 +1097,12 @@
           var ha = a.getAttribute("data-hisse") || a.cells[0].innerText.trim(), hb = b.getAttribute("data-hisse") || b.cells[0].innerText.trim();
           var sa = HISSE_MAP[ha] || {};
           var sb = HISSE_MAP[hb] || {};
-          if (Math.abs((sb.yogunluk || 0) - (sa.yogunluk || 0)) > 0.0001) return (sb.yogunluk || 0) - (sa.yogunluk || 0);
+          
+          var aktifYogA = fD === "3" ? sa.yogunluk3 : sa.yogunluk5;
+          var aktifYogB = fD === "3" ? sb.yogunluk3 : sb.yogunluk5;
+          
+          if (Math.abs((aktifYogB || 0) - (aktifYogA || 0)) > 0.0001) return (aktifYogB || 0) - (aktifYogA || 0);
+          
           var va = seciliDonemVerimiAl(sa, fD);
           var vb = seciliDonemVerimiAl(sb, fD);
           if (Math.abs(vb - va) > 0.0001) return vb - va;
