@@ -849,20 +849,17 @@
         let tumYillarTutar = [];
         let tumYillarAdjDPS = [];
         
-        // ÖNEMLİ: Artış serisi için GEÇMİŞ TÜM YILLARI çekiyoruz
         for (let idxY = 2; idxY < idxYogunluk; idxY++) {
           let tDeger = sayiyaCevir(satir[idxY]); 
           tumYillarTutar.push(tDeger);
           tumYillarAdjDPS.push(duzeltilmisSatir[idxY] || 0);
         }
 
-        // GÜNCEL DÜZENLİ TEMETTÜ ARTIRANLAR ALGORİTMASI
         let artisSerisi = 0;
         if (tumYillarTutar.length > 0) {
             let sonAktifIdx = -1;
             let sonAktifYil = 0;
             
-            // Son aktif (temettü verdiği) yılı bul
             for (let k = tumYillarTutar.length - 1; k >= 0; k--) {
                 if (tumYillarTutar[k] > 0 && tumYillarAdjDPS[k] > 0) {
                     sonAktifIdx = k;
@@ -877,20 +874,14 @@
                 while (currIdx > 0) {
                     let prevIdx = currIdx - 1;
                     
-                    let currTutar = tumYillarTutar[currIdx];
-                    let currAdjDPS = tumYillarAdjDPS[currIdx];
                     let prevTutar = tumYillarTutar[prevIdx];
                     let prevAdjDPS = tumYillarAdjDPS[prevIdx];
                     
-                    // ŞART: Bir önceki yıl temettü vermediyse seri BOZULUR! 
-                    // (Temettü vermeyen hisse listede yer alamaz)
                     if (prevTutar <= 0 || prevAdjDPS <= 0) {
                         break;
                     }
                     
-                    // ARTIŞ KISTASI: Nominal tutar değil, "Düzeltilmiş Hisse Başı Temettü (adjDPS)" artmalı.
-                    // Böylece şirketin verdiği bedelsizler de doğrudan hesaba katılır ve seriyi devam ettirir.
-                    let isDPSArtmis = (currAdjDPS - prevAdjDPS) > 0.00001;
+                    let isDPSArtmis = (tumYillarAdjDPS[currIdx] - prevAdjDPS) > 0.00001;
                     
                     if (isDPSArtmis) {
                         artisSerisi++;       
