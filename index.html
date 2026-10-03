@@ -387,7 +387,7 @@
         let hKod = tr.getAttribute("data-hisse");
         let hisseObj = HISSE_MAP[hKod];
         if (!hisseObj) return;
-        let gData = getDynamicGrowthByYears(hisseObj.duzeltilmisSatir, basYil, bitYil, GLOBAL_SLICE_BASLIKLAR);
+        let gData = getDynamicGrowthByYears(hisseObj.satir, basYil, bitYil, GLOBAL_SLICE_BASLIKLAR);
         hisseObj.tbh = gData.val;
         let tbhTd = tr.querySelector(".tbh-cell");
         if (tbhTd) {
@@ -512,35 +512,26 @@
       let verimVerisi = payload.verimTablo;
 
       let verimMap = {};
-      let hisseBasiMap = {};
       let bedelsizMap = {};
-      let eventsMap = {}; 
-      let hisseBasiSutunuVarMi = false;
-      let bedelsizSutunuVarMi = false;
 
       if (verimVerisi && verimVerisi.length > 1) {
         let basliklarVerim = verimVerisi[0];
-        let kodIndeks = 0, yilIndeks = 1, verimIndeks = -1, hisseBasiIndeks = -1, bedelsizIndeks = -1;
+        let kodIndeks = 0, yilIndeks = 1, verimIndeks = -1, bedelsizIndeks = -1;
         for (let c = 0; c < basliklarVerim.length; c++) {
           let b = basliklarVerim[c].toString().toUpperCase().trim();
           if (b === "KOD" && kodIndeks === 0) kodIndeks = c;
           else if ((b === "YIL" || b === "TARIH" || b === "TARİH") && yilIndeks === 1) yilIndeks = c;
           else if (verimIndeks === -1 && (b.indexOf("VERIM") > -1 || b.indexOf("VERİM") > -1) && basliklarVerim[c].toString().trim() !== "") verimIndeks = c;
-          else if (hisseBasiIndeks === -1 && (b.indexOf("HISSE") > -1 || b.indexOf("HİSSE") > -1)) hisseBasiIndeks = c;
           else if (bedelsizIndeks === -1 && (b.indexOf("BEDELSIZ") > -1 || b.indexOf("BEDELSİZ") > -1 || (b.indexOf("ORAN") > -1 && b.indexOf("DAGITMA") === -1 && b.indexOf("DAĞITMA") === -1))) bedelsizIndeks = c;
         }
         
         if (verimIndeks === -1) { verimIndeks = 4; }
-        if (hisseBasiIndeks === -1 && basliklarVerim.length >= 6) { hisseBasiIndeks = 5; }
-        
-        if (hisseBasiIndeks > -1) { hisseBasiSutunuVarMi = true; }
-        if (bedelsizIndeks > -1) { bedelsizSutunuVarMi = true; }
+        let bedelsizSutunuVarMi = (bedelsizIndeks > -1);
         
         for (let v = 1; v < verimVerisi.length; v++) {
           let kod = verimVerisi[v][kodIndeks];
           let tarih = verimVerisi[v][yilIndeks];
           let rawVerim = verimVerisi[v][verimIndeks];
-          let rawHB = hisseBasiSutunuVarMi ? verimVerisi[v][hisseBasiIndeks] : 0;
           let rawBedelsiz = bedelsizSutunuVarMi ? verimVerisi[v][bedelsizIndeks] : 0;
 
           if (!kod || !tarih) { continue; }
@@ -549,7 +540,6 @@
           let tStr = tarih.toString().trim();
           let yMatch = tStr.match(/(20\d\d|19\d\d)/);
           if (yMatch) yil = yMatch[1];
-          let yilNum = yil ? parseInt(yil) : 0;
           let tKod = kod.toString().trim().toUpperCase();
 
           if (yil) {
@@ -559,14 +549,6 @@
             if (!isNaN(sayisalVerim)) {
               if (verimMap[anahtar] !== undefined) { verimMap[anahtar] += sayisalVerim; }
               else { verimMap[anahtar] = sayisalVerim; }
-            }
-            
-            if (hisseBasiSutunuVarMi) {
-              let sayisalHB = verimSayisiCoz(rawHB);
-              if (!isNaN(sayisalHB) && sayisalHB > 0) {
-                if (hisseBasiMap[anahtar] !== undefined) { hisseBasiMap[anahtar] += sayisalHB; }
-                else { hisseBasiMap[anahtar] = sayisalHB; }
-              }
             }
             
             if (bedelsizSutunuVarMi) {
@@ -582,42 +564,6 @@
                 }
               }
             }
-          }
-
-          if (yilNum > 0) {
-            let tVal = parseDateSafely(tarih, yilNum);
-            let hb = verimSayisiCoz(rawHB);
-            let bd = verimSayisiCoz(rawBedelsiz);
-
-            if (!eventsMap[tKod]) eventsMap[tKod] = [];
-
-            if (!isNaN(bd) && bd > 0) {
-              eventsMap[tKod].push({ type: 'BEDELSIZ', time: tVal, val: bd, year: yilNum });
-            }
-            if (!isNaN(hb) && hb > 0) {
-              eventsMap[tKod].push({ type: 'TEMETTU', time: tVal, val: hb, year: yilNum });
-            }
-          }
-        }
-      }
-
-      let adjDPSMap = {}; 
-      for (let tKod in eventsMap) {
-        let evs = eventsMap[tKod];
-        evs.sort((a, b) => {
-          if (a.time !== b.time) return a.time - b.time;
-          if (a.type === 'TEMETTU' && b.type === 'BEDELSIZ') return -1;
-          if (a.type === 'BEDELSIZ' && b.type === 'TEMETTU') return 1;
-          return 0;
-        }); 
-        
-        let lot = 1.0;
-        adjDPSMap[tKod] = {};
-        for (let e of evs) {
-          if (e.type === 'BEDELSIZ') {
-            lot = lot * (1 + (e.val / 100)); 
-          } else if (e.type === 'TEMETTU') {
-            adjDPSMap[tKod][e.year] = (adjDPSMap[tKod][e.year] || 0) + (e.val * lot); 
           }
         }
       }
@@ -720,21 +666,7 @@
         }
         islenmisHisselerSet.add(temizKod);
 
-        let duzeltilmisSatir = [satir[0], satir[1]];
-        
-        for (let idxB = 2; idxB < idxYogunluk; idxB++) {
-          let yilBaslikB = parseInt(orjBasliklarTumu[idxB].toString().trim());
-          let tDegerB = sayiyaCevir(satir[idxB]);
-          
-          let aDPS = 0;
-          if (tDegerB > 0 && adjDPSMap[temizKod] && adjDPSMap[temizKod][yilBaslikB]) {
-              aDPS = adjDPSMap[temizKod][yilBaslikB];
-          }
-          duzeltilmisSatir.push(aDPS);
-        }
-        duzeltilmisSatir.push(satir[idxYogunluk]);
-
-        let gData = getDynamicGrowthByYears(duzeltilmisSatir, VARSAYILAN_BAS_YIL, VARSAYILAN_BIT_YIL, GLOBAL_SLICE_BASLIKLAR);
+        let gData = getDynamicGrowthByYears(satir, VARSAYILAN_BAS_YIL, VARSAYILAN_BIT_YIL, GLOBAL_SLICE_BASLIKLAR);
 
         let icSutunlarHtml = '';
         let maxMiktar = 0;
@@ -797,7 +729,7 @@
             } else {
               if (bedelsizOrani > 0) {
                 let formatliMiktarHover = 'Nakit Yok (Sadece %' + fmtBedelsiz + ' Bedelsiz)';
-                icSutunlarHtml += '<td data-value="0" class="empty-cell bedelsiz-hucre"><span title="Sadece %' + fmtBedelsiz + ' Bedelsiz Bölünme">-</span><span class="info-icon" title="' + formatliMiktarHover + '" onclick="event.stopPropagation(); gosterBilgi(\'' + temizKod + '\', \'' + sutunYili + '\', \'0\', ' + bedelsizOrani + ')">ℹ️</span></td>';
+                icSutunlarHtml += '<td data-value="0" class="empty-cell bedelsiz-hucre"><span title="Sadece %' + fmtBedelsiz + ' Bedelsiz Bölünme">-</span><span class="info-icon" title="' + formatliMiktarHover + '" onclick="event.stopPropagation(); gosterBilgi(\'' + temizKod + '\', \'' + sutunYili + '\', \'0\', ' + bedelsizOrani + ')">ℹ️️</span></td>';
               } else {
                 icSutunlarHtml += '<td data-value="0" class="empty-cell">-</td>';
               }
@@ -846,13 +778,17 @@
 
         icSutunlarHtml += '<td class="trend-col">' + sparklineOlustur(sparkDegerler.slice(-8)) + '</td>';
 
+        // GÜNCEL DÜZENLİ TEMETTÜ ARTIRANLAR ALGORİTMASI (Total Cash Mantığı)
         let tumYillarTutar = [];
-        let tumYillarAdjDPS = [];
+        let tumYillarBedelsiz = [];
         
         for (let idxY = 2; idxY < idxYogunluk; idxY++) {
           let tDeger = sayiyaCevir(satir[idxY]); 
           tumYillarTutar.push(tDeger);
-          tumYillarAdjDPS.push(duzeltilmisSatir[idxY] || 0);
+          
+          let sutunYili = orjBasliklarTumu[idxY];
+          let bedelsizOrani = bedelsizMap[temizKod + "_" + sutunYili] || 0;
+          tumYillarBedelsiz.push(bedelsizOrani);
         }
 
         let artisSerisi = 0;
@@ -861,7 +797,7 @@
             let sonAktifYil = 0;
             
             for (let k = tumYillarTutar.length - 1; k >= 0; k--) {
-                if (tumYillarTutar[k] > 0 && tumYillarAdjDPS[k] > 0) {
+                if (tumYillarTutar[k] > 0 || tumYillarBedelsiz[k] > 0) {
                     sonAktifIdx = k;
                     sonAktifYil = parseInt(orjBasliklarTumu[k + 2]);
                     break; 
@@ -874,16 +810,21 @@
                 while (currIdx > 0) {
                     let prevIdx = currIdx - 1;
                     
+                    let currTutar = tumYillarTutar[currIdx];
                     let prevTutar = tumYillarTutar[prevIdx];
-                    let prevAdjDPS = tumYillarAdjDPS[prevIdx];
+                    let currBedelsiz = tumYillarBedelsiz[currIdx];
+                    let prevBedelsiz = tumYillarBedelsiz[prevIdx];
                     
-                    if (prevTutar <= 0 || prevAdjDPS <= 0) {
+                    // Önceki yıl nakit de vermediyse bedelsiz de vermediyse seri kopar
+                    if (prevTutar <= 0 && prevBedelsiz <= 0) {
                         break;
                     }
                     
-                    let isDPSArtmis = (tumYillarAdjDPS[currIdx] - prevAdjDPS) > 0.00001;
+                    // Şirketin dağıttığı nakit tutar bir önceki yıla göre arttıysa veya o yıl bedelsiz verdiyse seri devam eder
+                    let isTutarArtmis = (currTutar - prevTutar) > 0.0001;
+                    let bedelsizVerdi = (currBedelsiz > 0);
                     
-                    if (isDPSArtmis) {
+                    if (isTutarArtmis || bedelsizVerdi) {
                         artisSerisi++;       
                         currIdx = prevIdx;   
                     } else {
@@ -929,7 +870,7 @@
           hisse: temizKod, yogunluk: rawYogunluk, yogunluk5: yogunluk5, yogunluk3: yogunluk3, gizliAdet: gizliAdet2011,
           ortalamaVerim: ortalamaVerim, ortalamaVerim5: ortalamaVerim5, ortalamaVerim3: ortalamaVerim3,
           odemeYil10: odemeYaptigiYilSayisi, odemeYil5: odemeYaptigiYilSayisi5, odemeYil3: odemeYaptigiYilSayisi3,
-          tbh: gData.val, duzeltilmisSatir: duzeltilmisSatir, artisSerisi: artisSerisi,
+          tbh: gData.val, satir: satir, artisSerisi: artisSerisi,
           htmlGovde: icSutunlarHtml, expandGovde: expandHtml, satirId: i
         });
       }
@@ -1217,7 +1158,7 @@
     }
 
     const GAS_API_URL = "https://script.google.com/macros/s/AKfycbxo9u41oj1aXxgkuE7gTnHdeG_mzT41o3WmaYhhqNNUJi_NTDzLOmSBSnHAhfsvhOiK/exec";
-    const CACHE_KEY = "temettuTabloCacheV3";
+    const CACHE_KEY = "temettuTabloCacheV4";
 
     function gosterHata(mesaj) {
       document.getElementById('tableContainer').innerHTML = '<div class="error-msg">' + mesaj + '<br><br><button class="modal-btn" onclick="veriCek()">Tekrar Dene</button></div>';
@@ -1234,7 +1175,7 @@
       if (cachedStr) {
         try {
           let parsed = JSON.parse(cachedStr);
-          if (parsed.v === 3 && parsed.data) {
+          if (parsed.v === 4 && parsed.data) {
             tabloyuCiz(parsed.data);
             uygula();
             document.getElementById('updateDateText').innerText = 'SON GÜNCELLEME: ' + escapeHtml(parsed.data.sonGuncelleme) + ' (Önbellek)';
@@ -1257,7 +1198,7 @@
             gosterHata("Sunucu hatası: " + escapeHtml(data.hata));
           } else {
             try {
-              localStorage.setItem(CACHE_KEY, JSON.stringify({ v: 3, data: data }));
+              localStorage.setItem(CACHE_KEY, JSON.stringify({ v: 4, data: data }));
             } catch(e) {
               console.warn("Önbelleğe yazılamadı:", e);
             }
