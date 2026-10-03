@@ -581,7 +581,6 @@
       let idxYogunluk = orjBasliklarTumu.indexOf("YOĞUNLUK");
       let idxGizli = orjBasliklarTumu.indexOf("GIZLI_2011_ADET");
       
-      // Kırılgan sabit sayılar dinamik hesaplamaya dönüştürüldü
       if (idxYogunluk === -1) idxYogunluk = orjBasliklarTumu.length > 2 ? orjBasliklarTumu.length - 2 : 18;
       if (idxGizli === -1) idxGizli = orjBasliklarTumu.length > 1 ? orjBasliklarTumu.length - 1 : 19;
 
@@ -670,7 +669,6 @@
         if (rawHisseKodu === undefined || rawHisseKodu === null || rawHisseKodu.toString().trim() === "") continue;
         let temizKod = rawHisseKodu.toString().trim().toUpperCase();
 
-        // Çift hisse kodu koruması
         if (islenmisHisselerSet.has(temizKod)) continue; 
         islenmisHisselerSet.add(temizKod);
 
@@ -752,11 +750,12 @@
               if (bedelsizOrani > 0) formatliMiktarHover += ' (Ayrıca %' + fmtBedelsiz + ' Bedelsiz)';
               
               let spanGosterilecek = '<span class="' + spanClass + '"' + titleAttr + '>' + gosterilecekMetin + '</span>';
-              icSutunlarHtml += '<td data-value="' + rawValue + '"' + tdClassAttr + '>' + spanGosterilecek + '<span class="info-icon" title="Miktar: ' + formatliMiktarHover + '" onclick="event.stopPropagation(); gosterBilgi(\'' + temizKod + '\', \'' + sutunYili + '\', ' + rawValue + ', ' + bedelsizOrani + ')">ℹ</span></td>';
+              // i ikonu emoji (ℹ️) olarak düzeltildi
+              icSutunlarHtml += '<td data-value="' + rawValue + '"' + tdClassAttr + '>' + spanGosterilecek + '<span class="info-icon" title="Miktar: ' + formatliMiktarHover + '" onclick="event.stopPropagation(); gosterBilgi(\'' + temizKod + '\', \'' + sutunYili + '\', ' + rawValue + ', ' + bedelsizOrani + ')">ℹ️</span></td>';
             } else {
               if (bedelsizOrani > 0) {
                 let formatliMiktarHover = 'Nakit Yok (Sadece %' + fmtBedelsiz + ' Bedelsiz)';
-                icSutunlarHtml += '<td data-value="0" class="empty-cell bedelsiz-hucre"><span title="Sadece %' + fmtBedelsiz + ' Bedelsiz Bölünme">-</span><span class="info-icon" title="' + formatliMiktarHover + '" onclick="event.stopPropagation(); gosterBilgi(\'' + temizKod + '\', \'' + sutunYili + '\', \'0\', ' + bedelsizOrani + ')">ℹ️</span></td>';
+                icSutunlarHtml += '<td data-value="0" class="empty-cell bedelsiz-hucre"><span title="Sadece %' + fmtBedelsiz + ' Bedelsiz Bölünme">-</span><span class="info-icon" title="' + formatliMiktarHover + '" onclick="event.stopPropagation(); gosterBilgi(\'' + temizKod + '\', \'' + sutunYili + '\', \'0\', ' + bedelsizOrani + ')">ℹ️️</span></td>';
               } else {
                 icSutunlarHtml += '<td data-value="0" class="empty-cell">-</td>';
               }
@@ -905,7 +904,6 @@
       for (let r = 0; r < islenmisSatirlar.length; r++) {
         let sId = islenmisSatirlar[r].satirId;
         let hKod = islenmisSatirlar[r].hisse;
-        // Erişilebilirlik eklendi: tabindex ve klavye aktivasyonu
         html += '<tr class="main-row" tabindex="0" role="button" data-order="' + r + '" data-hisse="' + hKod + '" data-expand="expand-' + sId + '" onclick="toggleRow(\'expand-' + sId + '\')" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault(); toggleRow(\'expand-' + sId + '\');}">';
         html += islenmisSatirlar[r].htmlGovde;
         html += '</tr>';
@@ -1162,7 +1160,6 @@
       document.getElementById('tableContainer').innerHTML = '<div class="error-msg">' + mesaj + '<br><br><button class="modal-btn" onclick="veriCek()">Tekrar Dene</button></div>';
     }
 
-    // YENİ: Önbellekli ve Hızlı Yükleme Motoru
     function veriCek() {
       let cached = localStorage.getItem(CACHE_KEY);
       if (cached) {
@@ -1171,7 +1168,6 @@
           tabloyuCiz(parsed);
           document.getElementById('updateDateText').innerText = 'SON GÜNCELLEME: ' + parsed.sonGuncelleme + ' (Önbellek)';
         } catch(e) {
-          // Önbellek bozuksa görmezden gel
         }
       } else {
         document.getElementById('tableContainer').innerHTML = '<div style="padding: 20px; text-align: center; color: #5f6368;">Veriler yükleniyor, lütfen bekleyin...</div>';
@@ -1199,7 +1195,6 @@
         });
     }
 
-    // Uygulamayı Başlat
     veriCek();
   </script>
 </body>
