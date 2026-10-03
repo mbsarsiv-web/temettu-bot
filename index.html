@@ -42,7 +42,7 @@
     .kpi-badge { background-color: #e8f0fe; color: #1a73e8; font-size: 13px; font-weight: 700; padding: 6px 12px; border-radius: 16px; display: flex; align-items: center; gap: 6px; border: 1px solid #d2e3fc; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
     .kpi-badge .kpi-number { color: #174ea6; font-size: 14px; font-weight: 900; }
     
-    .legend-badge { background-color: #fff3e0; color: #b06000; font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 12px; border: 1px solid #ffcc80; margin-left: auto; display: flex; align-items: center; gap: 4px; }
+    .legend-badge { background-color: #fff3e0; color: #b06000; font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 12px; border: 1px solid #ffcc80; display: flex; align-items: center; gap: 4px; }
     
     .chip-row { display: flex; gap: 6px; margin: 8px 10px 0px 10px; flex-wrap: wrap; min-height: 0; }
     .chip { background: #e5f2e0; color: #256029; font-size: 11px; padding: 4px 10px; border-radius: 12px; display: flex; align-items: center; gap: 6px; font-weight: 500; }
@@ -112,7 +112,7 @@
       .search-wrap { width: 100%; flex: 1 1 100%; }
       .toolbar select { flex: 1 1 45%; min-width: 0; font-size: 12px; padding: 6px 4px; }
       .kpi-badge { width: 100%; flex: 1 1 100%; justify-content: center; margin-bottom: 2px; }
-      .legend-badge { width: 100%; justify-content: center; margin-left: 0; }
+      .legend-badge { width: 100%; justify-content: center; margin-left: 0; margin-top: 4px; }
       .clear-btn { width: 100%; flex: 1 1 100%; justify-content: center; margin-left: 0; }
       .table-container { margin: 10px 5px; }
       td, th { padding: 8px 4px; }
@@ -120,7 +120,7 @@
     @media (min-width: 800px) { 
       body { font-size: 90%; } 
       .ticker-wrap { margin: 5px 8px 0 8px; height: 24px; }
-      .toolbar { flex-wrap: nowrap !important; overflow-x: hidden; padding: 6px 10px; gap: 5px; margin: 5px 8px 0 8px; }
+      .toolbar { flex-wrap: wrap !important; overflow-x: hidden; padding: 6px 10px; gap: 5px; margin: 5px 8px 0 8px; }
       .toolbar > * { flex: 1 1 auto; min-width: 0; }
       .toolbar select { font-size: 11px; padding: 4px 2px; text-overflow: ellipsis; }
       .search-wrap { flex: 0 1 110px; min-width: 80px; }
@@ -157,7 +157,7 @@
 <body>
 
   <div id="modalOverlay" onclick="kapatBilgi()"></div>
-  <div id="customModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div id="customModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" tabindex="-1">
     <h3 id="modalTitle" style="margin-top: 0; color: #202124; font-size: 20px;">Bilgi</h3>
     <p id="modalContent" style="font-size: 15px; color: #5f6368; margin-bottom: 5px;"></p>
     <div id="modalAmount" style="font-size: 26px; color: #0f9d58; font-weight: bold;"></div>
@@ -256,6 +256,7 @@
     let GLOBAL_SLICE_BASLIKLAR = [];
     let VARSAYILAN_BAS_YIL = "2016";
     let VARSAYILAN_BIT_YIL = "2025";
+    let idxYogunlukGlobal = 18;
     
     document.addEventListener('keydown', function(event) {
       if (event.key === "Escape") {
@@ -279,22 +280,12 @@
         .replace(/'/g, "&#039;");
     }
 
+    // Regresyon koruması eklendi: Orijinal güvenilir nokta silme fonksiyonuna geri dönüldü
     function sayiyaCevir(s) {
       if (s === undefined || s === null || s === '') return 0;
       if (typeof s === 'number') return s;
-      let str = s.toString().replace(/TL/g, '').replace(/\s/g, '').trim();
-      if (str === "") return 0;
-      if (str.indexOf(",") > -1 && str.indexOf(".") > -1) {
-        if (str.lastIndexOf(",") > str.lastIndexOf(".")) {
-          str = str.replace(/\./g, "").replace(",", ".");
-        } else {
-          str = str.replace(/,/g, "");
-        }
-      } else if (str.indexOf(",") > -1) {
-        str = str.replace(",", ".");
-      }
-      let n = parseFloat(str);
-      return isNaN(n) ? 0 : n;
+      let temiz = s.toString().replace(/TL/g, '').replace(/\s/g, '').replace(/\./g, '').replace(/,/g, '.');
+      return parseFloat(temiz) || 0;
     }
 
     function verimSayisiCoz(ham) {
@@ -321,7 +312,9 @@
       return "yog-low";
     }
 
+    let sonOdak = null;
     function gosterBilgi(hisse, yil, miktar, bedelsiz) {
+      sonOdak = document.activeElement;
       document.getElementById('modalTitle').innerText = hisse + ' - ' + yil;
       let sayisalMiktar = Number(sayiyaCevir(miktar));
       let formatliMiktar = isNaN(sayisalMiktar) ? miktar : sayisalMiktar.toLocaleString('tr-TR') + ' TL';
@@ -334,18 +327,27 @@
       
       document.getElementById('modalContent').innerText = altMetin;
       document.getElementById('modalAmount').innerText = sayisalMiktar > 0 ? formatliMiktar : '';
+      
+      let modal = document.getElementById('customModal');
       document.getElementById('modalOverlay').style.display = 'block';
-      document.getElementById('customModal').style.display = 'block';
+      modal.style.display = 'block';
+      modal.focus();
     }
 
     function kapatBilgi() {
       document.getElementById('modalOverlay').style.display = 'none';
       document.getElementById('customModal').style.display = 'none';
+      if (sonOdak) sonOdak.focus();
     }
 
-    function toggleRow(rowId) {
+    function toggleRow(rowId, rowEl) {
       let row = document.getElementById(rowId);
-      if (row) row.classList.toggle("active");
+      if (row) {
+        let isActive = row.classList.toggle("active");
+        if (rowEl) {
+          rowEl.setAttribute("aria-expanded", isActive);
+        }
+      }
     }
 
     function getDynamicGrowthByYears(satir, basYil, bitYil, orjBasliklar) {
@@ -363,6 +365,7 @@
       
       let donem = iBit - iBas;
       
+      // Hariç tutulan kural korundu: TBH 10 yıl sabitlemesi
       if (String(basYil) === "2016" && String(bitYil) === "2025") {
           donem = 10;
       }
@@ -563,14 +566,8 @@
               let rawBedelsiz = verimVerisi[v][bedelsizIndeks];
               let sayisalBedelsiz = verimSayisiCoz(rawBedelsiz);
               if (!isNaN(sayisalBedelsiz) && sayisalBedelsiz > 0) {
-                if (bedelsizMap[anahtar] !== undefined) { 
-                  let mevcutCarpani = bedelsizMap[anahtar] / 100;
-                  let yeniCarpan = sayisalBedelsiz / 100;
-                  bedelsizMap[anahtar] = ((1 + mevcutCarpani) * (1 + yeniCarpan) - 1) * 100;
-                }
-                else { 
-                  bedelsizMap[anahtar] = sayisalBedelsiz; 
-                }
+                // Bedelsiz oranı aynı yıl içinde çift katlanmasın diye atama yapılıyor
+                bedelsizMap[anahtar] = sayisalBedelsiz;
               }
             }
           }
@@ -583,6 +580,7 @@
       
       if (idxYogunluk === -1) idxYogunluk = orjBasliklarTumu.length > 2 ? orjBasliklarTumu.length - 2 : 18;
       if (idxGizli === -1) idxGizli = orjBasliklarTumu.length > 1 ? orjBasliklarTumu.length - 1 : 19;
+      idxYogunlukGlobal = idxYogunluk;
 
       let yillarDizisi = [];
       for (let idx = 2; idx < idxYogunluk; idx++) {
@@ -669,7 +667,10 @@
         if (rawHisseKodu === undefined || rawHisseKodu === null || rawHisseKodu.toString().trim() === "") continue;
         let temizKod = rawHisseKodu.toString().trim().toUpperCase();
 
-        if (islenmisHisselerSet.has(temizKod)) continue; 
+        if (islenmisHisselerSet.has(temizKod)) {
+          console.warn("Dikkat: Yinelenen hisse kodu tespit edildi ve atlandı: " + temizKod);
+          continue; 
+        }
         islenmisHisselerSet.add(temizKod);
 
         let duzeltilmisSatir = [satir[0], satir[1]];
@@ -696,7 +697,7 @@
 
         let icSutunlarHtml = '';
         let maxMiktar = 0;
-        let toplamVerim10Yil = 0, odemeYaptigiYilSayisi = 0, maxOdeme10 = 0;
+        let toplamVerim10Yil = 0, odemeYaptigiYilSayisi = 0;
         let toplamVerim5Yil = 0, odemeYaptigiYilSayisi5 = 0, maxOdeme5 = 0;
         let toplamVerim3Yil = 0, odemeYaptigiYilSayisi3 = 0, maxOdeme3 = 0;
         let sparkDegerler = [];
@@ -718,7 +719,6 @@
             let titleAttr = bedelsizOrani > 0 ? ' title="Ayrıca %' + fmtBedelsiz + ' Bedelsiz"' : '';
 
             if (!isNaN(sutunYiliNum) && sutunYiliNum >= minGorunurYil && sutunYiliNum <= guncelYil) {
-               maxOdeme10++;
                if (sutunYiliNum >= min5Yil) maxOdeme5++;
                if (sutunYiliNum >= min3Yil) maxOdeme3++;
             }
@@ -750,12 +750,11 @@
               if (bedelsizOrani > 0) formatliMiktarHover += ' (Ayrıca %' + fmtBedelsiz + ' Bedelsiz)';
               
               let spanGosterilecek = '<span class="' + spanClass + '"' + titleAttr + '>' + gosterilecekMetin + '</span>';
-              // i ikonu emoji (ℹ️) olarak düzeltildi
-              icSutunlarHtml += '<td data-value="' + rawValue + '"' + tdClassAttr + '>' + spanGosterilecek + '<span class="info-icon" title="Miktar: ' + formatliMiktarHover + '" onclick="event.stopPropagation(); gosterBilgi(\'' + temizKod + '\', \'' + sutunYili + '\', ' + rawValue + ', ' + bedelsizOrani + ')">ℹ️</span></td>';
+              icSutunlarHtml += '<td data-value="' + rawValue + '"' + tdClassAttr + '>' + spanGosterilecek + '<span class="info-icon" title="Miktar: ' + formatliMiktarHover + '" onclick="event.stopPropagation(); gosterBilgi(\'' + temizKod + '\', \'' + sutunYili + '\', ' + rawValue + ', ' + bedelsizOrani + ')">ℹ</span></td>';
             } else {
               if (bedelsizOrani > 0) {
                 let formatliMiktarHover = 'Nakit Yok (Sadece %' + fmtBedelsiz + ' Bedelsiz)';
-                icSutunlarHtml += '<td data-value="0" class="empty-cell bedelsiz-hucre"><span title="Sadece %' + fmtBedelsiz + ' Bedelsiz Bölünme">-</span><span class="info-icon" title="' + formatliMiktarHover + '" onclick="event.stopPropagation(); gosterBilgi(\'' + temizKod + '\', \'' + sutunYili + '\', \'0\', ' + bedelsizOrani + ')">ℹ️️</span></td>';
+                icSutunlarHtml += '<td data-value="0" class="empty-cell bedelsiz-hucre"><span title="Sadece %' + fmtBedelsiz + ' Bedelsiz Bölünme">-</span><span class="info-icon" title="' + formatliMiktarHover + '" onclick="event.stopPropagation(); gosterBilgi(\'' + temizKod + '\', \'' + sutunYili + '\', \'0\', ' + bedelsizOrani + ')">ℹ</span></td>';
               } else {
                 icSutunlarHtml += '<td data-value="0" class="empty-cell">-</td>';
               }
@@ -904,7 +903,7 @@
       for (let r = 0; r < islenmisSatirlar.length; r++) {
         let sId = islenmisSatirlar[r].satirId;
         let hKod = islenmisSatirlar[r].hisse;
-        html += '<tr class="main-row" tabindex="0" role="button" data-order="' + r + '" data-hisse="' + hKod + '" data-expand="expand-' + sId + '" onclick="toggleRow(\'expand-' + sId + '\')" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault(); toggleRow(\'expand-' + sId + '\');}">';
+        html += '<tr class="main-row" tabindex="0" aria-expanded="false" data-order="' + r + '" data-hisse="' + escapeHtml(hKod) + '" data-expand="expand-' + sId + '" onclick="toggleRow(\'expand-' + sId + '\', this)" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault(); toggleRow(\'expand-' + sId + '\', this);}">';
         html += islenmisSatirlar[r].htmlGovde;
         html += '</tr>';
         html += islenmisSatirlar[r].expandGovde;
@@ -924,6 +923,7 @@
       kpiGuncelle();
     }
 
+    let resizeEklendi = false;
     function initFiltre() {
       let trs = document.querySelectorAll("#tabloGovdesi tr.main-row");
       let hSet = new Set();
@@ -941,8 +941,12 @@
         });
       }
       hizalaBaslik();
-      window.addEventListener('resize', hizalaBaslik);
-      if(document.fonts) { document.fonts.ready.then(hizalaBaslik); }
+      
+      if (!resizeEklendi) {
+        window.addEventListener('resize', hizalaBaslik);
+        if(document.fonts) { document.fonts.ready.then(hizalaBaslik); }
+        resizeEklendi = true;
+      }
     }
 
     function sira(s) {
@@ -1042,6 +1046,16 @@
         if (fD === "3") aktifYogunluk = hisseObj ? hisseObj.yogunluk3 : 0;
         else if (fD === "5") aktifYogunluk = hisseObj ? hisseObj.yogunluk5 : 0;
 
+        let badgeEl = tr.querySelector('.yog-badge');
+        if (badgeEl) {
+          badgeEl.innerText = aktifYogunluk.toFixed(2).replace('.', ',');
+          badgeEl.className = 'yog-badge ' + yogunlukSinifi(aktifYogunluk);
+        }
+        
+        if (idxYogunlukGlobal !== -1 && tr.cells[idxYogunlukGlobal]) {
+          tr.cells[idxYogunlukGlobal].setAttribute("data-value", aktifYogunluk);
+        }
+
         let expandId = tr.getAttribute("data-expand");
         let expandRow = expandId ? document.getElementById(expandId) : null;
         if (expandRow && hisseObj) {
@@ -1079,11 +1093,15 @@
         let gozukmeli = (arama === "" || hisseKodu.indexOf(arama) > -1) && hisseSecimSarti && yogunlukSarti && verimSarti && artisSarti;
         tr.style.display = gozukmeli ? "" : "none";
 
-        if (!gozukmeli && expandRow) expandRow.classList.remove("active");
+        if (!gozukmeli && expandRow) {
+            expandRow.classList.remove("active");
+            tr.setAttribute("aria-expanded", "false");
+        }
       });
 
       let genelSort = document.getElementById('genelSirala').value;
 
+      // Hariç tutulan kural korundu: Yıl sütunlarında TL (data-value) sıralaması devam ediyor.
       if (currentSortCol > -1) {
         mainTrs.sort((a, b) => {
           let valA = a.cells[currentSortCol].getAttribute("data-value");
@@ -1102,7 +1120,12 @@
           let ha = a.getAttribute("data-hisse") || a.cells[0].innerText.trim(), hb = b.getAttribute("data-hisse") || b.cells[0].innerText.trim();
           let sa = HISSE_MAP[ha] || {};
           let sb = HISSE_MAP[hb] || {};
-          if (genelSort === "YOG_DESC") return (sb.yogunluk || 0) - (sa.yogunluk || 0);
+          
+          if (genelSort === "YOG_DESC") {
+            let aktifYogA = fD === "3" ? sa.yogunluk3 : (fD === "5" ? sa.yogunluk5 : sa.yogunluk);
+            let aktifYogB = fD === "3" ? sb.yogunluk3 : (fD === "5" ? sb.yogunluk5 : sb.yogunluk);
+            return (aktifYogB || 0) - (aktifYogA || 0);
+          }
           if (genelSort === "VERIM_DESC") return seciliDonemVerimiAl(sb, fD) - seciliDonemVerimiAl(sa, fD);
           if (genelSort === "TBH_DESC") {
             let tbhA = sa.tbh; let tbhB = sb.tbh;
@@ -1161,13 +1184,23 @@
     }
 
     function veriCek() {
-      let cached = localStorage.getItem(CACHE_KEY);
-      if (cached) {
+      let cachedStr = null;
+      try {
+        cachedStr = localStorage.getItem(CACHE_KEY);
+      } catch (e) {
+        console.warn("Önbellek okunamadı:", e);
+      }
+      
+      if (cachedStr) {
         try {
-          let parsed = JSON.parse(cached);
-          tabloyuCiz(parsed);
-          document.getElementById('updateDateText').innerText = 'SON GÜNCELLEME: ' + parsed.sonGuncelleme + ' (Önbellek)';
+          let parsed = JSON.parse(cachedStr);
+          if (parsed.v === 2 && parsed.data) {
+            tabloyuCiz(parsed.data);
+            uygula();
+            document.getElementById('updateDateText').innerText = 'SON GÜNCELLEME: ' + parsed.data.sonGuncelleme + ' (Önbellek)';
+          }
         } catch(e) {
+          console.warn("Önbellek veri ayrıştırma hatası:", e);
         }
       } else {
         document.getElementById('tableContainer').innerHTML = '<div style="padding: 20px; text-align: center; color: #5f6368;">Veriler yükleniyor, lütfen bekleyin...</div>';
@@ -1183,13 +1216,18 @@
           if (data.hata) {
             gosterHata("Sunucu hatası: " + escapeHtml(data.hata));
           } else {
-            localStorage.setItem(CACHE_KEY, JSON.stringify(data));
+            try {
+              localStorage.setItem(CACHE_KEY, JSON.stringify({ v: 2, data: data }));
+            } catch(e) {
+              console.warn("Önbelleğe yazılamadı:", e);
+            }
             tabloyuCiz(data);
+            uygula();
             tarihiYazdir(data.sonGuncelleme);
           }
         })
         .catch(function(hata) {
-          if (!cached) {
+          if (!cachedStr) {
             gosterHata("Veriler yüklenemedi: " + escapeHtml(hata.message));
           }
         });
