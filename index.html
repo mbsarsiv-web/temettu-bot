@@ -71,8 +71,8 @@
     .check-icon { color: #0f9d58; font-size: 13px; font-weight: bold; }
     .bedelsiz-hucre { background-color: #fff3e0; }
 
-    /* İkon düzeltmesi: Eski format, font-family olmadan salt metin i */
-    .info-icon { font-size: 11px; cursor: pointer; margin-left: 3px; color: #5f6368; font-weight: bold; display: inline-block; transition: transform 0.2s; }
+    /* İkon düzeltmesi: ℹ️ Emojisiyle değiştirildiği için font-weight kaldırıldı */
+    .info-icon { font-size: 13px; cursor: pointer; margin-left: 3px; color: #5f6368; display: inline-block; transition: transform 0.2s; }
     .info-icon:hover { transform: scale(1.2); }
     
     .empty-cell { color: #bdc1c6; }
@@ -795,12 +795,12 @@
               
               let spanGosterilecek = '<span class="' + spanClass + '"' + titleAttr + '>' + gosterilecekMetin + '</span>';
               
-              // İkon orijinal metin tabanlı formata ("i") ve fontuna çevrildi
-              icSutunlarHtml += '<td data-value="' + rawValue + '"' + tdClassAttr + '>' + spanGosterilecek + '<span class="info-icon" title="Miktar: ' + formatliMiktarHover + '" onclick="event.stopPropagation(); gosterBilgi(\'' + temizKod + '\', \'' + sutunYili + '\', ' + rawValue + ', ' + bedelsizOrani + ')">i</span></td>';
+              // İkon ℹ️ emojisine çevrildi
+              icSutunlarHtml += '<td data-value="' + rawValue + '"' + tdClassAttr + '>' + spanGosterilecek + '<span class="info-icon" title="Miktar: ' + formatliMiktarHover + '" onclick="event.stopPropagation(); gosterBilgi(\'' + temizKod + '\', \'' + sutunYili + '\', ' + rawValue + ', ' + bedelsizOrani + ')">ℹ️</span></td>';
             } else {
               if (bedelsizOrani > 0) {
                 let formatliMiktarHover = 'Nakit Yok (Sadece %' + fmtBedelsiz + ' Bedelsiz)';
-                icSutunlarHtml += '<td data-value="0" class="empty-cell bedelsiz-hucre"><span title="Sadece %' + fmtBedelsiz + ' Bedelsiz Bölünme">-</span><span class="info-icon" title="' + formatliMiktarHover + '" onclick="event.stopPropagation(); gosterBilgi(\'' + temizKod + '\', \'' + sutunYili + '\', \'0\', ' + bedelsizOrani + ')">i</span></td>';
+                icSutunlarHtml += '<td data-value="0" class="empty-cell bedelsiz-hucre"><span title="Sadece %' + fmtBedelsiz + ' Bedelsiz Bölünme">-</span><span class="info-icon" title="' + formatliMiktarHover + '" onclick="event.stopPropagation(); gosterBilgi(\'' + temizKod + '\', \'' + sutunYili + '\', \'0\', ' + bedelsizOrani + ')">ℹ️</span></td>';
               } else {
                 icSutunlarHtml += '<td data-value="0" class="empty-cell">-</td>';
               }
@@ -876,19 +876,17 @@
                 
                 while (currIdx > 0) {
                     let prevIdx = currIdx - 1;
-                    let currTutar = tumYillarTutar[currIdx];
                     let currAdjDPS = tumYillarAdjDPS[currIdx];
-                    let prevTutar = tumYillarTutar[prevIdx];
                     let prevAdjDPS = tumYillarAdjDPS[prevIdx];
                     
-                    if (prevTutar <= 0 || prevAdjDPS <= 0) {
+                    if (tumYillarTutar[prevIdx] <= 0 || prevAdjDPS <= 0) {
                         break;
                     }
                     
-                    let isTutarArtmis = (currTutar - prevTutar) > 0.0001;
+                    // SADECE "DÜZELTİLMİŞ" HİSSE BAŞI TEMETTÜ ARTIŞINI BAZ ALIYORUZ
                     let isDPSArtmis = (currAdjDPS - prevAdjDPS) > 0.00001;
                     
-                    if (isTutarArtmis && isDPSArtmis) {
+                    if (isDPSArtmis) {
                         artisSerisi++;       
                         currIdx = prevIdx;   
                     } else {
