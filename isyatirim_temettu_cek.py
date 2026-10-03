@@ -243,7 +243,7 @@ def main():
     print("Sistem başlatılıyor...")
     session = get_session()
     tickers = get_all_tickers(session)
-    print(f"Toplam {len(tickers)} adet hisse senedi bulundu. Zaman kaydırmalı (Time-Shift) koruma aktif.\n")
+    print(f"Toplam {len(tickers)} adet hisse senedi bulundu.\n")
     
     all_rows = []
     all_extracted_splits = []
@@ -266,7 +266,6 @@ def main():
     df_verim_final = pd.DataFrame(columns=["Kod", "Yil", "Temettu_Verim_%"])
     df_hb_final = pd.DataFrame(columns=["Kod", "Yil", "Hisse_Basi_TL"])
     df_do_final = pd.DataFrame(columns=["Kod", "Yil", "Dagitma_Orani"])
-    first_div_dates = {}
     
     if all_rows:
         df_scraped = pd.concat(all_rows, ignore_index=True)
@@ -274,8 +273,6 @@ def main():
             df_scraped["Yil"] = df_scraped["Dagitim_Tarihi"].apply(get_mantiki_yil)
             df_scraped["Div_Date"] = df_scraped["Dagitim_Tarihi"].apply(parse_date_to_yyyymmdd)
             df_scraped = df_scraped.dropna(subset=["Yil"])
-            
-            first_div_dates = df_scraped.sort_values("Div_Date").groupby(["Kod", "Yil"])["Div_Date"].first().to_dict()
             
             if "Temettu_Verim_%" in df_scraped.columns:
                 df_scraped["Temettu_Verim_%"] = df_scraped["Temettu_Verim_%"].apply(parse_yield)
@@ -299,16 +296,7 @@ def main():
 
     df_splits_final = pd.DataFrame(columns=["Kod", "Yil", "Bedelsiz_Oran"])
     if all_extracted_splits:
-        for s in all_extracted_splits:
-            k = s["Kod"]
-            y = s["Yil"]
-            s_date = s.get("Split_Date", "9999-99-99")
-            
-            d_date = first_div_dates.get((k, y))
-            if d_date and s_date < d_date:
-                s["Yil"] = str(int(y) - 1)
-                print(f" >>> DÜZELTME: {k} hissesinin {y} yılındaki bedelsizi temettüden önce! Yıl {s['Yil']} olarak kaydırıldı.")
-                
+        # Zaman kaydırması kaldırıldı. Bedelsiz gerçekleştiği gerçek yılda kalacak.
         df_temp = pd.DataFrame(all_extracted_splits)
         def calc_compound(series):
             res = 1.0
@@ -388,7 +376,7 @@ def main():
     out_path = "bist_temettu_master.csv"
     df_master.to_csv(out_path, index=False, encoding="utf-8", decimal=".", sep=";")
     upload_to_drive(out_path)
-    print("\nGörev başarıyla tamamlandı! Hatalı yıllara zaman kaydırması uygulandı ve Dağıtma Oranları çekildi.")
+    print("\nGörev başarıyla tamamlandı! Bedelsiz tarihlerindeki zaman kaydırması kaldırıldı ve gerçek yıllar uygulandı.")
 
 if __name__ == "__main__":
     main()
