@@ -41,6 +41,10 @@
     .clear-btn { color: #d93025; border-color: #f3c7c3; margin-left: auto; } 
     .kpi-badge { background-color: #e8f0fe; color: #1a73e8; font-size: 13px; font-weight: 700; padding: 6px 12px; border-radius: 16px; display: flex; align-items: center; gap: 6px; border: 1px solid #d2e3fc; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
     .kpi-badge .kpi-number { color: #174ea6; font-size: 14px; font-weight: 900; }
+    
+    /* YENİ: Bedelsiz Lejantı (Açıklaması) */
+    .legend-badge { background-color: #fff3e0; color: #b06000; font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 12px; border: 1px solid #ffcc80; margin-left: auto; display: flex; align-items: center; gap: 4px; }
+    
     .chip-row { display: flex; gap: 6px; margin: 8px 10px 0px 10px; flex-wrap: wrap; min-height: 0; }
     .chip { background: #e5f2e0; color: #256029; font-size: 11px; padding: 4px 10px; border-radius: 12px; display: flex; align-items: center; gap: 6px; font-weight: 500; }
     .chip span { cursor: pointer; font-weight: 700; }
@@ -64,9 +68,8 @@
     .growth-minus { color: #d93025; font-weight: 700; font-size: 14px; }
     .tbh-cell { font-weight: 700 !important; font-size: 13px; }
     .tbh-cell.growth-plus, .tbh-cell.growth-minus { font-weight: 700 !important; font-size: 14px; }
-    .warning-flag { color: #d93025; font-size: 10px; margin-left: 2px; cursor: help; font-weight: 700; }
-    .check-icon { color: #0f9d58; font-size: 13px; font-weight: bold; }
     
+    .check-icon { color: #0f9d58; font-size: 13px; font-weight: bold; }
     .bedelsiz-hucre { background-color: #fff3e0; }
 
     .info-icon { font-size: 12px; cursor: pointer; margin-left: 3px; color: #5f6368; transition: transform 0.2s; display: inline-block; }
@@ -96,9 +99,11 @@
     .bar:hover { background-color: #0f9d58; transform: scaleY(1.02); }
     .bar-val { font-size: 9px; color: #3c4043; font-weight: 600; white-space: nowrap; margin: 0 auto; }
     .empty-bar-val { color: #bdc1c6; font-weight: normal; }
+    
     #customModal { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 25px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); z-index: 9999; text-align: center; min-width: 280px; }
     #modalOverlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 9998; }
     .modal-btn { margin-top: 20px; padding: 10px 25px; background: #0f9d58; color: white; border: none; border-radius: 6px; font-size: 14px; font-weight: bold; cursor: pointer; font-family: 'Google Sans Text'; }
+    
     @media (max-width: 799px) {
       .header-content { flex-direction: column; align-items: flex-start; gap: 4px; }
       .update-text { position: relative; width: 100%; justify-content: flex-start; margin-top: 2px; }
@@ -107,6 +112,7 @@
       .search-wrap { width: 100%; flex: 1 1 100%; }
       .toolbar select { flex: 1 1 45%; min-width: 0; font-size: 12px; padding: 6px 4px; }
       .kpi-badge { width: 100%; flex: 1 1 100%; justify-content: center; margin-bottom: 2px; }
+      .legend-badge { width: 100%; justify-content: center; margin-left: 0; }
       .clear-btn { width: 100%; flex: 1 1 100%; justify-content: center; margin-left: 0; }
       .table-container { margin: 10px 5px; }
       td, th { padding: 8px 4px; }
@@ -120,7 +126,7 @@
       .search-wrap { flex: 0 1 110px; min-width: 80px; }
       .search-wrap input { font-size: 11px; padding: 4px 5px 4px 22px; }
       .search-wrap span { font-size: 11px; left: 5px; }
-      .icon-btn, .kpi-badge { font-size: 11px; padding: 4px 6px; white-space: nowrap; flex: 0 0 auto; }
+      .icon-btn, .kpi-badge, .legend-badge { font-size: 11px; padding: 4px 6px; white-space: nowrap; flex: 0 0 auto; }
       .table-container { overflow-x: auto; margin: 8px; }
       table { table-layout: fixed; width: 100%; min-width: 950px; }
       td, th { font-size: 10px !important; padding: 2px 1px !important; overflow: hidden; text-overflow: ellipsis; }
@@ -138,11 +144,12 @@
       .check-icon { font-size: 11px !important; font-weight: 700 !important; line-height: 1.1; }
       .info-icon { font-size: 10px; margin-left: 2px; vertical-align: text-bottom; }
       
-      tr:first-child th:nth-child(1) { width: 6.5%; } 
-      tr:first-child th:nth-child(2) { width: 4%; } 
-      tr:first-child th:nth-child(13) { width: 8.5%; } 
-      tr:first-child th:nth-child(14) { width: 13.5%; font-size: 11px !important; letter-spacing: -0.2px; } 
-      tr:first-child th:nth-child(15) { width: 7.5%; } 
+      /* YENİ: Kırılgan nth-child sınıf tabanlı genişliklere dönüştürüldü */
+      .hisse-col { width: 6.5%; } 
+      .arz-header-col { width: 4%; } 
+      .tbh-header-col { width: 13.5%; font-size: 11px !important; letter-spacing: -0.2px; } 
+      .trend-header-col { width: 7.5%; } 
+      
       .bar, .main-row, .main-row td:first-child, .info-icon { transition: none !important; }
       .bar:hover, .info-icon:hover { transform: none !important; }
     }
@@ -151,7 +158,7 @@
 <body>
 
   <div id="modalOverlay" onclick="kapatBilgi()"></div>
-  <div id="customModal">
+  <div id="customModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
     <h3 id="modalTitle" style="margin-top: 0; color: #202124; font-size: 20px;">Bilgi</h3>
     <p id="modalContent" style="font-size: 15px; color: #5f6368; margin-bottom: 5px;"></p>
     <div id="modalAmount" style="font-size: 26px; color: #0f9d58; font-weight: bold;"></div>
@@ -181,6 +188,7 @@
       📊 Gösterilen: <span id="kpiCount" class="kpi-number">-</span>
     </div>
     
+    <!-- YENİ: Etiket Güncellemeleri -->
     <select id="filterYogunluk" onchange="this.blur(); uygula()">
       <option value="TÜMÜ">Yoğunluk: Tümü</option>
       <option value="1.00">1,00 (Kusursuz)</option>
@@ -204,23 +212,25 @@
       <option value="10">≥ 10 Yıl Aralıksız Artıran</option>
     </select>
 
+    <!-- YENİ: Dönem Tümü Etiketi -->
     <select id="filterDonem" onchange="this.blur(); uygula()">
-      <option value="TÜMÜ">Tümü</option>
+      <option value="TÜMÜ">Dönem: Tümü</option>
       <option value="3">Son 3 Yıl</option>
       <option value="5">Son 5 Yıl</option>
       <option value="10">Son 10 Yıl</option>
     </select>
 
+    <!-- YENİ: > yerine ≥ kullanıldı -->
     <select id="filterVerim" onchange="this.blur(); uygula()">
       <option value="TÜMÜ">Ort. Verim: Tümü</option>
-      <option value="1">> %1</option>
-      <option value="3">> %3</option>
-      <option value="4">> %4</option>
-      <option value="5">> %5</option>
-      <option value="6">> %6</option>
-      <option value="7">> %7</option>
-      <option value="8">> %8</option>
-      <option value="10">> %10</option>
+      <option value="1">≥ %1</option>
+      <option value="3">≥ %3</option>
+      <option value="4">≥ %4</option>
+      <option value="5">≥ %5</option>
+      <option value="6">≥ %6</option>
+      <option value="7">≥ %7</option>
+      <option value="8">≥ %8</option>
+      <option value="10">≥ %10</option>
     </select>
 
     <select id="genelSirala" onchange="this.blur(); genelSiralaUygula()">
@@ -232,6 +242,9 @@
     </select>
     
     <button class="icon-btn clear-btn" onclick="filtreleriTemizle()">✕ Temizle</button>
+    
+    <!-- YENİ: Bedelsiz Lejantı -->
+    <div class="legend-badge" title="Turuncu renkli hücreler o yıl içinde bedelsiz sermaye artırımı yapıldığını gösterir.">🟧 Bedelsiz Verilen Yıl</div>
   </div>
 
   <div class="chip-row" id="chipRow"></div>
@@ -248,6 +261,13 @@
     var VARSAYILAN_BAS_YIL = "2016";
     var VARSAYILAN_BIT_YIL = "2025";
     
+    // YENİ: ESC tuşu ile modal kapatma dinleyicisi
+    document.addEventListener('keydown', function(event) {
+      if (event.key === "Escape") {
+        kapatBilgi();
+      }
+    });
+
     var aramaZamanlayici;
     function aramaGeciktir() {
       clearTimeout(aramaZamanlayici);
@@ -264,7 +284,6 @@
         .replace(/'/g, "&#039;");
     }
 
-    // Ondalıklı sayı ayrıştırma mantığı güvenli hale getirildi
     function sayiyaCevir(s) {
       if (s === undefined || s === null || s === '') return 0;
       if (typeof s === 'number') return s;
@@ -349,7 +368,6 @@
       
       var donem = iBit - iBas;
       
-      // 10 Dönem kalıcı uyumluluk mantığı eklendi
       if (String(basYil) === "2016" && String(bitYil) === "2025") {
           donem = 10;
       }
@@ -507,7 +525,7 @@
           else if ((b === "YIL" || b === "TARIH" || b === "TARİH") && yilIndeks === 1) yilIndeks = c;
           else if (verimIndeks === -1 && (b.indexOf("VERIM") > -1 || b.indexOf("VERİM") > -1) && basliklarVerim[c].toString().trim() !== "") verimIndeks = c;
           else if (hisseBasiIndeks === -1 && (b.indexOf("HISSE") > -1 || b.indexOf("HİSSE") > -1)) hisseBasiIndeks = c;
-          // Eski, esnek ve hatasız bedelsiz tespiti geri getirildi
+          // Esnek eşleştirme devam ediyor
           else if (bedelsizIndeks === -1 && (b.indexOf("BEDELSIZ") > -1 || b.indexOf("BEDELSİZ") > -1 || (b.indexOf("ORAN") > -1 && b.indexOf("DAGITMA") === -1 && b.indexOf("DAĞITMA") === -1))) bedelsizIndeks = c;
         }
         
@@ -551,7 +569,7 @@
               var rawBedelsiz = verimVerisi[v][bedelsizIndeks];
               var sayisalBedelsiz = verimSayisiCoz(rawBedelsiz);
               if (!isNaN(sayisalBedelsiz) && sayisalBedelsiz > 0) {
-                // Çoklu bedelsiz bileşik (çarpılarak) hesaplanır
+                // Çoklu bedelsiz bileşik olarak hesaplanır
                 if (bedelsizMap[anahtar] !== undefined) { 
                   var mevcutCarpani = bedelsizMap[anahtar] / 100;
                   var yeniCarpan = sayisalBedelsiz / 100;
@@ -572,7 +590,6 @@
       if (idxYogunluk === -1) idxYogunluk = 18;
       if (idxGizli === -1) idxGizli = 19;
 
-      // Dinamik Yıl Tespiti (Tablo başlıkları kullanılarak kaymalar önlendi)
       var yillarDizisi = [];
       for (var idx = 2; idx < idxYogunluk; idx++) {
         var yearNum = parseInt(orjBasliklarTumu[idx]);
@@ -623,23 +640,24 @@
       for (var i = 0; i <= idxYogunluk; i++) {
         if (skipIndices.indexOf(i) > -1) continue;
         var baslikMetni = orjBasliklarTumu[i];
-        if (i === 1) html += '<th class="arz-col">ARZ</th>';
+        if (i === 1) html += '<th class="arz-col arz-header-col">ARZ</th>';
         else if (i === idxYogunluk) html += '<th class="tight-col" title="Temettü Ödeme Yoğunluğu (' + y1 + '-' + y2 + ' Yılları Arası)">YOĞ. (' + y1 + '-' + y2 + ')</th>';
+        else if (i === 0) html += '<th class="hisse-col">' + escapeHtml(baslikMetni) + '</th>';
         else html += '<th>' + escapeHtml(baslikMetni) + '</th>';
       }
-      html += '<th class="tight-col" title="Seçilen Yıllar Arası Bileşik Temettü Büyüme Hızı">TEMETTÜ BÜYÜME HIZI</th>';
-      html += '<th class="trend-col" title="Son 8 Yılın Dağıtılan TL Trendi">TREND</th>';
+      html += '<th class="tight-col tbh-header-col" title="Seçilen Yıllar Arası Bileşik Temettü Büyüme Hızı">TEMETTÜ BÜYÜME HIZI</th>';
+      html += '<th class="trend-col trend-header-col" title="Son 8 Yılın Dağıtılan TL Trendi">TREND</th>';
       html += '</tr><tr>';
 
       for (var i = 0; i <= idxYogunluk; i++) {
         if (skipIndices.indexOf(i) > -1) continue;
-        if (i === 0) html += '<th><select id="filterHisse" class="col-filter" onchange="uygula()"><option value="TÜMÜ">Tümü</option></select></th>';
-        else if (i === 1) html += '<th class="arz-col"></th>';
+        if (i === 0) html += '<th class="hisse-col"><select id="filterHisse" class="col-filter" onchange="uygula()"><option value="TÜMÜ">Tümü</option></select></th>';
+        else if (i === 1) html += '<th class="arz-col arz-header-col"></th>';
         else if (i === idxYogunluk) html += '<th class="tight-col"></th>'; 
         else html += '<th><select class="col-filter year-sort" onchange="sira(this)"><option value="">Sırala</option><option value="DESC">Büyük</option><option value="ASC">Küçük</option></select></th>';
       }
-      html += '<th class="tight-col"><div class="tbh-select-wrap"><select id="tbhBasYil" class="col-filter" onchange="this.blur(); tbhGuncelle()">' + basOptionsHtml + '</select><span style="font-weight:bold; color:#5f6368; font-size:12px; margin: 0 1px;">→</span><select id="tbhBitYil" class="col-filter" onchange="this.blur(); tbhGuncelle()">' + bitOptionsHtml + '</select></div></th>';
-      html += '<th class="trend-col"></th>';
+      html += '<th class="tight-col tbh-header-col"><div class="tbh-select-wrap"><select id="tbhBasYil" class="col-filter" onchange="this.blur(); tbhGuncelle()">' + basOptionsHtml + '</select><span style="font-weight:bold; color:#5f6368; font-size:12px; margin: 0 1px;">→</span><select id="tbhBitYil" class="col-filter" onchange="this.blur(); tbhGuncelle()">' + bitOptionsHtml + '</select></div></th>';
+      html += '<th class="trend-col trend-header-col"></th>';
       html += '</tr></thead><tbody id="tabloGovdesi">';
 
       var islenmisSatirlar = [];
@@ -655,7 +673,6 @@
         if (rawHisseKodu === undefined || rawHisseKodu === null || rawHisseKodu.toString().trim() === "") continue;
         var temizKod = rawHisseKodu.toString().trim().toUpperCase();
 
-        // T.B.H. ve Artış Serisi için Kümülatif Bedelsiz Düzeltmeli DPS Dizisi
         var duzeltilmisSatir = [satir[0], satir[1]];
         var kumulatifBedelsizCarpani = 1.0;
         for (var idxB = 2; idxB < idxYogunluk; idxB++) {
@@ -663,7 +680,6 @@
           var tDegerB = sayiyaCevir(satir[idxB]);
           var hbDegerB = hisseBasiSutunuVarMi ? (hisseBasiMap[temizKod + "_" + yilBaslikB] || 0) : 0;
           
-          // Yıl İçi Bedelsiz Önceliği: Bedelsiz önce uygulanır, temettü yeni lot sayısına göre ayarlanır
           var bOran = bedelsizMap[temizKod + "_" + yilBaslikB] || 0;
           if (bOran > 0) {
             kumulatifBedelsizCarpani = kumulatifBedelsizCarpani * (1 + (bOran / 100));
@@ -702,7 +718,6 @@
             var tdClassAttr = bedelsizOrani > 0 ? ' class="bedelsiz-hucre"' : '';
             var titleAttr = bedelsizOrani > 0 ? ' title="Ayrıca %' + fmtBedelsiz + ' Bedelsiz"' : '';
 
-            // Dinamik Yoğunluk Hesabı İçin Potansiyel Fırsat Sayısı
             if (!isNaN(sutunYiliNum) && sutunYiliNum >= minGorunurYil && sutunYiliNum <= guncelYil) {
                maxOdeme10++;
                if (sutunYiliNum >= min5Yil) maxOdeme5++;
@@ -736,7 +751,7 @@
               if (bedelsizOrani > 0) formatliMiktarHover += ' (Ayrıca %' + fmtBedelsiz + ' Bedelsiz)';
               
               var spanGosterilecek = '<span class="' + spanClass + '"' + titleAttr + '>' + gosterilecekMetin + '</span>';
-              icSutunlarHtml += '<td data-value="' + rawValue + '"' + tdClassAttr + '>' + spanGosterilecek + '<span class="info-icon" title="Miktar: ' + formatliMiktarHover + '" onclick="event.stopPropagation(); gosterBilgi(\'' + temizKod + '\', \'' + sutunYili + '\', ' + rawValue + ', ' + bedelsizOrani + ')">ℹ️</span></td>';
+              icSutunlarHtml += '<td data-value="' + rawValue + '"' + tdClassAttr + '>' + spanGosterilecek + '<span class="info-icon" title="Miktar: ' + formatliMiktarHover + '" onclick="event.stopPropagation(); gosterBilgi(\'' + temizKod + '\', \'' + sutunYili + '\', ' + rawValue + ', ' + bedelsizOrani + ')">ℹ️️</span></td>';
             } else {
               if (bedelsizOrani > 0) {
                 var formatliMiktarHover = 'Nakit Yok (Sadece %' + fmtBedelsiz + ' Bedelsiz)';
@@ -784,13 +799,11 @@
         var ortalamaVerim5 = odemeYaptigiYilSayisi5 > 0 ? (toplamVerim5Yil / odemeYaptigiYilSayisi5) : 0;
         var ortalamaVerim3 = odemeYaptigiYilSayisi3 > 0 ? (toplamVerim3Yil / odemeYaptigiYilSayisi3) : 0;
         
-        // Dönem Bazlı Yoğunluk Hesabı
         var yogunluk3 = maxOdeme3 > 0 ? (odemeYaptigiYilSayisi3 / maxOdeme3) : 0;
         var yogunluk5 = maxOdeme5 > 0 ? (odemeYaptigiYilSayisi5 / maxOdeme5) : 0;
 
         icSutunlarHtml += '<td class="trend-col">' + sparklineOlustur(sparkDegerler.slice(-8)) + '</td>';
 
-        // Artış Serisi hesabı
         var tumYillarTutar = [];
         var tumYillarAdjDPS = [];
         
@@ -818,10 +831,8 @@
                 
                 while (currIdx > 0) {
                     var prevIdx = currIdx - 1;
-                    
                     var currTutar = tumYillarTutar[currIdx];
                     var currAdjDPS = tumYillarAdjDPS[currIdx];
-                    
                     var prevTutar = tumYillarTutar[prevIdx];
                     var prevAdjDPS = tumYillarAdjDPS[prevIdx];
                     
@@ -923,10 +934,16 @@
       var hSel = document.getElementById("filterHisse");
       Array.from(hSet).sort().forEach(v => hSel.innerHTML += '<option value="' + v + '">' + v + '</option>');
 
-      var firstRow = document.querySelector("thead tr:nth-child(1)");
-      document.querySelectorAll("thead tr:nth-child(2) th").forEach(th => {
-        if (firstRow) th.style.top = firstRow.offsetHeight + "px";
-      });
+      // YENİ: Sabit Başlık (Sticky Header) Kayması Düzeltildi
+      function hizalaBaslik() {
+        var firstRow = document.querySelector("thead tr:nth-child(1)");
+        document.querySelectorAll("thead tr:nth-child(2) th").forEach(th => {
+          if (firstRow) th.style.top = firstRow.offsetHeight + "px";
+        });
+      }
+      hizalaBaslik();
+      window.addEventListener('resize', hizalaBaslik);
+      if(document.fonts) { document.fonts.ready.then(hizalaBaslik); }
     }
 
     function sira(s) {
@@ -997,7 +1014,7 @@
       if (fD !== "TÜMÜ") {
         chipEkle('<div class="chip">Son ' + escapeHtml(fD) + ' Yıl<span onclick="document.getElementById(\'filterDonem\').value=\'TÜMÜ\';uygula();">✕</span></div>');
       }
-      if (fV !== "TÜMÜ") chipEkle('<div class="chip">Verim > %' + escapeHtml(fV) + '<span onclick="document.getElementById(\'filterVerim\').value=\'TÜMÜ\';uygula();">✕</span></div>');
+      if (fV !== "TÜMÜ") chipEkle('<div class="chip">Verim ≥ %' + escapeHtml(fV) + '<span onclick="document.getElementById(\'filterVerim\').value=\'TÜMÜ\';uygula();">✕</span></div>');
       if (genelSort.value) chipEkle('<div class="chip">' + escapeHtml(genelSort.options[genelSort.selectedIndex].text) + '<span onclick="document.getElementById(\'genelSirala\').value=\'\';uygula();">✕</span></div>');
     }
 
