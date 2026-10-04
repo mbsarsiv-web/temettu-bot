@@ -23,11 +23,13 @@
     .ticker-title { background: #1a73e8; color: #ffffff; font-weight: 700; padding: 2px 8px; border-radius: 4px; margin-right: 10px; font-size: 11px; letter-spacing: 0.4px; display: inline-block; pointer-events: none; }
     .ticker-title.five-yr { background: #0f9d58; margin-left: 35px; }
     .ticker-title.streak-yr { background: #e37400; margin-left: 35px; }
+    .ticker-title.payer-yr { background: #8e24aa; margin-left: 35px; }
     .ticker-item { display: inline-block; margin-right: 16px; font-weight: 500; pointer-events: none; }
     .ticker-rank { color: #5f6368; font-weight: 700; margin-right: 2px; }
     .ticker-code { color: #202124; font-weight: 700; }
     .ticker-val { color: #0f9d58; font-weight: 700; margin-left: 3px; }
     .ticker-streak-val { color: #e37400; font-weight: 700; margin-left: 3px; }
+    .ticker-payer-val { color: #8e24aa; font-weight: 700; margin-left: 3px; }
 
     .icon-btn { border: 1px solid #dadce0; background: #fff; border-radius: 6px; padding: 6px 12px; font-size: 12px; color: #3c4043; cursor: pointer; font-family: 'Google Sans Text'; display: flex; align-items: center; gap: 5px; transition: background 0.2s; }
     .icon-btn:hover { background: #f1f3f4; }
@@ -442,6 +444,15 @@
       });
       topArtis = topArtis.slice(0, 15);
 
+      // YENİ FİLTRE: 1990'dan Bugüne En Çok Temettü Ödeyenler (Toplam Yıl)
+      let topOdeyenler = sampiyonAdaylari.slice().filter(function(x) { return x.toplamOdemeAdedi > 0; });
+      topOdeyenler.sort(function(a, b) {
+        if (b.toplamOdemeAdedi !== a.toplamOdemeAdedi) return b.toplamOdemeAdedi - a.toplamOdemeAdedi;
+        if (Math.abs(b.ortalamaVerim - a.ortalamaVerim) > 0.0001) return b.ortalamaVerim - a.ortalamaVerim;
+        return a.hisse.localeCompare(b.hisse);
+      });
+      topOdeyenler = topOdeyenler.slice(0, 15);
+
       let parcaHtml = '';
 
       if (top10.length > 0) {
@@ -464,6 +475,13 @@
         parcaHtml += '<span class="ticker-title streak-yr">📈 DÜZENLİ TEMETTÜ ARTIRANLAR</span>';
         for (let k = 0; k < topArtis.length; k++) {
           parcaHtml += '<span class="ticker-item"><span class="ticker-rank">' + (k + 1) + '.</span> <span class="ticker-code">' + escapeHtml(topArtis[k].hisse) + '</span><span class="ticker-streak-val">(' + topArtis[k].artisSerisi + ' Yıl)</span></span>';
+        }
+      }
+
+      if (topOdeyenler.length > 0) {
+        parcaHtml += '<span class="ticker-title payer-yr">🥇 DÜZENLİ TEMETTÜ ÖDEYENLER (1990\'DAN BUGÜNE)</span>';
+        for (let m = 0; m < topOdeyenler.length; m++) {
+          parcaHtml += '<span class="ticker-item"><span class="ticker-rank">' + (m + 1) + '.</span> <span class="ticker-code">' + escapeHtml(topOdeyenler[m].hisse) + '</span><span class="ticker-payer-val">(' + topOdeyenler[m].toplamOdemeAdedi + ' Yıl)</span></span>';
         }
       }
 
@@ -841,10 +859,12 @@
         let tumYillarTutar = [];
         let tumYillarAdjDPS = [];
         let tumYillarBedelsiz = [];
+        let toplamOdemeAdedi1990 = 0; // Yeni 1990'dan Bugüne Ödeme Sayacı
         
         for (let idxY = 2; idxY < idxYogunluk; idxY++) {
           let tDeger = sayiyaCevir(satir[idxY]); 
           tumYillarTutar.push(tDeger);
+          if (tDeger > 0) toplamOdemeAdedi1990++; // Temettü verdi ise sayacı artır
           tumYillarAdjDPS.push(duzeltilmisSatir[idxY] || 0);
           
           let sutunYili = orjBasliklarTumu[idxY];
@@ -906,7 +926,8 @@
           toplam10: sampiyon10Toplam,
           toplam5: sampiyon5Toplam,
           artisSerisi: artisSerisi,
-          ortalamaVerim: ortalamaVerim
+          ortalamaVerim: ortalamaVerim,
+          toplamOdemeAdedi: toplamOdemeAdedi1990
         });
 
         let ortVerimFormatli = odemeYaptigiYilSayisi > 0 ? "%" + ortalamaVerim.toFixed(2) : "?";
