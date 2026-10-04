@@ -882,15 +882,12 @@
                     }
                     
                     // KURAL 2: Gerçek ve Tavizsiz Artış Kuralı
-                    // Sabit kalan (eşit ödeyen) yılları reddetmek için minimum %0.1 artış katsayısı kullanıyoruz.
                     let isDPSArtmis = false;
                     let minArtisKatsayisi = 1.001; 
                     
                     if (currAdjDPS > 0 && prevAdjDPS > 0) {
-                        // Birincil Kriter: Yatırımcının lot bazında elde ettiği düzeltilmiş nakit getirisi
                         isDPSArtmis = currAdjDPS >= (prevAdjDPS * minArtisKatsayisi);
                     } else {
-                        // İkincil Kriter: Toplam dağıtılan nakit tutara bakılır
                         isDPSArtmis = currTutar >= (prevTutar * minArtisKatsayisi);
                     }
                     
