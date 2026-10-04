@@ -17,14 +17,13 @@
     .header h2 { margin: 0; color: #202124; font-size: 18px; letter-spacing: 0.5px; }
     .update-text { font-size: 12px; color: #5f6368; font-weight: 500; letter-spacing: 0.5px; position: absolute; right: 0; display: flex; align-items: center; gap: 10px; }
     
-    .ticker-wrap { background: #ffffff; margin: 6px 10px 0 10px; border-radius: 6px; box-shadow: 0 1px 4px rgba(0,0,0,0.05); overflow: hidden; height: 26px; display: flex; align-items: center; border: 1px solid #e0e0e0; flex-shrink: 0; }
-    .ticker-move { display: inline-block; white-space: nowrap; padding-left: 20px; animation: tickerScroll 140s linear infinite; font-size: 12px; color: #3c4043; }
-    .ticker-wrap:hover .ticker-move { animation-play-state: paused; }
-    @keyframes tickerScroll { 0% { transform: translate3d(0, 0, 0); } 100% { transform: translate3d(-50%, 0, 0); } }
-    .ticker-title { background: #1a73e8; color: #ffffff; font-weight: 700; padding: 2px 8px; border-radius: 4px; margin-right: 10px; font-size: 11px; letter-spacing: 0.4px; display: inline-block; }
+    .ticker-wrap { background: #ffffff; margin: 6px 10px 0 10px; border-radius: 6px; box-shadow: 0 1px 4px rgba(0,0,0,0.05); overflow-x: auto; overflow-y: hidden; height: 26px; display: flex; align-items: center; border: 1px solid #e0e0e0; flex-shrink: 0; user-select: none; -webkit-overflow-scrolling: touch; }
+    .ticker-wrap::-webkit-scrollbar { display: none; }
+    .ticker-move { display: inline-block; white-space: nowrap; padding-left: 10px; font-size: 12px; color: #3c4043; }
+    .ticker-title { background: #1a73e8; color: #ffffff; font-weight: 700; padding: 2px 8px; border-radius: 4px; margin-right: 10px; font-size: 11px; letter-spacing: 0.4px; display: inline-block; pointer-events: none; }
     .ticker-title.five-yr { background: #0f9d58; margin-left: 35px; }
     .ticker-title.streak-yr { background: #e37400; margin-left: 35px; }
-    .ticker-item { display: inline-block; margin-right: 16px; font-weight: 500; }
+    .ticker-item { display: inline-block; margin-right: 16px; font-weight: 500; pointer-events: none; }
     .ticker-rank { color: #5f6368; font-weight: 700; margin-right: 2px; }
     .ticker-code { color: #202124; font-weight: 700; }
     .ticker-val { color: #0f9d58; font-weight: 700; margin-left: 3px; }
@@ -476,6 +475,7 @@
       if (banner && content) {
         content.innerHTML = tamIcerik;
         banner.style.display = 'flex';
+        suruklenebilirKayanYaziBaslat(); // Sürükleme fonksiyonunu tetikle
       }
     }
 
@@ -729,7 +729,7 @@
             } else {
               if (bedelsizOrani > 0) {
                 let formatliMiktarHover = 'Nakit Yok (Sadece %' + fmtBedelsiz + ' Bedelsiz)';
-                icSutunlarHtml += '<td data-value="0" class="empty-cell bedelsiz-hucre"><span title="Sadece %' + fmtBedelsiz + ' Bedelsiz Bölünme">-</span><span class="info-icon" title="' + formatliMiktarHover + '" onclick="event.stopPropagation(); gosterBilgi(\'' + temizKod + '\', \'' + sutunYili + '\', \'0\', ' + bedelsizOrani + ')">ℹ️️</span></td>';
+                icSutunlarHtml += '<td data-value="0" class="empty-cell bedelsiz-hucre"><span title="Sadece %' + fmtBedelsiz + ' Bedelsiz Bölünme">-</span><span class="info-icon" title="' + formatliMiktarHover + '" onclick="event.stopPropagation(); gosterBilgi(\'' + temizKod + '\', \'' + sutunYili + '\', \'0\', ' + bedelsizOrani + ')">ℹ️</span></td>';
               } else {
                 icSutunlarHtml += '<td data-value="0" class="empty-cell">-</td>';
               }
@@ -778,7 +778,6 @@
 
         icSutunlarHtml += '<td class="trend-col">' + sparklineOlustur(sparkDegerler.slice(-8)) + '</td>';
 
-        // GÜNCEL DÜZENLİ TEMETTÜ ARTIRANLAR ALGORİTMASI (Total Cash Mantığı)
         let tumYillarTutar = [];
         let tumYillarBedelsiz = [];
         
@@ -815,12 +814,10 @@
                     let currBedelsiz = tumYillarBedelsiz[currIdx];
                     let prevBedelsiz = tumYillarBedelsiz[prevIdx];
                     
-                    // Önceki yıl nakit de vermediyse bedelsiz de vermediyse seri kopar
                     if (prevTutar <= 0 && prevBedelsiz <= 0) {
                         break;
                     }
                     
-                    // Şirketin dağıttığı nakit tutar bir önceki yıla göre arttıysa veya o yıl bedelsiz verdiyse seri devam eder
                     let isTutarArtmis = (currTutar - prevTutar) > 0.0001;
                     let bedelsizVerdi = (currBedelsiz > 0);
                     
@@ -1158,7 +1155,7 @@
     }
 
     const GAS_API_URL = "https://script.google.com/macros/s/AKfycbxo9u41oj1aXxgkuE7gTnHdeG_mzT41o3WmaYhhqNNUJi_NTDzLOmSBSnHAhfsvhOiK/exec";
-    const CACHE_KEY = "temettuTabloCacheV4";
+    const CACHE_KEY = "temettuTabloCacheV5";
 
     function gosterHata(mesaj) {
       document.getElementById('tableContainer').innerHTML = '<div class="error-msg">' + mesaj + '<br><br><button class="modal-btn" onclick="veriCek()">Tekrar Dene</button></div>';
@@ -1175,7 +1172,7 @@
       if (cachedStr) {
         try {
           let parsed = JSON.parse(cachedStr);
-          if (parsed.v === 4 && parsed.data) {
+          if (parsed.v === 5 && parsed.data) {
             tabloyuCiz(parsed.data);
             uygula();
             document.getElementById('updateDateText').innerText = 'SON GÜNCELLEME: ' + escapeHtml(parsed.data.sonGuncelleme) + ' (Önbellek)';
@@ -1198,7 +1195,7 @@
             gosterHata("Sunucu hatası: " + escapeHtml(data.hata));
           } else {
             try {
-              localStorage.setItem(CACHE_KEY, JSON.stringify({ v: 4, data: data }));
+              localStorage.setItem(CACHE_KEY, JSON.stringify({ v: 5, data: data }));
             } catch(e) {
               console.warn("Önbelleğe yazılamadı:", e);
             }
@@ -1212,6 +1209,57 @@
             gosterHata("Veriler yüklenemedi: " + escapeHtml(hata.message));
           }
         });
+    }
+
+    let tickerAnimationId;
+    function suruklenebilirKayanYaziBaslat() {
+      const wrapper = document.getElementById('tickerBanner');
+      const content = document.getElementById('tickerContent');
+      if (!wrapper || !content) return;
+
+      cancelAnimationFrame(tickerAnimationId);
+      
+      let isDown = false;
+      let isHovered = false;
+      let startX;
+      let scrollLeft;
+      
+      if (!wrapper.dataset.draggable) {
+        wrapper.dataset.draggable = "true";
+        wrapper.style.cursor = 'grab';
+        
+        wrapper.addEventListener('mousedown', (e) => { isDown = true; wrapper.style.cursor = 'grabbing'; startX = e.pageX - wrapper.offsetLeft; scrollLeft = wrapper.scrollLeft; });
+        wrapper.addEventListener('mouseleave', () => { isDown = false; isHovered = false; wrapper.style.cursor = 'grab'; });
+        wrapper.addEventListener('mouseenter', () => { isHovered = true; }); 
+        wrapper.addEventListener('mouseup', () => { isDown = false; wrapper.style.cursor = 'grab'; });
+        wrapper.addEventListener('mousemove', (e) => { 
+            if (!isDown) return; 
+            e.preventDefault(); 
+            const x = e.pageX - wrapper.offsetLeft; 
+            const walk = (x - startX) * 1.5; 
+            wrapper.scrollLeft = scrollLeft - walk; 
+        });
+        
+        wrapper.addEventListener('touchstart', (e) => { isDown = true; isHovered = true; startX = e.touches[0].pageX - wrapper.offsetLeft; scrollLeft = wrapper.scrollLeft; }, {passive: true});
+        wrapper.addEventListener('touchend', () => { isDown = false; isHovered = false; });
+        wrapper.addEventListener('touchmove', (e) => { 
+            if (!isDown) return; 
+            const x = e.touches[0].pageX - wrapper.offsetLeft; 
+            const walk = (x - startX) * 1.5; 
+            wrapper.scrollLeft = scrollLeft - walk; 
+        }, {passive: true});
+      }
+
+      function step() {
+        if (!isDown && !isHovered && wrapper.style.display !== 'none') {
+          wrapper.scrollLeft += 0.6; 
+          if (wrapper.scrollLeft >= content.scrollWidth / 2) {
+            wrapper.scrollLeft = 0; 
+          }
+        }
+        tickerAnimationId = requestAnimationFrame(step);
+      }
+      tickerAnimationId = requestAnimationFrame(step);
     }
 
     veriCek();
