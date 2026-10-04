@@ -710,7 +710,6 @@
         }
         islenmisHisselerSet.add(temizKod);
 
-        // Dinamik büyüme hesapları için düzeltilmiş satırları oluşturuyoruz
         let duzeltilmisSatir = [satir[0], satir[1]];
         for (let idxB = 2; idxB < idxYogunluk; idxB++) {
           let yilBaslikB = parseInt(orjBasliklarTumu[idxB].toString().trim());
@@ -878,16 +877,17 @@
                         break;
                     }
                     
-                    // KURAL 2: Bedelsiz ve Temettü Harmanlaması (Profesyonel Büyüme Analizi)
+                    // KURAL 2: Tavizsiz Artış Kuralı (Sabit Kalmak Kabul Edilmez)
+                    // Sabit kalan (eşit ödeyen) yılları "artış" kabul etmemek için minimum %0.1'lik gerçek artış katsayısı kullanıyoruz.
                     let isDPSArtmis = false;
-                    let tolerans = 0.99; // BIST'te %1'lik kuruş/küsurat yuvarlama payı
+                    let minArtisKatsayisi = 1.001; 
                     
                     if (currAdjDPS > 0 && prevAdjDPS > 0) {
                         // Birincil Kriter: Yatırımcının başlangıç lot bazında elde ettiği düzeltilmiş nakit getirisi
-                        isDPSArtmis = currAdjDPS >= (prevAdjDPS * tolerans);
+                        isDPSArtmis = currAdjDPS >= (prevAdjDPS * minArtisKatsayisi);
                     } else {
                         // İkincil Kriter: Toplam dağıtılan nakit tutara bakılır
-                        isDPSArtmis = currTutar >= (prevTutar * tolerans);
+                        isDPSArtmis = currTutar >= (prevTutar * minArtisKatsayisi);
                     }
                     
                     if (isDPSArtmis) {
