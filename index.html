@@ -475,7 +475,7 @@
       if (banner && content) {
         content.innerHTML = tamIcerik;
         banner.style.display = 'flex';
-        suruklenebilirKayanYaziBaslat(); // Sürükleme fonksiyonunu tetikle
+        suruklenebilirKayanYaziBaslat(); 
       }
     }
 
@@ -778,6 +778,7 @@
 
         icSutunlarHtml += '<td class="trend-col">' + sparklineOlustur(sparkDegerler.slice(-8)) + '</td>';
 
+        // GÜNCEL DÜZENLİ TEMETTÜ ARTIRANLAR ALGORİTMASI (Tavizsiz Kesin Kurallar)
         let tumYillarTutar = [];
         let tumYillarBedelsiz = [];
         
@@ -792,19 +793,13 @@
 
         let artisSerisi = 0;
         if (tumYillarTutar.length > 0) {
-            let sonAktifIdx = -1;
-            let sonAktifYil = 0;
+            let sonAktifIdx = tumYillarTutar.length - 1; 
+            let sonNakit = tumYillarTutar[sonAktifIdx];
+            let oncekiNakit = sonAktifIdx > 0 ? tumYillarTutar[sonAktifIdx - 1] : 0;
             
-            for (let k = tumYillarTutar.length - 1; k >= 0; k--) {
-                if (tumYillarTutar[k] > 0 || tumYillarBedelsiz[k] > 0) {
-                    sonAktifIdx = k;
-                    sonAktifYil = parseInt(orjBasliklarTumu[k + 2]);
-                    break; 
-                }
-            }
-
-            if (sonAktifIdx > 0 && sonAktifYil >= (guncelYil - 1)) {
-                let currIdx = sonAktifIdx;
+            // Eğer son 2 yılda HİÇ nakit yoksa, bedelsiz olsa dahi listeye giremez.
+            if (sonNakit > 0 || oncekiNakit > 0) {
+                let currIdx = sonNakit > 0 ? sonAktifIdx : sonAktifIdx - 1;
                 
                 while (currIdx > 0) {
                     let prevIdx = currIdx - 1;
@@ -812,15 +807,21 @@
                     let currTutar = tumYillarTutar[currIdx];
                     let prevTutar = tumYillarTutar[prevIdx];
                     let currBedelsiz = tumYillarBedelsiz[currIdx];
-                    let prevBedelsiz = tumYillarBedelsiz[prevIdx];
                     
-                    if (prevTutar <= 0 && prevBedelsiz <= 0) {
+                    // KURAL 1: Değerlendirilen yıl NAKİT temettü YOKSA, bedelsiz olsa bile seri KOPAR!
+                    if (currTutar <= 0) {
+                        break;
+                    }
+                    
+                    // KURAL 2: Bir önceki yıl hiçbir şey (nakit veya bedelsiz) yoksa seri KOPAR!
+                    if (prevTutar <= 0 && tumYillarBedelsiz[prevIdx] <= 0) {
                         break;
                     }
                     
                     let isTutarArtmis = (currTutar - prevTutar) > 0.0001;
                     let bedelsizVerdi = (currBedelsiz > 0);
                     
+                    // KURAL 3: Nakit arttıysa VEYA nakit düşse bile o yıl bedelsiz verdiyse seri devam eder
                     if (isTutarArtmis || bedelsizVerdi) {
                         artisSerisi++;       
                         currIdx = prevIdx;   
@@ -1155,7 +1156,7 @@
     }
 
     const GAS_API_URL = "https://script.google.com/macros/s/AKfycbxo9u41oj1aXxgkuE7gTnHdeG_mzT41o3WmaYhhqNNUJi_NTDzLOmSBSnHAhfsvhOiK/exec";
-    const CACHE_KEY = "temettuTabloCacheV5";
+    const CACHE_KEY = "temettuTabloCacheV6";
 
     function gosterHata(mesaj) {
       document.getElementById('tableContainer').innerHTML = '<div class="error-msg">' + mesaj + '<br><br><button class="modal-btn" onclick="veriCek()">Tekrar Dene</button></div>';
@@ -1172,7 +1173,7 @@
       if (cachedStr) {
         try {
           let parsed = JSON.parse(cachedStr);
-          if (parsed.v === 5 && parsed.data) {
+          if (parsed.v === 6 && parsed.data) {
             tabloyuCiz(parsed.data);
             uygula();
             document.getElementById('updateDateText').innerText = 'SON GÜNCELLEME: ' + escapeHtml(parsed.data.sonGuncelleme) + ' (Önbellek)';
@@ -1195,7 +1196,7 @@
             gosterHata("Sunucu hatası: " + escapeHtml(data.hata));
           } else {
             try {
-              localStorage.setItem(CACHE_KEY, JSON.stringify({ v: 5, data: data }));
+              localStorage.setItem(CACHE_KEY, JSON.stringify({ v: 6, data: data }));
             } catch(e) {
               console.warn("Önbelleğe yazılamadı:", e);
             }
