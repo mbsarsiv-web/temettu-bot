@@ -1,9 +1,8 @@
-name: Haftalık Temettü Verisi Çek
+name: Günlük Temettü Verisi Çek
 
 on:
   schedule:
-    # Cumartesi günü saat 03:00'te çalışır (UTC saatiyle 00:00)
-    - cron: '0 0 * * 6'
+    - cron: '0 0 * * *'
   workflow_dispatch:
 
 jobs:
@@ -12,10 +11,10 @@ jobs:
 
     steps:
     - name: Repoyu Klonla
-      uses: actions/checkout@v4  # <-- UYARIYI ÇÖZEN GÜNCELLEME (v3 idi, v4 oldu)
+      uses: actions/checkout@v4
 
     - name: Python Kurulumu
-      uses: actions/setup-python@v5  # <-- UYARIYI ÇÖZEN GÜNCELLEME (v4 idi, v5 oldu)
+      uses: actions/setup-python@v5
       with:
         python-version: '3.10'
 
