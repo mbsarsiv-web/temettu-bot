@@ -834,10 +834,10 @@
 
         icSutunlarHtml += '<td class="trend-col">' + sparklineOlustur(sparkDegerler.slice(-8)) + '</td>';
 
-        // GÜNCEL DÜZENLİ TEMETTÜ ARTIRANLAR ALGORİTMASI (Tavizsiz Kesin Kurallar & adjDPS Kullanımı)
+        // GÜNCEL DÜZENLİ TEMETTÜ ARTIRANLAR ALGORİTMASI (Profesyonel Harmanlanmış Model)
         let tumYillarTutar = [];
-        let tumYillarBedelsiz = [];
         let tumYillarAdjDPS = [];
+        let tumYillarBedelsiz = [];
         
         for (let idxY = 2; idxY < idxYogunluk; idxY++) {
           let tDeger = sayiyaCevir(satir[idxY]); 
@@ -872,18 +872,25 @@
                     let prevTutar = tumYillarTutar[prevIdx];
                     let currAdjDPS = tumYillarAdjDPS[currIdx];
                     let prevAdjDPS = tumYillarAdjDPS[prevIdx];
-                    let currBedelsiz = tumYillarBedelsiz[currIdx];
                     
-                    // KURAL 1 & 2: Nakit yoksa acımasızca kopar (ALGYO kuralı).
+                    // KURAL 1: Nakit temettü yoksa seri kesinlikle biter.
                     if (currTutar <= 0 || prevTutar <= 0) {
                         break;
                     }
                     
-                    // KURAL 3: Düzeltilmiş hisse başı nakit artmalı YADA bedelsiz vermiş olmalı (SARKY kuralı)
-                    let isDPSArtmis = (currAdjDPS - prevAdjDPS) > 0.00001;
-                    let bedelsizVerdi = (currBedelsiz > 0);
+                    // KURAL 2: Bedelsiz ve Temettü Harmanlaması (Profesyonel Büyüme Analizi)
+                    let isDPSArtmis = false;
+                    let tolerans = 0.99; // BIST'te %1'lik kuruş/küsurat yuvarlama payı
                     
-                    if (isDPSArtmis || bedelsizVerdi) {
+                    if (currAdjDPS > 0 && prevAdjDPS > 0) {
+                        // Birincil Kriter: Yatırımcının başlangıç lot bazında elde ettiği düzeltilmiş nakit getirisi
+                        isDPSArtmis = currAdjDPS >= (prevAdjDPS * tolerans);
+                    } else {
+                        // İkincil Kriter: Toplam dağıtılan nakit tutara bakılır
+                        isDPSArtmis = currTutar >= (prevTutar * tolerans);
+                    }
+                    
+                    if (isDPSArtmis) {
                         artisSerisi++;       
                         currIdx = prevIdx;   
                     } else {
