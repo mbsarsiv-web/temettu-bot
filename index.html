@@ -444,10 +444,10 @@
       });
       topArtis = topArtis.slice(0, 15);
 
-      // YENİ FİLTRE: 1990'dan Bugüne En Çok Temettü Ödeyenler (Toplam Yıl)
-      let topOdeyenler = sampiyonAdaylari.slice().filter(function(x) { return x.toplamOdemeAdedi > 0; });
+      // YENİ FİLTRE: Kesintisiz Temettü Ödeyenler (En az 3 yıl aralıksız ödeyenleri listeler)
+      let topOdeyenler = sampiyonAdaylari.slice().filter(function(x) { return x.odemeSerisi >= 3; });
       topOdeyenler.sort(function(a, b) {
-        if (b.toplamOdemeAdedi !== a.toplamOdemeAdedi) return b.toplamOdemeAdedi - a.toplamOdemeAdedi;
+        if (b.odemeSerisi !== a.odemeSerisi) return b.odemeSerisi - a.odemeSerisi;
         if (Math.abs(b.ortalamaVerim - a.ortalamaVerim) > 0.0001) return b.ortalamaVerim - a.ortalamaVerim;
         return a.hisse.localeCompare(b.hisse);
       });
@@ -479,9 +479,9 @@
       }
 
       if (topOdeyenler.length > 0) {
-        parcaHtml += '<span class="ticker-title payer-yr">🥇 DÜZENLİ TEMETTÜ ÖDEYENLER (1990\'DAN BUGÜNE)</span>';
+        parcaHtml += '<span class="ticker-title payer-yr">🥇 KESİNTİSİZ TEMETTÜ ÖDEYENLER</span>';
         for (let m = 0; m < topOdeyenler.length; m++) {
-          parcaHtml += '<span class="ticker-item"><span class="ticker-rank">' + (m + 1) + '.</span> <span class="ticker-code">' + escapeHtml(topOdeyenler[m].hisse) + '</span><span class="ticker-payer-val">(' + topOdeyenler[m].toplamOdemeAdedi + ' Yıl)</span></span>';
+          parcaHtml += '<span class="ticker-item"><span class="ticker-rank">' + (m + 1) + '.</span> <span class="ticker-code">' + escapeHtml(topOdeyenler[m].hisse) + '</span><span class="ticker-payer-val">(' + topOdeyenler[m].odemeSerisi + ' Yıl)</span></span>';
         }
       }
 
@@ -855,16 +855,14 @@
 
         icSutunlarHtml += '<td class="trend-col">' + sparklineOlustur(sparkDegerler.slice(-8)) + '</td>';
 
-        // GÜNCEL DÜZENLİ TEMETTÜ ARTIRANLAR ALGORİTMASI (Tavizsiz Büyüme Modeli)
+        // GÜNCEL DÜZENLİ TEMETTÜ ARTIRANLAR & ÖDEYENLER ALGORİTMASI
         let tumYillarTutar = [];
         let tumYillarAdjDPS = [];
         let tumYillarBedelsiz = [];
-        let toplamOdemeAdedi1990 = 0; // Yeni 1990'dan Bugüne Ödeme Sayacı
         
         for (let idxY = 2; idxY < idxYogunluk; idxY++) {
           let tDeger = sayiyaCevir(satir[idxY]); 
           tumYillarTutar.push(tDeger);
-          if (tDeger > 0) toplamOdemeAdedi1990++; // Temettü verdi ise sayacı artır
           tumYillarAdjDPS.push(duzeltilmisSatir[idxY] || 0);
           
           let sutunYili = orjBasliklarTumu[idxY];
@@ -873,6 +871,8 @@
         }
 
         let artisSerisi = 0;
+        let odemeSerisi = 0; // KESİNTİSİZ ÖDEME SERİSİ SAYACI
+
         if (tumYillarTutar.length > 0) {
             let sonAktifIdx = -1; 
             
@@ -886,8 +886,8 @@
             let guncelYilIdx = tumYillarTutar.length - 1;
 
             if (sonAktifIdx === guncelYilIdx || sonAktifIdx === guncelYilIdx - 1) {
+                // 1. TAVİZSİZ ARTIŞ SERİSİ
                 let currIdx = sonAktifIdx;
-                
                 while (currIdx > 0) {
                     let prevIdx = currIdx - 1;
                     
@@ -896,12 +896,10 @@
                     let currAdjDPS = tumYillarAdjDPS[currIdx];
                     let prevAdjDPS = tumYillarAdjDPS[prevIdx];
                     
-                    // KURAL 1: Nakit temettü yoksa seri kesinlikle biter.
                     if (currTutar <= 0 || prevTutar <= 0) {
                         break;
                     }
                     
-                    // KURAL 2: Gerçek ve Tavizsiz Artış Kuralı
                     let isDPSArtmis = false;
                     let minArtisKatsayisi = 1.001; 
                     
@@ -918,6 +916,13 @@
                         break; 
                     }
                 }
+
+                // 2. KESİNTİSİZ ÖDEME SERİSİ (Araya tek bir 0 girmeyen zincir)
+                let odemeIdx = sonAktifIdx;
+                while (odemeIdx >= 0 && tumYillarTutar[odemeIdx] > 0) {
+                    odemeSerisi++;
+                    odemeIdx--;
+                }
             }
         }
 
@@ -927,7 +932,7 @@
           toplam5: sampiyon5Toplam,
           artisSerisi: artisSerisi,
           ortalamaVerim: ortalamaVerim,
-          toplamOdemeAdedi: toplamOdemeAdedi1990
+          odemeSerisi: odemeSerisi // Yeni sayaç eklendi
         });
 
         let ortVerimFormatli = odemeYaptigiYilSayisi > 0 ? "%" + ortalamaVerim.toFixed(2) : "?";
