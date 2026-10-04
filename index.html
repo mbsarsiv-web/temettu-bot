@@ -513,25 +513,31 @@
 
       let verimMap = {};
       let bedelsizMap = {};
+      let eventsMap = {}; 
 
       if (verimVerisi && verimVerisi.length > 1) {
         let basliklarVerim = verimVerisi[0];
-        let kodIndeks = 0, yilIndeks = 1, verimIndeks = -1, bedelsizIndeks = -1;
+        let kodIndeks = 0, yilIndeks = 1, verimIndeks = -1, hisseBasiIndeks = -1, bedelsizIndeks = -1;
         for (let c = 0; c < basliklarVerim.length; c++) {
           let b = basliklarVerim[c].toString().toUpperCase().trim();
           if (b === "KOD" && kodIndeks === 0) kodIndeks = c;
           else if ((b === "YIL" || b === "TARIH" || b === "TARİH") && yilIndeks === 1) yilIndeks = c;
           else if (verimIndeks === -1 && (b.indexOf("VERIM") > -1 || b.indexOf("VERİM") > -1) && basliklarVerim[c].toString().trim() !== "") verimIndeks = c;
+          else if (hisseBasiIndeks === -1 && (b.indexOf("HISSE") > -1 || b.indexOf("HİSSE") > -1)) hisseBasiIndeks = c;
           else if (bedelsizIndeks === -1 && (b.indexOf("BEDELSIZ") > -1 || b.indexOf("BEDELSİZ") > -1 || (b.indexOf("ORAN") > -1 && b.indexOf("DAGITMA") === -1 && b.indexOf("DAĞITMA") === -1))) bedelsizIndeks = c;
         }
         
         if (verimIndeks === -1) { verimIndeks = 4; }
+        if (hisseBasiIndeks === -1 && basliklarVerim.length >= 6) { hisseBasiIndeks = 5; }
+        
+        let hisseBasiSutunuVarMi = (hisseBasiIndeks > -1);
         let bedelsizSutunuVarMi = (bedelsizIndeks > -1);
         
         for (let v = 1; v < verimVerisi.length; v++) {
           let kod = verimVerisi[v][kodIndeks];
           let tarih = verimVerisi[v][yilIndeks];
           let rawVerim = verimVerisi[v][verimIndeks];
+          let rawHB = hisseBasiSutunuVarMi ? verimVerisi[v][hisseBasiIndeks] : 0;
           let rawBedelsiz = bedelsizSutunuVarMi ? verimVerisi[v][bedelsizIndeks] : 0;
 
           if (!kod || !tarih) { continue; }
@@ -540,6 +546,7 @@
           let tStr = tarih.toString().trim();
           let yMatch = tStr.match(/(20\d\d|19\d\d)/);
           if (yMatch) yil = yMatch[1];
+          let yilNum = yil ? parseInt(yil) : 0;
           let tKod = kod.toString().trim().toUpperCase();
 
           if (yil) {
@@ -564,6 +571,43 @@
                 }
               }
             }
+          }
+
+          if (yilNum > 0) {
+            let tVal = parseDateSafely(tarih, yilNum);
+            let hb = verimSayisiCoz(rawHB);
+            let bd = verimSayisiCoz(rawBedelsiz);
+
+            if (!eventsMap[tKod]) eventsMap[tKod] = [];
+
+            if (!isNaN(bd) && bd > 0) {
+              eventsMap[tKod].push({ type: 'BEDELSIZ', time: tVal, val: bd, year: yilNum });
+            }
+            if (!isNaN(hb) && hb > 0) {
+              eventsMap[tKod].push({ type: 'TEMETTU', time: tVal, val: hb, year: yilNum });
+            }
+          }
+        }
+      }
+
+      // DÜZELTİLMİŞ HİSSE BAŞI TEMETTÜ (adjDPS) HESAPLAMA MOTORU
+      let adjDPSMap = {}; 
+      for (let tKod in eventsMap) {
+        let evs = eventsMap[tKod];
+        evs.sort((a, b) => {
+          if (a.time !== b.time) return a.time - b.time;
+          if (a.type === 'TEMETTU' && b.type === 'BEDELSIZ') return -1;
+          if (a.type === 'BEDELSIZ' && b.type === 'TEMETTU') return 1;
+          return 0;
+        }); 
+        
+        let lot = 1.0;
+        adjDPSMap[tKod] = {};
+        for (let e of evs) {
+          if (e.type === 'BEDELSIZ') {
+            lot = lot * (1 + (e.val / 100)); 
+          } else if (e.type === 'TEMETTU') {
+            adjDPSMap[tKod][e.year] = (adjDPSMap[tKod][e.year] || 0) + (e.val * lot); 
           }
         }
       }
@@ -665,6 +709,18 @@
           continue; 
         }
         islenmisHisselerSet.add(temizKod);
+
+        // Dinamik büyüme hesapları için düzeltilmiş satırları oluşturuyoruz
+        let duzeltilmisSatir = [satir[0], satir[1]];
+        for (let idxB = 2; idxB < idxYogunluk; idxB++) {
+          let yilBaslikB = parseInt(orjBasliklarTumu[idxB].toString().trim());
+          let aDPS = 0;
+          if (adjDPSMap[temizKod] && adjDPSMap[temizKod][yilBaslikB]) {
+              aDPS = adjDPSMap[temizKod][yilBaslikB];
+          }
+          duzeltilmisSatir.push(aDPS);
+        }
+        duzeltilmisSatir.push(satir[idxYogunluk]);
 
         let gData = getDynamicGrowthByYears(satir, VARSAYILAN_BAS_YIL, VARSAYILAN_BIT_YIL, GLOBAL_SLICE_BASLIKLAR);
 
@@ -778,13 +834,15 @@
 
         icSutunlarHtml += '<td class="trend-col">' + sparklineOlustur(sparkDegerler.slice(-8)) + '</td>';
 
-        // GÜNCEL DÜZENLİ TEMETTÜ ARTIRANLAR ALGORİTMASI (Tavizsiz Kesin Kurallar)
+        // GÜNCEL DÜZENLİ TEMETTÜ ARTIRANLAR ALGORİTMASI (Tavizsiz Kesin Kurallar & adjDPS Kullanımı)
         let tumYillarTutar = [];
         let tumYillarBedelsiz = [];
+        let tumYillarAdjDPS = [];
         
         for (let idxY = 2; idxY < idxYogunluk; idxY++) {
           let tDeger = sayiyaCevir(satir[idxY]); 
           tumYillarTutar.push(tDeger);
+          tumYillarAdjDPS.push(duzeltilmisSatir[idxY] || 0);
           
           let sutunYili = orjBasliklarTumu[idxY];
           let bedelsizOrani = bedelsizMap[temizKod + "_" + sutunYili] || 0;
@@ -793,36 +851,39 @@
 
         let artisSerisi = 0;
         if (tumYillarTutar.length > 0) {
-            let sonAktifIdx = tumYillarTutar.length - 1; 
-            let sonNakit = tumYillarTutar[sonAktifIdx];
-            let oncekiNakit = sonAktifIdx > 0 ? tumYillarTutar[sonAktifIdx - 1] : 0;
+            let sonAktifIdx = -1; 
             
-            // Eğer son 2 yılda HİÇ nakit yoksa, bedelsiz olsa dahi listeye giremez.
-            if (sonNakit > 0 || oncekiNakit > 0) {
-                let currIdx = sonNakit > 0 ? sonAktifIdx : sonAktifIdx - 1;
+            for (let k = tumYillarTutar.length - 1; k >= 0; k--) {
+                if (tumYillarTutar[k] > 0) {
+                    sonAktifIdx = k;
+                    break;
+                }
+            }
+            
+            let guncelYilIdx = tumYillarTutar.length - 1;
+
+            if (sonAktifIdx === guncelYilIdx || sonAktifIdx === guncelYilIdx - 1) {
+                let currIdx = sonAktifIdx;
                 
                 while (currIdx > 0) {
                     let prevIdx = currIdx - 1;
                     
                     let currTutar = tumYillarTutar[currIdx];
                     let prevTutar = tumYillarTutar[prevIdx];
+                    let currAdjDPS = tumYillarAdjDPS[currIdx];
+                    let prevAdjDPS = tumYillarAdjDPS[prevIdx];
                     let currBedelsiz = tumYillarBedelsiz[currIdx];
                     
-                    // KURAL 1: Değerlendirilen yıl NAKİT temettü YOKSA, bedelsiz olsa bile seri KOPAR!
-                    if (currTutar <= 0) {
+                    // KURAL 1 & 2: Nakit yoksa acımasızca kopar (ALGYO kuralı).
+                    if (currTutar <= 0 || prevTutar <= 0) {
                         break;
                     }
                     
-                    // KURAL 2: Bir önceki yıl hiçbir şey (nakit veya bedelsiz) yoksa seri KOPAR!
-                    if (prevTutar <= 0 && tumYillarBedelsiz[prevIdx] <= 0) {
-                        break;
-                    }
-                    
-                    let isTutarArtmis = (currTutar - prevTutar) > 0.0001;
+                    // KURAL 3: Düzeltilmiş hisse başı nakit artmalı YADA bedelsiz vermiş olmalı (SARKY kuralı)
+                    let isDPSArtmis = (currAdjDPS - prevAdjDPS) > 0.00001;
                     let bedelsizVerdi = (currBedelsiz > 0);
                     
-                    // KURAL 3: Nakit arttıysa VEYA nakit düşse bile o yıl bedelsiz verdiyse seri devam eder
-                    if (isTutarArtmis || bedelsizVerdi) {
+                    if (isDPSArtmis || bedelsizVerdi) {
                         artisSerisi++;       
                         currIdx = prevIdx;   
                     } else {
@@ -1156,7 +1217,7 @@
     }
 
     const GAS_API_URL = "https://script.google.com/macros/s/AKfycbxo9u41oj1aXxgkuE7gTnHdeG_mzT41o3WmaYhhqNNUJi_NTDzLOmSBSnHAhfsvhOiK/exec";
-    const CACHE_KEY = "temettuTabloCacheV6";
+    const CACHE_KEY = "temettuTabloCacheV8";
 
     function gosterHata(mesaj) {
       document.getElementById('tableContainer').innerHTML = '<div class="error-msg">' + mesaj + '<br><br><button class="modal-btn" onclick="veriCek()">Tekrar Dene</button></div>';
@@ -1173,7 +1234,7 @@
       if (cachedStr) {
         try {
           let parsed = JSON.parse(cachedStr);
-          if (parsed.v === 6 && parsed.data) {
+          if (parsed.v === 8 && parsed.data) {
             tabloyuCiz(parsed.data);
             uygula();
             document.getElementById('updateDateText').innerText = 'SON GÜNCELLEME: ' + escapeHtml(parsed.data.sonGuncelleme) + ' (Önbellek)';
@@ -1196,7 +1257,7 @@
             gosterHata("Sunucu hatası: " + escapeHtml(data.hata));
           } else {
             try {
-              localStorage.setItem(CACHE_KEY, JSON.stringify({ v: 6, data: data }));
+              localStorage.setItem(CACHE_KEY, JSON.stringify({ v: 8, data: data }));
             } catch(e) {
               console.warn("Önbelleğe yazılamadı:", e);
             }
