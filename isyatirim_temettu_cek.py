@@ -70,7 +70,8 @@ def parse_date_to_yyyymmdd(val):
 
 def fetch_splits_yahoo(kod):
     splits = []
-    url = f"https://query2.finance.yahoo.com/v8/finance/chart/{kod}.IS?interval=1mo&range=15y&events=split"
+    # Kapsam 1990'a kadar genişletilmesi için range=max yapıldı.
+    url = f"https://query2.finance.yahoo.com/v8/finance/chart/{kod}.IS?interval=1mo&range=max&events=split"
     headers = {"User-Agent": "Mozilla/5.0"}
     try:
         resp = requests.get(url, headers=headers, timeout=10)
@@ -240,7 +241,7 @@ def upload_to_drive(filename):
         print(f"{filename} Drive'a yeni dosya olarak yüklendi.")
 
 def main():
-    print("Sistem başlatılıyor...")
+    print("Sistem başlatılıyor... (Kapsam: 1990 - Günümüz)")
     session = get_session()
     tickers = get_all_tickers(session)
     print(f"Toplam {len(tickers)} adet hisse senedi bulundu.\n")
@@ -296,7 +297,6 @@ def main():
 
     df_splits_final = pd.DataFrame(columns=["Kod", "Yil", "Bedelsiz_Oran"])
     if all_extracted_splits:
-        # Zaman kaydırması kaldırıldı. Bedelsiz gerçekleştiği gerçek yılda kalacak.
         df_temp = pd.DataFrame(all_extracted_splits)
         def calc_compound(series):
             res = 1.0
@@ -376,7 +376,7 @@ def main():
     out_path = "bist_temettu_master.csv"
     df_master.to_csv(out_path, index=False, encoding="utf-8", decimal=".", sep=";")
     upload_to_drive(out_path)
-    print("\nGörev başarıyla tamamlandı! Bedelsiz tarihlerindeki zaman kaydırması kaldırıldı ve gerçek yıllar uygulandı.")
+    print("\nGörev başarıyla tamamlandı! Tüm veriler 1990 ve sonrasını kapsayacak şekilde Drive'a yüklendi.")
 
 if __name__ == "__main__":
     main()
