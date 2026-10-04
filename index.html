@@ -614,7 +614,11 @@
 
       let orjBasliklarTumu = veri[0];
       let idxYogunluk = orjBasliklarTumu.indexOf("YOĞUNLUK");
-      let idxGizli = orjBasliklarTumu.indexOf("GIZLI_2011_ADET");
+      
+      let idxGizli = orjBasliklarTumu.indexOf("GIZLI_1990_ADET");
+      if (idxGizli === -1) {
+          idxGizli = orjBasliklarTumu.indexOf("GIZLI_2011_ADET");
+      }
       
       if (idxYogunluk === -1) idxYogunluk = orjBasliklarTumu.length > 2 ? orjBasliklarTumu.length - 2 : 18;
       if (idxGizli === -1) idxGizli = orjBasliklarTumu.length > 1 ? orjBasliklarTumu.length - 1 : 19;
@@ -699,7 +703,7 @@
       for (let i = 1; i < veri.length; i++) {
         let satir = veri[i];
         let rawYogunluk = parseFloat(satir[idxYogunluk] ? satir[idxYogunluk].toString().replace(',', '.') : 0) || 0;
-        let gizliAdet2011 = parseInt(satir[idxGizli]) || 0;
+        let gizliAdet1990 = parseInt(satir[idxGizli]) || 0;
         
         let rawHisseKodu = satir[0];
         if (rawHisseKodu === undefined || rawHisseKodu === null || rawHisseKodu.toString().trim() === "") continue;
@@ -833,7 +837,7 @@
 
         icSutunlarHtml += '<td class="trend-col">' + sparklineOlustur(sparkDegerler.slice(-8)) + '</td>';
 
-        // GÜNCEL DÜZENLİ TEMETTÜ ARTIRANLAR ALGORİTMASI (Profesyonel Harmanlanmış Model)
+        // GÜNCEL DÜZENLİ TEMETTÜ ARTIRANLAR ALGORİTMASI (Tavizsiz Büyüme Modeli)
         let tumYillarTutar = [];
         let tumYillarAdjDPS = [];
         let tumYillarBedelsiz = [];
@@ -877,13 +881,13 @@
                         break;
                     }
                     
-                    // KURAL 2: Tavizsiz Artış Kuralı (Sabit Kalmak Kabul Edilmez)
-                    // Sabit kalan (eşit ödeyen) yılları "artış" kabul etmemek için minimum %0.1'lik gerçek artış katsayısı kullanıyoruz.
+                    // KURAL 2: Gerçek ve Tavizsiz Artış Kuralı
+                    // Sabit kalan (eşit ödeyen) yılları reddetmek için minimum %0.1 artış katsayısı kullanıyoruz.
                     let isDPSArtmis = false;
                     let minArtisKatsayisi = 1.001; 
                     
                     if (currAdjDPS > 0 && prevAdjDPS > 0) {
-                        // Birincil Kriter: Yatırımcının başlangıç lot bazında elde ettiği düzeltilmiş nakit getirisi
+                        // Birincil Kriter: Yatırımcının lot bazında elde ettiği düzeltilmiş nakit getirisi
                         isDPSArtmis = currAdjDPS >= (prevAdjDPS * minArtisKatsayisi);
                     } else {
                         // İkincil Kriter: Toplam dağıtılan nakit tutara bakılır
@@ -933,7 +937,7 @@
         expandHtml += '</tr>';
 
         islenmisSatirlar.push({
-          hisse: temizKod, yogunluk: rawYogunluk, yogunluk5: yogunluk5, yogunluk3: yogunluk3, gizliAdet: gizliAdet2011,
+          hisse: temizKod, yogunluk: rawYogunluk, yogunluk5: yogunluk5, yogunluk3: yogunluk3, gizliAdet: gizliAdet1990,
           ortalamaVerim: ortalamaVerim, ortalamaVerim5: ortalamaVerim5, ortalamaVerim3: ortalamaVerim3,
           odemeYil10: odemeYaptigiYilSayisi, odemeYil5: odemeYaptigiYilSayisi5, odemeYil3: odemeYaptigiYilSayisi3,
           tbh: gData.val, satir: satir, artisSerisi: artisSerisi,
