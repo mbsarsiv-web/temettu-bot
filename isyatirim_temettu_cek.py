@@ -70,7 +70,6 @@ def parse_date_to_yyyymmdd(val):
 
 def fetch_splits_yahoo(kod):
     splits = []
-    # Kapsam 1990'a kadar genişletilmesi için range=max yapıldı.
     url = f"https://query2.finance.yahoo.com/v8/finance/chart/{kod}.IS?interval=1mo&range=max&events=split"
     headers = {"User-Agent": "Mozilla/5.0"}
     try:
