@@ -34,7 +34,6 @@
     .icon-btn { border: 1px solid #dadce0; background: #fff; border-radius: 6px; padding: 6px 12px; font-size: 12px; color: #3c4043; cursor: pointer; font-family: 'Google Sans Text'; display: flex; align-items: center; gap: 5px; transition: background 0.2s; }
     .icon-btn:hover { background: #f1f3f4; }
     
-    /* Optimize edilmiş Toolbar - Tek satırda kalmasını sağlayan esnek yapı */
     .toolbar { background: #ffffff; padding: 6px 10px; margin: 6px 10px 0 10px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.05); display: flex; gap: 6px; flex-wrap: nowrap; align-items: center; overflow-x: auto; white-space: nowrap; -webkit-overflow-scrolling: touch; }
     .toolbar::-webkit-scrollbar { display: none; }
     .toolbar > * { flex-shrink: 1; min-width: 0; }
@@ -64,8 +63,6 @@
     .col-filter.year-sort { width: 80%; max-width: 44px; font-size: 9px; }
     
     .tbh-select-wrap { display: flex; justify-content: center; align-items: center; gap: 2px; }
-    
-    /* YIL KUTUCUKLARI GENİŞLETİLDİ (70px) */
     #tbhBasYil, #tbhBitYil { width: 70px !important; height: 20px; padding: 0 4px; font-weight: 700 !important; font-size: 11px !important; font-family: 'Google Sans Text', sans-serif; color: #202124; transition: outline 0.2s; border-radius: 4px; }
     #tbhBasYil option, #tbhBitYil option { font-weight: 700; }
     
@@ -96,7 +93,6 @@
     .sparkline div { width: 4px; min-width: 4px; flex-basis: 4px; flex-shrink: 0 !important; background: #81c995; border-radius: 1px 1px 0 0; transition: height 0.3s ease; }
     .error-msg { padding: 20px; text-align: center; color: #d93025; font-weight: 500; font-size: 14px; background: #fce8e6; margin: 20px; border-radius: 8px; border: 1px solid #f28b82; }
     
-    /* Odaklanılabilir (TV Kumandası ile gezilebilir) satırlar */
     .main-row { cursor: pointer; transition: background-color 0.3s ease; background-color: #ffffff; outline: none; }
     .main-row td:first-child { background-color: #fafbfc; transition: background-color 0.3s ease; }
     .main-row:hover, .main-row:focus { background-color: #f1f8f3; }
@@ -117,6 +113,14 @@
     #modalOverlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 9998; }
     .modal-btn { margin-top: 20px; padding: 10px 25px; background: #0f9d58; color: white; border: none; border-radius: 6px; font-size: 14px; font-weight: bold; cursor: pointer; font-family: 'Google Sans Text'; }
     
+    .tv-scroll-container { position: fixed; right: 20px; bottom: 30px; display: flex; flex-direction: column; gap: 15px; z-index: 9999; }
+    .tv-scroll-btn { background-color: #1a73e8; color: #fff; border: none; border-radius: 50%; width: 56px; height: 56px; font-size: 24px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; opacity: 0.85; outline: none; transition: transform 0.2s; }
+    .tv-scroll-btn:hover, .tv-scroll-btn:focus { opacity: 1; transform: scale(1.1); background-color: #1557b0; border: 2px solid #fff; }
+
+    @media (hover: hover) and (pointer: fine) {
+      .tv-scroll-container { display: none !important; }
+    }
+
     @media (max-width: 799px) {
       .header-content { flex-direction: column; align-items: flex-start; gap: 4px; }
       .update-text { position: relative; width: 100%; justify-content: flex-start; margin-top: 2px; }
@@ -139,7 +143,6 @@
       .search-wrap { flex: 0 1 120px; }
       
       .table-container { overflow-x: auto; margin: 8px; }
-      /* TV ve Geniş ekranlarda tabloyu daha rahat bir yapıya oturtma */
       table { table-layout: auto; width: 100%; min-width: 1050px; }
       td, th { font-size: 11px !important; padding: 4px 2px !important; overflow: hidden; text-overflow: ellipsis; }
       thead tr:nth-child(1) th { font-size: 13px !important; padding: 5px 2px !important; white-space: nowrap; }
@@ -250,6 +253,11 @@
     <div style="padding: 20px; text-align: center; color: #5f6368;">Veriler yükleniyor, lütfen bekleyin...</div>
   </div>
 
+  <div class="tv-scroll-container">
+    <button class="tv-scroll-btn" onclick="sayfaKaydir(-400)" title="Yukarı Kaydır">▲</button>
+    <button class="tv-scroll-btn" onclick="sayfaKaydir(400)" title="Aşağı Kaydır">▼</button>
+  </div>
+
   <script>
     let currentSortCol = -1; 
     let currentSortOrder = "";
@@ -348,6 +356,13 @@
         if (rowEl) {
           rowEl.setAttribute("aria-expanded", isActive);
         }
+      }
+    }
+
+    function sayfaKaydir(miktar) {
+      let container = document.getElementById('tableContainer');
+      if (container) {
+        container.scrollBy({ top: miktar, behavior: 'smooth' });
       }
     }
 
@@ -806,11 +821,11 @@
               
               let spanGosterilecek = '<span class="' + spanClass + '"' + titleAttr + '>' + gosterilecekMetin + '</span>';
               
-              icSutunlarHtml += '<td data-value="' + rawValue + '"' + tdClassAttr + '>' + spanGosterilecek + '<span class="info-icon" title="Miktar: ' + formatliMiktarHover + '" onclick="event.stopPropagation(); gosterBilgi(\'' + temizKod + '\', \'' + sutunYili + '\', ' + rawValue + ', ' + bedelsizOrani + ')">ℹ</span></td>';
+              icSutunlarHtml += '<td data-value="' + rawValue + '"' + tdClassAttr + '>' + spanGosterilecek + '</td>';
             } else {
               if (bedelsizOrani > 0) {
                 let formatliMiktarHover = 'Nakit Yok (Sadece %' + fmtBedelsiz + ' Bedelsiz)';
-                icSutunlarHtml += '<td data-value="0" class="empty-cell bedelsiz-hucre"><span title="Sadece %' + fmtBedelsiz + ' Bedelsiz Bölünme">-</span><span class="info-icon" title="' + formatliMiktarHover + '" onclick="event.stopPropagation(); gosterBilgi(\'' + temizKod + '\', \'' + sutunYili + '\', \'0\', ' + bedelsizOrani + ')">ℹ️</span></td>';
+                icSutunlarHtml += '<td data-value="0" class="empty-cell bedelsiz-hucre"><span title="Sadece %' + fmtBedelsiz + ' Bedelsiz Bölünme">-</span></td>';
               } else {
                 icSutunlarHtml += '<td data-value="0" class="empty-cell">-</td>';
               }
