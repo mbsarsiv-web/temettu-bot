@@ -12,12 +12,12 @@
     ::-webkit-scrollbar-track { background: #f1f3f4; border-radius: 4px; }
     ::-webkit-scrollbar-thumb { background: #c1c3c6; border-radius: 4px; }
     ::-webkit-scrollbar-thumb:hover { background: #a8aaad; }
-    
+
     .header { background-color: #ffffff; padding: 5px 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); z-index: 20; position: sticky; top: 0; }
     .header-content { max-width: 1400px; margin: 0 auto; display: flex; justify-content: center; align-items: center; position: relative; min-height: 22px; }
     .header h2 { margin: 0; color: #202124; font-size: 18px; letter-spacing: 0.5px; }
     .update-text { font-size: 12px; color: #5f6368; font-weight: 500; letter-spacing: 0.5px; position: absolute; right: 0; display: flex; align-items: center; gap: 10px; }
-    
+
     .ticker-wrap { background: #ffffff; margin: 6px 10px 0 10px; border-radius: 6px; box-shadow: 0 1px 4px rgba(0,0,0,0.05); overflow-x: auto; overflow-y: hidden; height: 26px; display: flex; align-items: center; border: 1px solid #e0e0e0; flex-shrink: 0; user-select: none; -webkit-overflow-scrolling: touch; }
     .ticker-wrap::-webkit-scrollbar { display: none; }
     .ticker-move { display: inline-block; white-space: nowrap; padding-left: 10px; font-size: 12px; color: #3c4043; }
@@ -34,39 +34,39 @@
 
     .icon-btn { border: 1px solid #dadce0; background: #fff; border-radius: 6px; padding: 6px 12px; font-size: 12px; color: #3c4043; cursor: pointer; font-family: 'Google Sans Text'; display: flex; align-items: center; gap: 5px; transition: background 0.2s; }
     .icon-btn:hover { background: #f1f3f4; }
-    
+
     .toolbar { background: #ffffff; padding: 6px 10px; margin: 6px 10px 0 10px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.05); display: flex; gap: 6px; flex-wrap: nowrap; align-items: center; overflow-x: auto; white-space: nowrap; -webkit-overflow-scrolling: touch; }
     .toolbar::-webkit-scrollbar { display: none; }
     .toolbar > * { flex-shrink: 1; min-width: 0; }
-    
+
     .search-wrap { position: relative; flex: 0 1 120px; min-width: 80px; } 
     .search-wrap input { width: 100%; box-sizing: border-box; padding: 5px 6px 5px 24px; border: 1px solid #dadce0; border-radius: 6px; font-size: 12px; font-family: 'Google Sans Text'; outline: none; transition: border-color 0.2s; }
     .search-wrap input:focus { border-color: #1a73e8; }
     .search-wrap span { position: absolute; left: 6px; top: 50%; transform: translateY(-50%); color: #9aa0a6; font-size: 12px; }
-    
+
     .toolbar select { flex: 1 1 0%; min-width: 60px; padding: 5px 4px; border: 1px solid #dadce0; border-radius: 6px; font-size: 11px; font-family: 'Google Sans Text'; background: #fff; outline: none; cursor: pointer; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; }
     .clear-btn { flex: 0 0 auto; color: #d93025; border-color: #f3c7c3; margin-left: auto; font-size: 11px; padding: 5px 8px; } 
     .kpi-badge { background-color: #e8f0fe; color: #1a73e8; font-size: 12px; font-weight: 700; padding: 5px 10px; border-radius: 16px; display: flex; align-items: center; gap: 4px; border: 1px solid #d2e3fc; box-shadow: 0 1px 2px rgba(0,0,0,0.05); flex: 0 0 auto; }
     .kpi-badge .kpi-number { color: #174ea6; font-size: 13px; font-weight: 900; }
-    
+
     .chip-row { display: flex; gap: 6px; margin: 8px 10px 0px 10px; flex-wrap: wrap; min-height: 0; }
     .chip { background: #e5f2e0; color: #256029; font-size: 11px; padding: 4px 10px; border-radius: 12px; display: flex; align-items: center; gap: 6px; font-weight: 500; }
     .chip span { cursor: pointer; font-weight: 700; }
-    
+
     .table-container { margin: 10px; background: #ffffff; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); overflow-x: auto; padding-bottom: 5px; }
     table { width: 100%; border-collapse: collapse; table-layout: auto; }
     td { padding: 6px 4px; text-align: center; border-bottom: 1px solid #e8eaed; font-size: 11px; white-space: nowrap; }
     th { padding: 6px 4px; text-align: center; border-bottom: 1px solid #e8eaed; font-size: 12px; white-space: nowrap; font-weight: 700; }
     thead tr:nth-child(1) th { background-color: #d9ead3; position: sticky; top: 0; z-index: 11; border-bottom: 1px solid #b2d2a4; font-size: 14px; }
     thead tr:nth-child(2) th { background-color: #e5f2e0; position: sticky; z-index: 10; padding-bottom: 8px; }
-    
+
     .col-filter { width: 90%; padding: 2px; border: 1px solid #b2d2a4; border-radius: 4px; font-size: 10px; outline: none; text-align: center; text-align-last: center; margin: 0 auto; display: block; }
     .col-filter.year-sort { width: 80%; max-width: 44px; font-size: 9px; }
-    
+
     .tbh-select-wrap { display: flex; justify-content: center; align-items: center; gap: 2px; flex-wrap: nowrap; }
     #tbhBasYil, #tbhBitYil { width: 55px !important; height: 22px; padding: 0 2px; font-weight: 700 !important; font-size: 11px !important; font-family: 'Google Sans Text', sans-serif; color: #202124; transition: outline 0.2s; border-radius: 4px; text-align: center; }
     #tbhBasYil option, #tbhBitYil option { font-weight: 700; }
-    
+
     td:first-child { font-weight: 700; font-size: 12px; color: #1a73e8; background-color: #fafbfc; position: sticky; left: 0; z-index: 2; box-shadow: 1px 0px 0px #e8eaed; }
     thead tr:nth-child(1) th:first-child { background-color: #d9ead3; position: sticky; left: 0; z-index: 15; }
     thead tr:nth-child(2) th:first-child { background-color: #e5f2e0; position: sticky; left: 0; z-index: 15; }
@@ -74,13 +74,13 @@
     .growth-minus { color: #d93025; font-weight: 700; font-size: 14px; }
     .tbh-cell { font-weight: 700 !important; font-size: 13px; }
     .tbh-cell.growth-plus, .tbh-cell.growth-minus { font-weight: 700 !important; font-size: 14px; }
-    
+
     .check-icon { color: #0f9d58; font-size: 13px; font-weight: bold; }
     .bedelsiz-hucre { background-color: #fff3e0; }
 
     .info-icon { font-size: 13px; cursor: pointer; margin-left: 3px; color: #5f6368; display: inline-block; transition: transform 0.2s; }
     .info-icon:hover { transform: scale(1.2); }
-    
+
     .empty-cell { color: #bdc1c6; }
     .yog-badge { display: inline-block; padding: 3px 10px; border-radius: 12px; font-weight: 700; font-size: 12px; }
     .yog-high { background: #e6f4ea; color: #0f9d58; }
@@ -93,12 +93,12 @@
     .sparkline { display: flex; align-items: flex-end; justify-content: center; gap: 2px; height: 22px; width: 100%; min-width: 48px; }
     .sparkline div { width: 4px; min-width: 4px; flex-basis: 4px; flex-shrink: 0 !important; background: #81c995; border-radius: 1px 1px 0 0; transition: height 0.3s ease; }
     .error-msg { padding: 20px; text-align: center; color: #d93025; font-weight: 500; font-size: 14px; background: #fce8e6; margin: 20px; border-radius: 8px; border: 1px solid #f28b82; }
-    
+
     .main-row { cursor: pointer; transition: background-color 0.3s ease; background-color: #ffffff; outline: none; }
     .main-row td:first-child { background-color: #fafbfc; transition: background-color 0.3s ease; }
     .main-row:hover, .main-row:focus { background-color: #f1f8f3; }
     .main-row:hover td:first-child, .main-row:focus td:first-child { background-color: #e5f2e0; }
-    
+
     .expand-row { display: none; background-color: #fafbfc; }
     .expand-row.active { display: table-row; }
     .expand-row td { padding: 12px 2px 16px 2px; vertical-align: bottom; border-bottom: 2px solid #bdc1c6; white-space: normal; }
@@ -108,11 +108,11 @@
     .bar:hover { background-color: #0f9d58; transform: scaleY(1.02); }
     .bar-val { font-size: 9px; color: #3c4043; font-weight: 600; white-space: nowrap; margin: 0 auto; }
     .empty-bar-val { color: #bdc1c6; font-weight: normal; }
-    
+
     #customModal { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 25px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); z-index: 9999; text-align: center; min-width: 280px; }
     #modalOverlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 9998; }
     .modal-btn { margin-top: 20px; padding: 10px 25px; background: #0f9d58; color: white; border: none; border-radius: 6px; font-size: 14px; font-weight: bold; cursor: pointer; font-family: 'Google Sans Text'; }
-    
+
     @media (max-width: 799px) {
       .header-content { flex-direction: column; align-items: flex-start; gap: 4px; }
       .update-text { position: relative; width: 100%; justify-content: flex-start; margin-top: 2px; }
@@ -125,35 +125,35 @@
       .table-container { margin: 10px 5px; }
       td, th { padding: 8px 4px; }
     }
-    
+
     @media (min-width: 800px) { 
       body { font-size: 90%; } 
       .ticker-wrap { margin: 5px 8px 0 8px; height: 24px; }
-      
+
       .toolbar { flex-wrap: nowrap !important; overflow: hidden; padding: 6px 10px; gap: 6px; margin: 5px 8px 0 8px; }
       .toolbar > * { flex-shrink: 1; }
       .search-wrap { flex: 0 1 120px; }
-      
+
       .table-container { margin: 8px; }
       table { table-layout: auto; width: 100%; }
       td, th { font-size: 11px !important; padding: 5px 3px !important; white-space: nowrap; }
       thead tr:nth-child(1) th { font-size: 13px !important; padding: 5px 2px !important; white-space: nowrap; }
       td:first-child, .arz-yili { font-size: 12px !important; }
-      
+
       .col-filter { font-size: 9px; padding: 0; width: 100%; }
       .col-filter.year-sort { width: 95%; max-width: 58px; margin: 0 auto; display: block; padding: 1px 0; font-size: 10px; }
-      
+
       .tbh-select-wrap span { font-size: 11px !important; margin: 0 1px; }
       .tbh-cell { font-size: 12px !important; font-weight: 700 !important; line-height: 1.1; }
       .tbh-cell.growth-plus, .tbh-cell.growth-minus { font-size: 13px !important; font-weight: 700 !important; }
       .check-icon { font-size: 12px !important; font-weight: 700 !important; line-height: 1.1; }
-      
+
       .hisse-col { width: 5%; } 
       .arz-header-col { width: 3%; } 
       .tbh-header-col { width: 130px !important; white-space: normal !important; font-size: 11px !important; line-height: 1.1; } 
       .trend-header-col { width: 6%; }
       .tight-col { padding-left: 2px !important; padding-right: 2px !important; }
-      
+
       .bar, .main-row, .main-row td:first-child, .info-icon { transition: none !important; }
       .bar:hover, .info-icon:hover { transform: none !important; }
     }
@@ -187,11 +187,11 @@
       <span>🔎</span>
       <input type="text" id="hisseArama" placeholder="Hisse kodu ara..." oninput="aramaGeciktir()">
     </div>
-    
+
     <div id="kpiAdetMini" class="kpi-badge">
       📊 Gösterilen: <span id="kpiCount" class="kpi-number">-</span>
     </div>
-    
+
     <select id="filterYogunluk" onchange="this.blur(); uygula()">
       <option value="TÜMÜ">Yoğunluk: Tümü</option>
       <option value="1.00">1,00 (Kusursuz)</option>
@@ -202,7 +202,7 @@
       <option value="0.01">Sadece Verenler (> 0)</option>
       <option value="0">Hiç Vermeyenler (0,00)</option>
     </select>
-    
+
     <select id="filterArtis" onchange="this.blur(); uygula()">
       <option value="TÜMÜ">Artış Trendi: Tümü</option>
       <option value="3">≥ 3 Yıl Aralıksız Artıran</option>
@@ -243,7 +243,7 @@
       <option value="TBH_DESC">Temettü Büyüme Hızı (Yüksek → Düşük)</option>
       <option value="HISSE_ASC">Hisse Kodu (A → Z)</option>
     </select>
-    
+
     <button class="icon-btn clear-btn" onclick="filtreleriTemizle()">✕ Temizle</button>
   </div>
 
@@ -262,7 +262,7 @@
     let VARSAYILAN_BAS_YIL = "2016";
     let VARSAYILAN_BIT_YIL = "2025";
     let idxYogunlukGlobal = 18;
-    
+
     document.addEventListener('keydown', function(event) {
       if (event.key === "Escape") {
         kapatBilgi();
@@ -322,16 +322,16 @@
       document.getElementById('modalTitle').innerText = hisse + ' - ' + yil;
       let sayisalMiktar = Number(sayiyaCevir(miktar));
       let formatliMiktar = isNaN(sayisalMiktar) ? miktar : sayisalMiktar.toLocaleString('tr-TR') + ' TL';
-      
+
       let altMetin = sayisalMiktar > 0 ? 'Ödenen Toplam Temettü' : 'Nakit Temettü Ödemesi Yok';
       if (bedelsiz && bedelsiz > 0) {
         let fmtBedelsiz = (bedelsiz % 1 === 0) ? bedelsiz.toString() : bedelsiz.toFixed(2);
         altMetin += '\n🎁 Ayrıca %' + fmtBedelsiz + ' Bedelsiz Bölünme';
       }
-      
+
       document.getElementById('modalContent').innerText = altMetin;
       document.getElementById('modalAmount').innerText = sayisalMiktar > 0 ? formatliMiktar : '';
-      
+
       let modal = document.getElementById('customModal');
       document.getElementById('modalOverlay').style.display = 'block';
       modal.style.display = 'block';
@@ -363,13 +363,13 @@
       let ilk = sayiyaCevir(satir[iBas]);
       let son = sayiyaCevir(satir[iBit]);
       if (ilk <= 0 || son <= 0) return NA;
-      
+
       let donem = iBit - iBas;
-      
+
       if (String(basYil) === "2016" && String(bitYil) === "2025") {
           donem = 10;
       }
-      
+
       let cagr = (Math.pow(son / ilk, 1 / donem) - 1) * 100;
       return { val: cagr };
     }
@@ -475,7 +475,7 @@
           parcaHtml += '<span class="ticker-item"><span class="ticker-rank">' + (j + 1) + '.</span> <span class="ticker-code">' + escapeHtml(top5[j].hisse) + '</span><span class="ticker-val">(%' + deger5 + ')</span></span>';
         }
       }
-      
+
       if (topKesintisiz.length > 0) {
         parcaHtml += '<span class="ticker-title payer-yr">💸 KESİNTİSİZ TEMETTÜ VERENLER</span>';
         for (let m = 0; m < topKesintisiz.length; m++) {
@@ -555,13 +555,13 @@
           else if (hisseBasiIndeks === -1 && (b.indexOf("HISSE") > -1 || b.indexOf("HİSSE") > -1)) hisseBasiIndeks = c;
           else if (bedelsizIndeks === -1 && (b.indexOf("BEDELSIZ") > -1 || b.indexOf("BEDELSİZ") > -1 || (b.indexOf("ORAN") > -1 && b.indexOf("DAGITMA") === -1 && b.indexOf("DAĞITMA") === -1))) bedelsizIndeks = c;
         }
-        
+
         if (verimIndeks === -1) { verimIndeks = 4; }
         if (hisseBasiIndeks === -1 && basliklarVerim.length >= 6) { hisseBasiIndeks = 5; }
-        
+
         let hisseBasiSutunuVarMi = (hisseBasiIndeks > -1);
         let bedelsizSutunuVarMi = (bedelsizIndeks > -1);
-        
+
         for (let v = 1; v < verimVerisi.length; v++) {
           let kod = verimVerisi[v][kodIndeks];
           let tarih = verimVerisi[v][yilIndeks];
@@ -581,12 +581,12 @@
           if (yil) {
             let anahtar = tKod + "_" + yil;
             let sayisalVerim = verimSayisiCoz(rawVerim);
-            
+
             if (!isNaN(sayisalVerim)) {
               if (verimMap[anahtar] !== undefined) { verimMap[anahtar] += sayisalVerim; }
               else { verimMap[anahtar] = sayisalVerim; }
             }
-            
+
             if (bedelsizSutunuVarMi) {
               let sayisalBedelsiz = verimSayisiCoz(rawBedelsiz);
               if (!isNaN(sayisalBedelsiz) && sayisalBedelsiz > 0) {
@@ -628,7 +628,7 @@
           if (a.type === 'BEDELSIZ' && b.type === 'TEMETTU') return 1;
           return 0;
         }); 
-        
+
         let lot = 1.0;
         adjDPSMap[tKod] = {};
         for (let e of evs) {
@@ -642,12 +642,12 @@
 
       let orjBasliklarTumu = veri[0];
       let idxYogunluk = orjBasliklarTumu.indexOf("YOĞUNLUK");
-      
+
       let idxGizli = orjBasliklarTumu.indexOf("GIZLI_1990_ADET");
       if (idxGizli === -1) {
           idxGizli = orjBasliklarTumu.indexOf("GIZLI_2011_ADET");
       }
-      
+
       if (idxYogunluk === -1) idxYogunluk = orjBasliklarTumu.length > 2 ? orjBasliklarTumu.length - 2 : 18;
       if (idxGizli === -1) idxGizli = orjBasliklarTumu.length > 1 ? orjBasliklarTumu.length - 1 : 19;
       idxYogunlukGlobal = idxYogunluk;
@@ -660,7 +660,7 @@
         }
       }
       let guncelYil = yillarDizisi.length > 0 ? Math.max.apply(null, yillarDizisi) : new Date().getFullYear();
-      
+
       let minGorunurYil = guncelYil - 11;
       let min20Yil = guncelYil - 19;
       let min15Yil = guncelYil - 14;
@@ -668,7 +668,8 @@
       let min5Yil = guncelYil - 4;
       let min3Yil = guncelYil - 2;
 
-      let y1 = minGorunurYil.toString().slice(-2);
+      let yogunlukHesapBasYil = guncelYil - 9;
+      let y1_yog = yogunlukHesapBasYil.toString().slice(-2);
       let y2 = guncelYil.toString().slice(-2);
 
       let tumKayıtlıYillar = [];
@@ -707,11 +708,11 @@
         if (skipIndices.indexOf(i) > -1) continue;
         let baslikMetni = orjBasliklarTumu[i];
         if (i === 1) html += '<th class="arz-col arz-header-col">ARZ</th>';
-        else if (i === idxYogunluk) html += '<th class="tight-col" title="Temettü Ödeme Yoğunluğu (' + y1 + '-' + y2 + ' Yılları Arası)">YOĞ. (' + y1 + '-' + y2 + ')</th>';
+        else if (i === idxYogunluk) html += '<th class="tight-col" title="Temettü Ödeme Yoğunluğu (' + y1_yog + '-' + y2 + ' Yılları Arası)">YOĞ. (' + y1_yog + '-' + y2 + ')</th>';
         else if (i === 0) html += '<th class="hisse-col">' + escapeHtml(baslikMetni) + '</th>';
         else html += '<th>' + escapeHtml(baslikMetni) + '</th>';
       }
-      html += '<th class="tight-col tbh-header-col" title="Seçilen Yıllar Arası Bileşik Temettü Büyüme Hızı">TEMETTÜ BÜYÜME HIZI</th>';
+      html += '<th class="tight-col tbh-header-col" title="Seçilen Yıllar Arası Bileşik Temettü Büyüme Hızı">TEMETTÜ B.H.</th>';
       html += '<th class="trend-col trend-header-col" title="Son 8 Yılın Dağıtılan TL Trendi">TREND</th>';
       html += '</tr><tr>';
 
@@ -729,14 +730,14 @@
       let islenmisSatirlar = [];
       let sampiyonAdaylari = [];
       let islenmisHisselerSet = new Set();
-      
+
       GLOBAL_SLICE_BASLIKLAR = orjBasliklarTumu.slice(0, idxYogunluk + 1);
 
       for (let i = 1; i < veri.length; i++) {
         let satir = veri[i];
         let rawYogunluk = parseFloat(satir[idxYogunluk] ? satir[idxYogunluk].toString().replace(',', '.') : 0) || 0;
         let gizliAdet1990 = parseInt(satir[idxGizli]) || 0;
-        
+
         let rawHisseKodu = satir[0];
         if (rawHisseKodu === undefined || rawHisseKodu === null || rawHisseKodu.toString().trim() === "") continue;
         let temizKod = rawHisseKodu.toString().trim().toUpperCase();
@@ -779,12 +780,12 @@
               let verimDegeri = verimMap[temizKod + "_" + sutunYili];
               let gosterilecekMetin = "?";
               if (verimDegeri !== undefined && !isNaN(verimDegeri)) gosterilecekMetin = "%" + verimDegeri.toFixed(2);
-              
+
               let formatliMiktarHover = Number(rawValue).toLocaleString('tr-TR') + ' TL';
               if (bedelsizOrani > 0) formatliMiktarHover += ' (Ayrıca %' + fmtBedelsiz + ' Bedelsiz)';
-              
+
               let spanGosterilecek = '<span class="check-icon"' + titleAttr + '>' + gosterilecekMetin + '</span>';
-              
+
               icSutunlarHtml += '<td data-value="' + rawValue + '"' + tdClassAttr + '>' + spanGosterilecek + '<span class="info-icon" title="Miktar: ' + formatliMiktarHover + '" onclick="event.stopPropagation(); gosterBilgi(\'' + temizKod + '\', \'' + sutunYili + '\', ' + rawValue + ', ' + bedelsizOrani + ')">ℹ️</span></td>';
             } else {
               if (bedelsizOrani > 0) {
@@ -810,13 +811,12 @@
         let toplamVerim5Yil = 0, odemeYaptigiYilSayisi5 = 0;
         let toplamVerim3Yil = 0, odemeYaptigiYilSayisi3 = 0;
 
-        let arzYili = parseInt(satir[1]) || 1990;
-        let maxOdeme20 = Math.max(0, guncelYil - Math.max(arzYili, min20Yil) + 1);
-        let maxOdeme15 = Math.max(0, guncelYil - Math.max(arzYili, min15Yil) + 1);
-        let maxOdeme10 = Math.max(0, guncelYil - Math.max(arzYili, min10Yil) + 1);
-        let maxOdeme5  = Math.max(0, guncelYil - Math.max(arzYili, min5Yil) + 1);
-        let maxOdeme3  = Math.max(0, guncelYil - Math.max(arzYili, min3Yil) + 1);
-        
+        let maxOdeme20 = 20;
+        let maxOdeme15 = 15;
+        let maxOdeme10 = 10;
+        let maxOdeme5  = 5;
+        let maxOdeme3  = 3;
+
         for (let yilS = 1990; yilS <= guncelYil; yilS++) {
           let vVal = verimMap[temizKod + "_" + yilS];
           if (vVal !== undefined && !isNaN(vVal) && vVal > 0) {
@@ -833,7 +833,7 @@
         let tbhCls = "empty-cell tight-col tbh-cell";
         let tbhValAttr = "-999";
         let tbhText = "N/A";
-        
+
         if (gData.val !== null) {
           tbhCls = (gData.val >= 0 ? "growth-plus" : "growth-minus") + " tight-col tbh-cell";
           tbhValAttr = gData.val;
@@ -847,7 +847,7 @@
         let ortalamaVerim10 = odemeYaptigiYilSayisi10 > 0 ? (toplamVerim10Yil / odemeYaptigiYilSayisi10) : 0;
         let ortalamaVerim5 = odemeYaptigiYilSayisi5 > 0 ? (toplamVerim5Yil / odemeYaptigiYilSayisi5) : 0;
         let ortalamaVerim3 = odemeYaptigiYilSayisi3 > 0 ? (toplamVerim3Yil / odemeYaptigiYilSayisi3) : 0;
-        
+
         let yogunluk20 = maxOdeme20 > 0 ? (odemeYaptigiYilSayisi20 / maxOdeme20) : 0;
         let yogunluk15 = maxOdeme15 > 0 ? (odemeYaptigiYilSayisi15 / maxOdeme15) : 0;
         let yogunluk10 = maxOdeme10 > 0 ? (odemeYaptigiYilSayisi10 / maxOdeme10) : 0;
@@ -859,7 +859,7 @@
         let tumYillarTutar = [];
         let tumYillarAdjDPS = [];
         let tumYillarBedelsiz = [];
-        
+
         for (let idxY = 2; idxY < idxYogunluk; idxY++) {
           let tDeger = sayiyaCevir(satir[idxY]); 
           tumYillarTutar.push(tDeger);
@@ -877,7 +877,7 @@
                     break;
                 }
             }
-            
+
             let guncelYilIdx = tumYillarTutar.length - 1;
 
             if (sonAktifIdx === guncelYilIdx || sonAktifIdx === guncelYilIdx - 1) {
@@ -888,18 +888,18 @@
                     let prevTutar = tumYillarTutar[prevIdx];
                     let currAdjDPS = tumYillarAdjDPS[currIdx];
                     let prevAdjDPS = tumYillarAdjDPS[prevIdx];
-                    
+
                     if (currTutar <= 0 || prevTutar <= 0) break;
-                    
+
                     let isDPSArtmis = false;
                     let minArtisKatsayisi = 1.001; 
-                    
+
                     if (currAdjDPS > 0 && prevAdjDPS > 0) {
                         isDPSArtmis = currAdjDPS >= (prevAdjDPS * minArtisKatsayisi);
                     } else {
                         isDPSArtmis = currTutar >= (prevTutar * minArtisKatsayisi);
                     }
-                    
+
                     if (isDPSArtmis) { artisSerisi++; currIdx = prevIdx; } 
                     else { break; }
                 }
@@ -972,7 +972,7 @@
 
       document.getElementById('tableContainer').innerHTML = html;
       TUM_SATIRLAR = islenmisSatirlar;
-      
+
       HISSE_MAP = {};
       for(let z=0; z<TUM_SATIRLAR.length; z++) {
         HISSE_MAP[TUM_SATIRLAR[z].hisse] = TUM_SATIRLAR[z];
@@ -1001,7 +1001,7 @@
         });
       }
       hizalaBaslik();
-      
+
       if (!resizeEklendi) {
         window.addEventListener('resize', hizalaBaslik);
         if(document.fonts) { document.fonts.ready.then(hizalaBaslik); }
@@ -1102,7 +1102,7 @@
         let hisseObj = HISSE_MAP[hisseKodu];
         let ortVerim = seciliDonemVerimiAl(hisseObj, fD);
         let odemeSayisi = seciliDonemAdetAl(hisseObj, fD);
-        
+
         let aktifYogunluk = hisseObj ? hisseObj.yogunluk : 0;
         if (fD === "3") aktifYogunluk = hisseObj ? hisseObj.yogunluk3 : 0;
         else if (fD === "5") aktifYogunluk = hisseObj ? hisseObj.yogunluk5 : 0;
@@ -1115,7 +1115,7 @@
           badgeEl.innerText = aktifYogunluk.toFixed(2).replace('.', ',');
           badgeEl.className = 'yog-badge ' + yogunlukSinifi(aktifYogunluk);
         }
-        
+
         if (idxYogunlukGlobal !== -1 && tr.cells[idxYogunlukGlobal]) {
           tr.cells[idxYogunlukGlobal].setAttribute("data-value", aktifYogunluk);
         }
@@ -1135,7 +1135,7 @@
 
         let hisseSecimSarti = (fHisse === "TÜMÜ") ? true : (hisseKodu === fHisse);
         let verimSarti = (fV === "TÜMÜ") ? true : (ortVerim >= parseFloat(fV));
-        
+
         let yogunlukSarti = true;
         if (fY !== "TÜMÜ") {
           if (fY === "0") { yogunlukSarti = (aktifYogunluk === 0); } 
@@ -1177,7 +1177,7 @@
           let ha = a.cells[0].innerText.trim(), hb = b.cells[0].innerText.trim();
           let sa = HISSE_MAP[ha] || {};
           let sb = HISSE_MAP[hb] || {};
-          
+
           if (genelSort === "YOG_DESC") {
             let aktifYogA = sa.yogunluk; if(fD === "3") aktifYogA = sa.yogunluk3; else if(fD === "5") aktifYogA = sa.yogunluk5; else if(fD === "10") aktifYogA = sa.yogunluk10; else if(fD === "15") aktifYogA = sa.yogunluk15; else if(fD === "20") aktifYogA = sa.yogunluk20;
             let aktifYogB = sb.yogunluk; if(fD === "3") aktifYogB = sb.yogunluk3; else if(fD === "5") aktifYogB = sb.yogunluk5; else if(fD === "10") aktifYogB = sb.yogunluk10; else if(fD === "15") aktifYogB = sb.yogunluk15; else if(fD === "20") aktifYogB = sb.yogunluk20;
@@ -1201,12 +1201,12 @@
           let ha = a.cells[0].innerText.trim(), hb = b.cells[0].innerText.trim();
           let sa = HISSE_MAP[ha] || {};
           let sb = HISSE_MAP[hb] || {};
-          
+
           let aktifYogA = sa.yogunluk; if(fD === "3") aktifYogA = sa.yogunluk3; else if(fD === "5") aktifYogA = sa.yogunluk5; else if(fD === "10") aktifYogA = sa.yogunluk10; else if(fD === "15") aktifYogA = sa.yogunluk15; else if(fD === "20") aktifYogA = sa.yogunluk20;
           let aktifYogB = sb.yogunluk; if(fD === "3") aktifYogB = sb.yogunluk3; else if(fD === "5") aktifYogB = sb.yogunluk5; else if(fD === "10") aktifYogB = sb.yogunluk10; else if(fD === "15") aktifYogB = sb.yogunluk15; else if(fD === "20") aktifYogB = sb.yogunluk20;
-          
+
           if (Math.abs((aktifYogB || 0) - (aktifYogA || 0)) > 0.0001) return (aktifYogB || 0) - (aktifYogA || 0);
-          
+
           let va = seciliDonemVerimiAl(sa, fD);
           let vb = seciliDonemVerimiAl(sb, fD);
           if (Math.abs(vb - va) > 0.0001) return vb - va;
@@ -1241,7 +1241,7 @@
     function veriCek() {
       let cachedStr = null;
       try { cachedStr = localStorage.getItem(CACHE_KEY); } catch (e) { }
-      
+
       if (cachedStr) {
         try {
           let parsed = JSON.parse(cachedStr);
@@ -1283,13 +1283,13 @@
       if (!wrapper || !content) return;
 
       cancelAnimationFrame(tickerAnimationId);
-      
+
       let isDown = false, isHovered = false, startX, scrollLeft;
-      
+
       if (!wrapper.dataset.draggable) {
         wrapper.dataset.draggable = "true";
         wrapper.style.cursor = 'grab';
-        
+
         wrapper.addEventListener('mousedown', (e) => { isDown = true; wrapper.style.cursor = 'grabbing'; startX = e.pageX - wrapper.offsetLeft; scrollLeft = wrapper.scrollLeft; });
         wrapper.addEventListener('mouseleave', () => { isDown = false; isHovered = false; wrapper.style.cursor = 'grab'; });
         wrapper.addEventListener('mouseenter', () => { isHovered = true; }); 
