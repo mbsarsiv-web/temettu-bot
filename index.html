@@ -7,7 +7,6 @@
   <base target="_top">
   <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Text:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
-    /* TV Kaydırma Problemi İçin Doğal Scroll'a (Native) Geçildi */
     body { font-family: 'Google Sans Text', sans-serif; margin: 0; padding: 0; background-color: #f1f3f4; min-height: 100vh; display: flex; flex-direction: column; }
     ::-webkit-scrollbar { width: 8px; height: 8px; }
     ::-webkit-scrollbar-track { background: #f1f3f4; border-radius: 4px; }
@@ -79,7 +78,6 @@
     .check-icon { color: #0f9d58; font-size: 13px; font-weight: bold; }
     .bedelsiz-hucre { background-color: #fff3e0; }
 
-    /* Eski Bilgi (ℹ️) Simgesi Geri Getirildi */
     .info-icon { font-size: 13px; cursor: pointer; margin-left: 3px; color: #5f6368; display: inline-block; transition: transform 0.2s; }
     .info-icon:hover { transform: scale(1.2); }
     
@@ -137,7 +135,6 @@
       .search-wrap { flex: 0 1 120px; }
       
       .table-container { margin: 8px; }
-      /* Ekrana Sığdırma Optimizasyonu */
       table { table-layout: auto; width: 100%; }
       td, th { font-size: 11px !important; padding: 5px 3px !important; white-space: nowrap; }
       thead tr:nth-child(1) th { font-size: 13px !important; padding: 5px 2px !important; white-space: nowrap; }
@@ -151,7 +148,6 @@
       .tbh-cell.growth-plus, .tbh-cell.growth-minus { font-size: 13px !important; font-weight: 700 !important; }
       .check-icon { font-size: 12px !important; font-weight: 700 !important; line-height: 1.1; }
       
-      /* Kolon Dağılımı Optimizasyonu */
       .hisse-col { width: 5%; } 
       .arz-header-col { width: 3%; } 
       .tbh-header-col { width: 130px !important; white-space: normal !important; font-size: 11px !important; line-height: 1.1; } 
@@ -789,7 +785,6 @@
               
               let spanGosterilecek = '<span class="check-icon"' + titleAttr + '>' + gosterilecekMetin + '</span>';
               
-              /* Orijinal Emoji Simgesi Geri Getirildi */
               icSutunlarHtml += '<td data-value="' + rawValue + '"' + tdClassAttr + '>' + spanGosterilecek + '<span class="info-icon" title="Miktar: ' + formatliMiktarHover + '" onclick="event.stopPropagation(); gosterBilgi(\'' + temizKod + '\', \'' + sutunYili + '\', ' + rawValue + ', ' + bedelsizOrani + ')">ℹ️</span></td>';
             } else {
               if (bedelsizOrani > 0) {
