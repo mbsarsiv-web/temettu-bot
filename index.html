@@ -113,14 +113,6 @@
     #modalOverlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 9998; }
     .modal-btn { margin-top: 20px; padding: 10px 25px; background: #0f9d58; color: white; border: none; border-radius: 6px; font-size: 14px; font-weight: bold; cursor: pointer; font-family: 'Google Sans Text'; }
     
-    .tv-scroll-container { position: fixed; right: 20px; bottom: 30px; display: flex; flex-direction: column; gap: 15px; z-index: 9999; }
-    .tv-scroll-btn { background-color: #1a73e8; color: #fff; border: none; border-radius: 50%; width: 56px; height: 56px; font-size: 24px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; opacity: 0.85; outline: none; transition: transform 0.2s; }
-    .tv-scroll-btn:hover, .tv-scroll-btn:focus { opacity: 1; transform: scale(1.1); background-color: #1557b0; border: 2px solid #fff; }
-
-    @media (hover: hover) and (pointer: fine) {
-      .tv-scroll-container { display: none !important; }
-    }
-
     @media (max-width: 799px) {
       .header-content { flex-direction: column; align-items: flex-start; gap: 4px; }
       .update-text { position: relative; width: 100%; justify-content: flex-start; margin-top: 2px; }
@@ -143,8 +135,9 @@
       .search-wrap { flex: 0 1 120px; }
       
       .table-container { overflow-x: auto; margin: 8px; }
-      table { table-layout: auto; width: 100%; min-width: 1050px; }
-      td, th { font-size: 11px !important; padding: 4px 2px !important; overflow: hidden; text-overflow: ellipsis; }
+      /* Sabit tablo yapısı: Taşkınlıkları önler ve ekrana tam sığdırır */
+      table { table-layout: fixed; width: 100%; }
+      td, th { font-size: 11px !important; padding: 4px 2px !important; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
       thead tr:nth-child(1) th { font-size: 13px !important; padding: 5px 2px !important; white-space: nowrap; }
       td:first-child, .arz-yili { font-size: 12px !important; }
       
@@ -155,6 +148,13 @@
       .tbh-cell { font-size: 12px !important; font-weight: 700 !important; line-height: 1.1; }
       .tbh-cell.growth-plus, .tbh-cell.growth-minus { font-size: 13px !important; font-weight: 700 !important; }
       .check-icon { font-size: 12px !important; font-weight: 700 !important; line-height: 1.1; }
+      
+      /* Kolon genişlikleri ekrana tam orantılı dağıtılır */
+      .hisse-col { width: 6.5%; } 
+      .arz-header-col { width: 4%; } 
+      .tbh-header-col { width: 12%; font-size: 11px !important; letter-spacing: -0.2px; } 
+      .trend-header-col { width: 7.5%; }
+      .tight-col { width: 5%; padding-left: 2px !important; padding-right: 2px !important; }
       
       .bar, .main-row, .main-row td:first-child, .info-icon { transition: none !important; }
       .bar:hover, .info-icon:hover { transform: none !important; }
@@ -251,11 +251,6 @@
 
   <div class="table-container" id="tableContainer">
     <div style="padding: 20px; text-align: center; color: #5f6368;">Veriler yükleniyor, lütfen bekleyin...</div>
-  </div>
-
-  <div class="tv-scroll-container">
-    <button class="tv-scroll-btn" onclick="sayfaKaydir(-400)" title="Yukarı Kaydır">▲</button>
-    <button class="tv-scroll-btn" onclick="sayfaKaydir(400)" title="Aşağı Kaydır">▼</button>
   </div>
 
   <script>
@@ -356,13 +351,6 @@
         if (rowEl) {
           rowEl.setAttribute("aria-expanded", isActive);
         }
-      }
-    }
-
-    function sayfaKaydir(miktar) {
-      let container = document.getElementById('tableContainer');
-      if (container) {
-        container.scrollBy({ top: miktar, behavior: 'smooth' });
       }
     }
 
@@ -821,11 +809,11 @@
               
               let spanGosterilecek = '<span class="' + spanClass + '"' + titleAttr + '>' + gosterilecekMetin + '</span>';
               
-              icSutunlarHtml += '<td data-value="' + rawValue + '"' + tdClassAttr + '>' + spanGosterilecek + '</td>';
+              icSutunlarHtml += '<td data-value="' + rawValue + '"' + tdClassAttr + '>' + spanGosterilecek + '<span class="info-icon" title="Miktar: ' + formatliMiktarHover + '" onclick="event.stopPropagation(); gosterBilgi(\'' + temizKod + '\', \'' + sutunYili + '\', ' + rawValue + ', ' + bedelsizOrani + ')">ℹ️</span></td>';
             } else {
               if (bedelsizOrani > 0) {
                 let formatliMiktarHover = 'Nakit Yok (Sadece %' + fmtBedelsiz + ' Bedelsiz)';
-                icSutunlarHtml += '<td data-value="0" class="empty-cell bedelsiz-hucre"><span title="Sadece %' + fmtBedelsiz + ' Bedelsiz Bölünme">-</span></td>';
+                icSutunlarHtml += '<td data-value="0" class="empty-cell bedelsiz-hucre"><span title="Sadece %' + fmtBedelsiz + ' Bedelsiz Bölünme">-</span><span class="info-icon" title="' + formatliMiktarHover + '" onclick="event.stopPropagation(); gosterBilgi(\'' + temizKod + '\', \'' + sutunYili + '\', \'0\', ' + bedelsizOrani + ')">ℹ️</span></td>';
               } else {
                 icSutunlarHtml += '<td data-value="0" class="empty-cell">-</td>';
               }
