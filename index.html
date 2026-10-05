@@ -222,6 +222,7 @@
       <option value="10">Son 10 Yıl</option>
       <option value="15">Son 15 Yıl</option>
       <option value="20">Son 20 Yıl</option>
+      <option value="25">Son 25 Yıl</option>
     </select>
 
     <select id="filterVerim" onchange="this.blur(); uygula()">
@@ -367,7 +368,6 @@
       let son = sayiyaCevir(satir[iBit]);
       if (ilk <= 0 || son <= 0) return NA;
 
-      // Kullanıcının özel sistem kurallarına göre formül paydaya "+1" dahil edilerek ayarlanmıştır
       let donem = (parseInt(bitYil) - parseInt(basYil)) + 1;
       if (donem <= 0) return NA;
 
@@ -514,6 +514,7 @@
       if (donem === "10") return hisseObj.ortalamaVerim10;
       if (donem === "15") return hisseObj.ortalamaVerim15;
       if (donem === "20") return hisseObj.ortalamaVerim20;
+      if (donem === "25") return hisseObj.ortalamaVerim25;
       return hisseObj.ortalamaVerim;
     }
 
@@ -524,6 +525,7 @@
       if (donem === "10") return hisseObj.odemeYil10;
       if (donem === "15") return hisseObj.odemeYil15;
       if (donem === "20") return hisseObj.odemeYil20;
+      if (donem === "25") return hisseObj.odemeYil25;
       return hisseObj.odemeYilTumu;
     }
 
@@ -667,6 +669,7 @@
       let guncelYil = yillarDizisi.length > 0 ? Math.max.apply(null, yillarDizisi) : new Date().getFullYear();
 
       let minGorunurYil = guncelYil - 9;
+      let min25Yil = guncelYil - 24;
       let min20Yil = guncelYil - 19;
       let min15Yil = guncelYil - 14;
       let min10Yil = guncelYil - 9;
@@ -810,12 +813,14 @@
         }
 
         let toplamVerimTumu = 0, odemeYaptigiYilSayisiTumu = 0;
+        let toplamVerim25Yil = 0, odemeYaptigiYilSayisi25 = 0;
         let toplamVerim20Yil = 0, odemeYaptigiYilSayisi20 = 0;
         let toplamVerim15Yil = 0, odemeYaptigiYilSayisi15 = 0;
         let toplamVerim10Yil = 0, odemeYaptigiYilSayisi10 = 0;
         let toplamVerim5Yil = 0, odemeYaptigiYilSayisi5 = 0;
         let toplamVerim3Yil = 0, odemeYaptigiYilSayisi3 = 0;
 
+        let maxOdeme25 = 25;
         let maxOdeme20 = 20;
         let maxOdeme15 = 15;
         let maxOdeme10 = 10;
@@ -827,6 +832,7 @@
           if (vVal !== undefined && !isNaN(vVal) && vVal > 0) {
             odemeYaptigiYilSayisiTumu++;
             toplamVerimTumu += vVal;
+            if (yilS >= min25Yil) { odemeYaptigiYilSayisi25++; toplamVerim25Yil += vVal; }
             if (yilS >= min20Yil) { odemeYaptigiYilSayisi20++; toplamVerim20Yil += vVal; }
             if (yilS >= min15Yil) { odemeYaptigiYilSayisi15++; toplamVerim15Yil += vVal; }
             if (yilS >= min10Yil) { odemeYaptigiYilSayisi10++; toplamVerim10Yil += vVal; }
@@ -847,12 +853,14 @@
         icSutunlarHtml += '<td class="' + tbhCls + '" data-value="' + tbhValAttr + '">' + tbhText + '</td>';
 
         let ortalamaVerimTumu = odemeYaptigiYilSayisiTumu > 0 ? (toplamVerimTumu / odemeYaptigiYilSayisiTumu) : 0;
+        let ortalamaVerim25 = odemeYaptigiYilSayisi25 > 0 ? (toplamVerim25Yil / odemeYaptigiYilSayisi25) : 0;
         let ortalamaVerim20 = odemeYaptigiYilSayisi20 > 0 ? (toplamVerim20Yil / odemeYaptigiYilSayisi20) : 0;
         let ortalamaVerim15 = odemeYaptigiYilSayisi15 > 0 ? (toplamVerim15Yil / odemeYaptigiYilSayisi15) : 0;
         let ortalamaVerim10 = odemeYaptigiYilSayisi10 > 0 ? (toplamVerim10Yil / odemeYaptigiYilSayisi10) : 0;
         let ortalamaVerim5 = odemeYaptigiYilSayisi5 > 0 ? (toplamVerim5Yil / odemeYaptigiYilSayisi5) : 0;
         let ortalamaVerim3 = odemeYaptigiYilSayisi3 > 0 ? (toplamVerim3Yil / odemeYaptigiYilSayisi3) : 0;
 
+        let yogunluk25 = maxOdeme25 > 0 ? (odemeYaptigiYilSayisi25 / maxOdeme25) : 0;
         let yogunluk20 = maxOdeme20 > 0 ? (odemeYaptigiYilSayisi20 / maxOdeme20) : 0;
         let yogunluk15 = maxOdeme15 > 0 ? (odemeYaptigiYilSayisi15 / maxOdeme15) : 0;
         let yogunluk10 = maxOdeme10 > 0 ? (odemeYaptigiYilSayisi10 / maxOdeme10) : 0;
@@ -950,9 +958,9 @@
         expandHtml += '</tr>';
 
         islenmisSatirlar.push({
-          hisse: temizKod, yogunluk: rawYogunluk, yogunluk20: yogunluk20, yogunluk15: yogunluk15, yogunluk10: yogunluk10, yogunluk5: yogunluk5, yogunluk3: yogunluk3, gizliAdet: gizliAdet1990,
-          ortalamaVerim: ortalamaVerimTumu, ortalamaVerim20: ortalamaVerim20, ortalamaVerim15: ortalamaVerim15, ortalamaVerim10: ortalamaVerim10, ortalamaVerim5: ortalamaVerim5, ortalamaVerim3: ortalamaVerim3,
-          odemeYilTumu: odemeYaptigiYilSayisiTumu, odemeYil20: odemeYaptigiYilSayisi20, odemeYil15: odemeYaptigiYilSayisi15, odemeYil10: odemeYaptigiYilSayisi10, odemeYil5: odemeYaptigiYilSayisi5, odemeYil3: odemeYaptigiYilSayisi3,
+          hisse: temizKod, yogunluk: rawYogunluk, yogunluk25: yogunluk25, yogunluk20: yogunluk20, yogunluk15: yogunluk15, yogunluk10: yogunluk10, yogunluk5: yogunluk5, yogunluk3: yogunluk3, gizliAdet: gizliAdet1990,
+          ortalamaVerim: ortalamaVerimTumu, ortalamaVerim25: ortalamaVerim25, ortalamaVerim20: ortalamaVerim20, ortalamaVerim15: ortalamaVerim15, ortalamaVerim10: ortalamaVerim10, ortalamaVerim5: ortalamaVerim5, ortalamaVerim3: ortalamaVerim3,
+          odemeYilTumu: odemeYaptigiYilSayisiTumu, odemeYil25: odemeYaptigiYilSayisi25, odemeYil20: odemeYaptigiYilSayisi20, odemeYil15: odemeYaptigiYilSayisi15, odemeYil10: odemeYaptigiYilSayisi10, odemeYil5: odemeYaptigiYilSayisi5, odemeYil3: odemeYaptigiYilSayisi3,
           tbh: gData.val, satir: satir, artisSerisi: artisSerisi,
           htmlGovde: icSutunlarHtml, expandGovde: expandHtml, satirId: i
         });
@@ -1114,6 +1122,7 @@
         else if (fD === "10") aktifYogunluk = hisseObj ? hisseObj.yogunluk10 : 0;
         else if (fD === "15") aktifYogunluk = hisseObj ? hisseObj.yogunluk15 : 0;
         else if (fD === "20") aktifYogunluk = hisseObj ? hisseObj.yogunluk20 : 0;
+        else if (fD === "25") aktifYogunluk = hisseObj ? hisseObj.yogunluk25 : 0;
 
         let badgeEl = tr.querySelector('.yog-badge');
         if (badgeEl) {
@@ -1184,8 +1193,8 @@
           let sb = HISSE_MAP[hb] || {};
 
           if (genelSort === "YOG_DESC") {
-            let aktifYogA = sa.yogunluk; if(fD === "3") aktifYogA = sa.yogunluk3; else if(fD === "5") aktifYogA = sa.yogunluk5; else if(fD === "10") aktifYogA = sa.yogunluk10; else if(fD === "15") aktifYogA = sa.yogunluk15; else if(fD === "20") aktifYogA = sa.yogunluk20;
-            let aktifYogB = sb.yogunluk; if(fD === "3") aktifYogB = sb.yogunluk3; else if(fD === "5") aktifYogB = sb.yogunluk5; else if(fD === "10") aktifYogB = sb.yogunluk10; else if(fD === "15") aktifYogB = sb.yogunluk15; else if(fD === "20") aktifYogB = sb.yogunluk20;
+            let aktifYogA = sa.yogunluk; if(fD === "3") aktifYogA = sa.yogunluk3; else if(fD === "5") aktifYogA = sa.yogunluk5; else if(fD === "10") aktifYogA = sa.yogunluk10; else if(fD === "15") aktifYogA = sa.yogunluk15; else if(fD === "20") aktifYogA = sa.yogunluk20; else if(fD === "25") aktifYogA = sa.yogunluk25;
+            let aktifYogB = sb.yogunluk; if(fD === "3") aktifYogB = sb.yogunluk3; else if(fD === "5") aktifYogB = sb.yogunluk5; else if(fD === "10") aktifYogB = sb.yogunluk10; else if(fD === "15") aktifYogB = sb.yogunluk15; else if(fD === "20") aktifYogB = sb.yogunluk20; else if(fD === "25") aktifYogB = sb.yogunluk25;
             return (aktifYogB || 0) - (aktifYogA || 0);
           }
           if (genelSort === "VERIM_DESC") return seciliDonemVerimiAl(sb, fD) - seciliDonemVerimiAl(sa, fD);
@@ -1207,8 +1216,8 @@
           let sa = HISSE_MAP[ha] || {};
           let sb = HISSE_MAP[hb] || {};
 
-          let aktifYogA = sa.yogunluk; if(fD === "3") aktifYogA = sa.yogunluk3; else if(fD === "5") aktifYogA = sa.yogunluk5; else if(fD === "10") aktifYogA = sa.yogunluk10; else if(fD === "15") aktifYogA = sa.yogunluk15; else if(fD === "20") aktifYogA = sa.yogunluk20;
-          let aktifYogB = sb.yogunluk; if(fD === "3") aktifYogB = sb.yogunluk3; else if(fD === "5") aktifYogB = sb.yogunluk5; else if(fD === "10") aktifYogB = sb.yogunluk10; else if(fD === "15") aktifYogB = sb.yogunluk15; else if(fD === "20") aktifYogB = sb.yogunluk20;
+          let aktifYogA = sa.yogunluk; if(fD === "3") aktifYogA = sa.yogunluk3; else if(fD === "5") aktifYogA = sa.yogunluk5; else if(fD === "10") aktifYogA = sa.yogunluk10; else if(fD === "15") aktifYogA = sa.yogunluk15; else if(fD === "20") aktifYogA = sa.yogunluk20; else if(fD === "25") aktifYogA = sa.yogunluk25;
+          let aktifYogB = sb.yogunluk; if(fD === "3") aktifYogB = sb.yogunluk3; else if(fD === "5") aktifYogB = sb.yogunluk5; else if(fD === "10") aktifYogB = sb.yogunluk10; else if(fD === "15") aktifYogB = sb.yogunluk15; else if(fD === "20") aktifYogB = sb.yogunluk20; else if(fD === "25") aktifYogB = sb.yogunluk25;
 
           if (Math.abs((aktifYogB || 0) - (aktifYogA || 0)) > 0.0001) return (aktifYogB || 0) - (aktifYogA || 0);
 
