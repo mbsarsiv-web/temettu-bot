@@ -976,7 +976,7 @@
       for (let r = 0; r < islenmisSatirlar.length; r++) {
         let sId = islenmisSatirlar[r].satirId;
         let hKod = islenmisSatirlar[r].hisse;
-        html += '<tr class="main-row" data-hisse="' + hKod + '" onclick="toggleRow(\'expand-' + sId + '\', this)">';
+        html += '<tr class="main-row" data-hisse="' + hKod + '" data-expand-id="expand-' + sId + '" onclick="toggleRow(\'expand-' + sId + '\', this)">';
         html += islenmisSatirlar[r].htmlGovde;
         html += '</tr>';
         html += islenmisSatirlar[r].expandGovde;
@@ -1001,8 +1001,8 @@
       let trs = document.querySelectorAll("#tabloGovdesi tr.main-row");
       let hSet = new Set();
       for (let i = 0; i < trs.length; i++) {
-        let hKod = trs[i].cells[0].innerText.trim().toUpperCase();
-        hSet.add(hKod);
+        let hKod = trs[i].getAttribute("data-hisse");
+        if (hKod) hSet.add(hKod);
       }
       let hSel = document.getElementById("filterHisse");
       Array.from(hSet).sort().forEach(v => hSel.innerHTML += '<option value="' + v + '">' + v + '</option>');
@@ -1108,21 +1108,27 @@
       let fD = document.getElementById("filterDonem").value;
       let fV = document.getElementById("filterVerim").value;
       let fA = document.getElementById("filterArtis").value;
+
+      let govde = document.getElementById("tabloGovdesi");
+      govde.style.display = 'none'; // Performans optimizasyonu: Reflow'u engelle
+      
       let mainTrs = Array.from(document.querySelectorAll("#tabloGovdesi tr.main-row"));
 
       mainTrs.forEach(tr => {
-        let hisseKodu = tr.cells[0].innerText.trim().toUpperCase();
+        let hisseKodu = tr.getAttribute("data-hisse"); // Hızlı DOM erişimi
         let hisseObj = HISSE_MAP[hisseKodu];
+        if (!hisseObj) return;
+
         let ortVerim = seciliDonemVerimiAl(hisseObj, fD);
         let odemeSayisi = seciliDonemAdetAl(hisseObj, fD);
 
         let aktifYogunluk = hisseObj ? hisseObj.yogunluk : 0;
-        if (fD === "3") aktifYogunluk = hisseObj ? hisseObj.yogunluk3 : 0;
-        else if (fD === "5") aktifYogunluk = hisseObj ? hisseObj.yogunluk5 : 0;
-        else if (fD === "10") aktifYogunluk = hisseObj ? hisseObj.yogunluk10 : 0;
-        else if (fD === "15") aktifYogunluk = hisseObj ? hisseObj.yogunluk15 : 0;
-        else if (fD === "20") aktifYogunluk = hisseObj ? hisseObj.yogunluk20 : 0;
-        else if (fD === "25") aktifYogunluk = hisseObj ? hisseObj.yogunluk25 : 0;
+        if (fD === "3") aktifYogunluk = hisseObj.yogunluk3;
+        else if (fD === "5") aktifYogunluk = hisseObj.yogunluk5;
+        else if (fD === "10") aktifYogunluk = hisseObj.yogunluk10;
+        else if (fD === "15") aktifYogunluk = hisseObj.yogunluk15;
+        else if (fD === "20") aktifYogunluk = hisseObj.yogunluk20;
+        else if (fD === "25") aktifYogunluk = hisseObj.yogunluk25;
 
         let badgeEl = tr.querySelector('.yog-badge');
         if (badgeEl) {
@@ -1134,9 +1140,9 @@
           tr.cells[idxYogunlukGlobal].setAttribute("data-value", aktifYogunluk);
         }
 
-        let expandId = tr.getAttribute("onclick").match(/'([^']+)'/)[1];
+        let expandId = tr.getAttribute("data-expand-id");
         let expandRow = expandId ? document.getElementById(expandId) : null;
-        if (expandRow && hisseObj) {
+        if (expandRow) {
           let baslikEl = expandRow.querySelector(".ort-verim-baslik");
           let degerEl = expandRow.querySelector(".ort-verim-deger");
           if (baslikEl) {
@@ -1159,7 +1165,7 @@
         }
 
         let artisSarti = true;
-        if (fA !== "TÜMÜ" && hisseObj) {
+        if (fA !== "TÜMÜ") {
             artisSarti = (hisseObj.artisSerisi >= parseInt(fA));
         }
 
@@ -1188,7 +1194,7 @@
         });
       } else if (genelSort) {
         mainTrs.sort((a, b) => {
-          let ha = a.cells[0].innerText.trim(), hb = b.cells[0].innerText.trim();
+          let ha = a.getAttribute("data-hisse"), hb = b.getAttribute("data-hisse");
           let sa = HISSE_MAP[ha] || {};
           let sb = HISSE_MAP[hb] || {};
 
@@ -1212,7 +1218,7 @@
         });
       } else if (fD !== "TÜMÜ") {
         mainTrs.sort((a, b) => {
-          let ha = a.cells[0].innerText.trim(), hb = b.cells[0].innerText.trim();
+          let ha = a.getAttribute("data-hisse"), hb = b.getAttribute("data-hisse");
           let sa = HISSE_MAP[ha] || {};
           let sb = HISSE_MAP[hb] || {};
 
@@ -1227,16 +1233,32 @@
           if ((sb.gizliAdet || 0) !== (sa.gizliAdet || 0)) return (sb.gizliAdet || 0) - (sa.gizliAdet || 0);
           return ha.localeCompare(hb);
         });
+      } else {
+        // HİÇBİR FİLTRE VEYA SIRALAMA YOKSA: VARSAYILAN İLK AÇILIŞ DÜZENİNE DÖN
+        mainTrs.sort((a, b) => {
+          let ha = a.getAttribute("data-hisse"), hb = b.getAttribute("data-hisse");
+          let sa = HISSE_MAP[ha] || {};
+          let sb = HISSE_MAP[hb] || {};
+
+          if (Math.abs((sb.yogunluk || 0) - (sa.yogunluk || 0)) > 0.0001) return (sb.yogunluk || 0) - (sa.yogunluk || 0);
+          if (Math.abs((sb.ortalamaVerim || 0) - (sa.ortalamaVerim || 0)) > 0.0001) return (sb.ortalamaVerim || 0) - (sa.ortalamaVerim || 0);
+          if ((sb.gizliAdet || 0) !== (sa.gizliAdet || 0)) return (sb.gizliAdet || 0) - (sa.gizliAdet || 0);
+          return ha.localeCompare(hb);
+        });
       }
 
-      let govde = document.getElementById("tabloGovdesi");
+      // DOM'a Toplu Ekleme
       mainTrs.forEach(tr => {
         govde.appendChild(tr);
-        let expandId = tr.getAttribute("onclick").match(/'([^']+)'/)[1];
-        let expandRow = expandId ? document.getElementById(expandId) : null;
-        if (expandRow) govde.appendChild(expandRow);
+        let expandId = tr.getAttribute("data-expand-id");
+        if (expandId) {
+            let expandRow = document.getElementById(expandId);
+            if (expandRow) govde.appendChild(expandRow);
+        }
       });
 
+      govde.style.display = ''; // Tabloyu tekrar görünür yap
+      
       chipleriCiz();
       kpiGuncelle();
     }
