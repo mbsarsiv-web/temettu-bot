@@ -12,6 +12,7 @@
     ::-webkit-scrollbar-track { background: #f1f3f4; border-radius: 4px; }
     ::-webkit-scrollbar-thumb { background: #c1c3c6; border-radius: 4px; }
     ::-webkit-scrollbar-thumb:hover { background: #a8aaad; }
+    
     .header { background-color: #ffffff; padding: 5px 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); z-index: 20; position: relative; }
     .header-content { max-width: 1400px; margin: 0 auto; display: flex; justify-content: center; align-items: center; position: relative; min-height: 22px; }
     .header h2 { margin: 0; color: #202124; font-size: 18px; letter-spacing: 0.5px; }
@@ -135,8 +136,8 @@
       .search-wrap { flex: 0 1 120px; }
       
       .table-container { overflow-x: auto; margin: 8px; }
-      /* Sabit tablo yapısı: Taşkınlıkları önler ve ekrana tam sığdırır */
-      table { table-layout: fixed; width: 100%; }
+      /* TV uyumlu, daraltılabilen ama içeriği ezmeyen yapı */
+      table { table-layout: auto; width: 100%; min-width: auto; }
       td, th { font-size: 11px !important; padding: 4px 2px !important; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
       thead tr:nth-child(1) th { font-size: 13px !important; padding: 5px 2px !important; white-space: nowrap; }
       td:first-child, .arz-yili { font-size: 12px !important; }
@@ -149,12 +150,12 @@
       .tbh-cell.growth-plus, .tbh-cell.growth-minus { font-size: 13px !important; font-weight: 700 !important; }
       .check-icon { font-size: 12px !important; font-weight: 700 !important; line-height: 1.1; }
       
-      /* Kolon genişlikleri ekrana tam orantılı dağıtılır */
-      .hisse-col { width: 6.5%; } 
-      .arz-header-col { width: 4%; } 
-      .tbh-header-col { width: 12%; font-size: 11px !important; letter-spacing: -0.2px; } 
-      .trend-header-col { width: 7.5%; }
-      .tight-col { width: 5%; padding-left: 2px !important; padding-right: 2px !important; }
+      /* Kolon genişlik optimizasyonları */
+      .hisse-col { width: 5%; } 
+      .arz-header-col { width: 3%; } 
+      .tbh-header-col { width: 10%; font-size: 11px !important; letter-spacing: -0.2px; } 
+      .trend-header-col { width: 6%; }
+      .tight-col { padding-left: 2px !important; padding-right: 2px !important; }
       
       .bar, .main-row, .main-row td:first-child, .info-icon { transition: none !important; }
       .bar:hover, .info-icon:hover { transform: none !important; }
