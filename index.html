@@ -354,21 +354,21 @@
     function getDynamicGrowthByYears(satir, basYil, bitYil, orjBasliklar) {
       let NA = { val: null };
       let iBas = -1, iBit = -1;
+      
       for (let m = 2; m < orjBasliklar.length - 1; m++) {
         let y = orjBasliklar[m].toString().trim();
         if (y === String(basYil)) iBas = m;
         if (y === String(bitYil)) iBit = m;
       }
+      
       if (iBas === -1 || iBit === -1 || iBit <= iBas) return NA;
+      
       let ilk = sayiyaCevir(satir[iBas]);
       let son = sayiyaCevir(satir[iBit]);
       if (ilk <= 0 || son <= 0) return NA;
 
-      let donem = iBit - iBas;
-
-      if (String(basYil) === "2016" && String(bitYil) === "2025") {
-          donem = 10;
-      }
+      let donem = parseInt(bitYil) - parseInt(basYil);
+      if (donem <= 0) return NA;
 
       let cagr = (Math.pow(son / ilk, 1 / donem) - 1) * 100;
       return { val: cagr };
@@ -391,11 +391,15 @@
 
       let mainTrs = document.querySelectorAll("#tabloGovdesi tr.main-row");
       mainTrs.forEach(function(tr) {
-        let hKod = tr.getAttribute("data-hisse");
+        let hKod = tr.getAttribute("data-hisse"); 
+        if (!hKod) return;
+        
         let hisseObj = HISSE_MAP[hKod];
         if (!hisseObj) return;
+        
         let gData = getDynamicGrowthByYears(hisseObj.satir, basYil, bitYil, GLOBAL_SLICE_BASLIKLAR);
         hisseObj.tbh = gData.val;
+        
         let tbhTd = tr.querySelector(".tbh-cell");
         if (tbhTd) {
           if (gData.val === null) {
@@ -963,7 +967,7 @@
       for (let r = 0; r < islenmisSatirlar.length; r++) {
         let sId = islenmisSatirlar[r].satirId;
         let hKod = islenmisSatirlar[r].hisse;
-        html += '<tr class="main-row" onclick="toggleRow(\'expand-' + sId + '\', this)">';
+        html += '<tr class="main-row" data-hisse="' + hKod + '" onclick="toggleRow(\'expand-' + sId + '\', this)">';
         html += islenmisSatirlar[r].htmlGovde;
         html += '</tr>';
         html += islenmisSatirlar[r].expandGovde;
