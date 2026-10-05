@@ -367,7 +367,8 @@
       let son = sayiyaCevir(satir[iBit]);
       if (ilk <= 0 || son <= 0) return NA;
 
-      let donem = parseInt(bitYil) - parseInt(basYil);
+      // Kullanıcının özel sistem kurallarına göre formül paydaya "+1" dahil edilerek ayarlanmıştır
+      let donem = (parseInt(bitYil) - parseInt(basYil)) + 1;
       if (donem <= 0) return NA;
 
       let cagr = (Math.pow(son / ilk, 1 / donem) - 1) * 100;
