@@ -1426,7 +1426,17 @@
         if (k === '1') return true;
         if (k === '0') return false;
       } catch (e) { }
-      return /Tizen|Web0S|WebOS|SMART-TV|SmartTV|NetCast|HbbTV|BRAVIA|VIDAA|AFTM|Android TV|GoogleTV|Viera|AquosBrowser|Roku/i.test(navigator.userAgent);
+      let ua = navigator.userAgent || "";
+      // 1) Bilinen TV tarayıcı kimlikleri
+      if (/Tizen|Web0S|WebOS|SMART-TV|SmartTV|SMART TV|NetCast|HbbTV|BRAVIA|VIDAA|AFTM|AFTT|AFTS|Android TV|GoogleTV|Google TV|Viera|AquosBrowser|Roku|Hisense|Philips|TCL|Large Screen|MiBOX|CrKey|TV Safari|Opera TV|Espial|SonyDTV|Tesla|Vestel|Arcelik|Beko|Grundig|Sunny|Skyworth|Xiaomi.*TV|AppleTV|Xbox|PlayStation|Silk/i.test(ua)) return true;
+      // 2) Kimlik tanınmasa bile: büyük ekran + fare/dokunmatik yok (uzaktan kumanda) = TV
+      try {
+        let genis = Math.max(window.screen.width || 0, window.innerWidth || 0) >= 1000;
+        let fareYok = window.matchMedia && !window.matchMedia('(any-hover: hover)').matches && !window.matchMedia('(any-pointer: fine)').matches;
+        let dokunmatikYok = !('ontouchstart' in window) && !(navigator.maxTouchPoints > 0);
+        if (genis && fareYok && dokunmatikYok) return true;
+      } catch (e) { }
+      return false;
     }
 
     function tvBaslikHizala() {
