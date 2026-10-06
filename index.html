@@ -770,6 +770,16 @@
         let maxMiktar = 0;
         let sparkDegerler = [];
 
+        let arzYili = parseInt(satir[1]) || 1990;
+
+        // FİLTRELER İÇİN HALKA ARZ YILINA DUYARLI YENİ PAYDA HESAPLAMALARI
+        let maxOdeme25 = Math.max(0, guncelYil - Math.max(arzYili, min25Yil) + 1);
+        let maxOdeme20 = Math.max(0, guncelYil - Math.max(arzYili, min20Yil) + 1);
+        let maxOdeme15 = Math.max(0, guncelYil - Math.max(arzYili, min15Yil) + 1);
+        let maxOdeme10 = Math.max(0, guncelYil - Math.max(arzYili, min10Yil) + 1);
+        let maxOdeme5  = Math.max(0, guncelYil - Math.max(arzYili, min5Yil) + 1);
+        let maxOdeme3  = Math.max(0, guncelYil - Math.max(arzYili, min3Yil) + 1);
+
         for (let j = 0; j <= idxYogunluk; j++) {
           if (skipIndices.indexOf(j) > -1) continue;
           let cell = satir[j];
@@ -819,13 +829,6 @@
         let toplamVerim10Yil = 0, odemeYaptigiYilSayisi10 = 0;
         let toplamVerim5Yil = 0, odemeYaptigiYilSayisi5 = 0;
         let toplamVerim3Yil = 0, odemeYaptigiYilSayisi3 = 0;
-
-        let maxOdeme25 = 25;
-        let maxOdeme20 = 20;
-        let maxOdeme15 = 15;
-        let maxOdeme10 = 10;
-        let maxOdeme5  = 5;
-        let maxOdeme3  = 3;
 
         for (let yilS = 1990; yilS <= guncelYil; yilS++) {
           let vVal = verimMap[temizKod + "_" + yilS];
