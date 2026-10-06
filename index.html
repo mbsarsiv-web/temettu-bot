@@ -507,15 +507,20 @@
       }
     }
 
+    // YENİ VE GÜVENLİ VERİM OKUMA FONKSİYONU
     function seciliDonemVerimiAl(hisseObj, donem) {
       if (!hisseObj) return 0;
-      if (donem === "3") return hisseObj.ortalamaVerim3;
-      if (donem === "5") return hisseObj.ortalamaVerim5;
-      if (donem === "10") return hisseObj.ortalamaVerim10;
-      if (donem === "15") return hisseObj.ortalamaVerim15;
-      if (donem === "20") return hisseObj.ortalamaVerim20;
-      if (donem === "25") return hisseObj.ortalamaVerim25;
-      return hisseObj.ortalamaVerim;
+      let val = 0;
+      if (donem === "3") val = hisseObj.ortalamaVerim3;
+      else if (donem === "5") val = hisseObj.ortalamaVerim5;
+      else if (donem === "10") val = hisseObj.ortalamaVerim10;
+      else if (donem === "15") val = hisseObj.ortalamaVerim15;
+      else if (donem === "20") val = hisseObj.ortalamaVerim20;
+      else if (donem === "25") val = hisseObj.ortalamaVerim25;
+      else val = hisseObj.ortalamaVerim;
+      
+      // NaN ve Undefined kontrolü
+      return (typeof val === 'number' && !isNaN(val)) ? val : 0;
     }
 
     function seciliDonemAdetAl(hisseObj, donem) {
@@ -770,7 +775,6 @@
         let maxMiktar = 0;
         let sparkDegerler = [];
 
-        // FİLTRELER İÇİN SABİT VE KATI YIL PAYDALARI (Yaş toleransı iptal edildi)
         let maxOdeme25 = 25;
         let maxOdeme20 = 20;
         let maxOdeme15 = 15;
@@ -872,7 +876,6 @@
 
         let tumYillarTutar = [];
         let tumYillarAdjDPS = [];
-        let tumYillarBedelsiz = [];
 
         for (let idxY = 2; idxY < idxYogunluk; idxY++) {
           let tDeger = sayiyaCevir(satir[idxY]); 
@@ -1101,6 +1104,7 @@
       document.getElementById('kpiCount').innerText = trs.length;
     }
 
+    // YENİDEN YAZILMIŞ, TAM GÜVENLİ SORT (SIRALAMA) MANTIĞI
     function uygula() {
       let arama = document.getElementById("hisseArama").value.trim().toUpperCase();
       let fHisseEl = document.getElementById("filterHisse");
@@ -1111,12 +1115,12 @@
       let fA = document.getElementById("filterArtis").value;
 
       let govde = document.getElementById("tabloGovdesi");
-      govde.style.display = 'none'; // Performans optimizasyonu: Reflow'u engelle
+      govde.style.display = 'none'; 
       
       let mainTrs = Array.from(document.querySelectorAll("#tabloGovdesi tr.main-row"));
 
       mainTrs.forEach(tr => {
-        let hisseKodu = tr.getAttribute("data-hisse"); // Hızlı DOM erişimi
+        let hisseKodu = tr.getAttribute("data-hisse"); 
         let hisseObj = HISSE_MAP[hisseKodu];
         if (!hisseObj) return;
 
@@ -1200,15 +1204,19 @@
           let sb = HISSE_MAP[hb] || {};
 
           if (genelSort === "YOG_DESC") {
-            let aktifYogA = sa.yogunluk; if(fD === "3") aktifYogA = sa.yogunluk3; else if(fD === "5") aktifYogA = sa.yogunluk5; else if(fD === "10") aktifYogA = sa.yogunluk10; else if(fD === "15") aktifYogA = sa.yogunluk15; else if(fD === "20") aktifYogA = sa.yogunluk20; else if(fD === "25") aktifYogA = sa.yogunluk25;
-            let aktifYogB = sb.yogunluk; if(fD === "3") aktifYogB = sb.yogunluk3; else if(fD === "5") aktifYogB = sb.yogunluk5; else if(fD === "10") aktifYogB = sb.yogunluk10; else if(fD === "15") aktifYogB = sb.yogunluk15; else if(fD === "20") aktifYogB = sb.yogunluk20; else if(fD === "25") aktifYogB = sb.yogunluk25;
-            return (aktifYogB || 0) - (aktifYogA || 0);
+            let aktifYogA = sa.yogunluk || 0; if(fD === "3") aktifYogA = sa.yogunluk3 || 0; else if(fD === "5") aktifYogA = sa.yogunluk5 || 0; else if(fD === "10") aktifYogA = sa.yogunluk10 || 0; else if(fD === "15") aktifYogA = sa.yogunluk15 || 0; else if(fD === "20") aktifYogA = sa.yogunluk20 || 0; else if(fD === "25") aktifYogA = sa.yogunluk25 || 0;
+            let aktifYogB = sb.yogunluk || 0; if(fD === "3") aktifYogB = sb.yogunluk3 || 0; else if(fD === "5") aktifYogB = sb.yogunluk5 || 0; else if(fD === "10") aktifYogB = sb.yogunluk10 || 0; else if(fD === "15") aktifYogB = sb.yogunluk15 || 0; else if(fD === "20") aktifYogB = sb.yogunluk20 || 0; else if(fD === "25") aktifYogB = sb.yogunluk25 || 0;
+            return aktifYogB - aktifYogA;
           }
-          if (genelSort === "VERIM_DESC") return seciliDonemVerimiAl(sb, fD) - seciliDonemVerimiAl(sa, fD);
+          if (genelSort === "VERIM_DESC") {
+            let verimA = seciliDonemVerimiAl(sa, fD);
+            let verimB = seciliDonemVerimiAl(sb, fD);
+            return verimB - verimA;
+          }
           if (genelSort === "TBH_DESC") {
             let tbhA = sa.tbh; let tbhB = sb.tbh;
-            let isNaNA = tbhA === null || tbhA === undefined || tbhA === -999;
-            let isNaNB = tbhB === null || tbhB === undefined || tbhB === -999;
+            let isNaNA = tbhA === null || tbhA === undefined || tbhA === -999 || isNaN(tbhA);
+            let isNaNB = tbhB === null || tbhB === undefined || tbhB === -999 || isNaN(tbhB);
             if (isNaNA && isNaNB) return 0;
             if (isNaNA) return 1;
             if (isNaNB) return -1;
@@ -1223,14 +1231,15 @@
           let sa = HISSE_MAP[ha] || {};
           let sb = HISSE_MAP[hb] || {};
 
-          let aktifYogA = sa.yogunluk; if(fD === "3") aktifYogA = sa.yogunluk3; else if(fD === "5") aktifYogA = sa.yogunluk5; else if(fD === "10") aktifYogA = sa.yogunluk10; else if(fD === "15") aktifYogA = sa.yogunluk15; else if(fD === "20") aktifYogA = sa.yogunluk20; else if(fD === "25") aktifYogA = sa.yogunluk25;
-          let aktifYogB = sb.yogunluk; if(fD === "3") aktifYogB = sb.yogunluk3; else if(fD === "5") aktifYogB = sb.yogunluk5; else if(fD === "10") aktifYogB = sb.yogunluk10; else if(fD === "15") aktifYogB = sb.yogunluk15; else if(fD === "20") aktifYogB = sb.yogunluk20; else if(fD === "25") aktifYogB = sb.yogunluk25;
+          let aktifYogA = sa.yogunluk || 0; if(fD === "3") aktifYogA = sa.yogunluk3 || 0; else if(fD === "5") aktifYogA = sa.yogunluk5 || 0; else if(fD === "10") aktifYogA = sa.yogunluk10 || 0; else if(fD === "15") aktifYogA = sa.yogunluk15 || 0; else if(fD === "20") aktifYogA = sa.yogunluk20 || 0; else if(fD === "25") aktifYogA = sa.yogunluk25 || 0;
+          let aktifYogB = sb.yogunluk || 0; if(fD === "3") aktifYogB = sb.yogunluk3 || 0; else if(fD === "5") aktifYogB = sb.yogunluk5 || 0; else if(fD === "10") aktifYogB = sb.yogunluk10 || 0; else if(fD === "15") aktifYogB = sb.yogunluk15 || 0; else if(fD === "20") aktifYogB = sb.yogunluk20 || 0; else if(fD === "25") aktifYogB = sb.yogunluk25 || 0;
 
-          if (Math.abs((aktifYogB || 0) - (aktifYogA || 0)) > 0.0001) return (aktifYogB || 0) - (aktifYogA || 0);
+          if (Math.abs(aktifYogB - aktifYogA) > 0.0001) return aktifYogB - aktifYogA;
 
           let va = seciliDonemVerimiAl(sa, fD);
           let vb = seciliDonemVerimiAl(sb, fD);
           if (Math.abs(vb - va) > 0.0001) return vb - va;
+          
           if ((sb.gizliAdet || 0) !== (sa.gizliAdet || 0)) return (sb.gizliAdet || 0) - (sa.gizliAdet || 0);
           return ha.localeCompare(hb);
         });
@@ -1242,7 +1251,11 @@
           let sb = HISSE_MAP[hb] || {};
 
           if (Math.abs((sb.yogunluk || 0) - (sa.yogunluk || 0)) > 0.0001) return (sb.yogunluk || 0) - (sa.yogunluk || 0);
-          if (Math.abs((sb.ortalamaVerim || 0) - (sa.ortalamaVerim || 0)) > 0.0001) return (sb.ortalamaVerim || 0) - (sa.ortalamaVerim || 0);
+          
+          let va = (typeof sa.ortalamaVerim === 'number' && !isNaN(sa.ortalamaVerim)) ? sa.ortalamaVerim : 0;
+          let vb = (typeof sb.ortalamaVerim === 'number' && !isNaN(sb.ortalamaVerim)) ? sb.ortalamaVerim : 0;
+          if (Math.abs(vb - va) > 0.0001) return vb - va;
+          
           if ((sb.gizliAdet || 0) !== (sa.gizliAdet || 0)) return (sb.gizliAdet || 0) - (sa.gizliAdet || 0);
           return ha.localeCompare(hb);
         });
@@ -1258,7 +1271,7 @@
         }
       });
 
-      govde.style.display = ''; // Tabloyu tekrar görünür yap
+      govde.style.display = ''; 
       
       chipleriCiz();
       kpiGuncelle();
