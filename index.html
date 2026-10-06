@@ -171,8 +171,7 @@
 
   <div class="header">
     <div class="header-content">
-      <!-- UYARI: BURAYA "v13" GÖRSEL KANITI EKLENDİ -->
-      <h2>TEMETTÜ ANALİZ <span style="font-size:11px; color:#1a73e8; background:#e8f0fe; padding:2px 6px; border-radius:10px; margin-left:5px;">v13</span></h2>
+      <h2>TEMETTÜ ANALİZ <span style="font-size:11px; color:#1a73e8; background:#e8f0fe; padding:2px 6px; border-radius:10px; margin-left:5px;">v14</span></h2>
       <div id="updateDate" class="update-text">
         <span id="updateDateText">(SON GÜNCELLEME: Yükleniyor...)</span>
       </div>
@@ -819,7 +818,7 @@
             } else {
               if (bedelsizOrani > 0) {
                 let formatliMiktarHover = 'Nakit Yok (Sadece %' + fmtBedelsiz + ' Bedelsiz)';
-                icSutunlarHtml += '<td data-value="0" class="empty-cell bedelsiz-hucre"><span title="Sadece %' + fmtBedelsiz + ' Bedelsiz Bölünme">-</span><span class="info-icon" title="' + formatliMiktarHover + '" onclick="event.stopPropagation(); gosterBilgi(\'' + temizKod + '\', \'' + sutunYili + '\', \'0\', ' + bedelsizOrani + ')">ℹ️️</span></td>';
+                icSutunlarHtml += '<td data-value="0" class="empty-cell bedelsiz-hucre"><span title="Sadece %' + fmtBedelsiz + ' Bedelsiz Bölünme">-</span><span class="info-icon" title="' + formatliMiktarHover + '" onclick="event.stopPropagation(); gosterBilgi(\'' + temizKod + '\', \'' + sutunYili + '\', \'0\', ' + bedelsizOrani + ')">ℹ</span></td>';
               } else {
                 icSutunlarHtml += '<td data-value="0" class="empty-cell">-</td>';
               }
@@ -979,6 +978,7 @@
         });
       }
 
+      // İLK AÇILIŞ SIRALAMASI
       islenmisSatirlar.sort(function(a, b) {
         let yogA = cleanSafeNum(a.yogunluk);
         let yogB = cleanSafeNum(b.yogunluk);
@@ -1132,10 +1132,12 @@
       let fA = document.getElementById("filterArtis").value;
 
       let govde = document.getElementById("tabloGovdesi");
+      if(!govde) return;
       govde.style.display = 'none'; 
       
       let mainTrs = Array.from(document.querySelectorAll("#tabloGovdesi tr.main-row"));
 
+      // Görünürlük Hesaplaması
       mainTrs.forEach(tr => {
         let hisseKodu = tr.getAttribute("data-hisse"); 
         let hisseObj = HISSE_MAP[hisseKodu];
@@ -1194,6 +1196,7 @@
 
       let genelSort = document.getElementById('genelSirala').value;
 
+      // SIRALAMA
       if (currentSortCol > -1) {
         mainTrs.sort((a, b) => {
           let valA = a.cells[currentSortCol].getAttribute("data-value");
@@ -1211,8 +1214,12 @@
         mainTrs.sort((a, b) => {
           let ha = a.getAttribute("data-hisse") || "";
           let hb = b.getAttribute("data-hisse") || "";
-          let sa = HISSE_MAP[ha] || {};
-          let sb = HISSE_MAP[hb] || {};
+          let sa = HISSE_MAP[ha];
+          let sb = HISSE_MAP[hb];
+          
+          if (!sa && !sb) return 0;
+          if (!sa) return 1;
+          if (!sb) return -1;
 
           if (genelSort === "YOG_DESC") {
             let yogA = cleanSafeNum(seciliDonemYogunlukAl(sa, fD));
@@ -1255,11 +1262,16 @@
           return 0;
         });
       } else {
+        // Varsayılan
         mainTrs.sort((a, b) => {
           let ha = a.getAttribute("data-hisse") || "";
           let hb = b.getAttribute("data-hisse") || "";
-          let sa = HISSE_MAP[ha] || {};
-          let sb = HISSE_MAP[hb] || {};
+          let sa = HISSE_MAP[ha];
+          let sb = HISSE_MAP[hb];
+
+          if (!sa && !sb) return 0;
+          if (!sa) return 1;
+          if (!sb) return -1;
 
           let yogA = cleanSafeNum(seciliDonemYogunlukAl(sa, fD));
           let yogB = cleanSafeNum(seciliDonemYogunlukAl(sb, fD));
@@ -1276,6 +1288,7 @@
         });
       }
 
+      // DOM Ekleme
       mainTrs.forEach(tr => {
         govde.appendChild(tr);
         let expandId = tr.getAttribute("data-expand-id");
@@ -1286,7 +1299,6 @@
       });
 
       govde.style.display = ''; 
-      
       chipleriCiz();
       kpiGuncelle();
     }
@@ -1296,7 +1308,7 @@
     }
 
     const GAS_API_URL = "https://script.google.com/macros/s/AKfycbxo9u41oj1aXxgkuE7gTnHdeG_mzT41o3WmaYhhqNNUJi_NTDzLOmSBSnHAhfsvhOiK/exec";
-    const CACHE_KEY = "temettuTabloCacheV13"; 
+    const CACHE_KEY = "temettuTabloCacheV14"; 
 
     function gosterHata(mesaj) {
       document.getElementById('tableContainer').innerHTML = '<div class="error-msg">' + mesaj + '<br><br><button class="modal-btn" onclick="veriCek()">Tekrar Dene</button></div>';
@@ -1309,7 +1321,7 @@
       if (cachedStr) {
         try {
           let parsed = JSON.parse(cachedStr);
-          if (parsed.v === 13 && parsed.data) {
+          if (parsed.v === 14 && parsed.data) {
             tabloyuCiz(parsed.data);
             uygula();
             document.getElementById('updateDateText').innerText = 'SON GÜNCELLEME: ' + escapeHtml(parsed.data.sonGuncelleme) + ' (Önbellek)';
@@ -1329,7 +1341,7 @@
           if (data.hata) {
             gosterHata("Sunucu hatası: " + escapeHtml(data.hata));
           } else {
-            try { localStorage.setItem(CACHE_KEY, JSON.stringify({ v: 13, data: data })); } catch(e) { }
+            try { localStorage.setItem(CACHE_KEY, JSON.stringify({ v: 14, data: data })); } catch(e) { }
             tabloyuCiz(data);
             uygula();
             tarihiYazdir(data.sonGuncelleme);
