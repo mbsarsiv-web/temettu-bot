@@ -507,17 +507,36 @@
       }
     }
 
+    // ==========================================
+    // KUSURSUZ GÜVENLİK DUVARI (EKSİKSİZ FONKSİYONLAR)
+    // ==========================================
+    function getSafeNum(val) {
+      if (typeof val === 'number' && !isNaN(val)) return val;
+      if (!val) return 0;
+      let parsed = parseFloat(val.toString().replace(',', '.'));
+      return isNaN(parsed) ? 0 : parsed;
+    }
+
     function seciliDonemVerimiAl(hisseObj, donem) {
       if (!hisseObj) return 0;
-      let val = 0;
-      if (donem === "3") val = hisseObj.ortalamaVerim3;
-      else if (donem === "5") val = hisseObj.ortalamaVerim5;
-      else if (donem === "10") val = hisseObj.ortalamaVerim10;
-      else if (donem === "15") val = hisseObj.ortalamaVerim15;
-      else if (donem === "20") val = hisseObj.ortalamaVerim20;
-      else if (donem === "25") val = hisseObj.ortalamaVerim25;
-      else val = hisseObj.ortalamaVerim;
-      return (typeof val === 'number' && !isNaN(val)) ? val : 0;
+      if (donem === "3") return getSafeNum(hisseObj.ortalamaVerim3);
+      if (donem === "5") return getSafeNum(hisseObj.ortalamaVerim5);
+      if (donem === "10") return getSafeNum(hisseObj.ortalamaVerim10);
+      if (donem === "15") return getSafeNum(hisseObj.ortalamaVerim15);
+      if (donem === "20") return getSafeNum(hisseObj.ortalamaVerim20);
+      if (donem === "25") return getSafeNum(hisseObj.ortalamaVerim25);
+      return getSafeNum(hisseObj.ortalamaVerim);
+    }
+
+    function seciliDonemYogunlukAl(hisseObj, donem) {
+      if (!hisseObj) return 0;
+      if (donem === "3") return getSafeNum(hisseObj.yogunluk3);
+      if (donem === "5") return getSafeNum(hisseObj.yogunluk5);
+      if (donem === "10") return getSafeNum(hisseObj.yogunluk10);
+      if (donem === "15") return getSafeNum(hisseObj.yogunluk15);
+      if (donem === "20") return getSafeNum(hisseObj.yogunluk20);
+      if (donem === "25") return getSafeNum(hisseObj.yogunluk25);
+      return getSafeNum(hisseObj.yogunluk);
     }
 
     function seciliDonemAdetAl(hisseObj, donem) {
@@ -968,9 +987,18 @@
       }
 
       islenmisSatirlar.sort(function(a, b) {
-        if (Math.abs(b.yogunluk - a.yogunluk) > 0.0001) return b.yogunluk - a.yogunluk;
-        if (Math.abs(b.ortalamaVerim - a.ortalamaVerim) > 0.0001) return b.ortalamaVerim - a.ortalamaVerim;
-        if (b.gizliAdet !== a.gizliAdet) return b.gizliAdet - a.gizliAdet;
+        let yogA = getSafeNum(a.yogunluk);
+        let yogB = getSafeNum(b.yogunluk);
+        if (yogA !== yogB) return yogB - yogA;
+        
+        let vA = getSafeNum(a.ortalamaVerim);
+        let vB = getSafeNum(b.ortalamaVerim);
+        if (vA !== vB) return vB - vA;
+        
+        let gA = parseInt(a.gizliAdet) || 0;
+        let gB = parseInt(b.gizliAdet) || 0;
+        if (gA !== gB) return gB - gA;
+        
         return a.hisse.localeCompare(b.hisse);
       });
 
@@ -1122,14 +1150,7 @@
 
         let ortVerim = seciliDonemVerimiAl(hisseObj, fD);
         let odemeSayisi = seciliDonemAdetAl(hisseObj, fD);
-
-        let aktifYogunluk = hisseObj ? hisseObj.yogunluk : 0;
-        if (fD === "3") aktifYogunluk = hisseObj.yogunluk3;
-        else if (fD === "5") aktifYogunluk = hisseObj.yogunluk5;
-        else if (fD === "10") aktifYogunluk = hisseObj.yogunluk10;
-        else if (fD === "15") aktifYogunluk = hisseObj.yogunluk15;
-        else if (fD === "20") aktifYogunluk = hisseObj.yogunluk20;
-        else if (fD === "25") aktifYogunluk = hisseObj.yogunluk25;
+        let aktifYogunluk = seciliDonemYogunlukAl(hisseObj, fD);
 
         let badgeEl = tr.querySelector('.yog-badge');
         if (badgeEl) {
@@ -1191,75 +1212,80 @@
           if (isNaNA && isNaNB) return 0;
           if (isNaNA) return 1;
           if (isNaNB) return -1;
-          return currentSortOrder === "DESC" ? numB - numA : numA - numB;
+          return currentSortOrder === "DESC" ? (numA < numB ? 1 : -1) : (numA > numB ? 1 : -1);
         });
       } else if (genelSort) {
         mainTrs.sort((a, b) => {
-          let ha = a.getAttribute("data-hisse"), hb = b.getAttribute("data-hisse");
-          let sa = HISSE_MAP[ha] || {};
-          let sb = HISSE_MAP[hb] || {};
+          let ha = a.getAttribute("data-hisse") || "";
+          let hb = b.getAttribute("data-hisse") || "";
+          let sa = HISSE_MAP[ha];
+          let sb = HISSE_MAP[hb];
 
           if (genelSort === "YOG_DESC") {
-            let yogA = sa.yogunluk || 0; if(fD === "3") yogA = sa.yogunluk3 || 0; else if(fD === "5") yogA = sa.yogunluk5 || 0; else if(fD === "10") yogA = sa.yogunluk10 || 0; else if(fD === "15") yogA = sa.yogunluk15 || 0; else if(fD === "20") yogA = sa.yogunluk20 || 0; else if(fD === "25") yogA = sa.yogunluk25 || 0;
-            let yogB = sb.yogunluk || 0; if(fD === "3") yogB = sb.yogunluk3 || 0; else if(fD === "5") yogB = sb.yogunluk5 || 0; else if(fD === "10") yogB = sb.yogunluk10 || 0; else if(fD === "15") yogB = sb.yogunluk15 || 0; else if(fD === "20") yogB = sb.yogunluk20 || 0; else if(fD === "25") yogB = sb.yogunluk25 || 0;
-            return yogB - yogA;
+            let yogA = seciliDonemYogunlukAl(sa, fD);
+            let yogB = seciliDonemYogunlukAl(sb, fD);
+            if (yogA !== yogB) return yogB - yogA;
+            
+            let vA = seciliDonemVerimiAl(sa, fD);
+            let vB = seciliDonemVerimiAl(sb, fD);
+            if (vA !== vB) return vB - vA;
+            
+            return ha.localeCompare(hb);
           }
           if (genelSort === "VERIM_DESC") {
             let verimA = seciliDonemVerimiAl(sa, fD);
             let verimB = seciliDonemVerimiAl(sb, fD);
-            verimA = (typeof verimA === 'number' && !isNaN(verimA)) ? verimA : 0;
-            verimB = (typeof verimB === 'number' && !isNaN(verimB)) ? verimB : 0;
-            return verimB - verimA;
+            if (verimA !== verimB) return verimB - verimA;
+            
+            let yogA = seciliDonemYogunlukAl(sa, fD);
+            let yogB = seciliDonemYogunlukAl(sb, fD);
+            if (yogA !== yogB) return yogB - yogA;
+            
+            return ha.localeCompare(hb);
           }
           if (genelSort === "TBH_DESC") {
-            let tbhA = sa.tbh; let tbhB = sb.tbh;
-            let isNaNA = tbhA === null || tbhA === undefined || tbhA === -999 || isNaN(tbhA);
-            let isNaNB = tbhB === null || tbhB === undefined || tbhB === -999 || isNaN(tbhB);
-            if (isNaNA && isNaNB) return 0;
-            if (isNaNA) return 1;
-            if (isNaNB) return -1;
-            return tbhB - tbhA;
+            let tbhA = sa ? getSafeNum(sa.tbh) : 0;
+            let tbhB = sb ? getSafeNum(sb.tbh) : 0;
+            let valA = tbhA !== -999;
+            let valB = tbhB !== -999;
+            
+            if (valA && valB && tbhA !== tbhB) return tbhB - tbhA;
+            if (valA && !valB) return -1;
+            if (!valA && valB) return 1;
+            
+            let yogA = seciliDonemYogunlukAl(sa, fD);
+            let yogB = seciliDonemYogunlukAl(sb, fD);
+            if (yogA !== yogB) return yogB - yogA;
+            return ha.localeCompare(hb);
           }
           if (genelSort === "HISSE_ASC") return ha.localeCompare(hb);
           return 0;
         });
-      } else if (fD !== "TÜMÜ") {
-        mainTrs.sort((a, b) => {
-          let ha = a.getAttribute("data-hisse"), hb = b.getAttribute("data-hisse");
-          let sa = HISSE_MAP[ha] || {};
-          let sb = HISSE_MAP[hb] || {};
-
-          let yogA = sa.yogunluk || 0; if(fD === "3") yogA = sa.yogunluk3 || 0; else if(fD === "5") yogA = sa.yogunluk5 || 0; else if(fD === "10") yogA = sa.yogunluk10 || 0; else if(fD === "15") yogA = sa.yogunluk15 || 0; else if(fD === "20") yogA = sa.yogunluk20 || 0; else if(fD === "25") yogA = sa.yogunluk25 || 0;
-          let yogB = sb.yogunluk || 0; if(fD === "3") yogB = sb.yogunluk3 || 0; else if(fD === "5") yogB = sb.yogunluk5 || 0; else if(fD === "10") yogB = sb.yogunluk10 || 0; else if(fD === "15") yogB = sb.yogunluk15 || 0; else if(fD === "20") yogB = sb.yogunluk20 || 0; else if(fD === "25") yogB = sb.yogunluk25 || 0;
-
-          if (Math.abs(yogB - yogA) > 0.0001) return yogB - yogA;
-
-          let va = seciliDonemVerimiAl(sa, fD);
-          let vb = seciliDonemVerimiAl(sb, fD);
-          va = (typeof va === 'number' && !isNaN(va)) ? va : 0;
-          vb = (typeof vb === 'number' && !isNaN(vb)) ? vb : 0;
-          if (Math.abs(vb - va) > 0.0001) return vb - va;
-          
-          if ((sb.gizliAdet || 0) !== (sa.gizliAdet || 0)) return (sb.gizliAdet || 0) - (sa.gizliAdet || 0);
-          return ha.localeCompare(hb);
-        });
       } else {
+        // Varsayılan İlk Açılış Düzeni
         mainTrs.sort((a, b) => {
-          let ha = a.getAttribute("data-hisse"), hb = b.getAttribute("data-hisse");
-          let sa = HISSE_MAP[ha] || {};
-          let sb = HISSE_MAP[hb] || {};
+          let ha = a.getAttribute("data-hisse") || "";
+          let hb = b.getAttribute("data-hisse") || "";
+          let sa = HISSE_MAP[ha];
+          let sb = HISSE_MAP[hb];
 
-          if (Math.abs((sb.yogunluk || 0) - (sa.yogunluk || 0)) > 0.0001) return (sb.yogunluk || 0) - (sa.yogunluk || 0);
+          let yogA = seciliDonemYogunlukAl(sa, fD);
+          let yogB = seciliDonemYogunlukAl(sb, fD);
+          if (yogA !== yogB) return yogB - yogA;
           
-          let va = (typeof sa.ortalamaVerim === 'number' && !isNaN(sa.ortalamaVerim)) ? sa.ortalamaVerim : 0;
-          let vb = (typeof sb.ortalamaVerim === 'number' && !isNaN(sb.ortalamaVerim)) ? sb.ortalamaVerim : 0;
-          if (Math.abs(vb - va) > 0.0001) return vb - va;
+          let verimA = seciliDonemVerimiAl(sa, fD);
+          let verimB = seciliDonemVerimiAl(sb, fD);
+          if (verimA !== verimB) return verimB - verimA;
           
-          if ((sb.gizliAdet || 0) !== (sa.gizliAdet || 0)) return (sb.gizliAdet || 0) - (sa.gizliAdet || 0);
+          let gizA = sa ? (parseInt(sa.gizliAdet) || 0) : 0;
+          let gizB = sb ? (parseInt(sb.gizliAdet) || 0) : 0;
+          if (gizA !== gizB) return gizB - gizA;
+
           return ha.localeCompare(hb);
         });
       }
 
+      // DOM'a Toplu Ekleme
       mainTrs.forEach(tr => {
         govde.appendChild(tr);
         let expandId = tr.getAttribute("data-expand-id");
@@ -1280,7 +1306,7 @@
     }
 
     const GAS_API_URL = "https://script.google.com/macros/s/AKfycbxo9u41oj1aXxgkuE7gTnHdeG_mzT41o3WmaYhhqNNUJi_NTDzLOmSBSnHAhfsvhOiK/exec";
-    const CACHE_KEY = "temettuTabloCacheV9";
+    const CACHE_KEY = "temettuTabloCacheV10";
 
     function gosterHata(mesaj) {
       document.getElementById('tableContainer').innerHTML = '<div class="error-msg">' + mesaj + '<br><br><button class="modal-btn" onclick="veriCek()">Tekrar Dene</button></div>';
@@ -1293,7 +1319,7 @@
       if (cachedStr) {
         try {
           let parsed = JSON.parse(cachedStr);
-          if (parsed.v === 8 && parsed.data) {
+          if (parsed.v === 10 && parsed.data) {
             tabloyuCiz(parsed.data);
             uygula();
             document.getElementById('updateDateText').innerText = 'SON GÜNCELLEME: ' + escapeHtml(parsed.data.sonGuncelleme) + ' (Önbellek)';
@@ -1313,7 +1339,7 @@
           if (data.hata) {
             gosterHata("Sunucu hatası: " + escapeHtml(data.hata));
           } else {
-            try { localStorage.setItem(CACHE_KEY, JSON.stringify({ v: 8, data: data })); } catch(e) { }
+            try { localStorage.setItem(CACHE_KEY, JSON.stringify({ v: 10, data: data })); } catch(e) { }
             tabloyuCiz(data);
             uygula();
             tarihiYazdir(data.sonGuncelleme);
