@@ -15,7 +15,7 @@
 
     .header { background-color: #ffffff; padding: 5px 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); z-index: 20; position: sticky; top: 0; }
     .header-content { max-width: 1400px; margin: 0 auto; display: flex; justify-content: center; align-items: center; position: relative; min-height: 22px; }
-    .header h2 { margin: 0; color: #202124; font-size: 18px; letter-spacing: 0.5px; display: flex; align-items: center; }
+    .header h2 { margin: 0; color: #202124; font-size: 18px; letter-spacing: 0.5px; }
     .update-text { font-size: 12px; color: #5f6368; font-weight: 500; letter-spacing: 0.5px; position: absolute; right: 0; display: flex; align-items: center; gap: 10px; }
 
     .ticker-wrap { background: #ffffff; margin: 6px 10px 0 10px; border-radius: 6px; box-shadow: 0 1px 4px rgba(0,0,0,0.05); overflow-x: auto; overflow-y: hidden; height: 26px; display: flex; align-items: center; border: 1px solid #e0e0e0; flex-shrink: 0; user-select: none; -webkit-overflow-scrolling: touch; }
@@ -171,7 +171,7 @@
 
   <div class="header">
     <div class="header-content">
-      <h2>TEMETTÜ ANALİZ <span style="font-size:11px; color:#1a73e8; background:#e8f0fe; padding:2px 6px; border-radius:10px; margin-left:5px;">v16</span></h2>
+      <h2>TEMETTÜ ANALİZ</h2>
       <div id="updateDate" class="update-text">
         <span id="updateDateText">(SON GÜNCELLEME: Yükleniyor...)</span>
       </div>
@@ -390,25 +390,28 @@
       basEl.style.outline = "";
       bitEl.style.outline = "";
 
-      // Dizideki değerleri güncelle
-      TUM_SATIRLAR.forEach(function(hisseObj) {
+      let mainTrs = document.querySelectorAll("#tabloGovdesi tr.main-row");
+      mainTrs.forEach(function(tr) {
+        let hKod = tr.getAttribute("data-hisse"); 
+        if (!hKod) return;
+        
+        let hisseObj = HISSE_MAP[hKod];
+        if (!hisseObj) return;
+        
         let gData = getDynamicGrowthByYears(hisseObj.satir, basYil, bitYil, GLOBAL_SLICE_BASLIKLAR);
         hisseObj.tbh = gData.val;
         
-        let tr = document.getElementById("row-" + hisseObj.hisse);
-        if (tr) {
-          let tbhTd = tr.querySelector(".tbh-cell");
-          if (tbhTd) {
-            if (gData.val === null) {
-              tbhTd.className = "empty-cell tight-col tbh-cell";
-              tbhTd.setAttribute("data-value", "-999");
-              tbhTd.innerHTML = "N/A";
-            } else {
-              let cls = gData.val >= 0 ? "growth-plus" : "growth-minus";
-              tbhTd.className = cls + " tight-col tbh-cell";
-              tbhTd.setAttribute("data-value", gData.val);
-              tbhTd.innerHTML = "%" + gData.val.toFixed(1);
-            }
+        let tbhTd = tr.querySelector(".tbh-cell");
+        if (tbhTd) {
+          if (gData.val === null) {
+            tbhTd.className = "empty-cell tight-col tbh-cell";
+            tbhTd.setAttribute("data-value", "-999");
+            tbhTd.innerHTML = "N/A";
+          } else {
+            let cls = gData.val >= 0 ? "growth-plus" : "growth-minus";
+            tbhTd.className = cls + " tight-col tbh-cell";
+            tbhTd.setAttribute("data-value", gData.val);
+            tbhTd.innerHTML = "%" + gData.val.toFixed(1);
           }
         }
       });
@@ -504,42 +507,17 @@
       }
     }
 
-    // =========================================================================
-    // KUSURSUZ GÜVENLİK DUVARI: SIFIR VE TANIMSIZ (NaN) VERİ KORUMA MOTORU
-    // =========================================================================
-    function cleanSafeNum(val) {
-      if (val === null || val === undefined) return 0;
-      let n = Number(val);
-      if (isNaN(n)) return 0;
-      return n;
-    }
-
     function seciliDonemVerimiAl(hisseObj, donem) {
       if (!hisseObj) return 0;
-      let val = 0;
-      if (donem === "3") val = hisseObj.ortalamaVerim3;
-      else if (donem === "5") val = hisseObj.ortalamaVerim5;
-      else if (donem === "10") val = hisseObj.ortalamaVerim10;
-      else if (donem === "15") val = hisseObj.ortalamaVerim15;
-      else if (donem === "20") val = hisseObj.ortalamaVerim20;
-      else if (donem === "25") val = hisseObj.ortalamaVerim25;
-      else val = hisseObj.ortalamaVerim;
-      return cleanSafeNum(val);
+      if (donem === "3") return hisseObj.ortalamaVerim3;
+      if (donem === "5") return hisseObj.ortalamaVerim5;
+      if (donem === "10") return hisseObj.ortalamaVerim10;
+      if (donem === "15") return hisseObj.ortalamaVerim15;
+      if (donem === "20") return hisseObj.ortalamaVerim20;
+      if (donem === "25") return hisseObj.ortalamaVerim25;
+      return hisseObj.ortalamaVerim;
     }
 
-    function seciliDonemYogunlukAl(hisseObj, donem) {
-      if (!hisseObj) return 0;
-      let val = hisseObj.yogunluk;
-      if (donem === "3") val = hisseObj.yogunluk3;
-      else if (donem === "5") val = hisseObj.yogunluk5;
-      else if (donem === "10") val = hisseObj.yogunluk10;
-      else if (donem === "15") val = hisseObj.yogunluk15;
-      else if (donem === "20") val = hisseObj.yogunluk20;
-      else if (donem === "25") val = hisseObj.yogunluk25;
-      return cleanSafeNum(val);
-    }
-
-    // İŞTE EKSİK OLAN O HAYATİ FONKSİYON:
     function seciliDonemAdetAl(hisseObj, donem) {
       if (!hisseObj) return 0;
       if (donem === "3") return hisseObj.odemeYil3;
@@ -827,7 +805,7 @@
             } else {
               if (bedelsizOrani > 0) {
                 let formatliMiktarHover = 'Nakit Yok (Sadece %' + fmtBedelsiz + ' Bedelsiz)';
-                icSutunlarHtml += '<td data-value="0" class="empty-cell bedelsiz-hucre"><span title="Sadece %' + fmtBedelsiz + ' Bedelsiz Bölünme">-</span><span class="info-icon" title="' + formatliMiktarHover + '" onclick="event.stopPropagation(); gosterBilgi(\'' + temizKod + '\', \'' + sutunYili + '\', \'0\', ' + bedelsizOrani + ')">ℹ</span></td>';
+                icSutunlarHtml += '<td data-value="0" class="empty-cell bedelsiz-hucre"><span title="Sadece %' + fmtBedelsiz + ' Bedelsiz Bölünme">-</span><span class="info-icon" title="' + formatliMiktarHover + '" onclick="event.stopPropagation(); gosterBilgi(\'' + temizKod + '\', \'' + sutunYili + '\', \'0\', ' + bedelsizOrani + ')">ℹ️</span></td>';
               } else {
                 icSutunlarHtml += '<td data-value="0" class="empty-cell">-</td>';
               }
@@ -987,28 +965,17 @@
         });
       }
 
-      // KUSURSUZ İLK AÇILIŞ SIRALAMASI
       islenmisSatirlar.sort(function(a, b) {
-        let yogA = cleanSafeNum(a.yogunluk);
-        let yogB = cleanSafeNum(b.yogunluk);
-        if (yogA !== yogB) return yogB - yogA;
-        
-        let vA = cleanSafeNum(a.ortalamaVerim);
-        let vB = cleanSafeNum(b.ortalamaVerim);
-        if (vA !== vB) return vB - vA;
-        
-        let gA = parseInt(a.gizliAdet) || 0;
-        let gB = parseInt(b.gizliAdet) || 0;
-        if (gA !== gB) return gB - gA;
-        
+        if (Math.abs(b.yogunluk - a.yogunluk) > 0.0001) return b.yogunluk - a.yogunluk;
+        if (Math.abs(b.ortalamaVerim - a.ortalamaVerim) > 0.0001) return b.ortalamaVerim - a.ortalamaVerim;
+        if (b.gizliAdet !== a.gizliAdet) return b.gizliAdet - a.gizliAdet;
         return a.hisse.localeCompare(b.hisse);
       });
 
       for (let r = 0; r < islenmisSatirlar.length; r++) {
         let sId = islenmisSatirlar[r].satirId;
         let hKod = islenmisSatirlar[r].hisse;
-        // BÜYÜK GÜNCELLEME: Tüm ana satırlara ID eklendi
-        html += '<tr class="main-row" id="row-' + hKod + '" data-hisse="' + hKod + '" data-expand-id="expand-' + sId + '" onclick="toggleRow(\'expand-' + sId + '\', this)">';
+        html += '<tr class="main-row" data-hisse="' + hKod + '" data-expand-id="expand-' + sId + '" onclick="toggleRow(\'expand-' + sId + '\', this)">';
         html += islenmisSatirlar[r].htmlGovde;
         html += '</tr>';
         html += islenmisSatirlar[r].expandGovde;
@@ -1132,9 +1099,6 @@
       document.getElementById('kpiCount').innerText = trs.length;
     }
 
-    // =========================================================================
-    // YEPYENİ %100 ÇÖKMEYEN DİZİ-TABANLI SIRALAMA VE DOM GÜNCELLEME MOTORU
-    // =========================================================================
     function uygula() {
       let arama = document.getElementById("hisseArama").value.trim().toUpperCase();
       let fHisseEl = document.getElementById("filterHisse");
@@ -1143,20 +1107,49 @@
       let fD = document.getElementById("filterDonem").value;
       let fV = document.getElementById("filterVerim").value;
       let fA = document.getElementById("filterArtis").value;
-      let genelSort = document.getElementById('genelSirala').value;
 
       let govde = document.getElementById("tabloGovdesi");
-      if(!govde) return;
+      govde.style.display = 'none'; 
       
-      let aktifSatirlar = [];
+      let mainTrs = Array.from(document.querySelectorAll("#tabloGovdesi tr.main-row"));
 
-      // 1. Önce Dizi Üzerindeki Verileri Güncelle ve Filtrele
-      TUM_SATIRLAR.forEach(obj => {
-        let hisseKodu = obj.hisse;
+      mainTrs.forEach(tr => {
+        let hisseKodu = tr.getAttribute("data-hisse"); 
+        let hisseObj = HISSE_MAP[hisseKodu];
+        if (!hisseObj) return;
 
-        let ortVerim = seciliDonemVerimiAl(obj, fD);
-        let odemeSayisi = seciliDonemAdetAl(obj, fD);
-        let aktifYogunluk = seciliDonemYogunlukAl(obj, fD);
+        let ortVerim = seciliDonemVerimiAl(hisseObj, fD);
+        let odemeSayisi = seciliDonemAdetAl(hisseObj, fD);
+        let aktifYogunluk = hisseObj ? hisseObj.yogunluk : 0;
+        if (fD === "3") aktifYogunluk = hisseObj.yogunluk3;
+        else if (fD === "5") aktifYogunluk = hisseObj.yogunluk5;
+        else if (fD === "10") aktifYogunluk = hisseObj.yogunluk10;
+        else if (fD === "15") aktifYogunluk = hisseObj.yogunluk15;
+        else if (fD === "20") aktifYogunluk = hisseObj.yogunluk20;
+        else if (fD === "25") aktifYogunluk = hisseObj.yogunluk25;
+
+        let badgeEl = tr.querySelector('.yog-badge');
+        if (badgeEl) {
+          badgeEl.innerText = aktifYogunluk.toFixed(2).replace('.', ',');
+          badgeEl.className = 'yog-badge ' + yogunlukSinifi(aktifYogunluk);
+        }
+
+        if (idxYogunlukGlobal !== -1 && tr.cells[idxYogunlukGlobal]) {
+          tr.cells[idxYogunlukGlobal].setAttribute("data-value", aktifYogunluk);
+        }
+
+        let expandId = tr.getAttribute("data-expand-id");
+        let expandRow = expandId ? document.getElementById(expandId) : null;
+        if (expandRow) {
+          let baslikEl = expandRow.querySelector(".ort-verim-baslik");
+          let degerEl = expandRow.querySelector(".ort-verim-deger");
+          if (baslikEl) {
+            baslikEl.innerText = (fD === "TÜMÜ") ? "Ortalama Temettü Verimi" : "Ortalama Temettü Verimi (Son " + fD + " Yıl)";
+          }
+          if (degerEl) {
+            degerEl.innerText = odemeSayisi > 0 ? "%" + ortVerim.toFixed(2) : "?";
+          }
+        }
 
         let hisseSecimSarti = (fHisse === "TÜMÜ") ? true : (hisseKodu === fHisse);
         let verimSarti = (fV === "TÜMÜ") ? true : (ortVerim >= parseFloat(fV));
@@ -1171,111 +1164,99 @@
 
         let artisSarti = true;
         if (fA !== "TÜMÜ") {
-            artisSarti = (obj.artisSerisi >= parseInt(fA));
+            artisSarti = (hisseObj.artisSerisi >= parseInt(fA));
         }
 
         let gozukmeli = (arama === "" || hisseKodu.indexOf(arama) > -1) && hisseSecimSarti && yogunlukSarti && verimSarti && artisSarti;
+        tr.style.display = gozukmeli ? "" : "none";
 
-        // Görsel Değerleri Hızlıca DOM'da Güncelle (Eğer Varsa)
-        let tr = document.getElementById("row-" + hisseKodu);
-        if(tr) {
-            let badgeEl = tr.querySelector('.yog-badge');
-            if (badgeEl) {
-              badgeEl.innerText = aktifYogunluk.toFixed(2).replace('.', ',');
-              badgeEl.className = 'yog-badge ' + yogunlukSinifi(aktifYogunluk);
-            }
-            if (idxYogunlukGlobal !== -1 && tr.cells[idxYogunlukGlobal]) {
-              tr.cells[idxYogunlukGlobal].setAttribute("data-value", aktifYogunluk);
-            }
-            tr.style.display = 'none'; // Varsayılan olarak gizle
-        }
-
-        let expandRow = document.getElementById("expand-" + obj.satirId);
-        if (expandRow) {
-            let baslikEl = expandRow.querySelector(".ort-verim-baslik");
-            let degerEl = expandRow.querySelector(".ort-verim-deger");
-            if (baslikEl) baslikEl.innerText = (fD === "TÜMÜ") ? "Ortalama Temettü Verimi" : "Ortalama Temettü Verimi (Son " + fD + " Yıl)";
-            if (degerEl) degerEl.innerText = odemeSayisi > 0 ? "%" + ortVerim.toFixed(2) : "?";
+        if (!gozukmeli && expandRow) {
             expandRow.classList.remove("active");
-        }
-
-        if (gozukmeli) {
-          obj.dynVerim = ortVerim;
-          obj.dynYogunluk = aktifYogunluk;
-          aktifSatirlar.push(obj);
         }
       });
 
-      // 2. Saf Matematiksel ve Güvenli Dizi Sıralaması
+      let genelSort = document.getElementById('genelSirala').value;
+
       if (currentSortCol > -1) {
-        // Kolon başlıklarından tıklanan Büyük/Küçük sıralaması
-        aktifSatirlar.sort((a, b) => {
-           let trA = document.getElementById("row-" + a.hisse);
-           let trB = document.getElementById("row-" + b.hisse);
-           let valA = trA ? trA.cells[currentSortCol].getAttribute("data-value") : 0;
-           let valB = trB ? trB.cells[currentSortCol].getAttribute("data-value") : 0;
-           let numA = parseFloat(valA);
-           let numB = parseFloat(valB);
-           let isNaNA = isNaN(numA) || valA === "-999";
-           let isNaNB = isNaN(numB) || valB === "-999";
-           if (isNaNA && isNaNB) return 0;
-           if (isNaNA) return 1;
-           if (isNaNB) return -1;
-           return currentSortOrder === "DESC" ? (numA < numB ? 1 : -1) : (numA > numB ? 1 : -1);
+        mainTrs.sort((a, b) => {
+          let valA = a.cells[currentSortCol].getAttribute("data-value");
+          let valB = b.cells[currentSortCol].getAttribute("data-value");
+          let numA = parseFloat(valA);
+          let numB = parseFloat(valB);
+          let isNaNA = isNaN(numA) || valA === "-999";
+          let isNaNB = isNaN(numB) || valB === "-999";
+          if (isNaNA && isNaNB) return 0;
+          if (isNaNA) return 1;
+          if (isNaNB) return -1;
+          return currentSortOrder === "DESC" ? numB - numA : numA - numB;
         });
-      } else {
-        aktifSatirlar.sort((a, b) => {
-          let vA = a.dynVerim;
-          let vB = b.dynVerim;
-          let yogA = a.dynYogunluk;
-          let yogB = b.dynYogunluk;
+      } else if (genelSort) {
+        mainTrs.sort((a, b) => {
+          let ha = a.getAttribute("data-hisse"), hb = b.getAttribute("data-hisse");
+          let sa = HISSE_MAP[ha] || {};
+          let sb = HISSE_MAP[hb] || {};
 
           if (genelSort === "YOG_DESC") {
-            if (yogA !== yogB) return yogB - yogA;
-            if (vA !== vB) return vB - vA;
-            return a.hisse.localeCompare(b.hisse);
+            let yogA = sa.yogunluk; if(fD === "3") yogA = sa.yogunluk3; else if(fD === "5") yogA = sa.yogunluk5; else if(fD === "10") yogA = sa.yogunluk10; else if(fD === "15") yogA = sa.yogunluk15; else if(fD === "20") yogA = sa.yogunluk20; else if(fD === "25") yogA = sa.yogunluk25;
+            let yogB = sb.yogunluk; if(fD === "3") yogB = sb.yogunluk3; else if(fD === "5") yogB = sb.yogunluk5; else if(fD === "10") yogB = sb.yogunluk10; else if(fD === "15") yogB = sb.yogunluk15; else if(fD === "20") yogB = sb.yogunluk20; else if(fD === "25") yogB = sb.yogunluk25;
+            return (yogB || 0) - (yogA || 0);
           }
           if (genelSort === "VERIM_DESC") {
-            if (vA !== vB) return vB - vA;
-            if (yogA !== yogB) return yogB - yogA;
-            return a.hisse.localeCompare(b.hisse);
+            return seciliDonemVerimiAl(sb, fD) - seciliDonemVerimiAl(sa, fD);
           }
           if (genelSort === "TBH_DESC") {
-            let tbhA = cleanSafeNum(a.tbh);
-            let tbhB = cleanSafeNum(b.tbh);
-            let valA = a.tbh !== -999 && a.tbh !== null;
-            let valB = b.tbh !== -999 && b.tbh !== null;
-            if (valA && valB && tbhA !== tbhB) return tbhB - tbhA;
-            if (valA && !valB) return -1;
-            if (!valA && valB) return 1;
-            if (yogA !== yogB) return yogB - yogA;
-            return a.hisse.localeCompare(b.hisse);
+            let tbhA = sa.tbh; let tbhB = sb.tbh;
+            let isNaNA = tbhA === null || tbhA === undefined || tbhA === -999;
+            let isNaNB = tbhB === null || tbhB === undefined || tbhB === -999;
+            if (isNaNA && isNaNB) return 0;
+            if (isNaNA) return 1;
+            if (isNaNB) return -1;
+            return tbhB - tbhA;
           }
-          if (genelSort === "HISSE_ASC") return a.hisse.localeCompare(b.hisse);
+          if (genelSort === "HISSE_ASC") return ha.localeCompare(hb);
+          return 0;
+        });
+      } else if (fD !== "TÜMÜ") {
+        mainTrs.sort((a, b) => {
+          let ha = a.getAttribute("data-hisse"), hb = b.getAttribute("data-hisse");
+          let sa = HISSE_MAP[ha] || {};
+          let sb = HISSE_MAP[hb] || {};
 
-          // Hiçbir şey seçili değilse varsayılan
-          if (yogA !== yogB) return yogB - yogA;
-          if (vA !== vB) return vB - vA;
-          let gizA = parseInt(a.gizliAdet) || 0;
-          let gizB = parseInt(b.gizliAdet) || 0;
-          if (gizA !== gizB) return gizB - gizA;
-          return a.hisse.localeCompare(b.hisse);
+          let yogA = sa.yogunluk; if(fD === "3") yogA = sa.yogunluk3; else if(fD === "5") yogA = sa.yogunluk5; else if(fD === "10") yogA = sa.yogunluk10; else if(fD === "15") yogA = sa.yogunluk15; else if(fD === "20") yogA = sa.yogunluk20; else if(fD === "25") yogA = sa.yogunluk25;
+          let yogB = sb.yogunluk; if(fD === "3") yogB = sb.yogunluk3; else if(fD === "5") yogB = sb.yogunluk5; else if(fD === "10") yogB = sb.yogunluk10; else if(fD === "15") yogB = sb.yogunluk15; else if(fD === "20") yogB = sb.yogunluk20; else if(fD === "25") yogB = sb.yogunluk25;
+
+          if (Math.abs((yogB || 0) - (yogA || 0)) > 0.0001) return (yogB || 0) - (yogA || 0);
+
+          let va = seciliDonemVerimiAl(sa, fD);
+          let vb = seciliDonemVerimiAl(sb, fD);
+          if (Math.abs(vb - va) > 0.0001) return vb - va;
+          if ((sb.gizliAdet || 0) !== (sa.gizliAdet || 0)) return (sb.gizliAdet || 0) - (sa.gizliAdet || 0);
+          return ha.localeCompare(hb);
+        });
+      } else {
+        mainTrs.sort((a, b) => {
+          let ha = a.getAttribute("data-hisse"), hb = b.getAttribute("data-hisse");
+          let sa = HISSE_MAP[ha] || {};
+          let sb = HISSE_MAP[hb] || {};
+
+          if (Math.abs((sb.yogunluk || 0) - (sa.yogunluk || 0)) > 0.0001) return (sb.yogunluk || 0) - (sa.yogunluk || 0);
+          if (Math.abs((sb.ortalamaVerim || 0) - (sa.ortalamaVerim || 0)) > 0.0001) return (sb.ortalamaVerim || 0) - (sa.ortalamaVerim || 0);
+          if ((sb.gizliAdet || 0) !== (sa.gizliAdet || 0)) return (sb.gizliAdet || 0) - (sa.gizliAdet || 0);
+          return ha.localeCompare(hb);
         });
       }
 
-      // 3. Sıralı Diziyi Alıp Kusursuz Şekilde Ekrana Dizme
-      aktifSatirlar.forEach(obj => {
-         let tr = document.getElementById("row-" + obj.hisse);
-         let exp = document.getElementById("expand-" + obj.satirId);
-         if(tr) {
-            tr.style.display = ''; // Satırı görünür yap
-            govde.appendChild(tr); // Sırayla sona ekle (DOM'u otomatik sıralar)
-         }
-         if(exp) {
-            govde.appendChild(exp); // Açılır menüyü de altına ekle
-         }
+      mainTrs.forEach(tr => {
+        govde.appendChild(tr);
+        let expandId = tr.getAttribute("data-expand-id");
+        if (expandId) {
+            let expandRow = document.getElementById(expandId);
+            if (expandRow) govde.appendChild(expandRow);
+        }
       });
 
+      govde.style.display = ''; 
+      
       chipleriCiz();
       kpiGuncelle();
     }
@@ -1285,7 +1266,7 @@
     }
 
     const GAS_API_URL = "https://script.google.com/macros/s/AKfycbxo9u41oj1aXxgkuE7gTnHdeG_mzT41o3WmaYhhqNNUJi_NTDzLOmSBSnHAhfsvhOiK/exec";
-    const CACHE_KEY = "temettuTabloCacheV16"; 
+    const CACHE_KEY = "temettuTabloCacheV8";
 
     function gosterHata(mesaj) {
       document.getElementById('tableContainer').innerHTML = '<div class="error-msg">' + mesaj + '<br><br><button class="modal-btn" onclick="veriCek()">Tekrar Dene</button></div>';
@@ -1298,7 +1279,7 @@
       if (cachedStr) {
         try {
           let parsed = JSON.parse(cachedStr);
-          if (parsed.v === 16 && parsed.data) {
+          if (parsed.v === 8 && parsed.data) {
             tabloyuCiz(parsed.data);
             uygula();
             document.getElementById('updateDateText').innerText = 'SON GÜNCELLEME: ' + escapeHtml(parsed.data.sonGuncelleme) + ' (Önbellek)';
@@ -1318,7 +1299,7 @@
           if (data.hata) {
             gosterHata("Sunucu hatası: " + escapeHtml(data.hata));
           } else {
-            try { localStorage.setItem(CACHE_KEY, JSON.stringify({ v: 16, data: data })); } catch(e) { }
+            try { localStorage.setItem(CACHE_KEY, JSON.stringify({ v: 8, data: data })); } catch(e) { }
             tabloyuCiz(data);
             uygula();
             tarihiYazdir(data.sonGuncelleme);
