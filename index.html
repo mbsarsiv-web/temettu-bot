@@ -157,6 +157,32 @@
       .bar, .main-row, .main-row td:first-child, .info-icon { transition: none !important; }
       .bar:hover, .info-icon:hover { transform: none !important; }
     }
+    /* ===== SMART TV MODU ===== */
+    .icon-btn.aktif { background: #e8f0fe; border-color: #1a73e8; color: #1a73e8; font-weight: 700; }
+    body.tv-mode { height: 100vh; max-height: 100vh; overflow: hidden; font-size: 100%; }
+    body.tv-mode > * { flex-shrink: 0; }
+    body.tv-mode .header { padding: 2px 12px; }
+    body.tv-mode .header-content { flex-direction: row; align-items: center; justify-content: center; gap: 0; min-height: 20px; }
+    body.tv-mode .header h2 { font-size: 16px; }
+    body.tv-mode .update-text { position: absolute; right: 0; width: auto; margin-top: 0; font-size: 11px; }
+    body.tv-mode .ticker-wrap { margin: 3px 6px 0 6px; height: 22px; }
+    body.tv-mode .toolbar { margin: 3px 6px 0 6px; padding: 3px 8px; gap: 5px; flex-wrap: nowrap !important; overflow: hidden; }
+    body.tv-mode .toolbar select { flex: 1 1 0% !important; min-width: 0; font-size: 11px; padding: 4px 3px; }
+    body.tv-mode .search-wrap { flex: 0 1 120px; width: auto; }
+    body.tv-mode .kpi-badge { width: auto; flex: 0 0 auto; margin-bottom: 0; padding: 3px 10px; }
+    body.tv-mode .clear-btn { width: auto; flex: 0 0 auto; margin-left: 0; }
+    body.tv-mode .icon-btn { padding: 4px 8px; }
+    body.tv-mode .chip-row { margin: 3px 8px 0 8px; }
+    body.tv-mode .chip { padding: 2px 8px; font-size: 10px; }
+    body.tv-mode .table-container { flex: 1 1 0; min-height: 0; margin: 4px 6px; padding-bottom: 0; overflow: auto; }
+    body.tv-mode .info-icon { display: none; }
+    body.tv-mode td, body.tv-mode th { padding: 3px 3px !important; font-size: 11px !important; }
+    body.tv-mode td:first-child, body.tv-mode .arz-yili { font-size: 12px !important; }
+    body.tv-mode thead tr:nth-child(1) th { font-size: 13px !important; padding: 4px 2px !important; }
+    body.tv-mode .yog-badge { padding: 1px 8px; font-size: 11px; }
+    body.tv-mode .tbh-header-col { width: auto !important; }
+    body.tv-mode .bar, body.tv-mode .main-row, body.tv-mode .main-row td:first-child, body.tv-mode .sparkline div { transition: none !important; }
+    body.tv-mode .main-row:focus { background-color: #e5f2e0; outline: 3px solid #1a73e8; outline-offset: -3px; }
   </style>
 </head>
 <body>
@@ -245,6 +271,7 @@
       <option value="HISSE_ASC">Hisse Kodu (A → Z)</option>
     </select>
 
+    <button class="icon-btn" id="tvBtn" onclick="tvModuDegistir()" title="Smart TV görünümü">📺 TV</button>
     <button class="icon-btn clear-btn" onclick="filtreleriTemizle()">✕ Temizle</button>
   </div>
 
@@ -423,7 +450,7 @@
       let html = '<div class="sparkline">';
       degerler.forEach(function(v) {
         let h = maxV > 0 ? Math.max((v / maxV) * 100, v > 0 ? 8 : 0) : 0;
-        html += '<div style="height:' + h + '%;' + (v > 0 ? '' : 'background:transparent;') + '</div>';
+        html += '<div style="height:' + h + '%;' + (v > 0 ? '' : 'background:transparent;') + '"></div>';
       });
       html += '</div>';
       return html;
@@ -975,7 +1002,7 @@
       for (let r = 0; r < islenmisSatirlar.length; r++) {
         let sId = islenmisSatirlar[r].satirId;
         let hKod = islenmisSatirlar[r].hisse;
-        html += '<tr class="main-row" data-hisse="' + hKod + '" data-expand-id="expand-' + sId + '" onclick="toggleRow(\'expand-' + sId + '\', this)">';
+        html += '<tr class="main-row" data-hisse="' + hKod + '" data-expand-id="expand-' + sId + '" tabindex="0" onclick="toggleRow(\'expand-' + sId + '\', this)" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();toggleRow(\'expand-' + sId + '\', this);}">';
         html += islenmisSatirlar[r].htmlGovde;
         html += '</tr>';
         html += islenmisSatirlar[r].expandGovde;
@@ -993,6 +1020,7 @@
       kayanYaziOlustur(sampiyonAdaylari);
       initFiltre();
       kpiGuncelle();
+      tvSigdir();
     }
 
     let resizeEklendi = false;
@@ -1007,10 +1035,7 @@
       Array.from(hSet).sort().forEach(v => hSel.innerHTML += '<option value="' + v + '">' + v + '</option>');
 
       function hizalaBaslik() {
-        let firstRow = document.querySelector("thead tr:nth-child(1)");
-        document.querySelectorAll("thead tr:nth-child(2) th").forEach(th => {
-          if (firstRow) th.style.top = firstRow.offsetHeight + "px";
-        });
+        tvBaslikHizala();
       }
       hizalaBaslik();
 
@@ -1386,6 +1411,85 @@
       tickerAnimationId = requestAnimationFrame(step);
     }
 
+    // ===== SMART TV MODU =====
+    let tvAktif = false;
+    let tvZamanlayici;
+
+    function tvAlgila() {
+      try {
+        let q = new URLSearchParams(window.location.search).get('tv');
+        if (q === '1') return true;
+        if (q === '0') return false;
+      } catch (e) { }
+      try {
+        let k = localStorage.getItem('temettuTvMode');
+        if (k === '1') return true;
+        if (k === '0') return false;
+      } catch (e) { }
+      return /Tizen|Web0S|WebOS|SMART-TV|SmartTV|NetCast|HbbTV|BRAVIA|VIDAA|AFTM|Android TV|GoogleTV|Viera|AquosBrowser|Roku/i.test(navigator.userAgent);
+    }
+
+    function tvBaslikHizala() {
+      let tbl = document.querySelector("#tableContainer table");
+      if (!tbl) return;
+      let z = tvAktif ? (parseFloat(tbl.style.zoom) || 1) : 1;
+      let ilkSatir = tbl.querySelector("thead tr:nth-child(1)");
+      if (!ilkSatir) return;
+      let yukseklik = ilkSatir.getBoundingClientRect().height / z;
+      tbl.querySelectorAll("thead tr:nth-child(2) th").forEach(function(th) {
+        th.style.top = yukseklik + "px";
+      });
+    }
+
+    function tvSigdir() {
+      let kap = document.getElementById('tableContainer');
+      let tbl = kap ? kap.querySelector('table') : null;
+      if (!tbl) return;
+
+      if (!tvAktif) {
+        tbl.style.zoom = '';
+        tbl.style.width = '';
+        tvBaslikHizala();
+        return;
+      }
+
+      // Tabloyu doğal genişliğinde ölç, sonra ekran genişliğine sığacak şekilde ölçekle
+      tbl.style.zoom = 1;
+      tbl.style.width = 'auto';
+      let gerekli = tbl.offsetWidth;
+      let mevcut = kap.clientWidth;
+      if (gerekli > 0 && mevcut > 0) {
+        let oran = (mevcut / gerekli) * 0.985;
+        oran = Math.min(Math.max(oran, 0.4), 2.5);
+        tbl.style.zoom = oran.toFixed(3);
+      }
+      tvBaslikHizala();
+    }
+
+    function tvModuUygula() {
+      document.body.classList.toggle('tv-mode', tvAktif);
+      let btn = document.getElementById('tvBtn');
+      if (btn) btn.classList.toggle('aktif', tvAktif);
+      tvSigdir();
+    }
+
+    function tvModuDegistir() {
+      tvAktif = !tvAktif;
+      try { localStorage.setItem('temettuTvMode', tvAktif ? '1' : '0'); } catch (e) { }
+      tvModuUygula();
+    }
+
+    function tvBaslat() {
+      tvAktif = tvAlgila();
+      tvModuUygula();
+      window.addEventListener('resize', function() {
+        clearTimeout(tvZamanlayici);
+        tvZamanlayici = setTimeout(tvSigdir, 150);
+      });
+      if (document.fonts && document.fonts.ready) { document.fonts.ready.then(tvSigdir); }
+    }
+
+    tvBaslat();
     veriCek();
   </script>
 </body>
