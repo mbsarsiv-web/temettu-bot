@@ -171,7 +171,7 @@
 
   <div class="header">
     <div class="header-content">
-      <h2>TEMETTÜ ANALİZ <span style="font-size:11px; color:#1a73e8; background:#e8f0fe; padding:2px 6px; border-radius:10px; margin-left:5px;">v14</span></h2>
+      <h2>TEMETTÜ ANALİZ <span style="font-size:11px; color:#1a73e8; background:#e8f0fe; padding:2px 6px; border-radius:10px; margin-left:5px;">v15</span></h2>
       <div id="updateDate" class="update-text">
         <span id="updateDateText">(SON GÜNCELLEME: Yükleniyor...)</span>
       </div>
@@ -423,7 +423,7 @@
       let html = '<div class="sparkline">';
       degerler.forEach(function(v) {
         let h = maxV > 0 ? Math.max((v / maxV) * 100, v > 0 ? 8 : 0) : 0;
-        html += '<div style="height:' + h + '%;' + (v > 0 ? '' : 'background:transparent;') + '"></div>';
+        html += '<div style="height:' + h + '%;' + (v > 0 ? '' : 'background:transparent;') + '</div>';
       });
       html += '</div>';
       return html;
@@ -540,6 +540,18 @@
       else if (donem === "20") val = hisseObj.yogunluk20;
       else if (donem === "25") val = hisseObj.yogunluk25;
       return cleanSafeNum(val);
+    }
+
+    // YANLIŞLIKLA SİLİNEN O KRİTİK FONKSİYON:
+    function seciliDonemAdetAl(hisseObj, donem) {
+      if (!hisseObj) return 0;
+      if (donem === "3") return hisseObj.odemeYil3;
+      if (donem === "5") return hisseObj.odemeYil5;
+      if (donem === "10") return hisseObj.odemeYil10;
+      if (donem === "15") return hisseObj.odemeYil15;
+      if (donem === "20") return hisseObj.odemeYil20;
+      if (donem === "25") return hisseObj.odemeYil25;
+      return hisseObj.odemeYilTumu;
     }
 
     function parseDateSafely(str, defaultYear) {
@@ -978,7 +990,6 @@
         });
       }
 
-      // İLK AÇILIŞ SIRALAMASI
       islenmisSatirlar.sort(function(a, b) {
         let yogA = cleanSafeNum(a.yogunluk);
         let yogB = cleanSafeNum(b.yogunluk);
@@ -1137,7 +1148,6 @@
       
       let mainTrs = Array.from(document.querySelectorAll("#tabloGovdesi tr.main-row"));
 
-      // Görünürlük Hesaplaması
       mainTrs.forEach(tr => {
         let hisseKodu = tr.getAttribute("data-hisse"); 
         let hisseObj = HISSE_MAP[hisseKodu];
@@ -1196,7 +1206,6 @@
 
       let genelSort = document.getElementById('genelSirala').value;
 
-      // SIRALAMA
       if (currentSortCol > -1) {
         mainTrs.sort((a, b) => {
           let valA = a.cells[currentSortCol].getAttribute("data-value");
@@ -1262,7 +1271,6 @@
           return 0;
         });
       } else {
-        // Varsayılan
         mainTrs.sort((a, b) => {
           let ha = a.getAttribute("data-hisse") || "";
           let hb = b.getAttribute("data-hisse") || "";
@@ -1288,7 +1296,6 @@
         });
       }
 
-      // DOM Ekleme
       mainTrs.forEach(tr => {
         govde.appendChild(tr);
         let expandId = tr.getAttribute("data-expand-id");
@@ -1308,7 +1315,7 @@
     }
 
     const GAS_API_URL = "https://script.google.com/macros/s/AKfycbxo9u41oj1aXxgkuE7gTnHdeG_mzT41o3WmaYhhqNNUJi_NTDzLOmSBSnHAhfsvhOiK/exec";
-    const CACHE_KEY = "temettuTabloCacheV14"; 
+    const CACHE_KEY = "temettuTabloCacheV15"; 
 
     function gosterHata(mesaj) {
       document.getElementById('tableContainer').innerHTML = '<div class="error-msg">' + mesaj + '<br><br><button class="modal-btn" onclick="veriCek()">Tekrar Dene</button></div>';
@@ -1321,7 +1328,7 @@
       if (cachedStr) {
         try {
           let parsed = JSON.parse(cachedStr);
-          if (parsed.v === 14 && parsed.data) {
+          if (parsed.v === 15 && parsed.data) {
             tabloyuCiz(parsed.data);
             uygula();
             document.getElementById('updateDateText').innerText = 'SON GÜNCELLEME: ' + escapeHtml(parsed.data.sonGuncelleme) + ' (Önbellek)';
@@ -1341,7 +1348,7 @@
           if (data.hata) {
             gosterHata("Sunucu hatası: " + escapeHtml(data.hata));
           } else {
-            try { localStorage.setItem(CACHE_KEY, JSON.stringify({ v: 14, data: data })); } catch(e) { }
+            try { localStorage.setItem(CACHE_KEY, JSON.stringify({ v: 15, data: data })); } catch(e) { }
             tabloyuCiz(data);
             uygula();
             tarihiYazdir(data.sonGuncelleme);
