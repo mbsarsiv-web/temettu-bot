@@ -158,7 +158,6 @@
       .bar:hover, .info-icon:hover { transform: none !important; }
     }
     /* ===== SMART TV MODU ===== */
-    .icon-btn.aktif { background: #e8f0fe; border-color: #1a73e8; color: #1a73e8; font-weight: 700; }
     body.tv-mode { height: 100vh; max-height: 100vh; overflow: hidden; font-size: 100%; }
     body.tv-mode > * { flex-shrink: 0; }
     body.tv-mode .header { padding: 2px 12px; }
@@ -271,7 +270,6 @@
       <option value="HISSE_ASC">Hisse Kodu (A → Z)</option>
     </select>
 
-    <button class="icon-btn" id="tvBtn" onclick="tvModuDegistir()" title="Smart TV görünümü">📺 TV</button>
     <button class="icon-btn clear-btn" onclick="filtreleriTemizle()">✕ Temizle</button>
   </div>
 
@@ -1421,11 +1419,6 @@
         if (q === '1') return true;
         if (q === '0') return false;
       } catch (e) { }
-      try {
-        let k = localStorage.getItem('temettuTvMode');
-        if (k === '1') return true;
-        if (k === '0') return false;
-      } catch (e) { }
       let ua = navigator.userAgent || "";
       // 1) Bilinen TV tarayıcı kimlikleri
       if (/Tizen|Web0S|WebOS|SMART-TV|SmartTV|SMART TV|NetCast|HbbTV|BRAVIA|VIDAA|AFTM|AFTT|AFTS|Android TV|GoogleTV|Google TV|Viera|AquosBrowser|Roku|Hisense|Philips|TCL|Large Screen|MiBOX|CrKey|TV Safari|Opera TV|Espial|SonyDTV|Tesla|Vestel|Arcelik|Beko|Grundig|Sunny|Skyworth|Xiaomi.*TV|AppleTV|Xbox|PlayStation|Silk/i.test(ua)) return true;
@@ -1478,15 +1471,7 @@
 
     function tvModuUygula() {
       document.body.classList.toggle('tv-mode', tvAktif);
-      let btn = document.getElementById('tvBtn');
-      if (btn) btn.classList.toggle('aktif', tvAktif);
       tvSigdir();
-    }
-
-    function tvModuDegistir() {
-      tvAktif = !tvAktif;
-      try { localStorage.setItem('temettuTvMode', tvAktif ? '1' : '0'); } catch (e) { }
-      tvModuUygula();
     }
 
     function tvBaslat() {
