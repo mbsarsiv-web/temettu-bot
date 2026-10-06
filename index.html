@@ -1099,6 +1099,22 @@
       document.getElementById('kpiCount').innerText = trs.length;
     }
 
+    // ===== DÜZELTME: Ortalama Verim sıralaması için yardımcı fonksiyonlar =====
+    function siralamaVerimiAl(hisseObj, donem) {
+      if (!hisseObj) return 0;
+      if (donem === "TÜMÜ") {
+        // Tabloda görünen son 10 yıl baz alınır
+        return hisseObj.ortalamaVerim10 || 0;
+      }
+      return seciliDonemVerimiAl(hisseObj, donem) || 0;
+    }
+
+    function siralamaOdemeAdetiAl(hisseObj, donem) {
+      if (!hisseObj) return 0;
+      if (donem === "TÜMÜ") return hisseObj.odemeYil10 || 0;
+      return seciliDonemAdetAl(hisseObj, donem) || 0;
+    }
+
     function uygula() {
       let arama = document.getElementById("hisseArama").value.trim().toUpperCase();
       let fHisseEl = document.getElementById("filterHisse");
@@ -1202,7 +1218,22 @@
             return (yogB || 0) - (yogA || 0);
           }
           if (genelSort === "VERIM_DESC") {
-            return seciliDonemVerimiAl(sb, fD) - seciliDonemVerimiAl(sa, fD);
+            let vA = siralamaVerimiAl(sa, fD);
+            let vB = siralamaVerimiAl(sb, fD);
+
+            // Verimi olmayanlar (0) her zaman en alta
+            if (vA <= 0 && vB > 0) return 1;
+            if (vB <= 0 && vA > 0) return -1;
+
+            if (Math.abs(vB - vA) > 0.0001) return vB - vA;
+
+            // Eşitlikte: daha çok yıl ödeme yapan, sonra yoğunluk, sonra hisse kodu
+            let adetA = siralamaOdemeAdetiAl(sa, fD);
+            let adetB = siralamaOdemeAdetiAl(sb, fD);
+            if (adetB !== adetA) return adetB - adetA;
+
+            if (Math.abs((sb.yogunluk || 0) - (sa.yogunluk || 0)) > 0.0001) return (sb.yogunluk || 0) - (sa.yogunluk || 0);
+            return ha.localeCompare(hb);
           }
           if (genelSort === "TBH_DESC") {
             let tbhA = sa.tbh; let tbhB = sb.tbh;
