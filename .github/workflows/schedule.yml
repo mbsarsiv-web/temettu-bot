@@ -1,8 +1,9 @@
-name: Günlük Temettü Verisi Çek
+name: Haftalık Temettü Verisi Çek
 
 on:
   schedule:
-    - cron: '0 0 * * *'
+    # Her cumartesi 21:00 UTC (Türkiye saatiyle pazar 00:00)
+    - cron: '0 21 * * 6'
   workflow_dispatch:
 
 jobs:
