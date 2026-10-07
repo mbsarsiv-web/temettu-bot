@@ -465,11 +465,19 @@
       if (!sampiyonAdaylari || sampiyonAdaylari.length === 0) return;
 
       let top10 = sampiyonAdaylari.slice().filter(function(x) { return x.toplam10 > 0; });
-      top10.sort(function(a, b) { return b.toplam10 - a.toplam10; });
+      top10.sort(function(a, b) {
+        if (Math.abs(b.toplam10 - a.toplam10) > 0.0001) return b.toplam10 - a.toplam10;
+        if (b.odeme10 !== a.odeme10) return b.odeme10 - a.odeme10;
+        return a.hisse.localeCompare(b.hisse);
+      });
       top10 = top10.slice(0, 15);
 
       let top5 = sampiyonAdaylari.slice().filter(function(x) { return x.toplam5 > 0; });
-      top5.sort(function(a, b) { return b.toplam5 - a.toplam5; });
+      top5.sort(function(a, b) {
+        if (Math.abs(b.toplam5 - a.toplam5) > 0.0001) return b.toplam5 - a.toplam5;
+        if (b.odeme5 !== a.odeme5) return b.odeme5 - a.odeme5;
+        return a.hisse.localeCompare(b.hisse);
+      });
       top5 = top5.slice(0, 15);
 
       let topArtis = sampiyonAdaylari.slice().filter(function(x) { return x.artisSerisi >= 3; });
@@ -491,18 +499,18 @@
       let parcaHtml = '';
 
       if (top10.length > 0) {
-        parcaHtml += '<span class="ticker-title">🏆 SON 10 YIL TEMETTÜ ŞAMPİYONLARI</span>';
+        parcaHtml += '<span class="ticker-title" title="Son 10 yılın yıllık temettü verimlerinin toplamı">🏆 SON 10 YIL TEMETTÜ ŞAMPİYONLARI</span>';
         for (let i = 0; i < top10.length; i++) {
           let deger10 = top10[i].toplam10.toFixed(2).replace('.', ',');
-          parcaHtml += '<span class="ticker-item"><span class="ticker-rank">' + (i + 1) + '.</span> <span class="ticker-code">' + escapeHtml(top10[i].hisse) + '</span><span class="ticker-val">(%' + deger10 + ')</span></span>';
+          parcaHtml += '<span class="ticker-item"><span class="ticker-rank">' + (i + 1) + '.</span> <span class="ticker-code">' + escapeHtml(top10[i].hisse) + '</span><span class="ticker-val">(%' + deger10 + ' · ' + top10[i].odeme10 + ' yıl)</span></span>';
         }
       }
 
       if (top5.length > 0) {
-        parcaHtml += '<span class="ticker-title five-yr">⭐ SON 5 YIL TEMETTÜ ŞAMPİYONLARI</span>';
+        parcaHtml += '<span class="ticker-title five-yr" title="Son 5 yılın yıllık temettü verimlerinin toplamı">⭐ SON 5 YIL TEMETTÜ ŞAMPİYONLARI</span>';
         for (let j = 0; j < top5.length; j++) {
           let deger5 = top5[j].toplam5.toFixed(2).replace('.', ',');
-          parcaHtml += '<span class="ticker-item"><span class="ticker-rank">' + (j + 1) + '.</span> <span class="ticker-code">' + escapeHtml(top5[j].hisse) + '</span><span class="ticker-val">(%' + deger5 + ')</span></span>';
+          parcaHtml += '<span class="ticker-item"><span class="ticker-rank">' + (j + 1) + '.</span> <span class="ticker-code">' + escapeHtml(top5[j].hisse) + '</span><span class="ticker-val">(%' + deger5 + ' · ' + top5[j].odeme5 + ' yıl)</span></span>';
         }
       }
 
@@ -952,6 +960,8 @@
           hisse: temizKod,
           toplam10: toplamVerim10Yil,
           toplam5: toplamVerim5Yil,
+          odeme10: odemeYaptigiYilSayisi10,
+          odeme5: odemeYaptigiYilSayisi5,
           artisSerisi: artisSerisi,
           kesintisizSeri: kesintisizSeri,
           ortalamaVerim: ortalamaVerim10
