@@ -64,9 +64,39 @@ def parse_date_to_yyyymmdd(val):
     s = str(val).strip()
     m = re.search(r'Date\(([-0-9]+)\)', s)
     if m: return time.strftime('%Y-%m-%d', time.gmtime(int(m.group(1))/1000))
+    # YYYY-MM-DD (ör. 2024-03-15 veya 2024-03-15 00:00:00)
+    m_iso = re.search(r'\b(\d{4})-(\d{2})-(\d{2})\b', s)
+    if m_iso: return f"{m_iso.group(1)}-{m_iso.group(2)}-{m_iso.group(3)}"
     m2 = re.search(r'(\d{2})[\./-](\d{2})[\./-](\d{4})', s)
     if m2: return f"{m2.group(3)}-{m2.group(2)}-{m2.group(1)}"
     return "9999-99-99"
+
+def format_olay_tarihi(date_str, yil):
+    """Geçerli bir YYYY-MM-DD tarihi varsa onu, yoksa sadece yılı döndürür."""
+    s = str(date_str) if date_str is not None else ""
+    if re.fullmatch(r"\d{4}-\d{2}-\d{2}", s) and not s.startswith("9999"):
+        return s
+    return str(yil)
+
+def format_olay_degeri(val):
+    return f"{float(val):.6f}".rstrip("0").rstrip(".")
+
+def olaylar_df_olustur(events):
+    """
+    Tarihli olayları (T=temettü hisse başı TL, B=bedelsiz %) Kod+Yil bazında tek metne çevirir.
+    Biçim: TARIH:TIP:DEGER|TARIH:TIP:DEGER   (tarih bilinmiyorsa sadece yıl yazılır)
+    Örnek: 2024-03-15:T:0.5773|2024-07-01:B:1000
+    """
+    if not events:
+        return pd.DataFrame(columns=["Kod", "Yil", "Olaylar"])
+    sirali = sorted(events, key=lambda x: (x["Kod"], x["Yil"], x["Tarih"], 0 if x["Tip"] == "T" else 1))
+    gruplar = {}
+    for e in sirali:
+        gruplar.setdefault((e["Kod"], e["Yil"]), []).append(
+            f"{e['Tarih']}:{e['Tip']}:{format_olay_degeri(e['Deger'])}"
+        )
+    rows = [{"Kod": k[0], "Yil": k[1], "Olaylar": "|".join(v)} for k, v in gruplar.items()]
+    return pd.DataFrame(rows)
 
 def fetch_splits_yahoo(kod):
     splits = []
@@ -247,6 +277,7 @@ def main():
     
     all_rows = []
     all_extracted_splits = []
+    all_dated_events = []   # Tarihli temettü (T) ve bedelsiz (B) olayları
     
     for kod in tickers:
         html = fetch_with_retry(session, BASE_URL.format(kod), method="GET")
@@ -282,6 +313,19 @@ def main():
                 
             if "Hisse_Basi_TL" in df_scraped.columns:
                 df_scraped["Hisse_Basi_TL"] = df_scraped["Hisse_Basi_TL"].apply(parse_yield)
+
+                # Tarihli temettü olaylarını topla (yıllık toplamdan bağımsız)
+                for _, r in df_scraped.iterrows():
+                    hb_val = r["Hisse_Basi_TL"]
+                    if isinstance(hb_val, (int, float)) and not isinstance(hb_val, bool) and hb_val > 0:
+                        all_dated_events.append({
+                            "Kod": r["Kod"],
+                            "Yil": str(r["Yil"]),
+                            "Tarih": format_olay_tarihi(r.get("Div_Date"), r["Yil"]),
+                            "Tip": "T",
+                            "Deger": float(hb_val)
+                        })
+
                 df_hb_temp = df_scraped[pd.to_numeric(df_scraped['Hisse_Basi_TL'], errors='coerce').notnull()].copy()
                 if not df_hb_temp.empty:
                     df_hb_temp["Hisse_Basi_TL"] = df_hb_temp["Hisse_Basi_TL"].astype(float)
@@ -293,6 +337,21 @@ def main():
                 if not df_do_temp.empty:
                     df_do_temp["Dagitma_Orani"] = df_do_temp["Dagitma_Orani"].astype(float)
                     df_do_final = df_do_temp.groupby(["Kod", "Yil"], as_index=False)["Dagitma_Orani"].sum()
+
+    # Tarihli bedelsiz olaylarını topla (yıllık bileşik orandan bağımsız)
+    for sp in all_extracted_splits:
+        try:
+            b_val = float(sp["Bedelsiz_Oran"])
+        except Exception:
+            continue
+        if b_val > 0:
+            all_dated_events.append({
+                "Kod": sp["Kod"],
+                "Yil": str(sp["Yil"]),
+                "Tarih": format_olay_tarihi(sp.get("Split_Date"), sp["Yil"]),
+                "Tip": "B",
+                "Deger": b_val
+            })
 
     df_splits_final = pd.DataFrame(columns=["Kod", "Yil", "Bedelsiz_Oran"])
     if all_extracted_splits:
@@ -360,6 +419,16 @@ def main():
         else:
             df_events["Dagitma_Orani"] = ""
         df_events = pd.merge(df_events, df_splits_final, on=["Kod", "Yil"], how="outer")
+
+    # Tarihli olaylar sütunu (Olaylar) - mevcut sütunların SONUNA eklenir
+    df_olay_final = olaylar_df_olustur(all_dated_events)
+    df_events = pd.merge(df_events, df_olay_final, on=["Kod", "Yil"], how="outer")
+
+    toplam_t = sum(1 for e in all_dated_events if e["Tip"] == "T")
+    tarihli_t = sum(1 for e in all_dated_events if e["Tip"] == "T" and len(e["Tarih"]) == 10)
+    toplam_b = sum(1 for e in all_dated_events if e["Tip"] == "B")
+    tarihli_b = sum(1 for e in all_dated_events if e["Tip"] == "B" and len(e["Tarih"]) == 10)
+    print(f"Tarihli olay özeti -> Temettü: {tarihli_t}/{toplam_t} tam tarihli | Bedelsiz: {tarihli_b}/{toplam_b} tam tarihli")
         
     df_master = pd.merge(df_base, df_events, on="Kod", how="left")
     
@@ -368,6 +437,7 @@ def main():
     df_master["Hisse_Basi_TL"] = df_master["Hisse_Basi_TL"].fillna("")
     df_master["Dagitma_Orani"] = df_master["Dagitma_Orani"].fillna("")
     df_master["Bedelsiz_Oran"] = df_master["Bedelsiz_Oran"].fillna("")
+    df_master["Olaylar"] = df_master["Olaylar"].fillna("")
     df_master["Yil"] = df_master["Yil"].fillna("")
     df_master["Arz_Yili"] = df_master["Arz_Yili"].fillna("")
     df_master = df_master[df_master["Kod"].str.strip() != ""]
