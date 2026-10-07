@@ -572,6 +572,36 @@
       return new Date(defaultYear, 0, 1).getTime();
     }
 
+    // "TARIH:TIP:DEGER|TARIH:TIP:DEGER" biçimindeki Olaylar metnini çözer.
+    // TIP: T = temettü (hisse başı TL), B = bedelsiz (%). Tarih yoksa sadece yıl gelir.
+    function olaylariCoz(ham, yilNum) {
+      let sonuc = [];
+      if (!ham) return sonuc;
+      let parcalar = ham.toString().split('|');
+      for (let i = 0; i < parcalar.length; i++) {
+        let p = parcalar[i].trim();
+        if (!p) continue;
+        let alan = p.split(':');
+        if (alan.length < 3) continue;
+        let tarihStr = alan[0].trim();
+        let tip = alan[1].trim().toUpperCase();
+        let deger = parseFloat(alan[2]);
+        if (isNaN(deger) || deger <= 0) continue;
+        if (tip !== 'T' && tip !== 'B') continue;
+
+        let zaman;
+        let m = tarihStr.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+        if (m) {
+          zaman = new Date(parseInt(m[1]), parseInt(m[2]) - 1, parseInt(m[3])).getTime();
+        } else {
+          // Tam tarih yoksa eski varsayım korunur: aynı yıl içinde temettü bedelsizden önce sayılır
+          zaman = (tip === 'T') ? new Date(yilNum, 0, 1).getTime() : new Date(yilNum, 11, 31).getTime();
+        }
+        sonuc.push({ type: (tip === 'B') ? 'BEDELSIZ' : 'TEMETTU', time: zaman, val: deger, year: yilNum });
+      }
+      return sonuc;
+    }
+
     function tabloyuCiz(payload) {
       if (!payload || !payload.anaTablo || payload.anaTablo.length <= 1) {
         document.getElementById('tableContainer').innerHTML = '<div class="error-msg">Gösterilecek veri bulunamadı. Lütfen sistemi onarın.</div>';
@@ -586,7 +616,7 @@
 
       if (verimVerisi && verimVerisi.length > 1) {
         let basliklarVerim = verimVerisi[0];
-        let kodIndeks = 0, yilIndeks = 1, verimIndeks = -1, hisseBasiIndeks = -1, bedelsizIndeks = -1;
+        let kodIndeks = 0, yilIndeks = 1, verimIndeks = -1, hisseBasiIndeks = -1, bedelsizIndeks = -1, olayIndeksi = -1;
         for (let c = 0; c < basliklarVerim.length; c++) {
           let b = basliklarVerim[c].toString().toUpperCase().trim();
           if (b === "KOD" && kodIndeks === 0) kodIndeks = c;
@@ -594,6 +624,7 @@
           else if (verimIndeks === -1 && (b.indexOf("VERIM") > -1 || b.indexOf("VERİM") > -1) && basliklarVerim[c].toString().trim() !== "") verimIndeks = c;
           else if (hisseBasiIndeks === -1 && (b.indexOf("HISSE") > -1 || b.indexOf("HİSSE") > -1)) hisseBasiIndeks = c;
           else if (bedelsizIndeks === -1 && (b.indexOf("BEDELSIZ") > -1 || b.indexOf("BEDELSİZ") > -1 || (b.indexOf("ORAN") > -1 && b.indexOf("DAGITMA") === -1 && b.indexOf("DAĞITMA") === -1))) bedelsizIndeks = c;
+          else if (olayIndeksi === -1 && b === "OLAYLAR") olayIndeksi = c;
         }
 
         if (verimIndeks === -1) { verimIndeks = 4; }
@@ -643,17 +674,27 @@
           }
 
           if (yilNum > 0) {
-            let tVal = parseDateSafely(tarih, yilNum);
             let hb = verimSayisiCoz(rawHB);
             let bd = verimSayisiCoz(rawBedelsiz);
+            let rawOlay = (olayIndeksi > -1) ? verimVerisi[v][olayIndeksi] : "";
+            let tarihliOlaylar = olaylariCoz(rawOlay, yilNum);
+            let tarihliTemettu = tarihliOlaylar.filter(function(e) { return e.type === 'TEMETTU'; });
+            let tarihliBedelsiz = tarihliOlaylar.filter(function(e) { return e.type === 'BEDELSIZ'; });
 
             if (!eventsMap[tKod]) eventsMap[tKod] = [];
 
-            if (!isNaN(bd) && bd > 0) {
-              eventsMap[tKod].push({ type: 'BEDELSIZ', time: tVal, val: bd, year: yilNum });
+            // Bedelsiz: tarihli olaylar varsa onlar, yoksa yıllık orana göre (yıl sonu)
+            if (tarihliBedelsiz.length > 0) {
+              tarihliBedelsiz.forEach(function(e) { eventsMap[tKod].push(e); });
+            } else if (!isNaN(bd) && bd > 0) {
+              eventsMap[tKod].push({ type: 'BEDELSIZ', time: new Date(yilNum, 11, 31).getTime(), val: bd, year: yilNum });
             }
-            if (!isNaN(hb) && hb > 0) {
-              eventsMap[tKod].push({ type: 'TEMETTU', time: tVal, val: hb, year: yilNum });
+
+            // Temettü: tarihli olaylar varsa onlar, yoksa yıllık toplama göre (yıl başı)
+            if (tarihliTemettu.length > 0) {
+              tarihliTemettu.forEach(function(e) { eventsMap[tKod].push(e); });
+            } else if (!isNaN(hb) && hb > 0) {
+              eventsMap[tKod].push({ type: 'TEMETTU', time: new Date(yilNum, 0, 1).getTime(), val: hb, year: yilNum });
             }
           }
         }
