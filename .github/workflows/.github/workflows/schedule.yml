@@ -2,7 +2,7 @@ name: Haftalık Temettü Verisi Çek
 
 on:
   schedule:
-    # Cumartesi günleri Türkiye saati ile gece 00:00'da çalışır (UTC 21:00)
+    # Her cumartesi 21:00 UTC (Türkiye saatiyle pazar 00:00)
     - cron: '0 21 * * 6'
   workflow_dispatch:
 
