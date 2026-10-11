@@ -572,8 +572,6 @@
       return new Date(defaultYear, 0, 1).getTime();
     }
 
-    // "TARIH:TIP:DEGER|TARIH:TIP:DEGER" biçimindeki Olaylar metnini çözer.
-    // TIP: T = temettü (hisse başı TL), B = bedelsiz (%). Tarih yoksa sadece yıl gelir.
     function olaylariCoz(ham, yilNum) {
       let sonuc = [];
       if (!ham) return sonuc;
@@ -594,7 +592,6 @@
         if (m) {
           zaman = new Date(parseInt(m[1]), parseInt(m[2]) - 1, parseInt(m[3])).getTime();
         } else {
-          // Tam tarih yoksa eski varsayım korunur: aynı yıl içinde temettü bedelsizden önce sayılır
           zaman = (tip === 'T') ? new Date(yilNum, 0, 1).getTime() : new Date(yilNum, 11, 31).getTime();
         }
         sonuc.push({ type: (tip === 'B') ? 'BEDELSIZ' : 'TEMETTU', time: zaman, val: deger, year: yilNum });
@@ -683,14 +680,12 @@
 
             if (!eventsMap[tKod]) eventsMap[tKod] = [];
 
-            // Bedelsiz: tarihli olaylar varsa onlar, yoksa yıllık orana göre (yıl sonu)
             if (tarihliBedelsiz.length > 0) {
               tarihliBedelsiz.forEach(function(e) { eventsMap[tKod].push(e); });
             } else if (!isNaN(bd) && bd > 0) {
               eventsMap[tKod].push({ type: 'BEDELSIZ', time: new Date(yilNum, 11, 31).getTime(), val: bd, year: yilNum });
             }
 
-            // Temettü: tarihli olaylar varsa onlar, yoksa yıllık toplama göre (yıl başı)
             if (tarihliTemettu.length > 0) {
               tarihliTemettu.forEach(function(e) { eventsMap[tKod].push(e); });
             } else if (!isNaN(hb) && hb > 0) {
@@ -1029,8 +1024,16 @@
         expandHtml += '<td colspan="3" style="vertical-align: middle; padding: 12px 4px;">';
         expandHtml += '<div style="background: #f1f8f3; border: 1px solid #b2d2a4; border-radius: 8px; padding: 10px 2px; text-align: center; margin: 0; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">';
         expandHtml += '<div class="ort-verim-baslik" style="color: #5f6368; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; white-space: normal; line-height: 1.2;">Ortalama Temettü Verimi</div>';
-        expandHtml += '<div class="ort-verim-deger" style="color: #0f9d58; font-size: 24px; font-weight: 900;">' + ortVerimFormatli + '</div></div></td>';
-        expandHtml += '</tr>';
+        expandHtml += '<div class="ort-verim-deger" style="color: #0f9d58; font-size: 24px; font-weight: 900;">' + ortVerimFormatli + '</div>';
+        
+        // Yeni Eklenen Bölüm Başlangıcı
+        expandHtml += '<div style="margin-top: 8px; display: flex; flex-direction: column; gap: 4px; align-items: center;">';
+        expandHtml += '<div style="font-size: 10px; color: #5f6368; font-weight: 600; background: #ffffff; border: 1px solid #d9ead3; padding: 3px 8px; border-radius: 12px; display: inline-block; white-space: nowrap;">💸 Kesintisiz Ödeme: <span style="color: #0f9d58; font-weight: 800;">' + (kesintisizSeri > 0 ? kesintisizSeri + ' Yıl' : 'Yok') + '</span></div>';
+        expandHtml += '<div style="font-size: 10px; color: #5f6368; font-weight: 600; background: #ffffff; border: 1px solid #d9ead3; padding: 3px 8px; border-radius: 12px; display: inline-block; white-space: nowrap;">📈 Düzenli Artış: <span style="color: #0f9d58; font-weight: 800;">' + (artisSerisi > 0 ? artisSerisi + ' Yıl' : 'Yok') + '</span></div>';
+        expandHtml += '</div>';
+        // Yeni Eklenen Bölüm Sonu
+
+        expandHtml += '</div></td></tr>';
 
         islenmisSatirlar.push({
           hisse: temizKod, yogunluk: rawYogunluk, yogunluk25: yogunluk25, yogunluk20: yogunluk20, yogunluk15: yogunluk15, yogunluk10: yogunluk10, yogunluk5: yogunluk5, yogunluk3: yogunluk3, gizliAdet: gizliAdet1990,
@@ -1173,11 +1176,9 @@
       document.getElementById('kpiCount').innerText = trs.length;
     }
 
-    // ===== DÜZELTME: Ortalama Verim sıralaması için yardımcı fonksiyonlar =====
     function siralamaVerimiAl(hisseObj, donem) {
       if (!hisseObj) return 0;
       if (donem === "TÜMÜ") {
-        // Tabloda görünen son 10 yıl baz alınır
         return hisseObj.ortalamaVerim10 || 0;
       }
       return seciliDonemVerimiAl(hisseObj, donem) || 0;
@@ -1295,13 +1296,11 @@
             let vA = siralamaVerimiAl(sa, fD);
             let vB = siralamaVerimiAl(sb, fD);
 
-            // Verimi olmayanlar (0) her zaman en alta
             if (vA <= 0 && vB > 0) return 1;
             if (vB <= 0 && vA > 0) return -1;
 
             if (Math.abs(vB - vA) > 0.0001) return vB - vA;
 
-            // Eşitlikte: daha çok yıl ödeme yapan, sonra yoğunluk, sonra hisse kodu
             let adetA = siralamaOdemeAdetiAl(sa, fD);
             let adetB = siralamaOdemeAdetiAl(sb, fD);
             if (adetB !== adetA) return adetB - adetA;
@@ -1471,9 +1470,7 @@
         if (q === '0') return false;
       } catch (e) { }
       let ua = navigator.userAgent || "";
-      // 1) Bilinen TV tarayıcı kimlikleri
       if (/Tizen|Web0S|WebOS|SMART-TV|SmartTV|SMART TV|NetCast|HbbTV|BRAVIA|VIDAA|AFTM|AFTT|AFTS|Android TV|GoogleTV|Google TV|Viera|AquosBrowser|Roku|Hisense|Philips|TCL|Large Screen|MiBOX|CrKey|TV Safari|Opera TV|Espial|SonyDTV|Tesla|Vestel|Arcelik|Beko|Grundig|Sunny|Skyworth|Xiaomi.*TV|AppleTV|Xbox|PlayStation|Silk/i.test(ua)) return true;
-      // 2) Kimlik tanınmasa bile: büyük ekran + fare/dokunmatik yok (uzaktan kumanda) = TV
       try {
         let genis = Math.max(window.screen.width || 0, window.innerWidth || 0) >= 1000;
         let fareYok = window.matchMedia && !window.matchMedia('(any-hover: hover)').matches && !window.matchMedia('(any-pointer: fine)').matches;
@@ -1507,7 +1504,6 @@
         return;
       }
 
-      // Tabloyu doğal genişliğinde ölç, sonra ekran genişliğine sığacak şekilde ölçekle
       tbl.style.zoom = 1;
       tbl.style.width = 'auto';
       let gerekli = tbl.offsetWidth;
