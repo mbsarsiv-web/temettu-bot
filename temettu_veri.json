@@ -1,4 +1,20 @@
 {
+  "A1CAP": {
+    "fiyat": 2.83,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
+  "A1YEN": {
+    "fiyat": 1.33,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
   "AAGYO": {
     "fiyat": 7.33,
     "hisse_basi_tl": 0.428,
@@ -28,6 +44,22 @@
       "26.09.2025"
     ],
     "yil": 2025
+  },
+  "ADESE": {
+    "fiyat": 0.49,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
+  "ADGYO": {
+    "fiyat": 39.82,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
   },
   "AEFES": {
     "fiyat": 16.22,
@@ -69,6 +101,14 @@
       "20.05.2026"
     ],
     "yil": 2026
+  },
+  "AGROT": {
+    "fiyat": 1.09,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
   },
   "AGYO": {
     "fiyat": 6.26,
@@ -140,6 +180,22 @@
     ],
     "yil": 2026
   },
+  "AKFIS": {
+    "fiyat": 15.41,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
+  "AKFYE": {
+    "fiyat": 3.65,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
   "AKGRT": {
     "fiyat": 4.77,
     "hisse_basi_tl": 1.0,
@@ -150,6 +206,14 @@
       "06.09.2021"
     ],
     "yil": 2021
+  },
+  "AKHAN": {
+    "fiyat": 21.62,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
   },
   "AKMGY": {
     "fiyat": 176.5,
@@ -232,6 +296,14 @@
     ],
     "yil": 2026
   },
+  "ALBTN": {
+    "fiyat": 19.41,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
   "ALCAR": {
     "fiyat": 574.5,
     "hisse_basi_tl": 63.2175,
@@ -304,6 +376,22 @@
       "22.12.2025"
     ],
     "yil": 2025
+  },
+  "ALTNY": {
+    "fiyat": 10.42,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
+  "ALVES": {
+    "fiyat": 0.48,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
   },
   "ANELE": {
     "fiyat": 7.6,
@@ -385,6 +473,22 @@
     ],
     "yil": 2023
   },
+  "ARFYE": {
+    "fiyat": 9.27,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
+  "ARMGD": {
+    "fiyat": 103.2,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
   "ARSAN": {
     "fiyat": 2.92,
     "hisse_basi_tl": 0.1,
@@ -394,6 +498,14 @@
       "04.07.2022"
     ],
     "yil": 2022
+  },
+  "ARTMS": {
+    "fiyat": 28.78,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
   },
   "ARZUM": {
     "fiyat": 0.96,
@@ -475,6 +587,14 @@
     ],
     "yil": 2026
   },
+  "ATATR": {
+    "fiyat": 3.88,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
   "ATEKS": {
     "fiyat": 76.95,
     "hisse_basi_tl": 0.35,
@@ -515,6 +635,22 @@
     ],
     "yil": 2006
   },
+  "AVHOL": {
+    "fiyat": 28.78,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
+  "AVOD": {
+    "fiyat": 2.18,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
   "AVPGY": {
     "fiyat": 47.4,
     "hisse_basi_tl": 5.0,
@@ -525,6 +661,16 @@
       "05.06.2026"
     ],
     "yil": 2026
+  },
+  "AVTUR": {
+    "fiyat": 6.7,
+    "hisse_basi_tl": 0.0164,
+    "odeme_sayisi": 1,
+    "tarih": "25.11.2007",
+    "tarihler": [
+      "25.11.2007"
+    ],
+    "yil": 2007
   },
   "AYCES": {
     "fiyat": 286.0,
@@ -596,6 +742,14 @@
     ],
     "yil": 2023
   },
+  "BAHKM": {
+    "fiyat": 136.3,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
   "BAKAB": {
     "fiyat": 25.5,
     "hisse_basi_tl": 0.8333,
@@ -605,6 +759,14 @@
       "21.06.2022"
     ],
     "yil": 2022
+  },
+  "BALAT": {
+    "fiyat": 54.5,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
   },
   "BALSU": {
     "fiyat": 7.23,
@@ -626,6 +788,14 @@
     ],
     "yil": 2011
   },
+  "BARMA": {
+    "fiyat": 5.15,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
   "BASCM": {
     "fiyat": 8.78,
     "hisse_basi_tl": 1.0606,
@@ -645,6 +815,14 @@
       "18.06.2026"
     ],
     "yil": 2026
+  },
+  "BAYRK": {
+    "fiyat": 2.62,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
   },
   "BEGYO": {
     "fiyat": 3.04,
@@ -677,6 +855,22 @@
     ],
     "yil": 1996
   },
+  "BESTE": {
+    "fiyat": 17.95,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
+  "BETAE": {
+    "fiyat": 45.44,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
   "BEYAZ": {
     "fiyat": 13.17,
     "hisse_basi_tl": 0.3009,
@@ -697,6 +891,14 @@
     ],
     "yil": 2023
   },
+  "BIENY": {
+    "fiyat": 10.72,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
   "BIGCH": {
     "fiyat": 3.13,
     "hisse_basi_tl": 0.1,
@@ -706,6 +908,14 @@
       "18.09.2026"
     ],
     "yil": 2026
+  },
+  "BIGEN": {
+    "fiyat": 8.28,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
   },
   "BIGTK": {
     "fiyat": 43.22,
@@ -729,6 +939,30 @@
     ],
     "yil": 2026
   },
+  "BINBN": {
+    "fiyat": 33.5,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
+  "BINHO": {
+    "fiyat": 3.57,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
+  "BIOEN": {
+    "fiyat": 11.11,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
   "BIZIM": {
     "fiyat": 16.11,
     "hisse_basi_tl": 0.8333,
@@ -748,6 +982,14 @@
       "21.11.2004"
     ],
     "yil": 2004
+  },
+  "BKRGY": {
+    "fiyat": 4.28,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
   },
   "BLCYT": {
     "fiyat": 1.42,
@@ -848,6 +1090,14 @@
       "28.03.2025"
     ],
     "yil": 2025
+  },
+  "BRKO": {
+    "fiyat": 5.37,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
   },
   "BRKSN": {
     "fiyat": 4.92,
@@ -961,6 +1211,14 @@
     ],
     "yil": 2024
   },
+  "BURVA": {
+    "fiyat": 231.8,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
   "BVSAN": {
     "fiyat": 51.3,
     "hisse_basi_tl": 0.9606,
@@ -981,6 +1239,14 @@
     ],
     "yil": 2025
   },
+  "CANTE": {
+    "fiyat": 0.97,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
   "CASA": {
     "fiyat": 30.9,
     "hisse_basi_tl": 0.2923,
@@ -990,6 +1256,14 @@
       "31.12.2021"
     ],
     "yil": 2021
+  },
+  "CATES": {
+    "fiyat": 23.14,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
   },
   "CCOLA": {
     "fiyat": 74.75,
@@ -1011,6 +1285,14 @@
     ],
     "yil": 2022
   },
+  "CEMAS": {
+    "fiyat": 2.41,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
   "CEMTS": {
     "fiyat": 6.47,
     "hisse_basi_tl": 0.3,
@@ -1020,6 +1302,14 @@
       "24.06.2026"
     ],
     "yil": 2026
+  },
+  "CEMZY": {
+    "fiyat": 5.94,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
   },
   "CEOEM": {
     "fiyat": 19.3,
@@ -1031,6 +1321,14 @@
     ],
     "yil": 2022
   },
+  "CGCAM": {
+    "fiyat": 16.25,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
   "CIMSA": {
     "fiyat": 37.44,
     "hisse_basi_tl": 0.7403,
@@ -1040,6 +1338,14 @@
       "01.04.2026"
     ],
     "yil": 2026
+  },
+  "CITAS": {
+    "fiyat": 85.75,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
   },
   "CLEBI": {
     "fiyat": 1223.0,
@@ -1070,6 +1376,14 @@
       "26.12.2024"
     ],
     "yil": 2024
+  },
+  "CONSE": {
+    "fiyat": 1.35,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
   },
   "COSMO": {
     "fiyat": 70.35,
@@ -1112,6 +1426,14 @@
     ],
     "yil": 2022
   },
+  "CVKMD": {
+    "fiyat": 11.98,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
   "CWENE": {
     "fiyat": 14.64,
     "hisse_basi_tl": 0.7664,
@@ -1121,6 +1443,30 @@
       "29.08.2024"
     ],
     "yil": 2024
+  },
+  "DAGI": {
+    "fiyat": 5.27,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
+  "DAPGM": {
+    "fiyat": 2.33,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
+  "DARDL": {
+    "fiyat": 0.93,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
   },
   "DCTTR": {
     "fiyat": 4.26,
@@ -1133,6 +1479,14 @@
       "31.12.2024"
     ],
     "yil": 2024
+  },
+  "DENGE": {
+    "fiyat": 1.28,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
   },
   "DERHL": {
     "fiyat": 1.25,
@@ -1216,6 +1570,14 @@
     ],
     "yil": 2024
   },
+  "DIRIT": {
+    "fiyat": 13.71,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
   "DITAS": {
     "fiyat": 6.99,
     "hisse_basi_tl": 0.0231,
@@ -1225,6 +1587,14 @@
       "29.04.2022"
     ],
     "yil": 2022
+  },
+  "DMRGD": {
+    "fiyat": 6.3,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
   },
   "DMSAS": {
     "fiyat": 5.48,
@@ -1277,6 +1647,22 @@
     ],
     "yil": 2026
   },
+  "DOFRB": {
+    "fiyat": 56.9,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
+  "DOGUB": {
+    "fiyat": 13.75,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
   "DOHOL": {
     "fiyat": 16.38,
     "hisse_basi_tl": 0.3057,
@@ -1296,6 +1682,14 @@
       "18.06.2015"
     ],
     "yil": 2015
+  },
+  "DSTKF": {
+    "fiyat": 143.6,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
   },
   "DUNYH": {
     "fiyat": 14.76,
@@ -1368,6 +1762,14 @@
     ],
     "yil": 2026
   },
+  "ECOGR": {
+    "fiyat": 18.5,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
   "ECZYT": {
     "fiyat": 168.7,
     "hisse_basi_tl": 5.7143,
@@ -1377,6 +1779,14 @@
       "06.05.2026"
     ],
     "yil": 2026
+  },
+  "EDATA": {
+    "fiyat": 3.24,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
   },
   "EDIP": {
     "fiyat": 22.38,
@@ -1418,6 +1828,14 @@
     ],
     "yil": 2026
   },
+  "EGEPO": {
+    "fiyat": 4.67,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
   "EGGUB": {
     "fiyat": 76.75,
     "hisse_basi_tl": 2.5,
@@ -1449,6 +1867,14 @@
     ],
     "yil": 2022
   },
+  "EKDMR": {
+    "fiyat": 21.24,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
   "EKGYO": {
     "fiyat": 17.02,
     "hisse_basi_tl": 0.6,
@@ -1458,6 +1884,38 @@
       "24.06.2026"
     ],
     "yil": 2026
+  },
+  "EKIM": {
+    "fiyat": 14.14,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
+  "EKIZ": {
+    "fiyat": 32.54,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
+  "EKOS": {
+    "fiyat": 2.56,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
+  "EKSUN": {
+    "fiyat": 3.66,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
   },
   "ELITE": {
     "fiyat": 16.5,
@@ -1499,6 +1957,14 @@
     ],
     "yil": 2026
   },
+  "ENDAE": {
+    "fiyat": 9.79,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
   "ENERY": {
     "fiyat": 12.25,
     "hisse_basi_tl": 0.0167,
@@ -1530,6 +1996,30 @@
     ],
     "yil": 2026
   },
+  "ENPRA": {
+    "fiyat": 35.0,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
+  "ENSRI": {
+    "fiyat": 2.35,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
+  "ENTRA": {
+    "fiyat": 4.42,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
   "EPLAS": {
     "fiyat": 4.37,
     "hisse_basi_tl": 0.4804,
@@ -1550,6 +2040,14 @@
     ],
     "yil": 2026
   },
+  "ERCB": {
+    "fiyat": 32.02,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
   "EREGL": {
     "fiyat": 31.6,
     "hisse_basi_tl": 0.55,
@@ -1559,6 +2057,14 @@
       "03.06.2026"
     ],
     "yil": 2026
+  },
+  "ERSU": {
+    "fiyat": 16.7,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
   },
   "ESCAR": {
     "fiyat": 9.71,
@@ -1572,6 +2078,14 @@
     ],
     "yil": 2025
   },
+  "ESCOM": {
+    "fiyat": 3.39,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
   "ESEN": {
     "fiyat": 1.97,
     "hisse_basi_tl": 0.1562,
@@ -1581,6 +2095,14 @@
       "12.04.2023"
     ],
     "yil": 2023
+  },
+  "ETILR": {
+    "fiyat": 6.86,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
   },
   "ETYAT": {
     "fiyat": 9.99,
@@ -1592,6 +2114,14 @@
     ],
     "yil": 2023
   },
+  "EUHOL": {
+    "fiyat": 4.41,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
   "EUKYO": {
     "fiyat": 9.0,
     "hisse_basi_tl": 0.06,
@@ -1601,6 +2131,22 @@
       "08.08.2023"
     ],
     "yil": 2023
+  },
+  "EUPWR": {
+    "fiyat": 36.18,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
+  "EUREN": {
+    "fiyat": 2.09,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
   },
   "EUYO": {
     "fiyat": 3.02,
@@ -1621,6 +2167,14 @@
       "25.12.2025"
     ],
     "yil": 2025
+  },
+  "FADE": {
+    "fiyat": 9.5,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
   },
   "FENER": {
     "fiyat": 2.06,
@@ -1652,6 +2206,14 @@
     ],
     "yil": 2026
   },
+  "FONET": {
+    "fiyat": 3.39,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
   "FORMT": {
     "fiyat": 0.86,
     "hisse_basi_tl": 0.0138,
@@ -1672,6 +2234,22 @@
     ],
     "yil": 2024
   },
+  "FRIGO": {
+    "fiyat": 1.91,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
+  "FRMPL": {
+    "fiyat": 17.98,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
   "FROTO": {
     "fiyat": 65.05,
     "hisse_basi_tl": 3.64,
@@ -1682,6 +2260,14 @@
     ],
     "yil": 2026
   },
+  "FZLGY": {
+    "fiyat": 4.16,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
   "GARAN": {
     "fiyat": 126.5,
     "hisse_basi_tl": 5.2669,
@@ -1691,6 +2277,22 @@
       "07.04.2026"
     ],
     "yil": 2026
+  },
+  "GARFA": {
+    "fiyat": 20.68,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
+  "GATEG": {
+    "fiyat": 116.0,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
   },
   "GEDIK": {
     "fiyat": 4.66,
@@ -1742,6 +2344,22 @@
     ],
     "yil": 2026
   },
+  "GEREL": {
+    "fiyat": 21.94,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
+  "GESAN": {
+    "fiyat": 30.12,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
   "GIPTA": {
     "fiyat": 21.32,
     "hisse_basi_tl": 1.553,
@@ -1775,6 +2393,22 @@
     ],
     "yil": 2026
   },
+  "GLRMK": {
+    "fiyat": 106.4,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
+  "GLRYH": {
+    "fiyat": 1.36,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
   "GLYHO": {
     "fiyat": 15.46,
     "hisse_basi_tl": 0.0641,
@@ -1806,6 +2440,14 @@
     ],
     "yil": 2027
   },
+  "GOLDA": {
+    "fiyat": 5.6,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
   "GOLTS": {
     "fiyat": 219.2,
     "hisse_basi_tl": 4.1667,
@@ -1825,6 +2467,14 @@
       "24.05.2021"
     ],
     "yil": 2021
+  },
+  "GOZDE": {
+    "fiyat": 16.57,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
   },
   "GRNYO": {
     "fiyat": 6.79,
@@ -1857,6 +2507,14 @@
       "22.07.2026"
     ],
     "yil": 2026
+  },
+  "GSDDE": {
+    "fiyat": 9.52,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
   },
   "GSDHO": {
     "fiyat": 3.75,
@@ -1911,6 +2569,14 @@
     ],
     "yil": 2026
   },
+  "GZNMI": {
+    "fiyat": 14.9,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
   "HALKB": {
     "fiyat": 43.1,
     "hisse_basi_tl": 0.149,
@@ -1931,6 +2597,14 @@
     ],
     "yil": 2021
   },
+  "HATSN": {
+    "fiyat": 21.4,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
   "HDFGS": {
     "fiyat": 1.06,
     "hisse_basi_tl": 0.015,
@@ -1940,6 +2614,14 @@
       "17.05.2018"
     ],
     "yil": 2018
+  },
+  "HEDEF": {
+    "fiyat": 13.05,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
   },
   "HEKTS": {
     "fiyat": 1.75,
@@ -1971,6 +2653,30 @@
     ],
     "yil": 2026
   },
+  "HOROZ": {
+    "fiyat": 37.6,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
+  "HRKET": {
+    "fiyat": 7.68,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
+  "HTTBT": {
+    "fiyat": 28.4,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
   "HUBVC": {
     "fiyat": 1.94,
     "hisse_basi_tl": 0.03,
@@ -1980,6 +2686,14 @@
       "30.05.2012"
     ],
     "yil": 2012
+  },
+  "HUNER": {
+    "fiyat": 3.88,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
   },
   "HURGZ": {
     "fiyat": 3.89,
@@ -2011,6 +2725,30 @@
     ],
     "yil": 2002
   },
+  "IDGYO": {
+    "fiyat": 1.75,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
+  "IEYHO": {
+    "fiyat": 12.15,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
+  "IHAAS": {
+    "fiyat": 13.0,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
   "IHEVA": {
     "fiyat": 1.44,
     "hisse_basi_tl": 0.02,
@@ -2021,6 +2759,14 @@
     ],
     "yil": 2023
   },
+  "IHGZT": {
+    "fiyat": 0.79,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
   "IHLAS": {
     "fiyat": 0.73,
     "hisse_basi_tl": 0.0024,
@@ -2030,6 +2776,30 @@
       "30.05.2005"
     ],
     "yil": 2005
+  },
+  "IHLGM": {
+    "fiyat": 1.01,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
+  "IHYAY": {
+    "fiyat": 0.85,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
+  "IMASM": {
+    "fiyat": 1.31,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
   },
   "INDES": {
     "fiyat": 10.97,
@@ -2061,6 +2831,30 @@
     ],
     "yil": 2023
   },
+  "INTEK": {
+    "fiyat": 151.0,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
+  "INTEM": {
+    "fiyat": 146.2,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
+  "INTET": {
+    "fiyat": 38.88,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
   "INVEO": {
     "fiyat": 3.82,
     "hisse_basi_tl": 0.02,
@@ -2070,6 +2864,24 @@
       "31.05.2012"
     ],
     "yil": 2012
+  },
+  "INVES": {
+    "fiyat": 630.5,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
+  "ISATR": {
+    "fiyat": 4950000.0,
+    "hisse_basi_tl": 46.9233,
+    "odeme_sayisi": 1,
+    "tarih": "01.04.2026",
+    "tarihler": [
+      "01.04.2026"
+    ],
+    "yil": 2026
   },
   "ISBIR": {
     "fiyat": 49.5,
@@ -2121,6 +2933,16 @@
     ],
     "yil": 2016
   },
+  "ISGSY": {
+    "fiyat": 10.88,
+    "hisse_basi_tl": 0.135,
+    "odeme_sayisi": 1,
+    "tarih": "19.03.2015",
+    "tarihler": [
+      "19.03.2015"
+    ],
+    "yil": 2015
+  },
   "ISGYO": {
     "fiyat": 18.55,
     "hisse_basi_tl": 0.0834,
@@ -2138,6 +2960,16 @@
     "tarih": "26.06.2026",
     "tarihler": [
       "26.06.2026"
+    ],
+    "yil": 2026
+  },
+  "ISKUR": {
+    "fiyat": 4125000.0,
+    "hisse_basi_tl": 8.5541,
+    "odeme_sayisi": 1,
+    "tarih": "01.04.2026",
+    "tarihler": [
+      "01.04.2026"
     ],
     "yil": 2026
   },
@@ -2160,6 +2992,48 @@
       "30.06.2026"
     ],
     "yil": 2026
+  },
+  "ISVEA": {
+    "fiyat": 13.36,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
+  "ISYAT": {
+    "fiyat": 5.21,
+    "hisse_basi_tl": 0.35,
+    "odeme_sayisi": 1,
+    "tarih": "27.03.2023",
+    "tarihler": [
+      "27.03.2023"
+    ],
+    "yil": 2023
+  },
+  "IZENR": {
+    "fiyat": 3.25,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
+  "IZFAS": {
+    "fiyat": 13.12,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
+  "IZINV": {
+    "fiyat": 22.26,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
   },
   "IZMDC": {
     "fiyat": 5.84,
@@ -2190,6 +3064,22 @@
       "18.08.2022"
     ],
     "yil": 2022
+  },
+  "KARCL": {
+    "fiyat": 30.74,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
+  "KAREL": {
+    "fiyat": 4.45,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
   },
   "KARSN": {
     "fiyat": 6.76,
@@ -2272,6 +3162,14 @@
     ],
     "yil": 2016
   },
+  "KERVN": {
+    "fiyat": 5.36,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
   "KFEIN": {
     "fiyat": 4.79,
     "hisse_basi_tl": 0.0203,
@@ -2281,6 +3179,14 @@
       "04.05.2026"
     ],
     "yil": 2026
+  },
+  "KGYO": {
+    "fiyat": 7.96,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
   },
   "KIMMR": {
     "fiyat": 8.9,
@@ -2292,6 +3198,14 @@
       "30.09.2026"
     ],
     "yil": 2026
+  },
+  "KLGYO": {
+    "fiyat": 3.81,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
   },
   "KLKIM": {
     "fiyat": 18.83,
@@ -2323,6 +3237,14 @@
     ],
     "yil": 2018
   },
+  "KLRHO": {
+    "fiyat": 9.93,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
   "KLSER": {
     "fiyat": 15.36,
     "hisse_basi_tl": 0.1943,
@@ -2343,6 +3265,14 @@
     ],
     "yil": 2026
   },
+  "KLYPV": {
+    "fiyat": 48.22,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
   "KMPUR": {
     "fiyat": 11.8,
     "hisse_basi_tl": 0.4936,
@@ -2352,6 +3282,22 @@
       "09.07.2024"
     ],
     "yil": 2024
+  },
+  "KNFRT": {
+    "fiyat": 6.8,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
+  "KOCMT": {
+    "fiyat": 2.27,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
   },
   "KONKA": {
     "fiyat": 6.63,
@@ -2383,6 +3329,14 @@
     ],
     "yil": 2018
   },
+  "KOPOL": {
+    "fiyat": 2.75,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
   "KORDS": {
     "fiyat": 2.55,
     "hisse_basi_tl": 0.293,
@@ -2392,6 +3346,14 @@
       "29.03.2023"
     ],
     "yil": 2023
+  },
+  "KOTON": {
+    "fiyat": 8.56,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
   },
   "KPEKS": {
     "fiyat": 42.1,
@@ -2540,6 +3502,14 @@
     ],
     "yil": 2018
   },
+  "KUVVA": {
+    "fiyat": 81.0,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
   "KUYAS": {
     "fiyat": 8.83,
     "hisse_basi_tl": 0.0423,
@@ -2549,6 +3519,22 @@
       "31.05.2017"
     ],
     "yil": 2017
+  },
+  "KZBGY": {
+    "fiyat": 1.06,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
+  "KZGYO": {
+    "fiyat": 17.2,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
   },
   "LIDER": {
     "fiyat": 8.1,
@@ -2644,6 +3630,14 @@
     ],
     "yil": 2023
   },
+  "LXGYO": {
+    "fiyat": 5.41,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
   "LYDHO": {
     "fiyat": 26.7,
     "hisse_basi_tl": 0.5347,
@@ -2653,6 +3647,14 @@
       "07.04.2023"
     ],
     "yil": 2023
+  },
+  "LYDYE": {
+    "fiyat": 3127.5,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
   },
   "MAALT": {
     "fiyat": 661.0,
@@ -2695,6 +3697,22 @@
     ],
     "yil": 2023
   },
+  "MAKTK": {
+    "fiyat": 5.18,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
+  "MANAS": {
+    "fiyat": 2.77,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
   "MARBL": {
     "fiyat": 7.41,
     "hisse_basi_tl": 0.0558,
@@ -2705,6 +3723,14 @@
     ],
     "yil": 2024
   },
+  "MARMR": {
+    "fiyat": 1.1,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
   "MARTI": {
     "fiyat": 1.21,
     "hisse_basi_tl": 0.22,
@@ -2714,6 +3740,14 @@
       "28.05.1998"
     ],
     "yil": 1998
+  },
+  "MASFN": {
+    "fiyat": 31.64,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
   },
   "MAVI": {
     "fiyat": 35.04,
@@ -2745,6 +3779,30 @@
       "29.07.2026"
     ],
     "yil": 2026
+  },
+  "MEGAP": {
+    "fiyat": 0.99,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
+  "MEGMT": {
+    "fiyat": 2.87,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
+  "MEKAG": {
+    "fiyat": 1.56,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
   },
   "MEPET": {
     "fiyat": 14.34,
@@ -2786,6 +3844,22 @@
     ],
     "yil": 2000
   },
+  "METEN": {
+    "fiyat": 19.97,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
+  "METRO": {
+    "fiyat": 7.34,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
   "MEYSU": {
     "fiyat": 6.98,
     "hisse_basi_tl": 0.05,
@@ -2816,6 +3890,30 @@
     ],
     "yil": 2026
   },
+  "MIATK": {
+    "fiyat": 26.9,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
+  "MMCAS": {
+    "fiyat": 8.3,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
+  "MNDRS": {
+    "fiyat": 8.31,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
   "MNDTR": {
     "fiyat": 3.33,
     "hisse_basi_tl": 0.0834,
@@ -2825,6 +3923,22 @@
       "30.05.2007"
     ],
     "yil": 2007
+  },
+  "MOBTL": {
+    "fiyat": 7.39,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
+  "MOGAN": {
+    "fiyat": 7.9,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
   },
   "MOPAS": {
     "fiyat": 14.55,
@@ -2836,6 +3950,14 @@
       "25.09.2026"
     ],
     "yil": 2026
+  },
+  "MPARK": {
+    "fiyat": 387.0,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
   },
   "MRGYO": {
     "fiyat": 1.08,
@@ -2927,6 +4049,14 @@
     ],
     "yil": 2026
   },
+  "NETGL": {
+    "fiyat": 9.1,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
   "NIBAS": {
     "fiyat": 2.46,
     "hisse_basi_tl": 0.0177,
@@ -2987,6 +4117,14 @@
     ],
     "yil": 2025
   },
+  "OBASE": {
+    "fiyat": 18.03,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
   "ODAS": {
     "fiyat": 4.65,
     "hisse_basi_tl": 0.119,
@@ -2996,6 +4134,14 @@
       "29.05.2015"
     ],
     "yil": 2015
+  },
+  "ODINE": {
+    "fiyat": 95.85,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
   },
   "OFSYM": {
     "fiyat": 44.2,
@@ -3017,6 +4163,14 @@
       "08.11.2023"
     ],
     "yil": 2023
+  },
+  "ONRYT": {
+    "fiyat": 7.53,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
   },
   "ORCAY": {
     "fiyat": 1.91,
@@ -3048,6 +4202,14 @@
     ],
     "yil": 2015
   },
+  "ORZAX": {
+    "fiyat": 57.9,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
   "OSMEN": {
     "fiyat": 4.8,
     "hisse_basi_tl": 0.1745,
@@ -3061,6 +4223,14 @@
     ],
     "yil": 2026
   },
+  "OSTIM": {
+    "fiyat": 0.99,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
   "OTKAR": {
     "fiyat": 304.75,
     "hisse_basi_tl": 6.0,
@@ -3070,6 +4240,14 @@
       "03.04.2024"
     ],
     "yil": 2024
+  },
+  "OTTO": {
+    "fiyat": 70.8,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
   },
   "OYAKC": {
     "fiyat": 18.26,
@@ -3091,6 +4269,14 @@
     ],
     "yil": 2023
   },
+  "OYLUM": {
+    "fiyat": 5.59,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
   "OYYAT": {
     "fiyat": 22.02,
     "hisse_basi_tl": 3.7743,
@@ -3100,6 +4286,14 @@
       "06.05.2026"
     ],
     "yil": 2026
+  },
+  "OZATD": {
+    "fiyat": 263.0,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
   },
   "OZGYO": {
     "fiyat": 1.29,
@@ -3141,6 +4335,14 @@
     ],
     "yil": 2026
   },
+  "OZYSR": {
+    "fiyat": 11.5,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
   "PAGYO": {
     "fiyat": 109.1,
     "hisse_basi_tl": 5.7545,
@@ -3150,6 +4352,22 @@
       "11.05.2026"
     ],
     "yil": 2026
+  },
+  "PAHOL": {
+    "fiyat": 0.89,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
+  "PAMEL": {
+    "fiyat": 34.9,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
   },
   "PAPIL": {
     "fiyat": 5.51,
@@ -3171,6 +4389,22 @@
     ],
     "yil": 1998
   },
+  "PASEU": {
+    "fiyat": 29.66,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
+  "PATEK": {
+    "fiyat": 9.61,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
   "PCILT": {
     "fiyat": 27.06,
     "hisse_basi_tl": 2.5349,
@@ -3180,6 +4414,30 @@
       "10.08.2026"
     ],
     "yil": 2026
+  },
+  "PEKGY": {
+    "fiyat": 0.89,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
+  "PENGD": {
+    "fiyat": 6.76,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
+  "PENTA": {
+    "fiyat": 8.49,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
   },
   "PETKM": {
     "fiyat": 18.06,
@@ -3202,6 +4460,14 @@
     ],
     "yil": 2026
   },
+  "PGSUS": {
+    "fiyat": 124.7,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
   "PINSU": {
     "fiyat": 7.03,
     "hisse_basi_tl": 0.23,
@@ -3221,6 +4487,14 @@
       "17.10.2022"
     ],
     "yil": 2022
+  },
+  "PKENT": {
+    "fiyat": 106.3,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
   },
   "PLTUR": {
     "fiyat": 13.77,
@@ -3273,6 +4547,14 @@
     ],
     "yil": 2023
   },
+  "PRDGS": {
+    "fiyat": 3.17,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
   "PRKAB": {
     "fiyat": 17.26,
     "hisse_basi_tl": 0.0763,
@@ -3292,6 +4574,14 @@
       "23.07.2024"
     ],
     "yil": 2024
+  },
+  "PRZMA": {
+    "fiyat": 8.76,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
   },
   "PSDTC": {
     "fiyat": 61.65,
@@ -3333,6 +4623,22 @@
     ],
     "yil": 2018
   },
+  "QUAGR": {
+    "fiyat": 1.3,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
+  "QUICK": {
+    "fiyat": 42.0,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
   "RALYH": {
     "fiyat": 15.89,
     "hisse_basi_tl": 0.1,
@@ -3353,6 +4659,14 @@
     ],
     "yil": 1997
   },
+  "REEDR": {
+    "fiyat": 2.45,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
   "RGYAS": {
     "fiyat": 174.7,
     "hisse_basi_tl": 7.8201,
@@ -3362,6 +4676,38 @@
       "07.10.2026"
     ],
     "yil": 2026
+  },
+  "RNPOL": {
+    "fiyat": 1.87,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
+  "RODRG": {
+    "fiyat": 10.55,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
+  "RTALB": {
+    "fiyat": 2.1,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
+  "RUBNS": {
+    "fiyat": 11.68,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
   },
   "RUZYE": {
     "fiyat": 3.48,
@@ -3383,6 +4729,14 @@
     ],
     "yil": 2011
   },
+  "RYSAS": {
+    "fiyat": 24.06,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
   "SAFKR": {
     "fiyat": 12.54,
     "hisse_basi_tl": 0.1026,
@@ -3402,6 +4756,14 @@
       "01.04.2026"
     ],
     "yil": 2026
+  },
+  "SAMAT": {
+    "fiyat": 3.1,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
   },
   "SANEL": {
     "fiyat": 25.76,
@@ -3434,6 +4796,14 @@
     ],
     "yil": 2023
   },
+  "SARAE": {
+    "fiyat": 27.42,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
   "SARKY": {
     "fiyat": 16.0,
     "hisse_basi_tl": 0.3529,
@@ -3453,6 +4823,14 @@
       "17.06.2019"
     ],
     "yil": 2019
+  },
+  "SAYAS": {
+    "fiyat": 31.58,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
   },
   "SDTTR": {
     "fiyat": 12.43,
@@ -3475,6 +4853,14 @@
     ],
     "yil": 2025
   },
+  "SEGYO": {
+    "fiyat": 2.37,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
   "SEKFK": {
     "fiyat": 2.63,
     "hisse_basi_tl": 0.3,
@@ -3485,6 +4871,14 @@
     ],
     "yil": 2024
   },
+  "SEKUR": {
+    "fiyat": 3.21,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
   "SELEC": {
     "fiyat": 72.9,
     "hisse_basi_tl": 0.44,
@@ -3494,6 +4888,22 @@
       "17.04.2026"
     ],
     "yil": 2026
+  },
+  "SELVA": {
+    "fiyat": 0.95,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
+  "SERNT": {
+    "fiyat": 5.13,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
   },
   "SEYKM": {
     "fiyat": 2.37,
@@ -3565,6 +4975,22 @@
     ],
     "yil": 2024
   },
+  "SMART": {
+    "fiyat": 10.03,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
+  "SMRTG": {
+    "fiyat": 3.79,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
   "SMRVA": {
     "fiyat": 4.84,
     "hisse_basi_tl": 0.1882,
@@ -3585,6 +5011,14 @@
     ],
     "yil": 2018
   },
+  "SNICA": {
+    "fiyat": 1.88,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
   "SNPAM": {
     "fiyat": 16.18,
     "hisse_basi_tl": 0.05,
@@ -3604,6 +5038,14 @@
       "12.04.2023"
     ],
     "yil": 2023
+  },
+  "SOHOE": {
+    "fiyat": 7.16,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
   },
   "SOKE": {
     "fiyat": 7.44,
@@ -3646,6 +5088,14 @@
     ],
     "yil": 2027
   },
+  "SSAAT": {
+    "fiyat": 22.46,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
   "SUMAS": {
     "fiyat": 156.7,
     "hisse_basi_tl": 2.1689,
@@ -3665,6 +5115,14 @@
       "05.10.2026"
     ],
     "yil": 2026
+  },
+  "SURGY": {
+    "fiyat": 16.4,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
   },
   "SUWEN": {
     "fiyat": 4.2,
@@ -3695,6 +5153,22 @@
       "04.06.2026"
     ],
     "yil": 2026
+  },
+  "TARKM": {
+    "fiyat": 312.75,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
+  "TATEN": {
+    "fiyat": 3.61,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
   },
   "TATGD": {
     "fiyat": 13.94,
@@ -3737,6 +5211,22 @@
     ],
     "yil": 2026
   },
+  "TCKRC": {
+    "fiyat": 94.75,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
+  "TDGYO": {
+    "fiyat": 4.98,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
   "TEHOL": {
     "fiyat": 2.55,
     "hisse_basi_tl": 0.2575,
@@ -3746,6 +5236,22 @@
       "05.02.2006"
     ],
     "yil": 2006
+  },
+  "TEKTU": {
+    "fiyat": 3.22,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
+  "TERA": {
+    "fiyat": 13.13,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
   },
   "TEZOL": {
     "fiyat": 6.78,
@@ -3787,6 +5293,14 @@
       "31.12.2025"
     ],
     "yil": 2025
+  },
+  "TKNKA": {
+    "fiyat": 25.82,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
   },
   "TKNSA": {
     "fiyat": 11.82,
@@ -3869,6 +5383,14 @@
     ],
     "yil": 2026
   },
+  "TRENJ": {
+    "fiyat": 75.1,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
   "TRGYO": {
     "fiyat": 86.7,
     "hisse_basi_tl": 5.0,
@@ -3888,6 +5410,30 @@
       "05.04.2011"
     ],
     "yil": 2011
+  },
+  "TRILC": {
+    "fiyat": 0.77,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
+  "TRMET": {
+    "fiyat": 103.1,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
+  "TSGYO": {
+    "fiyat": 4.3,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
   },
   "TSKB": {
     "fiyat": 8.92,
@@ -3930,6 +5476,22 @@
     ],
     "yil": 2025
   },
+  "TUCLK": {
+    "fiyat": 1.95,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
+  "TUKAS": {
+    "fiyat": 1.86,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
   "TUPRS": {
     "fiyat": 360.75,
     "hisse_basi_tl": 17.1269,
@@ -3941,6 +5503,22 @@
     ],
     "yil": 2026
   },
+  "TUREX": {
+    "fiyat": 4.98,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
+  "TURGG": {
+    "fiyat": 25.86,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
   "TURSG": {
     "fiyat": 4.17,
     "hisse_basi_tl": 0.15,
@@ -3950,6 +5528,30 @@
       "27.08.2026"
     ],
     "yil": 2026
+  },
+  "UCAYM": {
+    "fiyat": 10.9,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
+  "UFUK": {
+    "fiyat": 172.4,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
+  "ULAS": {
+    "fiyat": 10.5,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
   },
   "ULKER": {
     "fiyat": 76.7,
@@ -4001,6 +5603,14 @@
     ],
     "yil": 2023
   },
+  "USAK": {
+    "fiyat": 0.37,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
   "USHOL": {
     "fiyat": 72.75,
     "hisse_basi_tl": 0.0093,
@@ -4020,6 +5630,14 @@
       "16.08.2018"
     ],
     "yil": 2018
+  },
+  "VAKFA": {
+    "fiyat": 8.2,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
   },
   "VAKFN": {
     "fiyat": 0.86,
@@ -4041,6 +5659,14 @@
     ],
     "yil": 2026
   },
+  "VANGD": {
+    "fiyat": 55.1,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
   "VBTYZ": {
     "fiyat": 19.28,
     "hisse_basi_tl": 0.75,
@@ -4050,6 +5676,16 @@
       "26.05.2023"
     ],
     "yil": 2023
+  },
+  "VERTU": {
+    "fiyat": 21.96,
+    "hisse_basi_tl": 0.2,
+    "odeme_sayisi": 1,
+    "tarih": "15.11.2024",
+    "tarihler": [
+      "15.11.2024"
+    ],
+    "yil": 2024
   },
   "VERUS": {
     "fiyat": 485.5,
@@ -4083,6 +5719,14 @@
     ],
     "yil": 2021
   },
+  "VEYAS": {
+    "fiyat": 54.75,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
   "VKFYO": {
     "fiyat": 16.49,
     "hisse_basi_tl": 0.0367,
@@ -4112,6 +5756,14 @@
       "25.05.1997"
     ],
     "yil": 1997
+  },
+  "VRGYO": {
+    "fiyat": 1.0,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
   },
   "VSNMD": {
     "fiyat": 18.81,
@@ -4143,6 +5795,14 @@
     ],
     "yil": 2023
   },
+  "YAYLA": {
+    "fiyat": 10.0,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
   "YBTAS": {
     "fiyat": 9.3,
     "hisse_basi_tl": 21.1301,
@@ -4164,6 +5824,14 @@
     ],
     "yil": 2022
   },
+  "YESIL": {
+    "fiyat": 0.74,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
   "YGGYO": {
     "fiyat": 176.6,
     "hisse_basi_tl": 10.55,
@@ -4173,6 +5841,14 @@
       "07.04.2026"
     ],
     "yil": 2026
+  },
+  "YIGIT": {
+    "fiyat": 13.04,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
   },
   "YKBNK": {
     "fiyat": 34.68,
@@ -4214,6 +5890,14 @@
     ],
     "yil": 2026
   },
+  "YYAPI": {
+    "fiyat": 0.54,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
   "YYLGD": {
     "fiyat": 6.45,
     "hisse_basi_tl": 0.1472,
@@ -4223,6 +5907,30 @@
       "31.08.2023"
     ],
     "yil": 2023
+  },
+  "ZEDUR": {
+    "fiyat": 4.12,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
+  "ZERGY": {
+    "fiyat": 7.08,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
+  },
+  "ZGYO": {
+    "fiyat": 11.85,
+    "hisse_basi_tl": 0.0,
+    "odeme_sayisi": 0,
+    "tarih": "",
+    "tarihler": [],
+    "yil": 0
   },
   "ZOREN": {
     "fiyat": 1.36,
