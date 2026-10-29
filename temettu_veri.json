@@ -1,6 +1,6 @@
 {
   "A1CAP": {
-    "bolunmeler": "20250630:400",
+    "bolunmeler": "20250218:400",
     "fiyat": 2.68,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -12,7 +12,7 @@
     "yil": 0
   },
   "A1YEN": {
-    "bolunmeler": "20260630:990.909",
+    "bolunmeler": "20260508:990.9091",
     "fiyat": 1.3,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -78,7 +78,7 @@
     "yil": 0
   },
   "ADGYO": {
-    "bolunmeler": "",
+    "bolunmeler": "20260112:85.8544",
     "fiyat": 40.58,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -133,7 +133,7 @@
     "yil": 2026
   },
   "AGHOL": {
-    "bolunmeler": "20180604:52.2091,20250806:900",
+    "bolunmeler": "20180207:52.2091,20250806:900",
     "fiyat": 24.7,
     "hisse_basi_tl": 0.6981,
     "odeme_sayisi": 1,
@@ -147,7 +147,7 @@
     "yil": 2026
   },
   "AGROT": {
-    "bolunmeler": "20260630:100",
+    "bolunmeler": "20260107:100",
     "fiyat": 1.11,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -173,7 +173,7 @@
     "yil": 2024
   },
   "AHGAZ": {
-    "bolunmeler": "20230630:1150",
+    "bolunmeler": "20230606:1150",
     "fiyat": 46.0,
     "hisse_basi_tl": 0.0577,
     "odeme_sayisi": 1,
@@ -187,7 +187,7 @@
     "yil": 2026
   },
   "AHSGY": {
-    "bolunmeler": "20250630:270",
+    "bolunmeler": "20251201:270",
     "fiyat": 5.59,
     "hisse_basi_tl": 0.0762,
     "odeme_sayisi": 1,
@@ -243,7 +243,7 @@
     "yil": 2009
   },
   "AKFGY": {
-    "bolunmeler": "20210630:44.4444",
+    "bolunmeler": "20210112:7.9889,20210210:12.7226,20211207:44.4444",
     "fiyat": 2.22,
     "hisse_basi_tl": 0.0137,
     "odeme_sayisi": 1,
@@ -257,7 +257,7 @@
     "yil": 2026
   },
   "AKFIS": {
-    "bolunmeler": "20260630:500",
+    "bolunmeler": "20260818:500",
     "fiyat": 15.09,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -269,7 +269,7 @@
     "yil": 0
   },
   "AKFYE": {
-    "bolunmeler": "20260630:500",
+    "bolunmeler": "20241129:17.8076,20260921:500",
     "fiyat": 3.44,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -337,7 +337,7 @@
     "yil": 2026
   },
   "AKSEN": {
-    "bolunmeler": "20210630:100",
+    "bolunmeler": "20211007:100",
     "fiyat": 67.3,
     "hisse_basi_tl": 1.3047,
     "odeme_sayisi": 1,
@@ -351,7 +351,7 @@
     "yil": 2024
   },
   "AKSGY": {
-    "bolunmeler": "20241016:200",
+    "bolunmeler": "20200630:28.9724,20241016:200",
     "fiyat": 9.02,
     "hisse_basi_tl": 0.4555,
     "odeme_sayisi": 1,
@@ -379,7 +379,7 @@
     "yil": 2011
   },
   "AKYHO": {
-    "bolunmeler": "20181231:33.4355",
+    "bolunmeler": "20181009:11.7973",
     "fiyat": 1.46,
     "hisse_basi_tl": 0.0131,
     "odeme_sayisi": 1,
@@ -475,7 +475,7 @@
     "yil": 2025
   },
   "ALGYO": {
-    "bolunmeler": "20200225:504.6497,20240603:125,20260115:1300",
+    "bolunmeler": "20200225:504.6497,20230615:125,20240913:100,20260115:600",
     "fiyat": 2.49,
     "hisse_basi_tl": 0.05,
     "odeme_sayisi": 1,
@@ -534,7 +534,7 @@
     "yil": 2025
   },
   "ALTNY": {
-    "bolunmeler": "20250630:325",
+    "bolunmeler": "20251226:325",
     "fiyat": 10.28,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -546,7 +546,7 @@
     "yil": 0
   },
   "ALVES": {
-    "bolunmeler": "20260630:900",
+    "bolunmeler": "20260120:900",
     "fiyat": 0.48,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -600,7 +600,7 @@
     "yil": 2026
   },
   "ANSGR": {
-    "bolunmeler": "20260401:300",
+    "bolunmeler": "20250813:300",
     "fiyat": 22.0,
     "hisse_basi_tl": 1.375,
     "odeme_sayisi": 1,
@@ -642,7 +642,7 @@
     "yil": 2023
   },
   "ARDYZ": {
-    "bolunmeler": "20211201:612.0419",
+    "bolunmeler": "20200305:8.5227,20211201:612.0419,20260113:89.573",
     "fiyat": 52.65,
     "hisse_basi_tl": 0.0324,
     "odeme_sayisi": 1,
@@ -734,7 +734,7 @@
     "yil": 2023
   },
   "ASELS": {
-    "bolunmeler": "20180619:14,20201016:100,20231122:100",
+    "bolunmeler": "20180605:14,20200805:100,20230825:100",
     "fiyat": 358.5,
     "hisse_basi_tl": 0.4276,
     "odeme_sayisi": 1,
@@ -900,7 +900,7 @@
     "yil": 2006
   },
   "AVHOL": {
-    "bolunmeler": "20180630:50",
+    "bolunmeler": "20180510:140.9639,20181031:50,20220127:24.1667",
     "fiyat": 28.4,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -995,7 +995,7 @@
     "yil": 2026
   },
   "AYES": {
-    "bolunmeler": "20230110:100,20240924:399.0618",
+    "bolunmeler": "20230110:100,20240924:399.0618,20260929:233.3333",
     "fiyat": 7.27,
     "hisse_basi_tl": 0.3529,
     "odeme_sayisi": 1,
@@ -1077,7 +1077,7 @@
     "yil": 2022
   },
   "BALAT": {
-    "bolunmeler": "",
+    "bolunmeler": "20231120:3.7474",
     "fiyat": 55.0,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -1117,7 +1117,7 @@
     "yil": 2011
   },
   "BARMA": {
-    "bolunmeler": "",
+    "bolunmeler": "20230302:400",
     "fiyat": 4.5,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -1157,7 +1157,7 @@
     "yil": 2026
   },
   "BAYRK": {
-    "bolunmeler": "20251230:430.504",
+    "bolunmeler": "20200706:10.8824,20230313:100,20250728:19.82,20251230:342.7507",
     "fiyat": 2.78,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -1198,7 +1198,7 @@
     "yil": 2023
   },
   "BESLR": {
-    "bolunmeler": "20180525:17581.6239",
+    "bolunmeler": "20180525:2669.8745",
     "fiyat": 9.57,
     "hisse_basi_tl": 0.45,
     "odeme_sayisi": 1,
@@ -1236,7 +1236,7 @@
     "yil": 0
   },
   "BEYAZ": {
-    "bolunmeler": "20180630:120",
+    "bolunmeler": "20180711:120",
     "fiyat": 13.03,
     "hisse_basi_tl": 0.3009,
     "odeme_sayisi": 1,
@@ -1302,7 +1302,7 @@
     "yil": 0
   },
   "BIGTK": {
-    "bolunmeler": "",
+    "bolunmeler": "20260122:72.8689",
     "fiyat": 39.82,
     "hisse_basi_tl": 0.2073,
     "odeme_sayisi": 1,
@@ -1316,7 +1316,7 @@
     "yil": 2016
   },
   "BIMAS": {
-    "bolunmeler": "20191118:100,20260514:100",
+    "bolunmeler": "20190724:100,20260514:100",
     "fiyat": 364.75,
     "hisse_basi_tl": 7.0,
     "odeme_sayisi": 3,
@@ -1344,7 +1344,7 @@
     "yil": 0
   },
   "BINHO": {
-    "bolunmeler": "20250630:2645",
+    "bolunmeler": "20250904:2645",
     "fiyat": 3.51,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -1356,7 +1356,7 @@
     "yil": 0
   },
   "BIOEN": {
-    "bolunmeler": "20210630:233.3333",
+    "bolunmeler": "20211124:233.3333",
     "fiyat": 10.53,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -1368,7 +1368,7 @@
     "yil": 0
   },
   "BIZIM": {
-    "bolunmeler": "",
+    "bolunmeler": "20240110:34.1268",
     "fiyat": 15.9,
     "hisse_basi_tl": 0.8333,
     "odeme_sayisi": 1,
@@ -1408,7 +1408,7 @@
     "yil": 0
   },
   "BLCYT": {
-    "bolunmeler": "20220516:80,20230525:23.4568,20260901:900",
+    "bolunmeler": "20200828:50,20210702:20,20220721:23.4568,20260901:900",
     "fiyat": 1.43,
     "hisse_basi_tl": 0.2,
     "odeme_sayisi": 1,
@@ -1422,7 +1422,7 @@
     "yil": 2023
   },
   "BLUME": {
-    "bolunmeler": "",
+    "bolunmeler": "20250916:61.7688",
     "fiyat": 26.68,
     "hisse_basi_tl": 0.0163,
     "odeme_sayisi": 1,
@@ -1548,7 +1548,7 @@
     "yil": 2025
   },
   "BRKO": {
-    "bolunmeler": "",
+    "bolunmeler": "20240530:16.6667",
     "fiyat": 4.95,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -1617,7 +1617,7 @@
     "yil": 2005
   },
   "BRSAN": {
-    "bolunmeler": "",
+    "bolunmeler": "20250117:0.0152",
     "fiyat": 646.0,
     "hisse_basi_tl": 0.82,
     "odeme_sayisi": 1,
@@ -1756,7 +1756,7 @@
     "yil": 2025
   },
   "CANTE": {
-    "bolunmeler": "20230630:150,20240630:646.17566",
+    "bolunmeler": "20230505:150,20231110:17.2646,20240626:646.1757",
     "fiyat": 0.95,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -1808,7 +1808,7 @@
     "yil": 2026
   },
   "CELHA": {
-    "bolunmeler": "",
+    "bolunmeler": "20240822:21.7267,20260302:28.4999",
     "fiyat": 24.0,
     "hisse_basi_tl": 0.1208,
     "odeme_sayisi": 1,
@@ -1834,7 +1834,7 @@
     "yil": 0
   },
   "CEMTS": {
-    "bolunmeler": "20240429:395.1687",
+    "bolunmeler": "20230531:395.1687",
     "fiyat": 6.33,
     "hisse_basi_tl": 0.3,
     "odeme_sayisi": 1,
@@ -1848,7 +1848,7 @@
     "yil": 2026
   },
   "CEMZY": {
-    "bolunmeler": "20260630:472.1393",
+    "bolunmeler": "20260428:472.1393",
     "fiyat": 5.86,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -1860,7 +1860,7 @@
     "yil": 0
   },
   "CEOEM": {
-    "bolunmeler": "20220915:4.0189",
+    "bolunmeler": "20200420:125,20200604:4.0189",
     "fiyat": 18.22,
     "hisse_basi_tl": 0.5,
     "odeme_sayisi": 1,
@@ -1966,7 +1966,7 @@
     "yil": 0
   },
   "COSMO": {
-    "bolunmeler": "",
+    "bolunmeler": "20211105:8.2449,20251230:6.5106",
     "fiyat": 73.3,
     "hisse_basi_tl": 0.0257,
     "odeme_sayisi": 1,
@@ -2023,7 +2023,7 @@
     "yil": 2022
   },
   "CVKMD": {
-    "bolunmeler": "20250630:3233.33",
+    "bolunmeler": "20250206:3233.3333",
     "fiyat": 12.38,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -2035,7 +2035,7 @@
     "yil": 0
   },
   "CWENE": {
-    "bolunmeler": "20241204:708.0808",
+    "bolunmeler": "20241204:708.0808,20251106:7.829",
     "fiyat": 14.35,
     "hisse_basi_tl": 0.7664,
     "odeme_sayisi": 1,
@@ -2061,7 +2061,7 @@
     "yil": 0
   },
   "DAPGM": {
-    "bolunmeler": "20230630:92.5,20240630:540.71686",
+    "bolunmeler": "20230621:92.5,20240327:7.4284,20240806:540.7169",
     "fiyat": 2.24,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -2113,7 +2113,7 @@
     "yil": 0
   },
   "DERHL": {
-    "bolunmeler": "20220920:170.2703,20260810:559.4527",
+    "bolunmeler": "20200107:11,20220131:15,20220920:135.0176,20240531:31.5209,20260810:401.4053",
     "fiyat": 1.22,
     "hisse_basi_tl": 0.0331,
     "odeme_sayisi": 1,
@@ -2213,7 +2213,7 @@
     "yil": 2000
   },
   "DGNMO": {
-    "bolunmeler": "",
+    "bolunmeler": "20190221:28.6986",
     "fiyat": 4.8,
     "hisse_basi_tl": 0.2857,
     "odeme_sayisi": 1,
@@ -2253,7 +2253,7 @@
     "yil": 2022
   },
   "DMRGD": {
-    "bolunmeler": "20250630:700",
+    "bolunmeler": "20251211:700",
     "fiyat": 6.79,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -2279,7 +2279,7 @@
     "yil": 2022
   },
   "DNISI": {
-    "bolunmeler": "20220802:197,20260819:551.476",
+    "bolunmeler": "20210107:1.8219,20210204:4.7435,20210303:2.0195,20220802:197,20230607:50,20260819:334.3173",
     "fiyat": 3.6,
     "hisse_basi_tl": 0.0919,
     "odeme_sayisi": 1,
@@ -2308,7 +2308,7 @@
     "yil": 2026
   },
   "DOCO": {
-    "bolunmeler": "20230724:5.7784,20250717:6.5626",
+    "bolunmeler": "20230221:0.5982,20230228:0.1518,20230307:0.7327,20230314:0.1003,20230321:0.451,20230328:0.0624,20230419:0.0748,20230425:0.2989,20230504:0.5464,20230511:0.247,20230524:1.1458,20230531:0.8161,20230614:0.1208,20230620:0.2413,20230627:0.012,20230707:0.0361,20230821:2.0986,20230825:0.8317,20230911:0.0589,20230919:0.4946,20231003:0.0351,20231120:0.0234,20240131:0.3513,20240213:0.0467,20240311:2.2397,20240326:0.0228,20240429:0.1483,20240717:0.0569",
     "fiyat": 10962.5,
     "hisse_basi_tl": 134.6865,
     "odeme_sayisi": 1,
@@ -2360,7 +2360,7 @@
     "yil": 0
   },
   "DOHOL": {
-    "bolunmeler": "20190422:6.8138",
+    "bolunmeler": "",
     "fiyat": 16.47,
     "hisse_basi_tl": 0.3057,
     "odeme_sayisi": 1,
@@ -2400,7 +2400,7 @@
     "yil": 0
   },
   "DUNYH": {
-    "bolunmeler": "",
+    "bolunmeler": "20251002:66.965",
     "fiyat": 13.1,
     "hisse_basi_tl": 0.01,
     "odeme_sayisi": 1,
@@ -2414,7 +2414,7 @@
     "yil": 2022
   },
   "DURDO": {
-    "bolunmeler": "20201203:111.1513,20240723:185.7143,20250311:400",
+    "bolunmeler": "20201203:111.1513,20240124:185.7143,20250311:400",
     "fiyat": 5.6,
     "hisse_basi_tl": 0.1,
     "odeme_sayisi": 1,
@@ -2525,7 +2525,7 @@
     "yil": 2026
   },
   "EDATA": {
-    "bolunmeler": "20250207:197.9037",
+    "bolunmeler": "20230526:200,20250207:197.9037",
     "fiyat": 2.8,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -2593,7 +2593,7 @@
     "yil": 2026
   },
   "EGEPO": {
-    "bolunmeler": "20250630:300",
+    "bolunmeler": "20250319:300",
     "fiyat": 4.15,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -2605,7 +2605,7 @@
     "yil": 0
   },
   "EGGUB": {
-    "bolunmeler": "20230427:300,20231220:150",
+    "bolunmeler": "20220905:300,20231220:150",
     "fiyat": 81.05,
     "hisse_basi_tl": 2.5,
     "odeme_sayisi": 1,
@@ -2619,7 +2619,7 @@
     "yil": 2026
   },
   "EGPRO": {
-    "bolunmeler": "20180711:1.7347,20250114:572.9991",
+    "bolunmeler": "20250114:572.9991",
     "fiyat": 27.46,
     "hisse_basi_tl": 1.2844,
     "odeme_sayisi": 2,
@@ -2686,7 +2686,7 @@
     "yil": 0
   },
   "EKIZ": {
-    "bolunmeler": "",
+    "bolunmeler": "20220211:29.3511",
     "fiyat": 36.56,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -2698,7 +2698,7 @@
     "yil": 0
   },
   "EKOS": {
-    "bolunmeler": "20250630:300",
+    "bolunmeler": "20251226:300",
     "fiyat": 2.55,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -2710,7 +2710,7 @@
     "yil": 0
   },
   "EKSUN": {
-    "bolunmeler": "20240630:757.1428",
+    "bolunmeler": "20240710:757.1429",
     "fiyat": 3.46,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -2818,7 +2818,7 @@
     "yil": 2026
   },
   "ENKAI": {
-    "bolunmeler": "20181212:8.6957,20210413:12,20230412:7.1429",
+    "bolunmeler": "20180524:8.6957,20200527:12,20220606:7.1429",
     "fiyat": 78.45,
     "hisse_basi_tl": 2.9333,
     "odeme_sayisi": 2,
@@ -2845,7 +2845,7 @@
     "yil": 0
   },
   "ENSRI": {
-    "bolunmeler": "20251210:367.4658",
+    "bolunmeler": "20230503:220,20251210:367.4658",
     "fiyat": 2.23,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -2869,7 +2869,7 @@
     "yil": 0
   },
   "EPLAS": {
-    "bolunmeler": "20230829:853.0761",
+    "bolunmeler": "20220419:39.128,20230829:585.0354",
     "fiyat": 4.79,
     "hisse_basi_tl": 0.4804,
     "odeme_sayisi": 1,
@@ -2951,7 +2951,7 @@
     "yil": 2025
   },
   "ESCOM": {
-    "bolunmeler": "20250228:6301.8364",
+    "bolunmeler": "20250228:1309.9071",
     "fiyat": 3.8,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -2977,7 +2977,7 @@
     "yil": 2023
   },
   "ETILR": {
-    "bolunmeler": "20241220:200",
+    "bolunmeler": "20241220:200,20260910:4.2871",
     "fiyat": 6.09,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -3029,7 +3029,7 @@
     "yil": 2023
   },
   "EUPWR": {
-    "bolunmeler": "20240630:200",
+    "bolunmeler": "20241008:200",
     "fiyat": 41.0,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -3041,7 +3041,7 @@
     "yil": 0
   },
   "EUREN": {
-    "bolunmeler": "20241205:176.3158",
+    "bolunmeler": "20221207:350.2903,20241205:176.3158",
     "fiyat": 2.18,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -3067,7 +3067,7 @@
     "yil": 2023
   },
   "EYGYO": {
-    "bolunmeler": "20250213:250",
+    "bolunmeler": "20231229:142.4242,20250213:250",
     "fiyat": 1.73,
     "hisse_basi_tl": 0.0286,
     "odeme_sayisi": 1,
@@ -3081,7 +3081,7 @@
     "yil": 2025
   },
   "FADE": {
-    "bolunmeler": "20210630:19",
+    "bolunmeler": "20200904:6.7119,20210726:17.2619",
     "fiyat": 9.64,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -3135,7 +3135,7 @@
     "yil": 2026
   },
   "FONET": {
-    "bolunmeler": "20231211:260,20251020:550",
+    "bolunmeler": "20190717:122.2222,20231211:260,20251020:550",
     "fiyat": 3.5,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -3147,7 +3147,7 @@
     "yil": 0
   },
   "FORMT": {
-    "bolunmeler": "20191018:25.6615",
+    "bolunmeler": "20181116:250,20191018:25.6615,20221028:9.3762,20260410:5.9775",
     "fiyat": 0.84,
     "hisse_basi_tl": 0.0138,
     "odeme_sayisi": 1,
@@ -3175,7 +3175,7 @@
     "yil": 2024
   },
   "FRIGO": {
-    "bolunmeler": "20260513:188.9142",
+    "bolunmeler": "20200902:85,20240119:20.2309,20260513:188.9142",
     "fiyat": 1.86,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -3213,7 +3213,7 @@
     "yil": 2026
   },
   "FZLGY": {
-    "bolunmeler": "20250630:293.08176",
+    "bolunmeler": "20250818:293.0818",
     "fiyat": 4.41,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -3251,7 +3251,7 @@
     "yil": 0
   },
   "GATEG": {
-    "bolunmeler": "",
+    "bolunmeler": "20180813:15.443,20260126:44.2228",
     "fiyat": 119.6,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -3263,7 +3263,7 @@
     "yil": 0
   },
   "GEDIK": {
-    "bolunmeler": "20210413:78.0627,20220328:110,20240917:98.0198,20250722:100",
+    "bolunmeler": "20200527:78.0627,20210528:110,20220523:30,20240917:98.0198,20250722:100",
     "fiyat": 4.71,
     "hisse_basi_tl": 0.375,
     "odeme_sayisi": 1,
@@ -3277,7 +3277,7 @@
     "yil": 2026
   },
   "GEDZA": {
-    "bolunmeler": "20180630:100,20210630:100,20230630:100",
+    "bolunmeler": "20180518:98.0392,20210831:98.0198,20230904:100",
     "fiyat": 17.27,
     "hisse_basi_tl": 0.1176,
     "odeme_sayisi": 1,
@@ -3319,7 +3319,7 @@
     "yil": 2026
   },
   "GENTS": {
-    "bolunmeler": "20180531:8.2145,20190531:8,20210531:29.6296,20220531:29.8701,20230531:12.1211,20230620:33.7839,20250828:150",
+    "bolunmeler": "20180705:8,20190703:22.0539,20200617:6.2069,20210803:29.8701,20220913:12.1211,20230620:33.7839,20250828:150",
     "fiyat": 3.32,
     "hisse_basi_tl": 0.1569,
     "odeme_sayisi": 1,
@@ -3333,7 +3333,7 @@
     "yil": 2026
   },
   "GEREL": {
-    "bolunmeler": "20190214:100,20240930:200",
+    "bolunmeler": "20181113:10.6099,20190214:44.6525,20240930:200,20250718:55.1981",
     "fiyat": 23.2,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -3345,7 +3345,7 @@
     "yil": 0
   },
   "GESAN": {
-    "bolunmeler": "20230630:300",
+    "bolunmeler": "20230404:300",
     "fiyat": 32.68,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -3414,7 +3414,7 @@
     "yil": 0
   },
   "GLRYH": {
-    "bolunmeler": "20240630:200",
+    "bolunmeler": "",
     "fiyat": 1.28,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -3521,7 +3521,7 @@
     "yil": 0
   },
   "GRNYO": {
-    "bolunmeler": "20190529:4.6875,20200824:4.4776,20210802:7.1429",
+    "bolunmeler": "20181106:4.6875,20190620:4.4776,20201002:7.1429",
     "fiyat": 6.6,
     "hisse_basi_tl": 0.056,
     "odeme_sayisi": 1,
@@ -3577,7 +3577,7 @@
     "yil": 0
   },
   "GSDHO": {
-    "bolunmeler": "20220826:80,20230814:122.2222",
+    "bolunmeler": "20221114:122.2222",
     "fiyat": 3.68,
     "hisse_basi_tl": 0.1,
     "odeme_sayisi": 1,
@@ -3650,7 +3650,7 @@
     "yil": 2026
   },
   "GZNMI": {
-    "bolunmeler": "20220630:160",
+    "bolunmeler": "20221123:160",
     "fiyat": 16.1,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -3662,7 +3662,7 @@
     "yil": 0
   },
   "HALKB": {
-    "bolunmeler": "",
+    "bolunmeler": "20200521:97.9021,20220310:100.8719,20230330:44.5885,20260424:25",
     "fiyat": 43.14,
     "hisse_basi_tl": 0.149,
     "odeme_sayisi": 1,
@@ -3702,7 +3702,7 @@
     "yil": 0
   },
   "HDFGS": {
-    "bolunmeler": "",
+    "bolunmeler": "20180611:13.913,20200904:9.2664,20210524:35.2313,20220803:14.0351,20230719:73.8462",
     "fiyat": 0.99,
     "hisse_basi_tl": 0.015,
     "odeme_sayisi": 1,
@@ -3716,7 +3716,7 @@
     "yil": 2018
   },
   "HEDEF": {
-    "bolunmeler": "20240819:400,20260603:60",
+    "bolunmeler": "20220803:25,20240819:400,20250721:3.971,20260603:53.8891",
     "fiyat": 9.53,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -3728,7 +3728,7 @@
     "yil": 0
   },
   "HEKTS": {
-    "bolunmeler": "",
+    "bolunmeler": "20261014:8.3282",
     "fiyat": 1.58,
     "hisse_basi_tl": 0.1667,
     "odeme_sayisi": 1,
@@ -3756,7 +3756,7 @@
     "yil": 2023
   },
   "HLGYO": {
-    "bolunmeler": "20180430:3.7975,20190417:4.6341,20200629:8.1585,20210407:4.5259,20230811:2.6144,20250618:17.0111,20260626:4.3478",
+    "bolunmeler": "20180620:4.6341,20190620:8.1585,20200827:4.5259,20210601:5.1546,20220530:2.6144,20230919:4.7771,20240904:17.0111,20250918:4.3478",
     "fiyat": 3.58,
     "hisse_basi_tl": 0.5755,
     "odeme_sayisi": 1,
@@ -3782,7 +3782,7 @@
     "yil": 0
   },
   "HRKET": {
-    "bolunmeler": "20260630:1300",
+    "bolunmeler": "20260921:1300",
     "fiyat": 6.23,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -3794,7 +3794,7 @@
     "yil": 0
   },
   "HTTBT": {
-    "bolunmeler": "20240630:135.29411",
+    "bolunmeler": "20241127:135.2941",
     "fiyat": 28.9,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -3832,7 +3832,7 @@
     "yil": 0
   },
   "HURGZ": {
-    "bolunmeler": "",
+    "bolunmeler": "20181224:7.2464",
     "fiyat": 3.8,
     "hisse_basi_tl": 0.1,
     "odeme_sayisi": 1,
@@ -3860,7 +3860,7 @@
     "yil": 1999
   },
   "ICUGS": {
-    "bolunmeler": "20250616:1830.5556",
+    "bolunmeler": "20240129:67.2684,20250616:400",
     "fiyat": 1.09,
     "hisse_basi_tl": 0.55,
     "odeme_sayisi": 1,
@@ -3898,7 +3898,7 @@
     "yil": 0
   },
   "IHAAS": {
-    "bolunmeler": "20230630:154.6875",
+    "bolunmeler": "20230626:154.6875",
     "fiyat": 11.0,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -3950,7 +3950,7 @@
     "yil": 2005
   },
   "IHLGM": {
-    "bolunmeler": "",
+    "bolunmeler": "20190924:98.077",
     "fiyat": 0.95,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -3974,7 +3974,7 @@
     "yil": 0
   },
   "IMASM": {
-    "bolunmeler": "20240919:300",
+    "bolunmeler": "20230418:525,20240919:300",
     "fiyat": 1.3,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -4000,7 +4000,7 @@
     "yil": 2026
   },
   "INFO": {
-    "bolunmeler": "20230615:127.1346,20241127:321.2,20260915:100",
+    "bolunmeler": "20200611:81.3477,20210623:37.5758,20220802:65.0978,20241127:321.2,20260915:100",
     "fiyat": 0.66,
     "hisse_basi_tl": 1.0,
     "odeme_sayisi": 1,
@@ -4160,7 +4160,7 @@
     "yil": 2026
   },
   "ISFIN": {
-    "bolunmeler": "",
+    "bolunmeler": "20180528:6.9199",
     "fiyat": 15.84,
     "hisse_basi_tl": 0.0377,
     "odeme_sayisi": 1,
@@ -4174,7 +4174,7 @@
     "yil": 2016
   },
   "ISGSY": {
-    "bolunmeler": "20260703:569.7701",
+    "bolunmeler": "20251103:13.9263,20260703:487.8975",
     "fiyat": 10.88,
     "hisse_basi_tl": 0.135,
     "odeme_sayisi": 1,
@@ -4188,7 +4188,7 @@
     "yil": 2015
   },
   "ISGYO": {
-    "bolunmeler": "20180327:7.5,20260331:4.9248",
+    "bolunmeler": "20180504:4.9248",
     "fiyat": 17.85,
     "hisse_basi_tl": 0.0834,
     "odeme_sayisi": 1,
@@ -4230,7 +4230,7 @@
     "yil": 2026
   },
   "ISMEN": {
-    "bolunmeler": "20240529:322.5352",
+    "bolunmeler": "20230719:322.5352",
     "fiyat": 25.12,
     "hisse_basi_tl": 3.1667,
     "odeme_sayisi": 1,
@@ -4284,7 +4284,7 @@
     "yil": 2023
   },
   "IZENR": {
-    "bolunmeler": "20240630:325",
+    "bolunmeler": "20241129:325",
     "fiyat": 3.31,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -4296,7 +4296,7 @@
     "yil": 0
   },
   "IZFAS": {
-    "bolunmeler": "20250630:100",
+    "bolunmeler": "",
     "fiyat": 15.03,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -4308,7 +4308,7 @@
     "yil": 0
   },
   "IZINV": {
-    "bolunmeler": "",
+    "bolunmeler": "20220322:5.0771,20240624:12.652",
     "fiyat": 22.3,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -4334,7 +4334,7 @@
     "yil": 2008
   },
   "JANTS": {
-    "bolunmeler": "20220405:695,20240531:693.2461",
+    "bolunmeler": "20210507:695,20240531:693.2461",
     "fiyat": 10.5,
     "hisse_basi_tl": 0.0307,
     "odeme_sayisi": 1,
@@ -4374,7 +4374,7 @@
     "yil": 0
   },
   "KAREL": {
-    "bolunmeler": "20210906:344.4444",
+    "bolunmeler": "20210906:242.9355",
     "fiyat": 4.41,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -4457,7 +4457,7 @@
     "yil": 2026
   },
   "KCAER": {
-    "bolunmeler": "20241128:191.2237",
+    "bolunmeler": "20221206:181.6146,20241128:191.2237",
     "fiyat": 9.0,
     "hisse_basi_tl": 0.1697,
     "odeme_sayisi": 1,
@@ -4511,7 +4511,7 @@
     "yil": 0
   },
   "KFEIN": {
-    "bolunmeler": "20250814:900",
+    "bolunmeler": "20180705:4.7222,20180906:4.7745,20250814:900",
     "fiyat": 4.8,
     "hisse_basi_tl": 0.0203,
     "odeme_sayisi": 1,
@@ -4525,7 +4525,7 @@
     "yil": 2026
   },
   "KGYO": {
-    "bolunmeler": "20250312:2400",
+    "bolunmeler": "20240827:53.566,20250312:1527.9649",
     "fiyat": 7.8,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -4578,7 +4578,7 @@
     "yil": 2026
   },
   "KLMSN": {
-    "bolunmeler": "20190702:11.5467,20220629:24.2177",
+    "bolunmeler": "20180918:11.5467,20210825:24.2177",
     "fiyat": 16.14,
     "hisse_basi_tl": 0.0758,
     "odeme_sayisi": 1,
@@ -4588,7 +4588,7 @@
     "tarihler": [
       "01.06.2023"
     ],
-    "temettuler": "20190702:0.2,20200622:0.668796,20220629:0.063131,20230601:0.075758",
+    "temettuler": "20180918:0.030301,20190702:0.2,20200622:0.668796,20210825:0.126263,20220629:0.063131,20230601:0.075758",
     "yil": 2023
   },
   "KLNMA": {
@@ -4606,7 +4606,7 @@
     "yil": 2018
   },
   "KLRHO": {
-    "bolunmeler": "20260930:80",
+    "bolunmeler": "20230606:150,20260930:80",
     "fiyat": 9.48,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -4646,7 +4646,7 @@
     "yil": 2026
   },
   "KLYPV": {
-    "bolunmeler": "",
+    "bolunmeler": "20260914:11.8212",
     "fiyat": 47.5,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -4658,7 +4658,7 @@
     "yil": 0
   },
   "KMPUR": {
-    "bolunmeler": "20230809:100",
+    "bolunmeler": "20230809:100,20240918:100",
     "fiyat": 11.36,
     "hisse_basi_tl": 0.4936,
     "odeme_sayisi": 1,
@@ -4684,7 +4684,7 @@
     "yil": 0
   },
   "KOCMT": {
-    "bolunmeler": "20250630:449.45056",
+    "bolunmeler": "20250924:449.4505",
     "fiyat": 2.26,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -4710,7 +4710,7 @@
     "yil": 2023
   },
   "KONTR": {
-    "bolunmeler": "20220901:425.4516,20240905:225",
+    "bolunmeler": "20201105:5,20220901:425.4516",
     "fiyat": 1.67,
     "hisse_basi_tl": 0.0308,
     "odeme_sayisi": 1,
@@ -4738,7 +4738,7 @@
     "yil": 2018
   },
   "KOPOL": {
-    "bolunmeler": "20240630:500",
+    "bolunmeler": "20241203:500",
     "fiyat": 2.59,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -4835,7 +4835,7 @@
     "yil": 2023
   },
   "KRGYO": {
-    "bolunmeler": "20240630:400",
+    "bolunmeler": "20241211:400",
     "fiyat": 3.23,
     "hisse_basi_tl": 0.0384,
     "odeme_sayisi": 1,
@@ -4905,7 +4905,7 @@
     "yil": 2012
   },
   "KRVGD": {
-    "bolunmeler": "20220705:28,20240802:800",
+    "bolunmeler": "20210920:28,20240802:800",
     "fiyat": 2.06,
     "hisse_basi_tl": 0.0515,
     "odeme_sayisi": 2,
@@ -4934,7 +4934,7 @@
     "yil": 2026
   },
   "KTLEV": {
-    "bolunmeler": "20250604:1050",
+    "bolunmeler": "20250604:1050,20260803:238.1643",
     "fiyat": 4.09,
     "hisse_basi_tl": 0.3865,
     "odeme_sayisi": 4,
@@ -4979,7 +4979,7 @@
     "yil": 2018
   },
   "KUVVA": {
-    "bolunmeler": "",
+    "bolunmeler": "20220505:87.0265,20231005:23.5842",
     "fiyat": 78.45,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -5005,7 +5005,7 @@
     "yil": 2017
   },
   "KZBGY": {
-    "bolunmeler": "20250107:300,20260217:233.3333",
+    "bolunmeler": "20220720:25,20250107:300,20260217:233.3333",
     "fiyat": 1.08,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -5074,7 +5074,7 @@
     "yil": 2026
   },
   "LINK": {
-    "bolunmeler": "20210106:100,20260316:8006.8632",
+    "bolunmeler": "20210106:100,20250203:97.7284,20260316:4000",
     "fiyat": 2.8,
     "hisse_basi_tl": 2.25,
     "odeme_sayisi": 1,
@@ -5088,7 +5088,7 @@
     "yil": 2023
   },
   "LKMNH": {
-    "bolunmeler": "20210920:50,20240918:500",
+    "bolunmeler": "20210609:50,20240918:500",
     "fiyat": 10.45,
     "hisse_basi_tl": 0.463,
     "odeme_sayisi": 2,
@@ -5117,7 +5117,7 @@
     "yil": 2026
   },
   "LOGO": {
-    "bolunmeler": "20220516:300",
+    "bolunmeler": "20210621:300",
     "fiyat": 118.5,
     "hisse_basi_tl": 5.2632,
     "odeme_sayisi": 1,
@@ -5131,7 +5131,7 @@
     "yil": 2026
   },
   "LRSHO": {
-    "bolunmeler": "20190630:50",
+    "bolunmeler": "20200717:11.1111",
     "fiyat": 1.52,
     "hisse_basi_tl": 0.151,
     "odeme_sayisi": 1,
@@ -5171,7 +5171,7 @@
     "yil": 0
   },
   "LYDHO": {
-    "bolunmeler": "",
+    "bolunmeler": "20260120:69.2266",
     "fiyat": 19.48,
     "hisse_basi_tl": 0.5347,
     "odeme_sayisi": 1,
@@ -5185,7 +5185,7 @@
     "yil": 2023
   },
   "LYDYE": {
-    "bolunmeler": "",
+    "bolunmeler": "20240917:69.1168",
     "fiyat": 2282.0,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -5197,7 +5197,7 @@
     "yil": 0
   },
   "MAALT": {
-    "bolunmeler": "",
+    "bolunmeler": "20231025:26.3176,20251223:24.0123",
     "fiyat": 682.0,
     "hisse_basi_tl": 0.25,
     "odeme_sayisi": 1,
@@ -5266,7 +5266,7 @@
     "yil": 0
   },
   "MANAS": {
-    "bolunmeler": "20230630:318",
+    "bolunmeler": "20230113:318",
     "fiyat": 2.08,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -5359,7 +5359,7 @@
     "yil": 2026
   },
   "MEDTR": {
-    "bolunmeler": "20220630:250",
+    "bolunmeler": "20220222:250",
     "fiyat": 17.07,
     "hisse_basi_tl": 0.2269,
     "odeme_sayisi": 2,
@@ -5374,7 +5374,7 @@
     "yil": 2026
   },
   "MEGAP": {
-    "bolunmeler": "20201221:43.7059,20220811:228.9474",
+    "bolunmeler": "20201221:43.7059,20211220:30.1085,20220811:152.8255,20240514:10",
     "fiyat": 0.98,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -5386,7 +5386,7 @@
     "yil": 0
   },
   "MEGMT": {
-    "bolunmeler": "20260630:860",
+    "bolunmeler": "20260921:860",
     "fiyat": 3.06,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -5398,7 +5398,7 @@
     "yil": 0
   },
   "MEKAG": {
-    "bolunmeler": "20250630:1180",
+    "bolunmeler": "20250814:1180",
     "fiyat": 1.51,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -5452,7 +5452,7 @@
     "yil": 2026
   },
   "MERKO": {
-    "bolunmeler": "20260505:1187.8787",
+    "bolunmeler": "20210604:9.9342,20220815:21.5911,20240115:14.6258,20251009:13.842,20260505:638.3383",
     "fiyat": 0.9,
     "hisse_basi_tl": 0.17,
     "odeme_sayisi": 1,
@@ -5504,7 +5504,7 @@
     "yil": 2026
   },
   "MGROS": {
-    "bolunmeler": "20230530:1.6987",
+    "bolunmeler": "20180903:1.6987",
     "fiyat": 427.25,
     "hisse_basi_tl": 4.5566,
     "odeme_sayisi": 1,
@@ -5532,7 +5532,7 @@
     "yil": 2026
   },
   "MIATK": {
-    "bolunmeler": "20230630:1200",
+    "bolunmeler": "20231120:1200",
     "fiyat": 23.72,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -5556,7 +5556,7 @@
     "yil": 0
   },
   "MNDRS": {
-    "bolunmeler": "",
+    "bolunmeler": "20230815:10.917",
     "fiyat": 9.64,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -5568,7 +5568,7 @@
     "yil": 0
   },
   "MNDTR": {
-    "bolunmeler": "",
+    "bolunmeler": "20221021:74.8401",
     "fiyat": 3.49,
     "hisse_basi_tl": 0.0834,
     "odeme_sayisi": 1,
@@ -5647,7 +5647,7 @@
     "yil": 2012
   },
   "MRSHL": {
-    "bolunmeler": "",
+    "bolunmeler": "20230216:9.9413",
     "fiyat": 1083.0,
     "hisse_basi_tl": 0.36,
     "odeme_sayisi": 1,
@@ -5661,7 +5661,7 @@
     "yil": 2010
   },
   "MSGYO": {
-    "bolunmeler": "20201016:72.0762,20250321:250",
+    "bolunmeler": "20180706:100,20181212:72.0762,20250321:250",
     "fiyat": 3.97,
     "hisse_basi_tl": 0.4257,
     "odeme_sayisi": 1,
@@ -5675,7 +5675,7 @@
     "yil": 2026
   },
   "MTRKS": {
-    "bolunmeler": "20211018:37.4359,20240827:50,20241128:150",
+    "bolunmeler": "20211018:37.4359,20240117:50,20241128:150",
     "fiyat": 14.37,
     "hisse_basi_tl": 0.1991,
     "odeme_sayisi": 1,
@@ -5813,7 +5813,7 @@
     "yil": 2013
   },
   "NUGYO": {
-    "bolunmeler": "",
+    "bolunmeler": "20190701:156.25,20200318:43.9024,20210303:5.1525,20220325:8.107",
     "fiyat": 5.62,
     "hisse_basi_tl": 0.0733,
     "odeme_sayisi": 1,
@@ -5922,7 +5922,7 @@
     "yil": 2023
   },
   "ONRYT": {
-    "bolunmeler": "20260630:300",
+    "bolunmeler": "20260914:300",
     "fiyat": 7.43,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -5934,7 +5934,7 @@
     "yil": 0
   },
   "ORCAY": {
-    "bolunmeler": "20220630:290.91132",
+    "bolunmeler": "20220921:290.9113",
     "fiyat": 1.82,
     "hisse_basi_tl": 0.1875,
     "odeme_sayisi": 1,
@@ -5948,7 +5948,7 @@
     "yil": 2023
   },
   "ORGE": {
-    "bolunmeler": "20260819:1900",
+    "bolunmeler": "20180514:150,20210609:60,20260819:400",
     "fiyat": 17.93,
     "hisse_basi_tl": 0.2725,
     "odeme_sayisi": 1,
@@ -5988,7 +5988,7 @@
     "yil": 0
   },
   "OSMEN": {
-    "bolunmeler": "20181129:0.6119,20201026:0.4971,20210728:2.6026,20220727:2.0875,20231027:0.4068,20240809:1809.9817,20260428:0.3528",
+    "bolunmeler": "20200730:0.4971,20210505:2.6026,20220511:2.0875,20230811:0.4068,20240809:1809.9817,20260402:0.3528",
     "fiyat": 4.47,
     "hisse_basi_tl": 0.1745,
     "odeme_sayisi": 4,
@@ -6005,7 +6005,7 @@
     "yil": 2026
   },
   "OSTIM": {
-    "bolunmeler": "20250318:342.2648,20260624:35",
+    "bolunmeler": "20210929:18,20250318:274.8007,20260624:35",
     "fiyat": 1.0,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -6031,7 +6031,7 @@
     "yil": 2024
   },
   "OTTO": {
-    "bolunmeler": "",
+    "bolunmeler": "20230712:7.8455",
     "fiyat": 84.0,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -6043,7 +6043,7 @@
     "yil": 0
   },
   "OYAKC": {
-    "bolunmeler": "20241205:4338.8954",
+    "bolunmeler": "20200521:958.94,20240125:7.4828,20241205:290",
     "fiyat": 18.3,
     "hisse_basi_tl": 1.0,
     "odeme_sayisi": 1,
@@ -6057,7 +6057,7 @@
     "yil": 2025
   },
   "OYAYO": {
-    "bolunmeler": "20180531:73.913",
+    "bolunmeler": "",
     "fiyat": 24.98,
     "hisse_basi_tl": 0.2614,
     "odeme_sayisi": 1,
@@ -6071,7 +6071,7 @@
     "yil": 2023
   },
   "OYLUM": {
-    "bolunmeler": "",
+    "bolunmeler": "20190416:14.1223",
     "fiyat": 5.3,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -6123,7 +6123,7 @@
     "yil": 2026
   },
   "OZKGY": {
-    "bolunmeler": "20220427:363.6943,20260624:100",
+    "bolunmeler": "20190712:45.6,20220427:100,20230726:100",
     "fiyat": 11.46,
     "hisse_basi_tl": 0.1987,
     "odeme_sayisi": 1,
@@ -6137,7 +6137,7 @@
     "yil": 2026
   },
   "OZRDN": {
-    "bolunmeler": "20180815:15.3333,20241001:324.8555",
+    "bolunmeler": "20180625:8.125,20190927:21.3873,20241001:250",
     "fiyat": 8.41,
     "hisse_basi_tl": 0.0751,
     "odeme_sayisi": 1,
@@ -6165,7 +6165,7 @@
     "yil": 2026
   },
   "OZYSR": {
-    "bolunmeler": "20260630:310",
+    "bolunmeler": "20260424:310",
     "fiyat": 11.7,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -6203,7 +6203,7 @@
     "yil": 0
   },
   "PAMEL": {
-    "bolunmeler": "",
+    "bolunmeler": "20210415:82.9137",
     "fiyat": 33.18,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -6215,7 +6215,7 @@
     "yil": 0
   },
   "PAPIL": {
-    "bolunmeler": "20241127:500",
+    "bolunmeler": "20200107:5.7692,20241127:500",
     "fiyat": 5.35,
     "hisse_basi_tl": 0.0582,
     "odeme_sayisi": 1,
@@ -6229,7 +6229,7 @@
     "yil": 2024
   },
   "PARSN": {
-    "bolunmeler": "",
+    "bolunmeler": "20250916:12.5489",
     "fiyat": 48.9,
     "hisse_basi_tl": 0.3,
     "odeme_sayisi": 1,
@@ -6243,7 +6243,7 @@
     "yil": 1998
   },
   "PASEU": {
-    "bolunmeler": "20240630:300",
+    "bolunmeler": "20241009:300",
     "fiyat": 25.2,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -6255,7 +6255,7 @@
     "yil": 0
   },
   "PATEK": {
-    "bolunmeler": "20250630:347.7612",
+    "bolunmeler": "20250604:347.7612,20260109:12.4891",
     "fiyat": 8.19,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -6281,7 +6281,7 @@
     "yil": 2026
   },
   "PEKGY": {
-    "bolunmeler": "20200909:246.1012,20241209:97.6285",
+    "bolunmeler": "20190109:143.6667,20200909:246.1012,20241209:97.6285",
     "fiyat": 0.85,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -6305,7 +6305,7 @@
     "yil": 0
   },
   "PENTA": {
-    "bolunmeler": "20220630:800",
+    "bolunmeler": "20221024:800",
     "fiyat": 8.27,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -6317,7 +6317,7 @@
     "yil": 0
   },
   "PETKM": {
-    "bolunmeler": "20180704:10",
+    "bolunmeler": "20180704:10,20190619:28,20201120:20",
     "fiyat": 17.5,
     "hisse_basi_tl": 0.36,
     "odeme_sayisi": 1,
@@ -6346,7 +6346,7 @@
     "yil": 2026
   },
   "PGSUS": {
-    "bolunmeler": "20240630:388.75995",
+    "bolunmeler": "20181219:0.0271,20240514:388.76",
     "fiyat": 121.5,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -6509,7 +6509,7 @@
     "yil": 2024
   },
   "PRZMA": {
-    "bolunmeler": "20241127:200",
+    "bolunmeler": "20241127:200,20251001:7.5689",
     "fiyat": 7.08,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -6535,7 +6535,7 @@
     "yil": 2025
   },
   "PSGYO": {
-    "bolunmeler": "20230904:64,20240719:192.6829,20251229:10.9075,20260626:29.6284",
+    "bolunmeler": "20220719:273.8318,20230131:6.3863,20230904:54.1553,20240719:192.6829,20250707:10.9075,20260203:29.6284",
     "fiyat": 1.1,
     "hisse_basi_tl": 0.0102,
     "odeme_sayisi": 1,
@@ -6549,7 +6549,7 @@
     "yil": 2026
   },
   "QNBFK": {
-    "bolunmeler": "20240307:1233.3333",
+    "bolunmeler": "20240307:769.5652",
     "fiyat": 33.1,
     "hisse_basi_tl": 0.5354,
     "odeme_sayisi": 1,
@@ -6577,7 +6577,7 @@
     "yil": 2018
   },
   "QUAGR": {
-    "bolunmeler": "20210630:100,20230630:1000",
+    "bolunmeler": "20210811:100,20230710:1000",
     "fiyat": 1.35,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -6655,7 +6655,7 @@
     "yil": 2026
   },
   "RNPOL": {
-    "bolunmeler": "20260630:1900",
+    "bolunmeler": "20260226:1900",
     "fiyat": 1.67,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -6667,7 +6667,7 @@
     "yil": 0
   },
   "RODRG": {
-    "bolunmeler": "20240630:300",
+    "bolunmeler": "20240726:300",
     "fiyat": 10.7,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -6679,7 +6679,7 @@
     "yil": 0
   },
   "RTALB": {
-    "bolunmeler": "20220629:177.0083,20250319:400",
+    "bolunmeler": "20200130:13.5734,20211001:4.8054,20220629:132.7193,20250319:400",
     "fiyat": 1.94,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -6691,7 +6691,7 @@
     "yil": 0
   },
   "RUBNS": {
-    "bolunmeler": "",
+    "bolunmeler": "20250509:10",
     "fiyat": 12.16,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -6743,7 +6743,7 @@
     "yil": 0
   },
   "SAFKR": {
-    "bolunmeler": "20250911:583.7607",
+    "bolunmeler": "20190425:20.5128,20250911:467.3759",
     "fiyat": 13.44,
     "hisse_basi_tl": 0.1026,
     "odeme_sayisi": 1,
@@ -6757,7 +6757,7 @@
     "yil": 2019
   },
   "SAHOL": {
-    "bolunmeler": "20240502:2.9392",
+    "bolunmeler": "20240205:2.9392",
     "fiyat": 83.25,
     "hisse_basi_tl": 1.4136,
     "odeme_sayisi": 1,
@@ -6838,7 +6838,7 @@
     "yil": 0
   },
   "SARKY": {
-    "bolunmeler": "20200818:50,20230612:33.3333,20240607:25,20250425:20,20250910:66.6667",
+    "bolunmeler": "20200818:50,20220614:33.3333,20230626:25,20240820:20,20250910:66.6667",
     "fiyat": 15.7,
     "hisse_basi_tl": 0.3529,
     "odeme_sayisi": 1,
@@ -6852,7 +6852,7 @@
     "yil": 2026
   },
   "SASA": {
-    "bolunmeler": "20190617:101.2121,20230523:538.0674,20240812:717.2289",
+    "bolunmeler": "20180515:46.6667,20190430:37.1901,20210427:34.9398,20220505:100,20221107:0.7067,20221207:0.3459,20230111:1.721,20230523:130,20230814:0.0488,20231024:0.4362,20240527:1.6604,20240812:700,20241213:1.2373,20260525:5.5688,20260612:1.6977,20260709:11.6092",
     "fiyat": 1.49,
     "hisse_basi_tl": 0.252,
     "odeme_sayisi": 1,
@@ -6866,7 +6866,7 @@
     "yil": 2019
   },
   "SAYAS": {
-    "bolunmeler": "20220630:200",
+    "bolunmeler": "20220826:200",
     "fiyat": 31.3,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -6933,7 +6933,7 @@
     "yil": 2024
   },
   "SEKUR": {
-    "bolunmeler": "20250630:150",
+    "bolunmeler": "20250103:10.3181",
     "fiyat": 3.23,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -6959,7 +6959,7 @@
     "yil": 2026
   },
   "SELVA": {
-    "bolunmeler": "20250630:500",
+    "bolunmeler": "20250319:500",
     "fiyat": 0.89,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -6983,7 +6983,7 @@
     "yil": 0
   },
   "SEYKM": {
-    "bolunmeler": "20180926:90.4762",
+    "bolunmeler": "20180926:74.1023,20210105:37.5,20210609:86.3636,20220922:43.9024,20230726:69.4915",
     "fiyat": 2.49,
     "hisse_basi_tl": 0.0693,
     "odeme_sayisi": 1,
@@ -6997,7 +6997,7 @@
     "yil": 2016
   },
   "SILVR": {
-    "bolunmeler": "20250926:1051.3158",
+    "bolunmeler": "20180611:26.0172,20250926:677.7778",
     "fiyat": 1.34,
     "hisse_basi_tl": 0.0345,
     "odeme_sayisi": 1,
@@ -7011,7 +7011,7 @@
     "yil": 2015
   },
   "SISE": {
-    "bolunmeler": "20180531:9.7561,20210531:36.1428",
+    "bolunmeler": "20201001:36.1428",
     "fiyat": 33.9,
     "hisse_basi_tl": 0.5876,
     "odeme_sayisi": 1,
@@ -7081,7 +7081,7 @@
     "yil": 2024
   },
   "SMART": {
-    "bolunmeler": "",
+    "bolunmeler": "20190611:4.3478,20190621:3.3333,20191205:2.7823",
     "fiyat": 10.13,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -7093,7 +7093,7 @@
     "yil": 0
   },
   "SMRTG": {
-    "bolunmeler": "20230726:98,20260129:200",
+    "bolunmeler": "20221020:100,20230726:98,20260129:200",
     "fiyat": 3.83,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -7119,7 +7119,7 @@
     "yil": 2026
   },
   "SNGYO": {
-    "bolunmeler": "20181031:45.5322,20220720:71.7832,20241209:166.6667",
+    "bolunmeler": "20180405:45.5322,20220720:71.7832,20241209:166.6667",
     "fiyat": 2.27,
     "hisse_basi_tl": 0.0458,
     "odeme_sayisi": 1,
@@ -7133,7 +7133,7 @@
     "yil": 2018
   },
   "SNICA": {
-    "bolunmeler": "20240630:344.44443",
+    "bolunmeler": "20240521:344.4444",
     "fiyat": 1.82,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -7294,7 +7294,7 @@
     "yil": 0
   },
   "SUWEN": {
-    "bolunmeler": "20250415:150",
+    "bolunmeler": "20230718:300,20250415:150",
     "fiyat": 4.6,
     "hisse_basi_tl": 0.1786,
     "odeme_sayisi": 1,
@@ -7348,7 +7348,7 @@
     "yil": 0
   },
   "TATEN": {
-    "bolunmeler": "20250630:300",
+    "bolunmeler": "20251111:300",
     "fiyat": 3.49,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -7429,7 +7429,7 @@
     "yil": 0
   },
   "TDGYO": {
-    "bolunmeler": "20230630:130",
+    "bolunmeler": "20230329:130",
     "fiyat": 4.68,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -7467,7 +7467,7 @@
     "yil": 0
   },
   "TERA": {
-    "bolunmeler": "20251030:344.4444",
+    "bolunmeler": "20240722:200,20251030:344.4444",
     "fiyat": 10.64,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -7479,7 +7479,7 @@
     "yil": 0
   },
   "TEZOL": {
-    "bolunmeler": "20220930:120,20240724:100,20241211:13.6364",
+    "bolunmeler": "20220628:120,20230712:100,20241211:13.6364",
     "fiyat": 6.75,
     "hisse_basi_tl": 0.45,
     "odeme_sayisi": 1,
@@ -7507,7 +7507,7 @@
     "yil": 2026
   },
   "THYAO": {
-    "bolunmeler": "20250616:15",
+    "bolunmeler": "",
     "fiyat": 252.5,
     "hisse_basi_tl": 6.8841,
     "odeme_sayisi": 2,
@@ -7605,7 +7605,7 @@
     "yil": 2014
   },
   "TNZTP": {
-    "bolunmeler": "20250630:139787587.3",
+    "bolunmeler": "20250306:70.7024,20250911:83.0671",
     "fiyat": 22.24,
     "hisse_basi_tl": 0.2831,
     "odeme_sayisi": 1,
@@ -7687,7 +7687,7 @@
     "yil": 2026
   },
   "TRHOL": {
-    "bolunmeler": "20221109:733.3333",
+    "bolunmeler": "20221109:177.7778",
     "fiyat": 192.0,
     "hisse_basi_tl": 0.3,
     "odeme_sayisi": 1,
@@ -7701,7 +7701,7 @@
     "yil": 2011
   },
   "TRILC": {
-    "bolunmeler": "20260427:540.8949",
+    "bolunmeler": "20210806:110,20260427:540.8949",
     "fiyat": 0.71,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -7737,7 +7737,7 @@
     "yil": 0
   },
   "TSKB": {
-    "bolunmeler": "20180326:17.0732,20210329:16.6667",
+    "bolunmeler": "20180604:16.6667",
     "fiyat": 8.9,
     "hisse_basi_tl": 0.5358,
     "odeme_sayisi": 1,
@@ -7794,7 +7794,7 @@
     "yil": 2025
   },
   "TUCLK": {
-    "bolunmeler": "20240630:500",
+    "bolunmeler": "20240208:500",
     "fiyat": 2.03,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -7806,7 +7806,7 @@
     "yil": 0
   },
   "TUKAS": {
-    "bolunmeler": "20220822:80,20250204:816.9265",
+    "bolunmeler": "20220822:80,20230711:200,20250204:205.6422",
     "fiyat": 1.87,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -7833,7 +7833,7 @@
     "yil": 2026
   },
   "TUREX": {
-    "bolunmeler": "20250630:900",
+    "bolunmeler": "20250403:900",
     "fiyat": 5.12,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -7857,7 +7857,7 @@
     "yil": 0
   },
   "TURSG": {
-    "bolunmeler": "20210409:115.0969,20240829:330.4692,20250828:100,20260827:100",
+    "bolunmeler": "20200902:115.0969,20240806:330.4692,20250604:100,20260615:100",
     "fiyat": 3.07,
     "hisse_basi_tl": 0.15,
     "odeme_sayisi": 1,
@@ -7895,7 +7895,7 @@
     "yil": 0
   },
   "ULAS": {
-    "bolunmeler": "20200630:127.5",
+    "bolunmeler": "20200821:127.5",
     "fiyat": 10.6,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -7907,7 +7907,7 @@
     "yil": 0
   },
   "ULKER": {
-    "bolunmeler": "20250619:7.9754",
+    "bolunmeler": "20230901:7.9754",
     "fiyat": 75.65,
     "hisse_basi_tl": 5.7328,
     "odeme_sayisi": 1,
@@ -7963,7 +7963,7 @@
     "yil": 2023
   },
   "UNLU": {
-    "bolunmeler": "",
+    "bolunmeler": "20241212:0.4229",
     "fiyat": 8.24,
     "hisse_basi_tl": 0.2857,
     "odeme_sayisi": 1,
@@ -8003,7 +8003,7 @@
     "yil": 2012
   },
   "VAKBN": {
-    "bolunmeler": "",
+    "bolunmeler": "20200521:56.2249,20220310:82.0802,20230330:39.4377",
     "fiyat": 30.62,
     "hisse_basi_tl": 0.05,
     "odeme_sayisi": 1,
@@ -8029,7 +8029,7 @@
     "yil": 0
   },
   "VAKFN": {
-    "bolunmeler": "20240910:75",
+    "bolunmeler": "20180709:28.4404,20190904:25,20200916:14.2857,20210707:25,20220608:20,20231024:66.6667,20240910:75,20250911:42.8571,20260721:20",
     "fiyat": 0.83,
     "hisse_basi_tl": 0.2346,
     "odeme_sayisi": 1,
@@ -8125,7 +8125,7 @@
     "yil": 2025
   },
   "VESTL": {
-    "bolunmeler": "20210730:91.1908",
+    "bolunmeler": "",
     "fiyat": 11.81,
     "hisse_basi_tl": 7.0374,
     "odeme_sayisi": 3,
@@ -8167,7 +8167,7 @@
     "yil": 2023
   },
   "VKGYO": {
-    "bolunmeler": "20230926:71.7613,20260624:16.9492,20260810:27.5362",
+    "bolunmeler": "20180716:3.4483,20190801:2.2222,20210428:8.6957,20220506:14.5,20230926:71.7613,20240916:16.9492,20260810:27.5362",
     "fiyat": 1.43,
     "hisse_basi_tl": 0.102,
     "odeme_sayisi": 1,
@@ -8195,7 +8195,7 @@
     "yil": 1997
   },
   "VRGYO": {
-    "bolunmeler": "20240630:300",
+    "bolunmeler": "20240717:300",
     "fiyat": 0.94,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -8207,7 +8207,7 @@
     "yil": 0
   },
   "VSNMD": {
-    "bolunmeler": "20260630:55",
+    "bolunmeler": "20260811:55",
     "fiyat": 17.64,
     "hisse_basi_tl": 0.3896,
     "odeme_sayisi": 1,
@@ -8221,7 +8221,7 @@
     "yil": 2025
   },
   "YAPRK": {
-    "bolunmeler": "20220427:100,20260227:2000",
+    "bolunmeler": "20210609:100,20260227:2000",
     "fiyat": 6.2,
     "hisse_basi_tl": 0.025,
     "odeme_sayisi": 1,
@@ -8342,7 +8342,7 @@
     "yil": 2024
   },
   "YKSLN": {
-    "bolunmeler": "20210112:44.3085,20240726:100",
+    "bolunmeler": "20200902:100,20210112:44.3085,20240726:100",
     "fiyat": 2.07,
     "hisse_basi_tl": 0.1,
     "odeme_sayisi": 1,
@@ -8384,7 +8384,7 @@
     "yil": 2026
   },
   "YYAPI": {
-    "bolunmeler": "20240630:165",
+    "bolunmeler": "20241217:165",
     "fiyat": 0.55,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
@@ -8396,7 +8396,7 @@
     "yil": 0
   },
   "YYLGD": {
-    "bolunmeler": "20230630:130",
+    "bolunmeler": "20230811:130",
     "fiyat": 6.48,
     "hisse_basi_tl": 0.1472,
     "odeme_sayisi": 1,
@@ -8410,7 +8410,7 @@
     "yil": 2023
   },
   "ZEDUR": {
-    "bolunmeler": "20240630:599",
+    "bolunmeler": "20240524:599",
     "fiyat": 4.04,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
