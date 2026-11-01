@@ -1,7 +1,7 @@
 {
   "A1CAP": {
     "bolunmeler": "20250218:400",
-    "fiyat": 2.68,
+    "fiyat": 2.5,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Investment Managers",
@@ -13,7 +13,7 @@
   },
   "A1YEN": {
     "bolunmeler": "20260508:990.9091",
-    "fiyat": 1.3,
+    "fiyat": 1.24,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Alternative Power Generation",
@@ -25,7 +25,7 @@
   },
   "AAGYO": {
     "bolunmeler": "",
-    "fiyat": 7.37,
+    "fiyat": 7.07,
     "hisse_basi_tl": 0.428,
     "odeme_sayisi": 1,
     "sanayi": "Real Estate Development",
@@ -39,7 +39,7 @@
   },
   "ACSEL": {
     "bolunmeler": "",
-    "fiyat": 78.9,
+    "fiyat": 75.65,
     "hisse_basi_tl": 0.2,
     "odeme_sayisi": 1,
     "sanayi": "Chemicals: Specialty",
@@ -53,7 +53,7 @@
   },
   "ADEL": {
     "bolunmeler": "20240904:1000",
-    "fiyat": 21.18,
+    "fiyat": 19.45,
     "hisse_basi_tl": 0.5773,
     "odeme_sayisi": 1,
     "sanayi": "Recreational Products",
@@ -67,7 +67,7 @@
   },
   "ADESE": {
     "bolunmeler": "20251021:400",
-    "fiyat": 0.45,
+    "fiyat": 0.44,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Real Estate Development",
@@ -79,7 +79,7 @@
   },
   "ADGYO": {
     "bolunmeler": "20260112:85.8544",
-    "fiyat": 40.58,
+    "fiyat": 38.92,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Financial Conglomerates",
@@ -91,7 +91,7 @@
   },
   "AEFES": {
     "bolunmeler": "20250626:900",
-    "fiyat": 15.9,
+    "fiyat": 15.43,
     "hisse_basi_tl": 0.3395,
     "odeme_sayisi": 2,
     "sanayi": "Beverages: Non-Alcoholic",
@@ -106,7 +106,7 @@
   },
   "AFYON": {
     "bolunmeler": "",
-    "fiyat": 10.8,
+    "fiyat": 10.59,
     "hisse_basi_tl": 1.5,
     "odeme_sayisi": 1,
     "sanayi": "Construction Materials",
@@ -120,7 +120,7 @@
   },
   "AGESA": {
     "bolunmeler": "20181217:52.5424",
-    "fiyat": 203.0,
+    "fiyat": 199.5,
     "hisse_basi_tl": 6.9444,
     "odeme_sayisi": 1,
     "sanayi": "Life/Health Insurance",
@@ -134,7 +134,7 @@
   },
   "AGHOL": {
     "bolunmeler": "20180207:52.2091,20250806:900",
-    "fiyat": 24.7,
+    "fiyat": 25.02,
     "hisse_basi_tl": 0.6981,
     "odeme_sayisi": 1,
     "sanayi": "Beverages: Non-Alcoholic",
@@ -148,7 +148,7 @@
   },
   "AGROT": {
     "bolunmeler": "20260107:100",
-    "fiyat": 1.11,
+    "fiyat": 1.09,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Packaged Software",
@@ -160,7 +160,7 @@
   },
   "AGYO": {
     "bolunmeler": "",
-    "fiyat": 5.9,
+    "fiyat": 5.6,
     "hisse_basi_tl": 0.1,
     "odeme_sayisi": 1,
     "sanayi": "Real Estate Investment Trusts",
@@ -174,7 +174,7 @@
   },
   "AHGAZ": {
     "bolunmeler": "20230606:1150",
-    "fiyat": 46.0,
+    "fiyat": 46.06,
     "hisse_basi_tl": 0.0577,
     "odeme_sayisi": 1,
     "sanayi": "Gas Distributors",
@@ -188,7 +188,7 @@
   },
   "AHSGY": {
     "bolunmeler": "20251201:270",
-    "fiyat": 5.59,
+    "fiyat": 5.15,
     "hisse_basi_tl": 0.0762,
     "odeme_sayisi": 1,
     "sanayi": "Real Estate Development",
@@ -202,7 +202,7 @@
   },
   "AKBNK": {
     "bolunmeler": "",
-    "fiyat": 63.0,
+    "fiyat": 60.9,
     "hisse_basi_tl": 2.2018,
     "odeme_sayisi": 1,
     "sanayi": "Regional Banks",
@@ -216,7 +216,7 @@
   },
   "AKCNS": {
     "bolunmeler": "",
-    "fiyat": 182.5,
+    "fiyat": 176.1,
     "hisse_basi_tl": 1.8804,
     "odeme_sayisi": 1,
     "sanayi": "Construction Materials",
@@ -230,7 +230,7 @@
   },
   "AKENR": {
     "bolunmeler": "",
-    "fiyat": 6.42,
+    "fiyat": 6.16,
     "hisse_basi_tl": 0.2683,
     "odeme_sayisi": 1,
     "sanayi": "Electric Utilities",
@@ -244,7 +244,7 @@
   },
   "AKFGY": {
     "bolunmeler": "20210112:7.9889,20210210:12.7226,20211207:44.4444",
-    "fiyat": 2.22,
+    "fiyat": 2.15,
     "hisse_basi_tl": 0.0137,
     "odeme_sayisi": 1,
     "sanayi": "Real Estate Investment Trusts",
@@ -258,7 +258,7 @@
   },
   "AKFIS": {
     "bolunmeler": "20260818:500",
-    "fiyat": 15.09,
+    "fiyat": 14.51,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Engineering & Construction",
@@ -270,7 +270,7 @@
   },
   "AKFYE": {
     "bolunmeler": "20241129:17.8076,20260921:500",
-    "fiyat": 3.44,
+    "fiyat": 3.27,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Alternative Power Generation",
@@ -282,7 +282,7 @@
   },
   "AKGRT": {
     "bolunmeler": "20220324:100",
-    "fiyat": 4.6,
+    "fiyat": 4.57,
     "hisse_basi_tl": 1.0,
     "odeme_sayisi": 2,
     "sanayi": "Multi-Line Insurance",
@@ -297,7 +297,7 @@
   },
   "AKHAN": {
     "bolunmeler": "",
-    "fiyat": 22.6,
+    "fiyat": 22.42,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Agricultural Commodities/Milling",
@@ -309,7 +309,7 @@
   },
   "AKMGY": {
     "bolunmeler": "",
-    "fiyat": 180.7,
+    "fiyat": 176.4,
     "hisse_basi_tl": 16.06,
     "odeme_sayisi": 2,
     "sanayi": "Real Estate Investment Trusts",
@@ -324,7 +324,7 @@
   },
   "AKSA": {
     "bolunmeler": "20200212:75,20240724:1100",
-    "fiyat": 10.37,
+    "fiyat": 9.99,
     "hisse_basi_tl": 0.58,
     "odeme_sayisi": 1,
     "sanayi": "Textiles",
@@ -338,7 +338,7 @@
   },
   "AKSEN": {
     "bolunmeler": "20211007:100",
-    "fiyat": 67.3,
+    "fiyat": 60.6,
     "hisse_basi_tl": 1.3047,
     "odeme_sayisi": 1,
     "sanayi": "Electric Utilities",
@@ -352,7 +352,7 @@
   },
   "AKSGY": {
     "bolunmeler": "20200630:28.9724,20241016:200",
-    "fiyat": 9.02,
+    "fiyat": 8.73,
     "hisse_basi_tl": 0.4555,
     "odeme_sayisi": 1,
     "sanayi": "Real Estate Investment Trusts",
@@ -366,7 +366,7 @@
   },
   "AKSUE": {
     "bolunmeler": "",
-    "fiyat": 11.11,
+    "fiyat": 10.0,
     "hisse_basi_tl": 0.1176,
     "odeme_sayisi": 1,
     "sanayi": "Alternative Power Generation",
@@ -380,7 +380,7 @@
   },
   "AKYHO": {
     "bolunmeler": "20181009:11.7973",
-    "fiyat": 1.46,
+    "fiyat": 1.35,
     "hisse_basi_tl": 0.0131,
     "odeme_sayisi": 1,
     "sanayi": "Miscellaneous Commercial Services",
@@ -394,7 +394,7 @@
   },
   "ALARK": {
     "bolunmeler": "20180914:94.6596",
-    "fiyat": 94.3,
+    "fiyat": 91.8,
     "hisse_basi_tl": 3.185,
     "odeme_sayisi": 1,
     "sanayi": "Real Estate Development",
@@ -408,7 +408,7 @@
   },
   "ALBRK": {
     "bolunmeler": "",
-    "fiyat": 8.14,
+    "fiyat": 7.84,
     "hisse_basi_tl": 0.2618,
     "odeme_sayisi": 1,
     "sanayi": "Major Banks",
@@ -422,7 +422,7 @@
   },
   "ALBTN": {
     "bolunmeler": "",
-    "fiyat": 20.22,
+    "fiyat": 19.4,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Construction Materials",
@@ -434,7 +434,7 @@
   },
   "ALCAR": {
     "bolunmeler": "",
-    "fiyat": 559.0,
+    "fiyat": 541.0,
     "hisse_basi_tl": 63.2175,
     "odeme_sayisi": 1,
     "sanayi": "Building Products",
@@ -448,7 +448,7 @@
   },
   "ALCTL": {
     "bolunmeler": "",
-    "fiyat": 63.8,
+    "fiyat": 62.95,
     "hisse_basi_tl": 0.7,
     "odeme_sayisi": 1,
     "sanayi": "Telecommunications Equipment",
@@ -462,7 +462,7 @@
   },
   "ALFAS": {
     "bolunmeler": "20230829:700",
-    "fiyat": 23.34,
+    "fiyat": 22.3,
     "hisse_basi_tl": 0.163,
     "odeme_sayisi": 1,
     "sanayi": "Alternative Power Generation",
@@ -476,7 +476,7 @@
   },
   "ALGYO": {
     "bolunmeler": "20200225:504.6497,20230615:125,20240913:100,20260115:600",
-    "fiyat": 2.49,
+    "fiyat": 2.41,
     "hisse_basi_tl": 0.05,
     "odeme_sayisi": 1,
     "sanayi": "Real Estate Investment Trusts",
@@ -490,7 +490,7 @@
   },
   "ALKA": {
     "bolunmeler": "20221025:250,20241209:300",
-    "fiyat": 4.72,
+    "fiyat": 4.46,
     "hisse_basi_tl": 0.5328,
     "odeme_sayisi": 1,
     "sanayi": "Pulp & Paper",
@@ -504,7 +504,7 @@
   },
   "ALKIM": {
     "bolunmeler": "20200507:506.6734,20241209:100",
-    "fiyat": 9.57,
+    "fiyat": 9.06,
     "hisse_basi_tl": 0.9259,
     "odeme_sayisi": 1,
     "sanayi": "Pulp & Paper",
@@ -518,7 +518,7 @@
   },
   "ALKLC": {
     "bolunmeler": "",
-    "fiyat": 22.16,
+    "fiyat": 19.95,
     "hisse_basi_tl": 0.0326,
     "odeme_sayisi": 4,
     "sanayi": "Food: Meat/Fish/Dairy",
@@ -535,7 +535,7 @@
   },
   "ALTNY": {
     "bolunmeler": "20251226:325",
-    "fiyat": 10.28,
+    "fiyat": 10.07,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Aerospace & Defense",
@@ -559,7 +559,7 @@
   },
   "ANELE": {
     "bolunmeler": "20201020:81.8182",
-    "fiyat": 8.28,
+    "fiyat": 7.46,
     "hisse_basi_tl": 0.0081,
     "odeme_sayisi": 1,
     "sanayi": "Engineering & Construction",
@@ -573,7 +573,7 @@
   },
   "ANGEN": {
     "bolunmeler": "20230518:100",
-    "fiyat": 5.83,
+    "fiyat": 5.51,
     "hisse_basi_tl": 1.1916,
     "odeme_sayisi": 1,
     "sanayi": "Biotechnology",
@@ -587,7 +587,7 @@
   },
   "ANHYT": {
     "bolunmeler": "",
-    "fiyat": 88.4,
+    "fiyat": 87.95,
     "hisse_basi_tl": 8.1395,
     "odeme_sayisi": 1,
     "sanayi": "Life/Health Insurance",
@@ -601,7 +601,7 @@
   },
   "ANSGR": {
     "bolunmeler": "20250813:300",
-    "fiyat": 22.0,
+    "fiyat": 22.18,
     "hisse_basi_tl": 1.375,
     "odeme_sayisi": 1,
     "sanayi": "Property/Casualty Insurance",
@@ -615,7 +615,7 @@
   },
   "ARASE": {
     "bolunmeler": "20230703:273.1343",
-    "fiyat": 72.55,
+    "fiyat": 70.0,
     "hisse_basi_tl": 2.0,
     "odeme_sayisi": 1,
     "sanayi": "Electric Utilities",
@@ -629,7 +629,7 @@
   },
   "ARCLK": {
     "bolunmeler": "",
-    "fiyat": 71.0,
+    "fiyat": 67.95,
     "hisse_basi_tl": 2.6638,
     "odeme_sayisi": 1,
     "sanayi": "Electronics/Appliances",
@@ -643,7 +643,7 @@
   },
   "ARDYZ": {
     "bolunmeler": "20200305:8.5227,20211201:612.0419,20260113:89.573",
-    "fiyat": 52.65,
+    "fiyat": 50.5,
     "hisse_basi_tl": 0.0324,
     "odeme_sayisi": 1,
     "sanayi": "Packaged Software",
@@ -657,7 +657,7 @@
   },
   "ARENA": {
     "bolunmeler": "20210702:212.5",
-    "fiyat": 11.25,
+    "fiyat": 10.7,
     "hisse_basi_tl": 0.1037,
     "odeme_sayisi": 1,
     "sanayi": "Electronics Distributors",
@@ -671,7 +671,7 @@
   },
   "ARFYE": {
     "bolunmeler": "",
-    "fiyat": 9.14,
+    "fiyat": 8.4,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Alternative Power Generation",
@@ -683,7 +683,7 @@
   },
   "ARMGD": {
     "bolunmeler": "",
-    "fiyat": 105.2,
+    "fiyat": 106.0,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Food: Major Diversified",
@@ -695,7 +695,7 @@
   },
   "ARSAN": {
     "bolunmeler": "20210507:80.6589,20220112:33.6271,20250825:761.8267",
-    "fiyat": 2.94,
+    "fiyat": 2.87,
     "hisse_basi_tl": 0.1,
     "odeme_sayisi": 1,
     "sanayi": "Textiles",
@@ -709,7 +709,7 @@
   },
   "ARTMS": {
     "bolunmeler": "",
-    "fiyat": 29.04,
+    "fiyat": 27.3,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Specialty Stores",
@@ -721,7 +721,7 @@
   },
   "ARZUM": {
     "bolunmeler": "20250226:831.3878",
-    "fiyat": 0.94,
+    "fiyat": 0.9,
     "hisse_basi_tl": 0.4657,
     "odeme_sayisi": 1,
     "sanayi": "Wholesale Distributors",
@@ -735,7 +735,7 @@
   },
   "ASELS": {
     "bolunmeler": "20180605:14,20200805:100,20230825:100",
-    "fiyat": 358.5,
+    "fiyat": 347.0,
     "hisse_basi_tl": 0.4276,
     "odeme_sayisi": 1,
     "sanayi": "Aerospace & Defense",
@@ -749,7 +749,7 @@
   },
   "ASGYO": {
     "bolunmeler": "",
-    "fiyat": 8.78,
+    "fiyat": 8.46,
     "hisse_basi_tl": 0.1683,
     "odeme_sayisi": 1,
     "sanayi": "Real Estate Development",
@@ -763,7 +763,7 @@
   },
   "ASTOR": {
     "bolunmeler": "",
-    "fiyat": 176.5,
+    "fiyat": 158.9,
     "hisse_basi_tl": 2.1911,
     "odeme_sayisi": 1,
     "sanayi": "Electrical Products",
@@ -777,7 +777,7 @@
   },
   "ASUZU": {
     "bolunmeler": "20240115:200",
-    "fiyat": 37.22,
+    "fiyat": 35.7,
     "hisse_basi_tl": 2.381,
     "odeme_sayisi": 1,
     "sanayi": "Motor Vehicles",
@@ -791,7 +791,7 @@
   },
   "ATAGY": {
     "bolunmeler": "",
-    "fiyat": 6.91,
+    "fiyat": 6.74,
     "hisse_basi_tl": 0.0307,
     "odeme_sayisi": 1,
     "sanayi": "Real Estate Investment Trusts",
@@ -805,7 +805,7 @@
   },
   "ATAKP": {
     "bolunmeler": "",
-    "fiyat": 35.08,
+    "fiyat": 35.0,
     "hisse_basi_tl": 0.7,
     "odeme_sayisi": 1,
     "sanayi": "Food: Specialty/Candy",
@@ -819,7 +819,7 @@
   },
   "ATATP": {
     "bolunmeler": "20220915:150",
-    "fiyat": 207.5,
+    "fiyat": 213.4,
     "hisse_basi_tl": 1.0,
     "odeme_sayisi": 1,
     "sanayi": "Packaged Software",
@@ -833,7 +833,7 @@
   },
   "ATATR": {
     "bolunmeler": "",
-    "fiyat": 3.9,
+    "fiyat": 3.83,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Other Consumer Services",
@@ -845,7 +845,7 @@
   },
   "ATEKS": {
     "bolunmeler": "",
-    "fiyat": 76.75,
+    "fiyat": 76.8,
     "hisse_basi_tl": 0.35,
     "odeme_sayisi": 1,
     "sanayi": "Textiles",
@@ -859,7 +859,7 @@
   },
   "ATLAS": {
     "bolunmeler": "",
-    "fiyat": 4.19,
+    "fiyat": 4.04,
     "hisse_basi_tl": 0.0288,
     "odeme_sayisi": 1,
     "sanayi": "Investment Trusts/Mutual Funds",
@@ -873,7 +873,7 @@
   },
   "ATSYH": {
     "bolunmeler": "",
-    "fiyat": 70.05,
+    "fiyat": 64.0,
     "hisse_basi_tl": 0.1,
     "odeme_sayisi": 1,
     "sanayi": "Investment Trusts/Mutual Funds",
@@ -887,7 +887,7 @@
   },
   "AVGYO": {
     "bolunmeler": "20210224:55",
-    "fiyat": 12.96,
+    "fiyat": 12.36,
     "hisse_basi_tl": 0.0359,
     "odeme_sayisi": 1,
     "sanayi": "Real Estate Investment Trusts",
@@ -901,7 +901,7 @@
   },
   "AVHOL": {
     "bolunmeler": "20180510:140.9639,20181031:50,20220127:24.1667",
-    "fiyat": 28.4,
+    "fiyat": 27.14,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Hospital/Nursing Management",
@@ -913,7 +913,7 @@
   },
   "AVOD": {
     "bolunmeler": "",
-    "fiyat": 2.12,
+    "fiyat": 2.05,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Food: Specialty/Candy",
@@ -925,7 +925,7 @@
   },
   "AVPGY": {
     "bolunmeler": "",
-    "fiyat": 47.64,
+    "fiyat": 45.5,
     "hisse_basi_tl": 5.0,
     "odeme_sayisi": 2,
     "sanayi": "Real Estate Development",
@@ -940,7 +940,7 @@
   },
   "AVTUR": {
     "bolunmeler": "",
-    "fiyat": 7.14,
+    "fiyat": 6.98,
     "hisse_basi_tl": 0.0164,
     "odeme_sayisi": 1,
     "sanayi": "",
@@ -954,7 +954,7 @@
   },
   "AYCES": {
     "bolunmeler": "",
-    "fiyat": 298.0,
+    "fiyat": 282.25,
     "hisse_basi_tl": 0.1475,
     "odeme_sayisi": 1,
     "sanayi": "Hotels/Resorts/Cruise lines",
@@ -968,7 +968,7 @@
   },
   "AYDEM": {
     "bolunmeler": "",
-    "fiyat": 21.76,
+    "fiyat": 20.64,
     "hisse_basi_tl": 0.5458,
     "odeme_sayisi": 1,
     "sanayi": "Alternative Power Generation",
@@ -982,7 +982,7 @@
   },
   "AYEN": {
     "bolunmeler": "",
-    "fiyat": 23.32,
+    "fiyat": 22.84,
     "hisse_basi_tl": 0.781,
     "odeme_sayisi": 1,
     "sanayi": "Electric Utilities",
@@ -996,7 +996,7 @@
   },
   "AYES": {
     "bolunmeler": "20230110:100,20240924:399.0618,20260929:233.3333",
-    "fiyat": 7.27,
+    "fiyat": 7.25,
     "hisse_basi_tl": 0.3529,
     "odeme_sayisi": 1,
     "sanayi": "Metal Fabrication",
@@ -1010,7 +1010,7 @@
   },
   "AYGAZ": {
     "bolunmeler": "",
-    "fiyat": 271.0,
+    "fiyat": 269.0,
     "hisse_basi_tl": 12.55,
     "odeme_sayisi": 1,
     "sanayi": "Gas Distributors",
@@ -1024,7 +1024,7 @@
   },
   "AZTEK": {
     "bolunmeler": "20251201:900",
-    "fiyat": 2.69,
+    "fiyat": 2.66,
     "hisse_basi_tl": 1.3587,
     "odeme_sayisi": 1,
     "sanayi": "Electronics Distributors",
@@ -1038,7 +1038,7 @@
   },
   "BAGFS": {
     "bolunmeler": "",
-    "fiyat": 16.89,
+    "fiyat": 16.38,
     "hisse_basi_tl": 0.1299,
     "odeme_sayisi": 1,
     "sanayi": "Chemicals: Agricultural",
@@ -1052,7 +1052,7 @@
   },
   "BAHKM": {
     "bolunmeler": "",
-    "fiyat": 148.9,
+    "fiyat": 136.0,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Industrial Specialties",
@@ -1064,7 +1064,7 @@
   },
   "BAKAB": {
     "bolunmeler": "20240207:100",
-    "fiyat": 25.22,
+    "fiyat": 24.0,
     "hisse_basi_tl": 0.8333,
     "odeme_sayisi": 1,
     "sanayi": "Containers/Packaging",
@@ -1078,7 +1078,7 @@
   },
   "BALAT": {
     "bolunmeler": "20231120:3.7474",
-    "fiyat": 55.0,
+    "fiyat": 56.65,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Auto Parts: OEM",
@@ -1090,7 +1090,7 @@
   },
   "BALSU": {
     "bolunmeler": "",
-    "fiyat": 7.51,
+    "fiyat": 7.66,
     "hisse_basi_tl": 0.1763,
     "odeme_sayisi": 1,
     "sanayi": "Food: Specialty/Candy",
@@ -1104,7 +1104,7 @@
   },
   "BANVT": {
     "bolunmeler": "",
-    "fiyat": 112.1,
+    "fiyat": 108.8,
     "hisse_basi_tl": 0.15,
     "odeme_sayisi": 1,
     "sanayi": "Agricultural Commodities/Milling",
@@ -1118,7 +1118,7 @@
   },
   "BARMA": {
     "bolunmeler": "20230302:400",
-    "fiyat": 4.5,
+    "fiyat": 4.05,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Containers/Packaging",
@@ -1130,7 +1130,7 @@
   },
   "BASCM": {
     "bolunmeler": "",
-    "fiyat": 8.56,
+    "fiyat": 8.38,
     "hisse_basi_tl": 1.0606,
     "odeme_sayisi": 1,
     "sanayi": "Construction Materials",
@@ -1144,7 +1144,7 @@
   },
   "BASGZ": {
     "bolunmeler": "",
-    "fiyat": 32.44,
+    "fiyat": 31.0,
     "hisse_basi_tl": 2.0,
     "odeme_sayisi": 1,
     "sanayi": "Gas Distributors",
@@ -1158,7 +1158,7 @@
   },
   "BAYRK": {
     "bolunmeler": "20200706:10.8824,20230313:100,20250728:19.82,20251230:342.7507",
-    "fiyat": 2.78,
+    "fiyat": 2.93,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Apparel/Footwear",
@@ -1170,7 +1170,7 @@
   },
   "BEGYO": {
     "bolunmeler": "",
-    "fiyat": 3.18,
+    "fiyat": 3.03,
     "hisse_basi_tl": 0.0614,
     "odeme_sayisi": 2,
     "sanayi": "Real Estate Development",
@@ -1185,7 +1185,7 @@
   },
   "BERA": {
     "bolunmeler": "20180215:100,20230124:100",
-    "fiyat": 9.55,
+    "fiyat": 9.17,
     "hisse_basi_tl": 0.05,
     "odeme_sayisi": 1,
     "sanayi": "Industrial Conglomerates",
@@ -1199,7 +1199,7 @@
   },
   "BESLR": {
     "bolunmeler": "20180525:2669.8745",
-    "fiyat": 9.57,
+    "fiyat": 9.28,
     "hisse_basi_tl": 0.45,
     "odeme_sayisi": 1,
     "sanayi": "Food: Specialty/Candy",
@@ -1213,7 +1213,7 @@
   },
   "BESTE": {
     "bolunmeler": "",
-    "fiyat": 17.64,
+    "fiyat": 16.58,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Alternative Power Generation",
@@ -1225,7 +1225,7 @@
   },
   "BETAE": {
     "bolunmeler": "",
-    "fiyat": 44.8,
+    "fiyat": 44.0,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Electrical Products",
@@ -1237,7 +1237,7 @@
   },
   "BEYAZ": {
     "bolunmeler": "20180711:120",
-    "fiyat": 13.03,
+    "fiyat": 12.6,
     "hisse_basi_tl": 0.3009,
     "odeme_sayisi": 1,
     "sanayi": "Specialty Stores",
@@ -1251,7 +1251,7 @@
   },
   "BFREN": {
     "bolunmeler": "20240226:1125.4673",
-    "fiyat": 90.9,
+    "fiyat": 88.5,
     "hisse_basi_tl": 24.3093,
     "odeme_sayisi": 1,
     "sanayi": "Auto Parts: OEM",
@@ -1265,7 +1265,7 @@
   },
   "BIENY": {
     "bolunmeler": "",
-    "fiyat": 11.13,
+    "fiyat": 10.45,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Construction Materials",
@@ -1277,7 +1277,7 @@
   },
   "BIGCH": {
     "bolunmeler": "20260211:400",
-    "fiyat": 2.83,
+    "fiyat": 2.55,
     "hisse_basi_tl": 0.1,
     "odeme_sayisi": 1,
     "sanayi": "Restaurants",
@@ -1291,7 +1291,7 @@
   },
   "BIGEN": {
     "bolunmeler": "",
-    "fiyat": 6.42,
+    "fiyat": 5.78,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Electric Utilities",
@@ -1303,7 +1303,7 @@
   },
   "BIGTK": {
     "bolunmeler": "20260122:72.8689",
-    "fiyat": 39.82,
+    "fiyat": 35.84,
     "hisse_basi_tl": 0.2073,
     "odeme_sayisi": 1,
     "sanayi": "Publishing: Books/Magazines",
@@ -1317,7 +1317,7 @@
   },
   "BIMAS": {
     "bolunmeler": "20190724:100,20260514:100",
-    "fiyat": 364.75,
+    "fiyat": 347.5,
     "hisse_basi_tl": 7.0,
     "odeme_sayisi": 3,
     "sanayi": "Food Retail",
@@ -1333,7 +1333,7 @@
   },
   "BINBN": {
     "bolunmeler": "",
-    "fiyat": 29.58,
+    "fiyat": 26.64,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Commercial Printing/Forms",
@@ -1345,7 +1345,7 @@
   },
   "BINHO": {
     "bolunmeler": "20250904:2645",
-    "fiyat": 3.51,
+    "fiyat": 3.34,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Packaged Software",
@@ -1357,7 +1357,7 @@
   },
   "BIOEN": {
     "bolunmeler": "20211124:233.3333",
-    "fiyat": 10.53,
+    "fiyat": 10.4,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Electric Utilities",
@@ -1369,7 +1369,7 @@
   },
   "BIZIM": {
     "bolunmeler": "20240110:34.1268",
-    "fiyat": 15.9,
+    "fiyat": 14.89,
     "hisse_basi_tl": 0.8333,
     "odeme_sayisi": 1,
     "sanayi": "Food Retail",
@@ -1383,7 +1383,7 @@
   },
   "BJKAS": {
     "bolunmeler": "",
-    "fiyat": 1.21,
+    "fiyat": 1.17,
     "hisse_basi_tl": 0.1592,
     "odeme_sayisi": 1,
     "sanayi": "Movies/Entertainment",
@@ -1397,7 +1397,7 @@
   },
   "BKRGY": {
     "bolunmeler": "",
-    "fiyat": 3.93,
+    "fiyat": 3.76,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Real Estate Development",
@@ -1409,7 +1409,7 @@
   },
   "BLCYT": {
     "bolunmeler": "20200828:50,20210702:20,20220721:23.4568,20260901:900",
-    "fiyat": 1.43,
+    "fiyat": 1.35,
     "hisse_basi_tl": 0.2,
     "odeme_sayisi": 1,
     "sanayi": "Textiles",
@@ -1423,7 +1423,7 @@
   },
   "BLUME": {
     "bolunmeler": "20250916:61.7688",
-    "fiyat": 26.68,
+    "fiyat": 26.08,
     "hisse_basi_tl": 0.0163,
     "odeme_sayisi": 1,
     "sanayi": "Hotels/Resorts/Cruise lines",
@@ -1437,7 +1437,7 @@
   },
   "BMSCH": {
     "bolunmeler": "20250326:177.1235",
-    "fiyat": 8.32,
+    "fiyat": 7.95,
     "hisse_basi_tl": 0.3079,
     "odeme_sayisi": 1,
     "sanayi": "Metal Fabrication",
@@ -1451,7 +1451,7 @@
   },
   "BMSTL": {
     "bolunmeler": "20231023:100,20241126:105.3388,20260701:100",
-    "fiyat": 34.38,
+    "fiyat": 30.96,
     "hisse_basi_tl": 0.3042,
     "odeme_sayisi": 1,
     "sanayi": "Metal Fabrication",
@@ -1465,7 +1465,7 @@
   },
   "BNTAS": {
     "bolunmeler": "20210804:50",
-    "fiyat": 4.94,
+    "fiyat": 4.9,
     "hisse_basi_tl": 0.0822,
     "odeme_sayisi": 1,
     "sanayi": "Containers/Packaging",
@@ -1479,7 +1479,7 @@
   },
   "BOBET": {
     "bolunmeler": "",
-    "fiyat": 14.18,
+    "fiyat": 13.49,
     "hisse_basi_tl": 0.4,
     "odeme_sayisi": 1,
     "sanayi": "Construction Materials",
@@ -1493,7 +1493,7 @@
   },
   "BORLS": {
     "bolunmeler": "20250718:314.9378",
-    "fiyat": 1.8,
+    "fiyat": 1.69,
     "hisse_basi_tl": 0.0196,
     "odeme_sayisi": 1,
     "sanayi": "Finance/Rental/Leasing",
@@ -1507,7 +1507,7 @@
   },
   "BORSK": {
     "bolunmeler": "20251210:300",
-    "fiyat": 4.68,
+    "fiyat": 4.49,
     "hisse_basi_tl": 0.8333,
     "odeme_sayisi": 1,
     "sanayi": "Agricultural Commodities/Milling",
@@ -1521,7 +1521,7 @@
   },
   "BOSSA": {
     "bolunmeler": "20220720:474.1935,20230626:82.5843,20240911:100",
-    "fiyat": 4.98,
+    "fiyat": 4.81,
     "hisse_basi_tl": 0.2079,
     "odeme_sayisi": 1,
     "sanayi": "Textiles",
@@ -1535,7 +1535,7 @@
   },
   "BRISA": {
     "bolunmeler": "",
-    "fiyat": 66.15,
+    "fiyat": 65.4,
     "hisse_basi_tl": 2.1296,
     "odeme_sayisi": 1,
     "sanayi": "Automotive Aftermarket",
@@ -1549,7 +1549,7 @@
   },
   "BRKO": {
     "bolunmeler": "20240530:16.6667",
-    "fiyat": 4.95,
+    "fiyat": 4.46,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Home Furnishings",
@@ -1561,7 +1561,7 @@
   },
   "BRKSN": {
     "bolunmeler": "20230109:100,20250522:200",
-    "fiyat": 5.0,
+    "fiyat": 4.95,
     "hisse_basi_tl": 0.1176,
     "odeme_sayisi": 2,
     "sanayi": "Containers/Packaging",
@@ -1576,7 +1576,7 @@
   },
   "BRKVY": {
     "bolunmeler": "",
-    "fiyat": 23.64,
+    "fiyat": 21.28,
     "hisse_basi_tl": 0.5278,
     "odeme_sayisi": 1,
     "sanayi": "Investment Managers",
@@ -1590,7 +1590,7 @@
   },
   "BRLSM": {
     "bolunmeler": "20221125:119.6078",
-    "fiyat": 7.6,
+    "fiyat": 7.21,
     "hisse_basi_tl": 0.1162,
     "odeme_sayisi": 1,
     "sanayi": "Other Metals/Minerals",
@@ -1604,7 +1604,7 @@
   },
   "BRMEN": {
     "bolunmeler": "",
-    "fiyat": 3.4,
+    "fiyat": 3.74,
     "hisse_basi_tl": 0.04,
     "odeme_sayisi": 1,
     "sanayi": "Textiles",
@@ -1618,7 +1618,7 @@
   },
   "BRSAN": {
     "bolunmeler": "20250117:0.0152",
-    "fiyat": 646.0,
+    "fiyat": 639.5,
     "hisse_basi_tl": 0.82,
     "odeme_sayisi": 1,
     "sanayi": "Steel",
@@ -1632,7 +1632,7 @@
   },
   "BRYAT": {
     "bolunmeler": "",
-    "fiyat": 1221.0,
+    "fiyat": 1191.0,
     "hisse_basi_tl": 166.1458,
     "odeme_sayisi": 1,
     "sanayi": "Miscellaneous",
@@ -1646,7 +1646,7 @@
   },
   "BSOKE": {
     "bolunmeler": "",
-    "fiyat": 4.33,
+    "fiyat": 3.92,
     "hisse_basi_tl": 0.1,
     "odeme_sayisi": 1,
     "sanayi": "Construction Materials",
@@ -1660,7 +1660,7 @@
   },
   "BTCIM": {
     "bolunmeler": "20180620:125,20250114:3000",
-    "fiyat": 1.51,
+    "fiyat": 1.47,
     "hisse_basi_tl": 0.085,
     "odeme_sayisi": 1,
     "sanayi": "Construction Materials",
@@ -1674,7 +1674,7 @@
   },
   "BUCIM": {
     "bolunmeler": "",
-    "fiyat": 3.98,
+    "fiyat": 3.74,
     "hisse_basi_tl": 0.0667,
     "odeme_sayisi": 1,
     "sanayi": "Steel",
@@ -1688,7 +1688,7 @@
   },
   "BULGS": {
     "bolunmeler": "",
-    "fiyat": 5.4,
+    "fiyat": 4.86,
     "hisse_basi_tl": 0.1866,
     "odeme_sayisi": 2,
     "sanayi": "Financial Conglomerates",
@@ -1703,7 +1703,7 @@
   },
   "BURCE": {
     "bolunmeler": "20241128:900",
-    "fiyat": 15.04,
+    "fiyat": 16.54,
     "hisse_basi_tl": 1.6322,
     "odeme_sayisi": 1,
     "sanayi": "Steel",
@@ -1717,7 +1717,7 @@
   },
   "BURVA": {
     "bolunmeler": "",
-    "fiyat": 187.0,
+    "fiyat": 205.7,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Industrial Machinery",
@@ -1729,7 +1729,7 @@
   },
   "BVSAN": {
     "bolunmeler": "",
-    "fiyat": 50.55,
+    "fiyat": 48.44,
     "hisse_basi_tl": 0.9606,
     "odeme_sayisi": 1,
     "sanayi": "Trucks/Construction/Farm Machinery",
@@ -1743,7 +1743,7 @@
   },
   "BYDNR": {
     "bolunmeler": "",
-    "fiyat": 15.94,
+    "fiyat": 14.51,
     "hisse_basi_tl": 0.713,
     "odeme_sayisi": 1,
     "sanayi": "Restaurants",
@@ -1757,7 +1757,7 @@
   },
   "CANTE": {
     "bolunmeler": "20230505:150,20231110:17.2646,20240626:646.1757",
-    "fiyat": 0.95,
+    "fiyat": 0.91,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Electric Utilities",
@@ -1769,7 +1769,7 @@
   },
   "CASA": {
     "bolunmeler": "",
-    "fiyat": 32.96,
+    "fiyat": 32.98,
     "hisse_basi_tl": 0.2923,
     "odeme_sayisi": 1,
     "sanayi": "Wholesale Distributors",
@@ -1783,7 +1783,7 @@
   },
   "CATES": {
     "bolunmeler": "",
-    "fiyat": 22.38,
+    "fiyat": 20.2,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Electric Utilities",
@@ -1795,7 +1795,7 @@
   },
   "CCOLA": {
     "bolunmeler": "20240813:1000",
-    "fiyat": 75.65,
+    "fiyat": 73.1,
     "hisse_basi_tl": 1.43,
     "odeme_sayisi": 1,
     "sanayi": "Beverages: Non-Alcoholic",
@@ -1809,7 +1809,7 @@
   },
   "CELHA": {
     "bolunmeler": "20240822:21.7267,20260302:28.4999",
-    "fiyat": 24.0,
+    "fiyat": 24.04,
     "hisse_basi_tl": 0.1208,
     "odeme_sayisi": 1,
     "sanayi": "Steel",
@@ -1823,7 +1823,7 @@
   },
   "CEMAS": {
     "bolunmeler": "",
-    "fiyat": 2.03,
+    "fiyat": 1.95,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Steel",
@@ -1835,7 +1835,7 @@
   },
   "CEMTS": {
     "bolunmeler": "20230531:395.1687",
-    "fiyat": 6.33,
+    "fiyat": 5.97,
     "hisse_basi_tl": 0.3,
     "odeme_sayisi": 1,
     "sanayi": "Steel",
@@ -1849,7 +1849,7 @@
   },
   "CEMZY": {
     "bolunmeler": "20260428:472.1393",
-    "fiyat": 5.86,
+    "fiyat": 5.28,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Food: Specialty/Candy",
@@ -1861,7 +1861,7 @@
   },
   "CEOEM": {
     "bolunmeler": "20200420:125,20200604:4.0189",
-    "fiyat": 18.22,
+    "fiyat": 16.75,
     "hisse_basi_tl": 0.5,
     "odeme_sayisi": 1,
     "sanayi": "Movies/Entertainment",
@@ -1875,7 +1875,7 @@
   },
   "CGCAM": {
     "bolunmeler": "",
-    "fiyat": 16.06,
+    "fiyat": 15.4,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Home Furnishings",
@@ -1887,7 +1887,7 @@
   },
   "CIMSA": {
     "bolunmeler": "20230929:600",
-    "fiyat": 39.7,
+    "fiyat": 38.96,
     "hisse_basi_tl": 0.7403,
     "odeme_sayisi": 1,
     "sanayi": "Construction Materials",
@@ -1901,7 +1901,7 @@
   },
   "CITAS": {
     "bolunmeler": "",
-    "fiyat": 88.4,
+    "fiyat": 88.5,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Food Retail",
@@ -1913,7 +1913,7 @@
   },
   "CLEBI": {
     "bolunmeler": "",
-    "fiyat": 1180.0,
+    "fiyat": 1143.0,
     "hisse_basi_tl": 103.0,
     "odeme_sayisi": 1,
     "sanayi": "Other Transportation",
@@ -1927,7 +1927,7 @@
   },
   "CMBTN": {
     "bolunmeler": "",
-    "fiyat": 1029.0,
+    "fiyat": 1022.0,
     "hisse_basi_tl": 0.1194,
     "odeme_sayisi": 1,
     "sanayi": "Construction Materials",
@@ -1955,7 +1955,7 @@
   },
   "CONSE": {
     "bolunmeler": "",
-    "fiyat": 1.33,
+    "fiyat": 1.27,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Electric Utilities",
@@ -1967,7 +1967,7 @@
   },
   "COSMO": {
     "bolunmeler": "20211105:8.2449,20251230:6.5106",
-    "fiyat": 73.3,
+    "fiyat": 73.0,
     "hisse_basi_tl": 0.0257,
     "odeme_sayisi": 1,
     "sanayi": "Wholesale Distributors",
@@ -1981,7 +1981,7 @@
   },
   "CRDFA": {
     "bolunmeler": "20221018:25,20260331:200",
-    "fiyat": 11.16,
+    "fiyat": 10.05,
     "hisse_basi_tl": 0.5424,
     "odeme_sayisi": 2,
     "sanayi": "Finance/Rental/Leasing",
@@ -1996,7 +1996,7 @@
   },
   "CRFSA": {
     "bolunmeler": "",
-    "fiyat": 146.7,
+    "fiyat": 132.1,
     "hisse_basi_tl": 0.578,
     "odeme_sayisi": 1,
     "sanayi": "Food Retail",
@@ -2010,7 +2010,7 @@
   },
   "CUSAN": {
     "bolunmeler": "",
-    "fiyat": 15.86,
+    "fiyat": 15.18,
     "hisse_basi_tl": 0.4444,
     "odeme_sayisi": 1,
     "sanayi": "Aluminum",
@@ -2024,7 +2024,7 @@
   },
   "CVKMD": {
     "bolunmeler": "20250206:3233.3333",
-    "fiyat": 12.38,
+    "fiyat": 11.15,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Other Metals/Minerals",
@@ -2036,7 +2036,7 @@
   },
   "CWENE": {
     "bolunmeler": "20241204:708.0808,20251106:7.829",
-    "fiyat": 14.35,
+    "fiyat": 13.64,
     "hisse_basi_tl": 0.7664,
     "odeme_sayisi": 1,
     "sanayi": "Semiconductors",
@@ -2050,7 +2050,7 @@
   },
   "DAGI": {
     "bolunmeler": "20250219:207.9292",
-    "fiyat": 5.71,
+    "fiyat": 5.5,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Apparel/Footwear",
@@ -2062,7 +2062,7 @@
   },
   "DAPGM": {
     "bolunmeler": "20230621:92.5,20240327:7.4284,20240806:540.7169",
-    "fiyat": 2.24,
+    "fiyat": 2.06,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Real Estate Development",
@@ -2074,7 +2074,7 @@
   },
   "DARDL": {
     "bolunmeler": "",
-    "fiyat": 0.93,
+    "fiyat": 0.9,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Food: Meat/Fish/Dairy",
@@ -2086,7 +2086,7 @@
   },
   "DCTTR": {
     "bolunmeler": "20251223:200",
-    "fiyat": 3.85,
+    "fiyat": 3.84,
     "hisse_basi_tl": 0.0341,
     "odeme_sayisi": 3,
     "sanayi": "Wholesale Distributors",
@@ -2102,7 +2102,7 @@
   },
   "DENGE": {
     "bolunmeler": "20180327:354.5455",
-    "fiyat": 1.13,
+    "fiyat": 1.17,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Investment Managers",
@@ -2114,7 +2114,7 @@
   },
   "DERHL": {
     "bolunmeler": "20200107:11,20220131:15,20220920:135.0176,20240531:31.5209,20260810:401.4053",
-    "fiyat": 1.22,
+    "fiyat": 1.13,
     "hisse_basi_tl": 0.0331,
     "odeme_sayisi": 1,
     "sanayi": "Apparel/Footwear",
@@ -2128,7 +2128,7 @@
   },
   "DERIM": {
     "bolunmeler": "",
-    "fiyat": 19.74,
+    "fiyat": 18.52,
     "hisse_basi_tl": 0.0238,
     "odeme_sayisi": 1,
     "sanayi": "Apparel/Footwear",
@@ -2142,7 +2142,7 @@
   },
   "DESA": {
     "bolunmeler": "20230620:397.7452,20250115:100",
-    "fiyat": 7.84,
+    "fiyat": 7.67,
     "hisse_basi_tl": 0.2761,
     "odeme_sayisi": 3,
     "sanayi": "Apparel/Footwear",
@@ -2158,7 +2158,7 @@
   },
   "DESPC": {
     "bolunmeler": "",
-    "fiyat": 21.66,
+    "fiyat": 20.9,
     "hisse_basi_tl": 0.5217,
     "odeme_sayisi": 1,
     "sanayi": "Electronics Distributors",
@@ -2172,7 +2172,7 @@
   },
   "DEVA": {
     "bolunmeler": "",
-    "fiyat": 70.5,
+    "fiyat": 69.25,
     "hisse_basi_tl": 0.25,
     "odeme_sayisi": 1,
     "sanayi": "Pharmaceuticals: Major",
@@ -2186,7 +2186,7 @@
   },
   "DGATE": {
     "bolunmeler": "",
-    "fiyat": 49.12,
+    "fiyat": 48.26,
     "hisse_basi_tl": 0.4,
     "odeme_sayisi": 1,
     "sanayi": "Electronics Distributors",
@@ -2200,7 +2200,7 @@
   },
   "DGGYO": {
     "bolunmeler": "",
-    "fiyat": 23.5,
+    "fiyat": 22.7,
     "hisse_basi_tl": 0.05,
     "odeme_sayisi": 1,
     "sanayi": "Real Estate Investment Trusts",
@@ -2214,7 +2214,7 @@
   },
   "DGNMO": {
     "bolunmeler": "20190221:28.6986",
-    "fiyat": 4.8,
+    "fiyat": 4.71,
     "hisse_basi_tl": 0.2857,
     "odeme_sayisi": 1,
     "sanayi": "Home Furnishings",
@@ -2228,7 +2228,7 @@
   },
   "DIRIT": {
     "bolunmeler": "",
-    "fiyat": 16.59,
+    "fiyat": 14.95,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Textiles",
@@ -2240,7 +2240,7 @@
   },
   "DITAS": {
     "bolunmeler": "",
-    "fiyat": 6.68,
+    "fiyat": 6.2,
     "hisse_basi_tl": 0.0231,
     "odeme_sayisi": 1,
     "sanayi": "Auto Parts: OEM",
@@ -2254,7 +2254,7 @@
   },
   "DMRGD": {
     "bolunmeler": "20251211:700",
-    "fiyat": 6.79,
+    "fiyat": 6.92,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Food: Specialty/Candy",
@@ -2266,7 +2266,7 @@
   },
   "DMSAS": {
     "bolunmeler": "20220621:90.4762",
-    "fiyat": 5.78,
+    "fiyat": 5.49,
     "hisse_basi_tl": 0.15,
     "odeme_sayisi": 1,
     "sanayi": "Metal Fabrication",
@@ -2280,7 +2280,7 @@
   },
   "DNISI": {
     "bolunmeler": "20210107:1.8219,20210204:4.7435,20210303:2.0195,20220802:197,20230607:50,20260819:334.3173",
-    "fiyat": 3.6,
+    "fiyat": 3.38,
     "hisse_basi_tl": 0.0919,
     "odeme_sayisi": 1,
     "sanayi": "Industrial Specialties",
@@ -2294,7 +2294,7 @@
   },
   "DOAS": {
     "bolunmeler": "",
-    "fiyat": 135.7,
+    "fiyat": 149.2,
     "hisse_basi_tl": 30.0,
     "odeme_sayisi": 2,
     "sanayi": "Specialty Stores",
@@ -2309,7 +2309,7 @@
   },
   "DOCO": {
     "bolunmeler": "20230221:0.5982,20230228:0.1518,20230307:0.7327,20230314:0.1003,20230321:0.451,20230328:0.0624,20230419:0.0748,20230425:0.2989,20230504:0.5464,20230511:0.247,20230524:1.1458,20230531:0.8161,20230614:0.1208,20230620:0.2413,20230627:0.012,20230707:0.0361,20230821:2.0986,20230825:0.8317,20230911:0.0589,20230919:0.4946,20231003:0.0351,20231120:0.0234,20240131:0.3513,20240213:0.0467,20240311:2.2397,20240326:0.0228,20240429:0.1483,20240717:0.0569",
-    "fiyat": 10962.5,
+    "fiyat": 11652.5,
     "hisse_basi_tl": 134.6865,
     "odeme_sayisi": 1,
     "sanayi": "Restaurants",
@@ -2323,7 +2323,7 @@
   },
   "DOFER": {
     "bolunmeler": "",
-    "fiyat": 17.04,
+    "fiyat": 15.8,
     "hisse_basi_tl": 0.1899,
     "odeme_sayisi": 1,
     "sanayi": "Steel",
@@ -2337,7 +2337,7 @@
   },
   "DOFRB": {
     "bolunmeler": "",
-    "fiyat": 54.45,
+    "fiyat": 56.4,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Industrial Machinery",
@@ -2349,7 +2349,7 @@
   },
   "DOGUB": {
     "bolunmeler": "",
-    "fiyat": 18.29,
+    "fiyat": 20.1,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Construction Materials",
@@ -2361,7 +2361,7 @@
   },
   "DOHOL": {
     "bolunmeler": "",
-    "fiyat": 16.47,
+    "fiyat": 15.85,
     "hisse_basi_tl": 0.3057,
     "odeme_sayisi": 1,
     "sanayi": "Specialty Stores",
@@ -2375,7 +2375,7 @@
   },
   "DOKTA": {
     "bolunmeler": "",
-    "fiyat": 13.42,
+    "fiyat": 13.17,
     "hisse_basi_tl": 0.2928,
     "odeme_sayisi": 1,
     "sanayi": "Auto Parts: OEM",
@@ -2389,7 +2389,7 @@
   },
   "DSTKF": {
     "bolunmeler": "",
-    "fiyat": 104.8,
+    "fiyat": 94.35,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Finance/Rental/Leasing",
@@ -2401,7 +2401,7 @@
   },
   "DUNYH": {
     "bolunmeler": "20251002:66.965",
-    "fiyat": 13.1,
+    "fiyat": 11.79,
     "hisse_basi_tl": 0.01,
     "odeme_sayisi": 1,
     "sanayi": "Food: Specialty/Candy",
@@ -2415,7 +2415,7 @@
   },
   "DURDO": {
     "bolunmeler": "20201203:111.1513,20240124:185.7143,20250311:400",
-    "fiyat": 5.6,
+    "fiyat": 5.57,
     "hisse_basi_tl": 0.1,
     "odeme_sayisi": 1,
     "sanayi": "Containers/Packaging",
@@ -2429,7 +2429,7 @@
   },
   "DURKN": {
     "bolunmeler": "",
-    "fiyat": 8.9,
+    "fiyat": 8.3,
     "hisse_basi_tl": 0.0932,
     "odeme_sayisi": 1,
     "sanayi": "Food: Specialty/Candy",
@@ -2443,7 +2443,7 @@
   },
   "DYOBY": {
     "bolunmeler": "20240828:200",
-    "fiyat": 7.95,
+    "fiyat": 7.64,
     "hisse_basi_tl": 1.03,
     "odeme_sayisi": 1,
     "sanayi": "Industrial Specialties",
@@ -2457,7 +2457,7 @@
   },
   "DZGYO": {
     "bolunmeler": "",
-    "fiyat": 6.61,
+    "fiyat": 6.65,
     "hisse_basi_tl": 0.0678,
     "odeme_sayisi": 1,
     "sanayi": "Real Estate Investment Trusts",
@@ -2471,7 +2471,7 @@
   },
   "EBEBK": {
     "bolunmeler": "",
-    "fiyat": 79.5,
+    "fiyat": 77.05,
     "hisse_basi_tl": 1.25,
     "odeme_sayisi": 2,
     "sanayi": "Apparel/Footwear Retail",
@@ -2486,7 +2486,7 @@
   },
   "ECILC": {
     "bolunmeler": "",
-    "fiyat": 46.26,
+    "fiyat": 42.7,
     "hisse_basi_tl": 1.7512,
     "odeme_sayisi": 1,
     "sanayi": "Pharmaceuticals: Major",
@@ -2500,7 +2500,7 @@
   },
   "ECOGR": {
     "bolunmeler": "",
-    "fiyat": 20.0,
+    "fiyat": 19.61,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Alternative Power Generation",
@@ -2512,7 +2512,7 @@
   },
   "ECZYT": {
     "bolunmeler": "",
-    "fiyat": 156.2,
+    "fiyat": 143.9,
     "hisse_basi_tl": 5.7143,
     "odeme_sayisi": 1,
     "sanayi": "Financial Conglomerates",
@@ -2526,7 +2526,7 @@
   },
   "EDATA": {
     "bolunmeler": "20230526:200,20250207:197.9037",
-    "fiyat": 2.8,
+    "fiyat": 2.64,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Miscellaneous Commercial Services",
@@ -2538,7 +2538,7 @@
   },
   "EDIP": {
     "bolunmeler": "",
-    "fiyat": 21.6,
+    "fiyat": 20.94,
     "hisse_basi_tl": 0.086,
     "odeme_sayisi": 1,
     "sanayi": "Real Estate Development",
@@ -2552,7 +2552,7 @@
   },
   "EFOR": {
     "bolunmeler": "20251128:500",
-    "fiyat": 12.51,
+    "fiyat": 11.26,
     "hisse_basi_tl": 0.1377,
     "odeme_sayisi": 1,
     "sanayi": "Food: Major Diversified",
@@ -2566,7 +2566,7 @@
   },
   "EGEEN": {
     "bolunmeler": "",
-    "fiyat": 3860.0,
+    "fiyat": 3740.0,
     "hisse_basi_tl": 53.0,
     "odeme_sayisi": 1,
     "sanayi": "Auto Parts: OEM",
@@ -2580,7 +2580,7 @@
   },
   "EGEGY": {
     "bolunmeler": "",
-    "fiyat": 14.38,
+    "fiyat": 14.35,
     "hisse_basi_tl": 0.3,
     "odeme_sayisi": 1,
     "sanayi": "Real Estate Development",
@@ -2594,7 +2594,7 @@
   },
   "EGEPO": {
     "bolunmeler": "20250319:300",
-    "fiyat": 4.15,
+    "fiyat": 3.74,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Hospital/Nursing Management",
@@ -2606,7 +2606,7 @@
   },
   "EGGUB": {
     "bolunmeler": "20220905:300,20231220:150",
-    "fiyat": 81.05,
+    "fiyat": 77.6,
     "hisse_basi_tl": 2.5,
     "odeme_sayisi": 1,
     "sanayi": "Chemicals: Agricultural",
@@ -2620,7 +2620,7 @@
   },
   "EGPRO": {
     "bolunmeler": "20250114:572.9991",
-    "fiyat": 27.46,
+    "fiyat": 26.5,
     "hisse_basi_tl": 1.2844,
     "odeme_sayisi": 2,
     "sanayi": "Industrial Specialties",
@@ -2635,7 +2635,7 @@
   },
   "EGSER": {
     "bolunmeler": "",
-    "fiyat": 2.02,
+    "fiyat": 1.91,
     "hisse_basi_tl": 2.2598,
     "odeme_sayisi": 1,
     "sanayi": "Building Products",
@@ -2649,7 +2649,7 @@
   },
   "EKDMR": {
     "bolunmeler": "",
-    "fiyat": 21.22,
+    "fiyat": 20.3,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Steel",
@@ -2661,7 +2661,7 @@
   },
   "EKGYO": {
     "bolunmeler": "",
-    "fiyat": 17.08,
+    "fiyat": 16.19,
     "hisse_basi_tl": 0.6,
     "odeme_sayisi": 1,
     "sanayi": "Real Estate Investment Trusts",
@@ -2675,7 +2675,7 @@
   },
   "EKIM": {
     "bolunmeler": "",
-    "fiyat": 14.2,
+    "fiyat": 13.68,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Finance/Rental/Leasing",
@@ -2687,7 +2687,7 @@
   },
   "EKIZ": {
     "bolunmeler": "20220211:29.3511",
-    "fiyat": 36.56,
+    "fiyat": 34.88,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Agricultural Commodities/Milling",
@@ -2699,7 +2699,7 @@
   },
   "EKOS": {
     "bolunmeler": "20251226:300",
-    "fiyat": 2.55,
+    "fiyat": 2.48,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Electrical Products",
@@ -2711,7 +2711,7 @@
   },
   "EKSUN": {
     "bolunmeler": "20240710:757.1429",
-    "fiyat": 3.46,
+    "fiyat": 3.42,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Agricultural Commodities/Milling",
@@ -2723,7 +2723,7 @@
   },
   "ELITE": {
     "bolunmeler": "20230404:140",
-    "fiyat": 16.87,
+    "fiyat": 16.09,
     "hisse_basi_tl": 0.05,
     "odeme_sayisi": 1,
     "sanayi": "Food: Specialty/Candy",
@@ -2737,7 +2737,7 @@
   },
   "EMKEL": {
     "bolunmeler": "",
-    "fiyat": 6.79,
+    "fiyat": 6.12,
     "hisse_basi_tl": 0.0108,
     "odeme_sayisi": 1,
     "sanayi": "Industrial Machinery",
@@ -2751,7 +2751,7 @@
   },
   "EMNIS": {
     "bolunmeler": "",
-    "fiyat": 129.9,
+    "fiyat": 129.7,
     "hisse_basi_tl": 0.054,
     "odeme_sayisi": 1,
     "sanayi": "Containers/Packaging",
@@ -2765,7 +2765,7 @@
   },
   "EMPAE": {
     "bolunmeler": "",
-    "fiyat": 36.92,
+    "fiyat": 36.18,
     "hisse_basi_tl": 0.1,
     "odeme_sayisi": 1,
     "sanayi": "Electronic Production Equipment",
@@ -2779,7 +2779,7 @@
   },
   "ENDAE": {
     "bolunmeler": "",
-    "fiyat": 10.1,
+    "fiyat": 9.33,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Financial Conglomerates",
@@ -2791,7 +2791,7 @@
   },
   "ENERY": {
     "bolunmeler": "20250313:6106.8966",
-    "fiyat": 13.3,
+    "fiyat": 13.36,
     "hisse_basi_tl": 0.0167,
     "odeme_sayisi": 1,
     "sanayi": "Gas Distributors",
@@ -2805,7 +2805,7 @@
   },
   "ENJSA": {
     "bolunmeler": "",
-    "fiyat": 113.2,
+    "fiyat": 105.5,
     "hisse_basi_tl": 5.08,
     "odeme_sayisi": 1,
     "sanayi": "Electric Utilities",
@@ -2819,7 +2819,7 @@
   },
   "ENKAI": {
     "bolunmeler": "20180524:8.6957,20200527:12,20220606:7.1429",
-    "fiyat": 78.45,
+    "fiyat": 76.65,
     "hisse_basi_tl": 2.9333,
     "odeme_sayisi": 2,
     "sanayi": "Engineering & Construction",
@@ -2834,7 +2834,7 @@
   },
   "ENPRA": {
     "bolunmeler": "",
-    "fiyat": 37.88,
+    "fiyat": 39.0,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Regional Banks",
@@ -2846,7 +2846,7 @@
   },
   "ENSRI": {
     "bolunmeler": "20230503:220,20251210:367.4658",
-    "fiyat": 2.23,
+    "fiyat": 2.05,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Consumer Sundries",
@@ -2858,7 +2858,7 @@
   },
   "ENTRA": {
     "bolunmeler": "20260630:100",
-    "fiyat": 4.38,
+    "fiyat": 4.39,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Alternative Power Generation",
@@ -2870,7 +2870,7 @@
   },
   "EPLAS": {
     "bolunmeler": "20220419:39.128,20230829:585.0354",
-    "fiyat": 4.79,
+    "fiyat": 4.51,
     "hisse_basi_tl": 0.4804,
     "odeme_sayisi": 1,
     "sanayi": "Miscellaneous Manufacturing",
@@ -2884,7 +2884,7 @@
   },
   "ERBOS": {
     "bolunmeler": "20190408:283.1418",
-    "fiyat": 94.15,
+    "fiyat": 91.25,
     "hisse_basi_tl": 2.7,
     "odeme_sayisi": 1,
     "sanayi": "Steel",
@@ -2898,7 +2898,7 @@
   },
   "ERCB": {
     "bolunmeler": "",
-    "fiyat": 31.9,
+    "fiyat": 29.58,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Steel",
@@ -2910,7 +2910,7 @@
   },
   "EREGL": {
     "bolunmeler": "20241127:100",
-    "fiyat": 31.22,
+    "fiyat": 29.66,
     "hisse_basi_tl": 0.55,
     "odeme_sayisi": 1,
     "sanayi": "Steel",
@@ -2924,7 +2924,7 @@
   },
   "ERSU": {
     "bolunmeler": "",
-    "fiyat": 16.95,
+    "fiyat": 16.09,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Beverages: Non-Alcoholic",
@@ -2936,7 +2936,7 @@
   },
   "ESCAR": {
     "bolunmeler": "20241129:820.8103",
-    "fiyat": 8.42,
+    "fiyat": 7.58,
     "hisse_basi_tl": 0.36,
     "odeme_sayisi": 3,
     "sanayi": "Finance/Rental/Leasing",
@@ -2952,7 +2952,7 @@
   },
   "ESCOM": {
     "bolunmeler": "20250228:1309.9071",
-    "fiyat": 3.8,
+    "fiyat": 3.42,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Computer Processing Hardware",
@@ -2964,7 +2964,7 @@
   },
   "ESEN": {
     "bolunmeler": "20231129:306.25,20250812:600",
-    "fiyat": 1.87,
+    "fiyat": 1.82,
     "hisse_basi_tl": 0.1562,
     "odeme_sayisi": 1,
     "sanayi": "Electric Utilities",
@@ -2978,7 +2978,7 @@
   },
   "ETILR": {
     "bolunmeler": "20241220:200,20260910:4.2871",
-    "fiyat": 6.09,
+    "fiyat": 5.6,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Restaurants",
@@ -2990,7 +2990,7 @@
   },
   "ETYAT": {
     "bolunmeler": "20260421:200",
-    "fiyat": 10.1,
+    "fiyat": 10.38,
     "hisse_basi_tl": 0.055,
     "odeme_sayisi": 1,
     "sanayi": "Investment Managers",
@@ -3004,7 +3004,7 @@
   },
   "EUHOL": {
     "bolunmeler": "",
-    "fiyat": 5.86,
+    "fiyat": 6.44,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Investment Banks/Brokers",
@@ -3016,7 +3016,7 @@
   },
   "EUKYO": {
     "bolunmeler": "20260421:200",
-    "fiyat": 8.08,
+    "fiyat": 7.9,
     "hisse_basi_tl": 0.06,
     "odeme_sayisi": 1,
     "sanayi": "Investment Banks/Brokers",
@@ -3030,7 +3030,7 @@
   },
   "EUPWR": {
     "bolunmeler": "20241008:200",
-    "fiyat": 41.0,
+    "fiyat": 39.44,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Electrical Products",
@@ -3054,7 +3054,7 @@
   },
   "EUYO": {
     "bolunmeler": "20260421:200",
-    "fiyat": 2.91,
+    "fiyat": 3.0,
     "hisse_basi_tl": 0.065,
     "odeme_sayisi": 1,
     "sanayi": "Investment Banks/Brokers",
@@ -3068,7 +3068,7 @@
   },
   "EYGYO": {
     "bolunmeler": "20231229:142.4242,20250213:250",
-    "fiyat": 1.73,
+    "fiyat": 1.69,
     "hisse_basi_tl": 0.0286,
     "odeme_sayisi": 1,
     "sanayi": "Real Estate Development",
@@ -3082,7 +3082,7 @@
   },
   "FADE": {
     "bolunmeler": "20200904:6.7119,20210726:17.2619",
-    "fiyat": 9.64,
+    "fiyat": 9.39,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Food: Major Diversified",
@@ -3094,7 +3094,7 @@
   },
   "FENER": {
     "bolunmeler": "",
-    "fiyat": 2.04,
+    "fiyat": 2.01,
     "hisse_basi_tl": 0.2212,
     "odeme_sayisi": 1,
     "sanayi": "Movies/Entertainment",
@@ -3108,7 +3108,7 @@
   },
   "FLAP": {
     "bolunmeler": "",
-    "fiyat": 9.45,
+    "fiyat": 9.05,
     "hisse_basi_tl": 0.0693,
     "odeme_sayisi": 1,
     "sanayi": "Other Consumer Services",
@@ -3122,7 +3122,7 @@
   },
   "FMIZP": {
     "bolunmeler": "",
-    "fiyat": 206.1,
+    "fiyat": 190.0,
     "hisse_basi_tl": 4.756,
     "odeme_sayisi": 1,
     "sanayi": "Auto Parts: OEM",
@@ -3136,7 +3136,7 @@
   },
   "FONET": {
     "bolunmeler": "20190717:122.2222,20231211:260,20251020:550",
-    "fiyat": 3.5,
+    "fiyat": 3.47,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Packaged Software",
@@ -3148,7 +3148,7 @@
   },
   "FORMT": {
     "bolunmeler": "20181116:250,20191018:25.6615,20221028:9.3762,20260410:5.9775",
-    "fiyat": 0.84,
+    "fiyat": 0.81,
     "hisse_basi_tl": 0.0138,
     "odeme_sayisi": 1,
     "sanayi": "Forest Products",
@@ -3162,7 +3162,7 @@
   },
   "FORTE": {
     "bolunmeler": "",
-    "fiyat": 76.75,
+    "fiyat": 73.0,
     "hisse_basi_tl": 0.1197,
     "odeme_sayisi": 1,
     "sanayi": "Packaged Software",
@@ -3176,7 +3176,7 @@
   },
   "FRIGO": {
     "bolunmeler": "20200902:85,20240119:20.2309,20260513:188.9142",
-    "fiyat": 1.86,
+    "fiyat": 1.92,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Food: Specialty/Candy",
@@ -3188,7 +3188,7 @@
   },
   "FRMPL": {
     "bolunmeler": "",
-    "fiyat": 17.8,
+    "fiyat": 16.9,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Miscellaneous Manufacturing",
@@ -3200,7 +3200,7 @@
   },
   "FROTO": {
     "bolunmeler": "20250507:900",
-    "fiyat": 69.2,
+    "fiyat": 65.45,
     "hisse_basi_tl": 3.64,
     "odeme_sayisi": 1,
     "sanayi": "Motor Vehicles",
@@ -3214,7 +3214,7 @@
   },
   "FZLGY": {
     "bolunmeler": "20250818:293.0818",
-    "fiyat": 4.41,
+    "fiyat": 4.31,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Homebuilding",
@@ -3226,7 +3226,7 @@
   },
   "GARAN": {
     "bolunmeler": "",
-    "fiyat": 126.7,
+    "fiyat": 125.2,
     "hisse_basi_tl": 5.2669,
     "odeme_sayisi": 1,
     "sanayi": "Major Banks",
@@ -3240,7 +3240,7 @@
   },
   "GARFA": {
     "bolunmeler": "20240514:400",
-    "fiyat": 21.98,
+    "fiyat": 20.68,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Finance/Rental/Leasing",
@@ -3252,7 +3252,7 @@
   },
   "GATEG": {
     "bolunmeler": "20180813:15.443,20260126:44.2228",
-    "fiyat": 119.6,
+    "fiyat": 108.1,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Miscellaneous Commercial Services",
@@ -3264,7 +3264,7 @@
   },
   "GEDIK": {
     "bolunmeler": "20200527:78.0627,20210528:110,20220523:30,20240917:98.0198,20250722:100",
-    "fiyat": 4.71,
+    "fiyat": 4.77,
     "hisse_basi_tl": 0.375,
     "odeme_sayisi": 1,
     "sanayi": "Investment Banks/Brokers",
@@ -3278,7 +3278,7 @@
   },
   "GEDZA": {
     "bolunmeler": "20180518:98.0392,20210831:98.0198,20230904:100",
-    "fiyat": 17.27,
+    "fiyat": 16.87,
     "hisse_basi_tl": 0.1176,
     "odeme_sayisi": 1,
     "sanayi": "Industrial Specialties",
@@ -3292,7 +3292,7 @@
   },
   "GENIL": {
     "bolunmeler": "20260210:1400",
-    "fiyat": 3.7,
+    "fiyat": 3.49,
     "hisse_basi_tl": 0.0161,
     "odeme_sayisi": 1,
     "sanayi": "Pharmaceuticals: Major",
@@ -3306,7 +3306,7 @@
   },
   "GENKM": {
     "bolunmeler": "",
-    "fiyat": 5.7,
+    "fiyat": 5.57,
     "hisse_basi_tl": 0.2053,
     "odeme_sayisi": 1,
     "sanayi": "Chemicals: Specialty",
@@ -3320,7 +3320,7 @@
   },
   "GENTS": {
     "bolunmeler": "20180705:8,20190703:22.0539,20200617:6.2069,20210803:29.8701,20220913:12.1211,20230620:33.7839,20250828:150",
-    "fiyat": 3.32,
+    "fiyat": 3.18,
     "hisse_basi_tl": 0.1569,
     "odeme_sayisi": 1,
     "sanayi": "Office Equipment/Supplies",
@@ -3334,7 +3334,7 @@
   },
   "GEREL": {
     "bolunmeler": "20181113:10.6099,20190214:44.6525,20240930:200,20250718:55.1981",
-    "fiyat": 23.2,
+    "fiyat": 22.1,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Electrical Products",
@@ -3346,7 +3346,7 @@
   },
   "GESAN": {
     "bolunmeler": "20230404:300",
-    "fiyat": 32.68,
+    "fiyat": 31.12,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Electronic Equipment/Instruments",
@@ -3358,7 +3358,7 @@
   },
   "GIPTA": {
     "bolunmeler": "",
-    "fiyat": 19.5,
+    "fiyat": 18.91,
     "hisse_basi_tl": 1.553,
     "odeme_sayisi": 4,
     "sanayi": "Office Equipment/Supplies",
@@ -3375,7 +3375,7 @@
   },
   "GLBMD": {
     "bolunmeler": "20240814:195",
-    "fiyat": 6.64,
+    "fiyat": 6.58,
     "hisse_basi_tl": 0.0476,
     "odeme_sayisi": 1,
     "sanayi": "Investment Banks/Brokers",
@@ -3389,7 +3389,7 @@
   },
   "GLCVY": {
     "bolunmeler": "",
-    "fiyat": 32.64,
+    "fiyat": 31.2,
     "hisse_basi_tl": 2.5054,
     "odeme_sayisi": 1,
     "sanayi": "Financial Conglomerates",
@@ -3403,7 +3403,7 @@
   },
   "GLRMK": {
     "bolunmeler": "",
-    "fiyat": 106.1,
+    "fiyat": 103.1,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Engineering & Construction",
@@ -3415,7 +3415,7 @@
   },
   "GLRYH": {
     "bolunmeler": "",
-    "fiyat": 1.28,
+    "fiyat": 1.21,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Investment Managers",
@@ -3427,7 +3427,7 @@
   },
   "GLYHO": {
     "bolunmeler": "20250212:200",
-    "fiyat": 16.37,
+    "fiyat": 15.68,
     "hisse_basi_tl": 0.0641,
     "odeme_sayisi": 1,
     "sanayi": "Investment Banks/Brokers",
@@ -3441,7 +3441,7 @@
   },
   "GMTAS": {
     "bolunmeler": "20260116:101.0724",
-    "fiyat": 52.25,
+    "fiyat": 55.15,
     "hisse_basi_tl": 0.6,
     "odeme_sayisi": 1,
     "sanayi": "Food Retail",
@@ -3455,7 +3455,7 @@
   },
   "GOKNR": {
     "bolunmeler": "",
-    "fiyat": 12.0,
+    "fiyat": 12.04,
     "hisse_basi_tl": 0.6126,
     "odeme_sayisi": 2,
     "sanayi": "Food: Specialty/Candy",
@@ -3470,7 +3470,7 @@
   },
   "GOLDA": {
     "bolunmeler": "",
-    "fiyat": 5.6,
+    "fiyat": 5.35,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Food: Specialty/Candy",
@@ -3482,7 +3482,7 @@
   },
   "GOLTS": {
     "bolunmeler": "20181220:150",
-    "fiyat": 217.6,
+    "fiyat": 205.9,
     "hisse_basi_tl": 4.1667,
     "odeme_sayisi": 1,
     "sanayi": "Construction Materials",
@@ -3496,7 +3496,7 @@
   },
   "GOODY": {
     "bolunmeler": "20260702:462.963",
-    "fiyat": 1.97,
+    "fiyat": 1.91,
     "hisse_basi_tl": 0.3833,
     "odeme_sayisi": 1,
     "sanayi": "Automotive Aftermarket",
@@ -3510,7 +3510,7 @@
   },
   "GOZDE": {
     "bolunmeler": "",
-    "fiyat": 15.76,
+    "fiyat": 15.5,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Investment Banks/Brokers",
@@ -3522,7 +3522,7 @@
   },
   "GRNYO": {
     "bolunmeler": "20181106:4.6875,20190620:4.4776,20201002:7.1429",
-    "fiyat": 6.6,
+    "fiyat": 6.4,
     "hisse_basi_tl": 0.056,
     "odeme_sayisi": 1,
     "sanayi": "Investment Managers",
@@ -3536,7 +3536,7 @@
   },
   "GRSEL": {
     "bolunmeler": "",
-    "fiyat": 249.2,
+    "fiyat": 241.5,
     "hisse_basi_tl": 1.4706,
     "odeme_sayisi": 2,
     "sanayi": "Other Consumer Services",
@@ -3551,7 +3551,7 @@
   },
   "GRTHO": {
     "bolunmeler": "",
-    "fiyat": 72.0,
+    "fiyat": 70.8,
     "hisse_basi_tl": 0.8981,
     "odeme_sayisi": 2,
     "sanayi": "Wholesale Distributors",
@@ -3566,7 +3566,7 @@
   },
   "GSDDE": {
     "bolunmeler": "",
-    "fiyat": 9.84,
+    "fiyat": 9.74,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Marine Shipping",
@@ -3578,7 +3578,7 @@
   },
   "GSDHO": {
     "bolunmeler": "20221114:122.2222",
-    "fiyat": 3.68,
+    "fiyat": 3.69,
     "hisse_basi_tl": 0.1,
     "odeme_sayisi": 1,
     "sanayi": "Marine Shipping",
@@ -3592,7 +3592,7 @@
   },
   "GSRAY": {
     "bolunmeler": "",
-    "fiyat": 0.68,
+    "fiyat": 0.67,
     "hisse_basi_tl": 17.077,
     "odeme_sayisi": 2,
     "sanayi": "Movies/Entertainment",
@@ -3607,7 +3607,7 @@
   },
   "GUBRF": {
     "bolunmeler": "",
-    "fiyat": 278.0,
+    "fiyat": 250.25,
     "hisse_basi_tl": 4.491,
     "odeme_sayisi": 1,
     "sanayi": "Chemicals: Specialty",
@@ -3621,7 +3621,7 @@
   },
   "GUNDG": {
     "bolunmeler": "",
-    "fiyat": 79.3,
+    "fiyat": 71.4,
     "hisse_basi_tl": 0.1538,
     "odeme_sayisi": 3,
     "sanayi": "Food: Meat/Fish/Dairy",
@@ -3637,7 +3637,7 @@
   },
   "GWIND": {
     "bolunmeler": "20230728:0.9739",
-    "fiyat": 16.86,
+    "fiyat": 16.41,
     "hisse_basi_tl": 0.7407,
     "odeme_sayisi": 1,
     "sanayi": "Alternative Power Generation",
@@ -3651,7 +3651,7 @@
   },
   "GZNMI": {
     "bolunmeler": "20221123:160",
-    "fiyat": 16.1,
+    "fiyat": 14.7,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Other Consumer Services",
@@ -3663,7 +3663,7 @@
   },
   "HALKB": {
     "bolunmeler": "20200521:97.9021,20220310:100.8719,20230330:44.5885,20260424:25",
-    "fiyat": 43.14,
+    "fiyat": 39.6,
     "hisse_basi_tl": 0.149,
     "odeme_sayisi": 1,
     "sanayi": "Major Banks",
@@ -3677,7 +3677,7 @@
   },
   "HATEK": {
     "bolunmeler": "20220608:200",
-    "fiyat": 6.21,
+    "fiyat": 6.2,
     "hisse_basi_tl": 0.4762,
     "odeme_sayisi": 1,
     "sanayi": "Textiles",
@@ -3691,7 +3691,7 @@
   },
   "HATSN": {
     "bolunmeler": "",
-    "fiyat": 20.04,
+    "fiyat": 18.8,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Trucks/Construction/Farm Machinery",
@@ -3703,7 +3703,7 @@
   },
   "HDFGS": {
     "bolunmeler": "20180611:13.913,20200904:9.2664,20210524:35.2313,20220803:14.0351,20230719:73.8462",
-    "fiyat": 0.99,
+    "fiyat": 0.94,
     "hisse_basi_tl": 0.015,
     "odeme_sayisi": 1,
     "sanayi": "Investment Managers",
@@ -3717,7 +3717,7 @@
   },
   "HEDEF": {
     "bolunmeler": "20220803:25,20240819:400,20250721:3.971,20260603:53.8891",
-    "fiyat": 9.53,
+    "fiyat": 8.58,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Financial Conglomerates",
@@ -3729,7 +3729,7 @@
   },
   "HEKTS": {
     "bolunmeler": "20261014:8.3282",
-    "fiyat": 1.58,
+    "fiyat": 1.6,
     "hisse_basi_tl": 0.1667,
     "odeme_sayisi": 1,
     "sanayi": "Chemicals: Major Diversified",
@@ -3743,7 +3743,7 @@
   },
   "HKTM": {
     "bolunmeler": "20240228:200",
-    "fiyat": 10.73,
+    "fiyat": 10.49,
     "hisse_basi_tl": 0.11,
     "odeme_sayisi": 1,
     "sanayi": "Industrial Machinery",
@@ -3757,7 +3757,7 @@
   },
   "HLGYO": {
     "bolunmeler": "20180620:4.6341,20190620:8.1585,20200827:4.5259,20210601:5.1546,20220530:2.6144,20230919:4.7771,20240904:17.0111,20250918:4.3478",
-    "fiyat": 3.58,
+    "fiyat": 3.43,
     "hisse_basi_tl": 0.5755,
     "odeme_sayisi": 1,
     "sanayi": "Real Estate Investment Trusts",
@@ -3771,7 +3771,7 @@
   },
   "HOROZ": {
     "bolunmeler": "",
-    "fiyat": 35.58,
+    "fiyat": 34.1,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Air Freight/Couriers",
@@ -3783,7 +3783,7 @@
   },
   "HRKET": {
     "bolunmeler": "20260921:1300",
-    "fiyat": 6.23,
+    "fiyat": 6.3,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Trucking",
@@ -3795,7 +3795,7 @@
   },
   "HTTBT": {
     "bolunmeler": "20241127:135.2941",
-    "fiyat": 28.9,
+    "fiyat": 29.26,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Packaged Software",
@@ -3807,7 +3807,7 @@
   },
   "HUBVC": {
     "bolunmeler": "20250109:300",
-    "fiyat": 2.14,
+    "fiyat": 2.03,
     "hisse_basi_tl": 0.03,
     "odeme_sayisi": 1,
     "sanayi": "Investment Managers",
@@ -3821,7 +3821,7 @@
   },
   "HUNER": {
     "bolunmeler": "",
-    "fiyat": 3.81,
+    "fiyat": 3.79,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Alternative Power Generation",
@@ -3833,7 +3833,7 @@
   },
   "HURGZ": {
     "bolunmeler": "20181224:7.2464",
-    "fiyat": 3.8,
+    "fiyat": 3.55,
     "hisse_basi_tl": 0.1,
     "odeme_sayisi": 1,
     "sanayi": "Publishing: Newspapers",
@@ -3847,7 +3847,7 @@
   },
   "ICBCT": {
     "bolunmeler": "",
-    "fiyat": 12.92,
+    "fiyat": 12.0,
     "hisse_basi_tl": 1.435,
     "odeme_sayisi": 1,
     "sanayi": "Major Banks",
@@ -3861,7 +3861,7 @@
   },
   "ICUGS": {
     "bolunmeler": "20240129:67.2684,20250616:400",
-    "fiyat": 1.09,
+    "fiyat": 1.06,
     "hisse_basi_tl": 0.55,
     "odeme_sayisi": 1,
     "sanayi": "Investment Managers",
@@ -3875,7 +3875,7 @@
   },
   "IDGYO": {
     "bolunmeler": "",
-    "fiyat": 1.53,
+    "fiyat": 1.42,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Real Estate Investment Trusts",
@@ -3887,7 +3887,7 @@
   },
   "IEYHO": {
     "bolunmeler": "",
-    "fiyat": 8.87,
+    "fiyat": 7.99,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Containers/Packaging",
@@ -3899,7 +3899,7 @@
   },
   "IHAAS": {
     "bolunmeler": "20230626:154.6875",
-    "fiyat": 11.0,
+    "fiyat": 10.23,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Miscellaneous Commercial Services",
@@ -3911,7 +3911,7 @@
   },
   "IHEVA": {
     "bolunmeler": "",
-    "fiyat": 1.41,
+    "fiyat": 1.38,
     "hisse_basi_tl": 0.02,
     "odeme_sayisi": 1,
     "sanayi": "Electronics/Appliances",
@@ -3925,7 +3925,7 @@
   },
   "IHGZT": {
     "bolunmeler": "20200728:50",
-    "fiyat": 0.75,
+    "fiyat": 0.73,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Publishing: Newspapers",
@@ -3937,7 +3937,7 @@
   },
   "IHLAS": {
     "bolunmeler": "",
-    "fiyat": 0.7,
+    "fiyat": 0.67,
     "hisse_basi_tl": 0.0024,
     "odeme_sayisi": 1,
     "sanayi": "Real Estate Development",
@@ -3951,7 +3951,7 @@
   },
   "IHLGM": {
     "bolunmeler": "20190924:98.077",
-    "fiyat": 0.95,
+    "fiyat": 0.9,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Real Estate Development",
@@ -3963,7 +3963,7 @@
   },
   "IHYAY": {
     "bolunmeler": "",
-    "fiyat": 0.79,
+    "fiyat": 0.74,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Media Conglomerates",
@@ -3975,7 +3975,7 @@
   },
   "IMASM": {
     "bolunmeler": "20230418:525,20240919:300",
-    "fiyat": 1.3,
+    "fiyat": 1.25,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Industrial Machinery",
@@ -3987,7 +3987,7 @@
   },
   "INDES": {
     "bolunmeler": "20210420:300,20231130:234.8214",
-    "fiyat": 10.67,
+    "fiyat": 10.19,
     "hisse_basi_tl": 0.2173,
     "odeme_sayisi": 1,
     "sanayi": "Electronics Distributors",
@@ -4001,7 +4001,7 @@
   },
   "INFO": {
     "bolunmeler": "20200611:81.3477,20210623:37.5758,20220802:65.0978,20241127:321.2,20260915:100",
-    "fiyat": 0.66,
+    "fiyat": 0.6,
     "hisse_basi_tl": 1.0,
     "odeme_sayisi": 1,
     "sanayi": "Investment Banks/Brokers",
@@ -4015,7 +4015,7 @@
   },
   "INGRM": {
     "bolunmeler": "",
-    "fiyat": 199.2,
+    "fiyat": 191.1,
     "hisse_basi_tl": 5.3412,
     "odeme_sayisi": 1,
     "sanayi": "Electronics Distributors",
@@ -4029,7 +4029,7 @@
   },
   "INTEK": {
     "bolunmeler": "",
-    "fiyat": 166.3,
+    "fiyat": 151.9,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Industrial Specialties",
@@ -4041,7 +4041,7 @@
   },
   "INTEM": {
     "bolunmeler": "",
-    "fiyat": 155.4,
+    "fiyat": 149.8,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Building Products",
@@ -4053,7 +4053,7 @@
   },
   "INTET": {
     "bolunmeler": "",
-    "fiyat": 37.9,
+    "fiyat": 41.68,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Electronic Production Equipment",
@@ -4065,7 +4065,7 @@
   },
   "INVEO": {
     "bolunmeler": "20220627:150,20240802:316.6667",
-    "fiyat": 3.92,
+    "fiyat": 3.67,
     "hisse_basi_tl": 0.02,
     "odeme_sayisi": 1,
     "sanayi": "Investment Managers",
@@ -4079,7 +4079,7 @@
   },
   "INVES": {
     "bolunmeler": "",
-    "fiyat": 642.0,
+    "fiyat": 641.5,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Financial Conglomerates",
@@ -4105,7 +4105,7 @@
   },
   "ISBIR": {
     "bolunmeler": "20210901:5000",
-    "fiyat": 48.5,
+    "fiyat": 48.32,
     "hisse_basi_tl": 1.0,
     "odeme_sayisi": 1,
     "sanayi": "Textiles",
@@ -4119,7 +4119,7 @@
   },
   "ISBTR": {
     "bolunmeler": "",
-    "fiyat": 391285.0,
+    "fiyat": 379995.0,
     "hisse_basi_tl": 2.0371,
     "odeme_sayisi": 1,
     "sanayi": "Major Banks",
@@ -4133,7 +4133,7 @@
   },
   "ISCTR": {
     "bolunmeler": "20220614:122.223,20240227:150.0005",
-    "fiyat": 12.12,
+    "fiyat": 11.65,
     "hisse_basi_tl": 0.5395,
     "odeme_sayisi": 1,
     "sanayi": "Major Banks",
@@ -4147,7 +4147,7 @@
   },
   "ISDMR": {
     "bolunmeler": "",
-    "fiyat": 52.5,
+    "fiyat": 49.66,
     "hisse_basi_tl": 4.5,
     "odeme_sayisi": 1,
     "sanayi": "Steel",
@@ -4161,7 +4161,7 @@
   },
   "ISFIN": {
     "bolunmeler": "20180528:6.9199",
-    "fiyat": 15.84,
+    "fiyat": 15.37,
     "hisse_basi_tl": 0.0377,
     "odeme_sayisi": 1,
     "sanayi": "Finance/Rental/Leasing",
@@ -4175,7 +4175,7 @@
   },
   "ISGSY": {
     "bolunmeler": "20251103:13.9263,20260703:487.8975",
-    "fiyat": 10.88,
+    "fiyat": 10.9,
     "hisse_basi_tl": 0.135,
     "odeme_sayisi": 1,
     "sanayi": "",
@@ -4189,7 +4189,7 @@
   },
   "ISGYO": {
     "bolunmeler": "20180504:4.9248",
-    "fiyat": 17.85,
+    "fiyat": 17.92,
     "hisse_basi_tl": 0.0834,
     "odeme_sayisi": 1,
     "sanayi": "Real Estate Investment Trusts",
@@ -4203,7 +4203,7 @@
   },
   "ISKPL": {
     "bolunmeler": "20210914:311.0186,20250806:604.495",
-    "fiyat": 2.37,
+    "fiyat": 2.23,
     "hisse_basi_tl": 0.0004,
     "odeme_sayisi": 1,
     "sanayi": "Miscellaneous Manufacturing",
@@ -4231,7 +4231,7 @@
   },
   "ISMEN": {
     "bolunmeler": "20230719:322.5352",
-    "fiyat": 25.12,
+    "fiyat": 25.22,
     "hisse_basi_tl": 3.1667,
     "odeme_sayisi": 1,
     "sanayi": "Investment Banks/Brokers",
@@ -4245,7 +4245,7 @@
   },
   "ISSEN": {
     "bolunmeler": "20230301:200",
-    "fiyat": 4.7,
+    "fiyat": 4.36,
     "hisse_basi_tl": 0.04,
     "odeme_sayisi": 1,
     "sanayi": "Textiles",
@@ -4259,7 +4259,7 @@
   },
   "ISVEA": {
     "bolunmeler": "",
-    "fiyat": 12.39,
+    "fiyat": 13.62,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Building Products",
@@ -4271,7 +4271,7 @@
   },
   "ISYAT": {
     "bolunmeler": "",
-    "fiyat": 5.26,
+    "fiyat": 5.23,
     "hisse_basi_tl": 0.35,
     "odeme_sayisi": 1,
     "sanayi": "",
@@ -4285,7 +4285,7 @@
   },
   "IZENR": {
     "bolunmeler": "20241129:325",
-    "fiyat": 3.31,
+    "fiyat": 3.02,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Alternative Power Generation",
@@ -4297,7 +4297,7 @@
   },
   "IZFAS": {
     "bolunmeler": "",
-    "fiyat": 15.03,
+    "fiyat": 13.71,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Miscellaneous Manufacturing",
@@ -4309,7 +4309,7 @@
   },
   "IZINV": {
     "bolunmeler": "20220322:5.0771,20240624:12.652",
-    "fiyat": 22.3,
+    "fiyat": 21.22,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Food: Meat/Fish/Dairy",
@@ -4321,7 +4321,7 @@
   },
   "IZMDC": {
     "bolunmeler": "",
-    "fiyat": 6.05,
+    "fiyat": 5.9,
     "hisse_basi_tl": 0.0796,
     "odeme_sayisi": 1,
     "sanayi": "Steel",
@@ -4335,7 +4335,7 @@
   },
   "JANTS": {
     "bolunmeler": "20210507:695,20240531:693.2461",
-    "fiyat": 10.5,
+    "fiyat": 10.1,
     "hisse_basi_tl": 0.0307,
     "odeme_sayisi": 1,
     "sanayi": "Auto Parts: OEM",
@@ -4349,7 +4349,7 @@
   },
   "KAPLM": {
     "bolunmeler": "",
-    "fiyat": 105.3,
+    "fiyat": 94.8,
     "hisse_basi_tl": 0.3324,
     "odeme_sayisi": 1,
     "sanayi": "Containers/Packaging",
@@ -4363,7 +4363,7 @@
   },
   "KARCL": {
     "bolunmeler": "",
-    "fiyat": 24.1,
+    "fiyat": 24.44,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Steel",
@@ -4375,7 +4375,7 @@
   },
   "KAREL": {
     "bolunmeler": "20210906:242.9355",
-    "fiyat": 4.41,
+    "fiyat": 4.3,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Telecommunications Equipment",
@@ -4387,7 +4387,7 @@
   },
   "KARSN": {
     "bolunmeler": "",
-    "fiyat": 6.8,
+    "fiyat": 6.41,
     "hisse_basi_tl": 0.7863,
     "odeme_sayisi": 1,
     "sanayi": "Trucks/Construction/Farm Machinery",
@@ -4401,7 +4401,7 @@
   },
   "KARTN": {
     "bolunmeler": "20201225:2543.6244",
-    "fiyat": 106.5,
+    "fiyat": 108.4,
     "hisse_basi_tl": 1.8372,
     "odeme_sayisi": 1,
     "sanayi": "Containers/Packaging",
@@ -4415,7 +4415,7 @@
   },
   "KATMR": {
     "bolunmeler": "",
-    "fiyat": 1.08,
+    "fiyat": 1.02,
     "hisse_basi_tl": 0.2,
     "odeme_sayisi": 1,
     "sanayi": "Trucks/Construction/Farm Machinery",
@@ -4429,7 +4429,7 @@
   },
   "KAYSE": {
     "bolunmeler": "20260106:324.9292",
-    "fiyat": 2.38,
+    "fiyat": 2.28,
     "hisse_basi_tl": 0.2878,
     "odeme_sayisi": 2,
     "sanayi": "Biotechnology",
@@ -4444,7 +4444,7 @@
   },
   "KBORU": {
     "bolunmeler": "20250604:500",
-    "fiyat": 8.48,
+    "fiyat": 7.98,
     "hisse_basi_tl": 0.0208,
     "odeme_sayisi": 1,
     "sanayi": "Miscellaneous Manufacturing",
@@ -4458,7 +4458,7 @@
   },
   "KCAER": {
     "bolunmeler": "20221206:181.6146,20241128:191.2237",
-    "fiyat": 9.0,
+    "fiyat": 8.39,
     "hisse_basi_tl": 0.1697,
     "odeme_sayisi": 1,
     "sanayi": "Steel",
@@ -4472,7 +4472,7 @@
   },
   "KCHOL": {
     "bolunmeler": "",
-    "fiyat": 199.8,
+    "fiyat": 192.8,
     "hisse_basi_tl": 6.83,
     "odeme_sayisi": 1,
     "sanayi": "Oil Refining/Marketing",
@@ -4486,7 +4486,7 @@
   },
   "KENT": {
     "bolunmeler": "",
-    "fiyat": 247.0,
+    "fiyat": 240.0,
     "hisse_basi_tl": 1.9739,
     "odeme_sayisi": 1,
     "sanayi": "Food: Specialty/Candy",
@@ -4500,7 +4500,7 @@
   },
   "KERVN": {
     "bolunmeler": "",
-    "fiyat": 5.97,
+    "fiyat": 5.66,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Hotels/Resorts/Cruise lines",
@@ -4512,7 +4512,7 @@
   },
   "KFEIN": {
     "bolunmeler": "20180705:4.7222,20180906:4.7745,20250814:900",
-    "fiyat": 4.8,
+    "fiyat": 4.86,
     "hisse_basi_tl": 0.0203,
     "odeme_sayisi": 1,
     "sanayi": "Packaged Software",
@@ -4526,7 +4526,7 @@
   },
   "KGYO": {
     "bolunmeler": "20240827:53.566,20250312:1527.9649",
-    "fiyat": 7.8,
+    "fiyat": 7.39,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Real Estate Development",
@@ -4538,7 +4538,7 @@
   },
   "KIMMR": {
     "bolunmeler": "",
-    "fiyat": 9.05,
+    "fiyat": 8.84,
     "hisse_basi_tl": 0.4167,
     "odeme_sayisi": 2,
     "sanayi": "Food Retail",
@@ -4553,7 +4553,7 @@
   },
   "KLGYO": {
     "bolunmeler": "",
-    "fiyat": 3.66,
+    "fiyat": 3.42,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Real Estate Investment Trusts",
@@ -4565,7 +4565,7 @@
   },
   "KLKIM": {
     "bolunmeler": "20230927:300",
-    "fiyat": 18.8,
+    "fiyat": 18.64,
     "hisse_basi_tl": 0.6522,
     "odeme_sayisi": 1,
     "sanayi": "Chemicals: Major Diversified",
@@ -4579,7 +4579,7 @@
   },
   "KLMSN": {
     "bolunmeler": "20180918:11.5467,20210825:24.2177",
-    "fiyat": 16.14,
+    "fiyat": 16.04,
     "hisse_basi_tl": 0.0758,
     "odeme_sayisi": 1,
     "sanayi": "Industrial Machinery",
@@ -4593,7 +4593,7 @@
   },
   "KLNMA": {
     "bolunmeler": "20210630:18.75",
-    "fiyat": 6.95,
+    "fiyat": 6.5,
     "hisse_basi_tl": 0.0122,
     "odeme_sayisi": 1,
     "sanayi": "Investment Banks/Brokers",
@@ -4607,7 +4607,7 @@
   },
   "KLRHO": {
     "bolunmeler": "20230606:150,20260930:80",
-    "fiyat": 9.48,
+    "fiyat": 8.68,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Food: Major Diversified",
@@ -4619,7 +4619,7 @@
   },
   "KLSER": {
     "bolunmeler": "",
-    "fiyat": 13.4,
+    "fiyat": 12.06,
     "hisse_basi_tl": 0.1943,
     "odeme_sayisi": 1,
     "sanayi": "Building Products",
@@ -4633,7 +4633,7 @@
   },
   "KLSYN": {
     "bolunmeler": "",
-    "fiyat": 14.25,
+    "fiyat": 14.11,
     "hisse_basi_tl": 0.15,
     "odeme_sayisi": 1,
     "sanayi": "Home Furnishings",
@@ -4647,7 +4647,7 @@
   },
   "KLYPV": {
     "bolunmeler": "20260914:11.8212",
-    "fiyat": 47.5,
+    "fiyat": 47.94,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Electrical Products",
@@ -4659,7 +4659,7 @@
   },
   "KMPUR": {
     "bolunmeler": "20230809:100,20240918:100",
-    "fiyat": 11.36,
+    "fiyat": 10.92,
     "hisse_basi_tl": 0.4936,
     "odeme_sayisi": 1,
     "sanayi": "Industrial Conglomerates",
@@ -4673,7 +4673,7 @@
   },
   "KNFRT": {
     "bolunmeler": "20191030:400,20210913:300,20240129:100",
-    "fiyat": 6.41,
+    "fiyat": 6.07,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Food: Specialty/Candy",
@@ -4685,7 +4685,7 @@
   },
   "KOCMT": {
     "bolunmeler": "20250924:449.4505",
-    "fiyat": 2.26,
+    "fiyat": 2.21,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Steel",
@@ -4697,7 +4697,7 @@
   },
   "KONKA": {
     "bolunmeler": "20251024:200",
-    "fiyat": 6.65,
+    "fiyat": 6.34,
     "hisse_basi_tl": 0.8166,
     "odeme_sayisi": 1,
     "sanayi": "Containers/Packaging",
@@ -4711,7 +4711,7 @@
   },
   "KONTR": {
     "bolunmeler": "20201105:5,20220901:425.4516",
-    "fiyat": 1.67,
+    "fiyat": 1.83,
     "hisse_basi_tl": 0.0308,
     "odeme_sayisi": 1,
     "sanayi": "Electric Utilities",
@@ -4725,7 +4725,7 @@
   },
   "KONYA": {
     "bolunmeler": "",
-    "fiyat": 2810.0,
+    "fiyat": 2735.0,
     "hisse_basi_tl": 6.6,
     "odeme_sayisi": 1,
     "sanayi": "Construction Materials",
@@ -4739,7 +4739,7 @@
   },
   "KOPOL": {
     "bolunmeler": "20241203:500",
-    "fiyat": 2.59,
+    "fiyat": 2.48,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Textiles",
@@ -4751,7 +4751,7 @@
   },
   "KORDS": {
     "bolunmeler": "20260914:1799.9012",
-    "fiyat": 2.59,
+    "fiyat": 2.43,
     "hisse_basi_tl": 0.293,
     "odeme_sayisi": 1,
     "sanayi": "Textiles",
@@ -4765,7 +4765,7 @@
   },
   "KOTON": {
     "bolunmeler": "",
-    "fiyat": 8.4,
+    "fiyat": 7.82,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Apparel/Footwear",
@@ -4777,7 +4777,7 @@
   },
   "KPEKS": {
     "bolunmeler": "",
-    "fiyat": 38.8,
+    "fiyat": 37.04,
     "hisse_basi_tl": 0.5995,
     "odeme_sayisi": 1,
     "sanayi": "Industrial Specialties",
@@ -4791,7 +4791,7 @@
   },
   "KRDMA": {
     "bolunmeler": "",
-    "fiyat": 33.48,
+    "fiyat": 32.26,
     "hisse_basi_tl": 0.2193,
     "odeme_sayisi": 2,
     "sanayi": "Steel",
@@ -4806,7 +4806,7 @@
   },
   "KRDMB": {
     "bolunmeler": "",
-    "fiyat": 44.84,
+    "fiyat": 46.5,
     "hisse_basi_tl": 0.2193,
     "odeme_sayisi": 2,
     "sanayi": "Steel",
@@ -4821,7 +4821,7 @@
   },
   "KRDMD": {
     "bolunmeler": "",
-    "fiyat": 37.56,
+    "fiyat": 36.16,
     "hisse_basi_tl": 0.2193,
     "odeme_sayisi": 2,
     "sanayi": "Steel",
@@ -4836,7 +4836,7 @@
   },
   "KRGYO": {
     "bolunmeler": "20241211:400",
-    "fiyat": 3.23,
+    "fiyat": 3.28,
     "hisse_basi_tl": 0.0384,
     "odeme_sayisi": 1,
     "sanayi": "Real Estate Investment Trusts",
@@ -4850,7 +4850,7 @@
   },
   "KRONT": {
     "bolunmeler": "20230406:200",
-    "fiyat": 16.18,
+    "fiyat": 15.74,
     "hisse_basi_tl": 0.166,
     "odeme_sayisi": 1,
     "sanayi": "Major Telecommunications",
@@ -4864,7 +4864,7 @@
   },
   "KRPLS": {
     "bolunmeler": "",
-    "fiyat": 8.44,
+    "fiyat": 7.85,
     "hisse_basi_tl": 0.0556,
     "odeme_sayisi": 1,
     "sanayi": "Household/Personal Care",
@@ -4878,7 +4878,7 @@
   },
   "KRSTL": {
     "bolunmeler": "",
-    "fiyat": 6.42,
+    "fiyat": 6.29,
     "hisse_basi_tl": 0.5118,
     "odeme_sayisi": 1,
     "sanayi": "Beverages: Non-Alcoholic",
@@ -4892,7 +4892,7 @@
   },
   "KRTEK": {
     "bolunmeler": "",
-    "fiyat": 4.58,
+    "fiyat": 4.32,
     "hisse_basi_tl": 0.1,
     "odeme_sayisi": 1,
     "sanayi": "Textiles",
@@ -4906,7 +4906,7 @@
   },
   "KRVGD": {
     "bolunmeler": "20210920:28,20240802:800",
-    "fiyat": 2.06,
+    "fiyat": 1.99,
     "hisse_basi_tl": 0.0515,
     "odeme_sayisi": 2,
     "sanayi": "Food: Specialty/Candy",
@@ -4921,7 +4921,7 @@
   },
   "KSTUR": {
     "bolunmeler": "",
-    "fiyat": 1460.0,
+    "fiyat": 1390.0,
     "hisse_basi_tl": 16.0,
     "odeme_sayisi": 1,
     "sanayi": "Hotels/Resorts/Cruise lines",
@@ -4935,7 +4935,7 @@
   },
   "KTLEV": {
     "bolunmeler": "20250604:1050,20260803:238.1643",
-    "fiyat": 4.09,
+    "fiyat": 3.69,
     "hisse_basi_tl": 0.3865,
     "odeme_sayisi": 4,
     "sanayi": "Finance/Rental/Leasing",
@@ -4952,7 +4952,7 @@
   },
   "KTSKR": {
     "bolunmeler": "",
-    "fiyat": 49.0,
+    "fiyat": 45.18,
     "hisse_basi_tl": 6.5217,
     "odeme_sayisi": 1,
     "sanayi": "Agricultural Commodities/Milling",
@@ -4966,7 +4966,7 @@
   },
   "KUTPO": {
     "bolunmeler": "",
-    "fiyat": 58.0,
+    "fiyat": 56.25,
     "hisse_basi_tl": 0.1002,
     "odeme_sayisi": 1,
     "sanayi": "Home Furnishings",
@@ -4980,7 +4980,7 @@
   },
   "KUVVA": {
     "bolunmeler": "20220505:87.0265,20231005:23.5842",
-    "fiyat": 78.45,
+    "fiyat": 73.9,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Other Consumer Specialties",
@@ -4992,7 +4992,7 @@
   },
   "KUYAS": {
     "bolunmeler": "20241127:300",
-    "fiyat": 8.78,
+    "fiyat": 9.1,
     "hisse_basi_tl": 0.0423,
     "odeme_sayisi": 1,
     "sanayi": "Real Estate Development",
@@ -5006,7 +5006,7 @@
   },
   "KZBGY": {
     "bolunmeler": "20220720:25,20250107:300,20260217:233.3333",
-    "fiyat": 1.08,
+    "fiyat": 1.03,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Real Estate Investment Trusts",
@@ -5018,7 +5018,7 @@
   },
   "KZGYO": {
     "bolunmeler": "",
-    "fiyat": 16.25,
+    "fiyat": 14.99,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Real Estate Investment Trusts",
@@ -5030,7 +5030,7 @@
   },
   "LIDER": {
     "bolunmeler": "20231208:150,20251015:400",
-    "fiyat": 7.92,
+    "fiyat": 7.53,
     "hisse_basi_tl": 0.1426,
     "odeme_sayisi": 4,
     "sanayi": "Finance/Rental/Leasing",
@@ -5047,7 +5047,7 @@
   },
   "LIDFA": {
     "bolunmeler": "20181204:50,20200511:100,20220928:50,20230623:88,20240813:120,20260114:95,20260915:51.5427",
-    "fiyat": 1.71,
+    "fiyat": 1.68,
     "hisse_basi_tl": 0.1564,
     "odeme_sayisi": 1,
     "sanayi": "Finance/Rental/Leasing",
@@ -5061,7 +5061,7 @@
   },
   "LILAK": {
     "bolunmeler": "20260424:200",
-    "fiyat": 18.21,
+    "fiyat": 17.06,
     "hisse_basi_tl": 1.5255,
     "odeme_sayisi": 1,
     "sanayi": "Household/Personal Care",
@@ -5075,7 +5075,7 @@
   },
   "LINK": {
     "bolunmeler": "20210106:100,20250203:97.7284,20260316:4000",
-    "fiyat": 2.8,
+    "fiyat": 2.69,
     "hisse_basi_tl": 2.25,
     "odeme_sayisi": 1,
     "sanayi": "Information Technology Services",
@@ -5089,7 +5089,7 @@
   },
   "LKMNH": {
     "bolunmeler": "20210609:50,20240918:500",
-    "fiyat": 10.45,
+    "fiyat": 10.03,
     "hisse_basi_tl": 0.463,
     "odeme_sayisi": 2,
     "sanayi": "Medical/Nursing Services",
@@ -5104,7 +5104,7 @@
   },
   "LMKDC": {
     "bolunmeler": "",
-    "fiyat": 19.56,
+    "fiyat": 19.31,
     "hisse_basi_tl": 2.0,
     "odeme_sayisi": 1,
     "sanayi": "Construction Materials",
@@ -5118,7 +5118,7 @@
   },
   "LOGO": {
     "bolunmeler": "20210621:300",
-    "fiyat": 118.5,
+    "fiyat": 114.4,
     "hisse_basi_tl": 5.2632,
     "odeme_sayisi": 1,
     "sanayi": "Information Technology Services",
@@ -5132,7 +5132,7 @@
   },
   "LRSHO": {
     "bolunmeler": "20200717:11.1111",
-    "fiyat": 1.52,
+    "fiyat": 1.43,
     "hisse_basi_tl": 0.151,
     "odeme_sayisi": 1,
     "sanayi": "Food: Major Diversified",
@@ -5146,7 +5146,7 @@
   },
   "LUKSK": {
     "bolunmeler": "20230515:180",
-    "fiyat": 45.68,
+    "fiyat": 43.42,
     "hisse_basi_tl": 0.1429,
     "odeme_sayisi": 1,
     "sanayi": "Agricultural Commodities/Milling",
@@ -5160,7 +5160,7 @@
   },
   "LXGYO": {
     "bolunmeler": "",
-    "fiyat": 5.3,
+    "fiyat": 5.08,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Real Estate Investment Trusts",
@@ -5172,7 +5172,7 @@
   },
   "LYDHO": {
     "bolunmeler": "20260120:69.2266",
-    "fiyat": 19.48,
+    "fiyat": 18.54,
     "hisse_basi_tl": 0.5347,
     "odeme_sayisi": 1,
     "sanayi": "Alternative Power Generation",
@@ -5186,7 +5186,7 @@
   },
   "LYDYE": {
     "bolunmeler": "20240917:69.1168",
-    "fiyat": 2282.0,
+    "fiyat": 2054.0,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Food: Specialty/Candy",
@@ -5198,7 +5198,7 @@
   },
   "MAALT": {
     "bolunmeler": "20231025:26.3176,20251223:24.0123",
-    "fiyat": 682.0,
+    "fiyat": 660.0,
     "hisse_basi_tl": 0.25,
     "odeme_sayisi": 1,
     "sanayi": "Hotels/Resorts/Cruise lines",
@@ -5212,7 +5212,7 @@
   },
   "MACKO": {
     "bolunmeler": "20250415:300",
-    "fiyat": 23.9,
+    "fiyat": 24.24,
     "hisse_basi_tl": 4.5,
     "odeme_sayisi": 2,
     "sanayi": "Advertising/Marketing Services",
@@ -5227,7 +5227,7 @@
   },
   "MAGEN": {
     "bolunmeler": "20231129:187.8049,20250930:150",
-    "fiyat": 4.49,
+    "fiyat": 4.25,
     "hisse_basi_tl": 0.0244,
     "odeme_sayisi": 1,
     "sanayi": "Alternative Power Generation",
@@ -5241,7 +5241,7 @@
   },
   "MAKIM": {
     "bolunmeler": "20240326:100",
-    "fiyat": 11.93,
+    "fiyat": 11.66,
     "hisse_basi_tl": 0.1657,
     "odeme_sayisi": 1,
     "sanayi": "Computer Communications",
@@ -5255,7 +5255,7 @@
   },
   "MAKTK": {
     "bolunmeler": "",
-    "fiyat": 5.05,
+    "fiyat": 4.92,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Industrial Machinery",
@@ -5267,7 +5267,7 @@
   },
   "MANAS": {
     "bolunmeler": "20230113:318",
-    "fiyat": 2.08,
+    "fiyat": 1.88,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Industrial Machinery",
@@ -5279,7 +5279,7 @@
   },
   "MARBL": {
     "bolunmeler": "",
-    "fiyat": 7.47,
+    "fiyat": 7.14,
     "hisse_basi_tl": 0.0558,
     "odeme_sayisi": 1,
     "sanayi": "Construction Materials",
@@ -5293,7 +5293,7 @@
   },
   "MARMR": {
     "bolunmeler": "",
-    "fiyat": 1.13,
+    "fiyat": 1.06,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Real Estate Development",
@@ -5305,7 +5305,7 @@
   },
   "MARTI": {
     "bolunmeler": "",
-    "fiyat": 1.25,
+    "fiyat": 1.2,
     "hisse_basi_tl": 0.22,
     "odeme_sayisi": 1,
     "sanayi": "Hotels/Resorts/Cruise lines",
@@ -5319,7 +5319,7 @@
   },
   "MASFN": {
     "bolunmeler": "",
-    "fiyat": 32.58,
+    "fiyat": 31.58,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Engineering & Construction",
@@ -5331,7 +5331,7 @@
   },
   "MAVI": {
     "bolunmeler": "20220516:100,20230516:100,20240319:100,20250424:100",
-    "fiyat": 33.62,
+    "fiyat": 33.46,
     "hisse_basi_tl": 1.673,
     "odeme_sayisi": 1,
     "sanayi": "Apparel/Footwear",
@@ -5345,7 +5345,7 @@
   },
   "MCARD": {
     "bolunmeler": "",
-    "fiyat": 117.7,
+    "fiyat": 112.5,
     "hisse_basi_tl": 7.9707,
     "odeme_sayisi": 2,
     "sanayi": "Miscellaneous Commercial Services",
@@ -5360,7 +5360,7 @@
   },
   "MEDTR": {
     "bolunmeler": "20220222:250",
-    "fiyat": 17.07,
+    "fiyat": 17.08,
     "hisse_basi_tl": 0.2269,
     "odeme_sayisi": 2,
     "sanayi": "Medical Specialties",
@@ -5375,7 +5375,7 @@
   },
   "MEGAP": {
     "bolunmeler": "20201221:43.7059,20211220:30.1085,20220811:152.8255,20240514:10",
-    "fiyat": 0.98,
+    "fiyat": 0.93,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Textiles",
@@ -5387,7 +5387,7 @@
   },
   "MEGMT": {
     "bolunmeler": "20260921:860",
-    "fiyat": 3.06,
+    "fiyat": 2.79,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Other Metals/Minerals",
@@ -5399,7 +5399,7 @@
   },
   "MEKAG": {
     "bolunmeler": "20250814:1180",
-    "fiyat": 1.51,
+    "fiyat": 1.44,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Industrial Machinery",
@@ -5411,7 +5411,7 @@
   },
   "MEPET": {
     "bolunmeler": "",
-    "fiyat": 14.42,
+    "fiyat": 13.71,
     "hisse_basi_tl": 0.0855,
     "odeme_sayisi": 1,
     "sanayi": "Specialty Stores",
@@ -5425,7 +5425,7 @@
   },
   "MERCN": {
     "bolunmeler": "20230929:200,20261102:200",
-    "fiyat": 8.44,
+    "fiyat": 8.16,
     "hisse_basi_tl": 0.2101,
     "odeme_sayisi": 1,
     "sanayi": "Industrial Specialties",
@@ -5439,7 +5439,7 @@
   },
   "MERIT": {
     "bolunmeler": "20241210:1100",
-    "fiyat": 11.56,
+    "fiyat": 11.4,
     "hisse_basi_tl": 0.5,
     "odeme_sayisi": 1,
     "sanayi": "Hotels/Resorts/Cruise lines",
@@ -5453,7 +5453,7 @@
   },
   "MERKO": {
     "bolunmeler": "20210604:9.9342,20220815:21.5911,20240115:14.6258,20251009:13.842,20260505:638.3383",
-    "fiyat": 0.9,
+    "fiyat": 0.87,
     "hisse_basi_tl": 0.17,
     "odeme_sayisi": 1,
     "sanayi": "Food: Specialty/Candy",
@@ -5467,7 +5467,7 @@
   },
   "METEN": {
     "bolunmeler": "",
-    "fiyat": 19.8,
+    "fiyat": 19.63,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Alternative Power Generation",
@@ -5479,7 +5479,7 @@
   },
   "METRO": {
     "bolunmeler": "",
-    "fiyat": 7.33,
+    "fiyat": 7.15,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Food: Meat/Fish/Dairy",
@@ -5491,7 +5491,7 @@
   },
   "MEYSU": {
     "bolunmeler": "",
-    "fiyat": 7.21,
+    "fiyat": 6.94,
     "hisse_basi_tl": 0.05,
     "odeme_sayisi": 1,
     "sanayi": "Food: Major Diversified",
@@ -5505,7 +5505,7 @@
   },
   "MGROS": {
     "bolunmeler": "20180903:1.6987",
-    "fiyat": 427.25,
+    "fiyat": 413.5,
     "hisse_basi_tl": 4.5566,
     "odeme_sayisi": 1,
     "sanayi": "Food Retail",
@@ -5519,7 +5519,7 @@
   },
   "MHRGY": {
     "bolunmeler": "20250915:50,20260908:50",
-    "fiyat": 1.71,
+    "fiyat": 1.66,
     "hisse_basi_tl": 0.0681,
     "odeme_sayisi": 1,
     "sanayi": "Real Estate Development",
@@ -5533,7 +5533,7 @@
   },
   "MIATK": {
     "bolunmeler": "20231120:1200",
-    "fiyat": 23.72,
+    "fiyat": 24.04,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Information Technology Services",
@@ -5545,7 +5545,7 @@
   },
   "MMCAS": {
     "bolunmeler": "",
-    "fiyat": 9.34,
+    "fiyat": 8.95,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Air Freight/Couriers",
@@ -5557,7 +5557,7 @@
   },
   "MNDRS": {
     "bolunmeler": "20230815:10.917",
-    "fiyat": 9.64,
+    "fiyat": 9.15,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Apparel/Footwear",
@@ -5569,7 +5569,7 @@
   },
   "MNDTR": {
     "bolunmeler": "20221021:74.8401",
-    "fiyat": 3.49,
+    "fiyat": 3.33,
     "hisse_basi_tl": 0.0834,
     "odeme_sayisi": 1,
     "sanayi": "Containers/Packaging",
@@ -5583,7 +5583,7 @@
   },
   "MOBTL": {
     "bolunmeler": "",
-    "fiyat": 7.68,
+    "fiyat": 7.99,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Electronics Distributors",
@@ -5595,7 +5595,7 @@
   },
   "MOGAN": {
     "bolunmeler": "",
-    "fiyat": 7.83,
+    "fiyat": 7.38,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Alternative Power Generation",
@@ -5607,7 +5607,7 @@
   },
   "MOPAS": {
     "bolunmeler": "",
-    "fiyat": 14.13,
+    "fiyat": 13.8,
     "hisse_basi_tl": 0.5494,
     "odeme_sayisi": 2,
     "sanayi": "Department Stores",
@@ -5622,7 +5622,7 @@
   },
   "MPARK": {
     "bolunmeler": "",
-    "fiyat": 385.75,
+    "fiyat": 379.0,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Hospital/Nursing Management",
@@ -5634,7 +5634,7 @@
   },
   "MRGYO": {
     "bolunmeler": "20240325:14,20241220:190",
-    "fiyat": 1.07,
+    "fiyat": 1.03,
     "hisse_basi_tl": 0.0047,
     "odeme_sayisi": 1,
     "sanayi": "Real Estate Investment Trusts",
@@ -5648,7 +5648,7 @@
   },
   "MRSHL": {
     "bolunmeler": "20230216:9.9413",
-    "fiyat": 1083.0,
+    "fiyat": 1043.0,
     "hisse_basi_tl": 0.36,
     "odeme_sayisi": 1,
     "sanayi": "Industrial Specialties",
@@ -5662,7 +5662,7 @@
   },
   "MSGYO": {
     "bolunmeler": "20180706:100,20181212:72.0762,20250321:250",
-    "fiyat": 3.97,
+    "fiyat": 3.93,
     "hisse_basi_tl": 0.4257,
     "odeme_sayisi": 1,
     "sanayi": "Real Estate Development",
@@ -5676,7 +5676,7 @@
   },
   "MTRKS": {
     "bolunmeler": "20211018:37.4359,20240117:50,20241128:150",
-    "fiyat": 14.37,
+    "fiyat": 13.5,
     "hisse_basi_tl": 0.1991,
     "odeme_sayisi": 1,
     "sanayi": "Data Processing Services",
@@ -5690,7 +5690,7 @@
   },
   "MTRYO": {
     "bolunmeler": "",
-    "fiyat": 6.84,
+    "fiyat": 7.15,
     "hisse_basi_tl": 0.0518,
     "odeme_sayisi": 1,
     "sanayi": "Investment Trusts/Mutual Funds",
@@ -5704,7 +5704,7 @@
   },
   "MZHLD": {
     "bolunmeler": "20221123:901.8365",
-    "fiyat": 3.66,
+    "fiyat": 3.38,
     "hisse_basi_tl": 0.0705,
     "odeme_sayisi": 1,
     "sanayi": "Miscellaneous Manufacturing",
@@ -5718,7 +5718,7 @@
   },
   "NATEN": {
     "bolunmeler": "20231129:400,20250826:400",
-    "fiyat": 2.74,
+    "fiyat": 2.64,
     "hisse_basi_tl": 1.0,
     "odeme_sayisi": 1,
     "sanayi": "Engineering & Construction",
@@ -5732,7 +5732,7 @@
   },
   "NETAS": {
     "bolunmeler": "",
-    "fiyat": 64.2,
+    "fiyat": 60.35,
     "hisse_basi_tl": 1.095,
     "odeme_sayisi": 1,
     "sanayi": "Information Technology Services",
@@ -5746,7 +5746,7 @@
   },
   "NETCD": {
     "bolunmeler": "",
-    "fiyat": 81.7,
+    "fiyat": 87.7,
     "hisse_basi_tl": 4.3796,
     "odeme_sayisi": 1,
     "sanayi": "Packaged Software",
@@ -5760,7 +5760,7 @@
   },
   "NETGL": {
     "bolunmeler": "",
-    "fiyat": 8.78,
+    "fiyat": 8.47,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Miscellaneous Manufacturing",
@@ -5772,7 +5772,7 @@
   },
   "NIBAS": {
     "bolunmeler": "20251215:500",
-    "fiyat": 2.3,
+    "fiyat": 2.16,
     "hisse_basi_tl": 0.0177,
     "odeme_sayisi": 1,
     "sanayi": "Engineering & Construction",
@@ -5786,7 +5786,7 @@
   },
   "NTGAZ": {
     "bolunmeler": "20230823:100,20240725:200",
-    "fiyat": 9.64,
+    "fiyat": 9.51,
     "hisse_basi_tl": 0.8696,
     "odeme_sayisi": 1,
     "sanayi": "Gas Distributors",
@@ -5800,7 +5800,7 @@
   },
   "NTHOL": {
     "bolunmeler": "",
-    "fiyat": 34.42,
+    "fiyat": 33.82,
     "hisse_basi_tl": 0.1936,
     "odeme_sayisi": 1,
     "sanayi": "Hotels/Resorts/Cruise lines",
@@ -5814,7 +5814,7 @@
   },
   "NUGYO": {
     "bolunmeler": "20190701:156.25,20200318:43.9024,20210303:5.1525,20220325:8.107",
-    "fiyat": 5.62,
+    "fiyat": 5.46,
     "hisse_basi_tl": 0.0733,
     "odeme_sayisi": 1,
     "sanayi": "Real Estate Investment Trusts",
@@ -5828,7 +5828,7 @@
   },
   "NUHCM": {
     "bolunmeler": "",
-    "fiyat": 177.9,
+    "fiyat": 174.3,
     "hisse_basi_tl": 22.5,
     "odeme_sayisi": 1,
     "sanayi": "Construction Materials",
@@ -5842,7 +5842,7 @@
   },
   "OBAMS": {
     "bolunmeler": "20251201:500",
-    "fiyat": 3.79,
+    "fiyat": 3.5,
     "hisse_basi_tl": 0.0349,
     "odeme_sayisi": 1,
     "sanayi": "Food: Specialty/Candy",
@@ -5856,7 +5856,7 @@
   },
   "OBASE": {
     "bolunmeler": "",
-    "fiyat": 18.63,
+    "fiyat": 16.77,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Packaged Software",
@@ -5868,7 +5868,7 @@
   },
   "ODAS": {
     "bolunmeler": "",
-    "fiyat": 4.57,
+    "fiyat": 4.25,
     "hisse_basi_tl": 0.119,
     "odeme_sayisi": 1,
     "sanayi": "Electric Utilities",
@@ -5882,7 +5882,7 @@
   },
   "ODINE": {
     "bolunmeler": "",
-    "fiyat": 69.95,
+    "fiyat": 63.0,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Packaged Software",
@@ -5894,7 +5894,7 @@
   },
   "OFSYM": {
     "bolunmeler": "",
-    "fiyat": 42.52,
+    "fiyat": 40.12,
     "hisse_basi_tl": 0.8416,
     "odeme_sayisi": 2,
     "sanayi": "Agricultural Commodities/Milling",
@@ -5909,7 +5909,7 @@
   },
   "ONCSM": {
     "bolunmeler": "",
-    "fiyat": 89.75,
+    "fiyat": 83.95,
     "hisse_basi_tl": 0.4149,
     "odeme_sayisi": 1,
     "sanayi": "Pharmaceuticals: Major",
@@ -5923,7 +5923,7 @@
   },
   "ONRYT": {
     "bolunmeler": "20260914:300",
-    "fiyat": 7.43,
+    "fiyat": 7.2,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Computer Communications",
@@ -5935,7 +5935,7 @@
   },
   "ORCAY": {
     "bolunmeler": "20220921:290.9113",
-    "fiyat": 1.82,
+    "fiyat": 1.68,
     "hisse_basi_tl": 0.1875,
     "odeme_sayisi": 1,
     "sanayi": "Food: Major Diversified",
@@ -5949,7 +5949,7 @@
   },
   "ORGE": {
     "bolunmeler": "20180514:150,20210609:60,20260819:400",
-    "fiyat": 17.93,
+    "fiyat": 18.6,
     "hisse_basi_tl": 0.2725,
     "odeme_sayisi": 1,
     "sanayi": "Engineering & Construction",
@@ -5963,7 +5963,7 @@
   },
   "ORMA": {
     "bolunmeler": "",
-    "fiyat": 128.9,
+    "fiyat": 125.0,
     "hisse_basi_tl": 0.047,
     "odeme_sayisi": 1,
     "sanayi": "Forest Products",
@@ -5977,7 +5977,7 @@
   },
   "ORZAX": {
     "bolunmeler": "",
-    "fiyat": 60.0,
+    "fiyat": 57.0,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Pharmaceuticals: Other",
@@ -5989,7 +5989,7 @@
   },
   "OSMEN": {
     "bolunmeler": "20200730:0.4971,20210505:2.6026,20220511:2.0875,20230811:0.4068,20240809:1809.9817,20260402:0.3528",
-    "fiyat": 4.47,
+    "fiyat": 4.44,
     "hisse_basi_tl": 0.1745,
     "odeme_sayisi": 4,
     "sanayi": "Investment Managers",
@@ -6006,7 +6006,7 @@
   },
   "OSTIM": {
     "bolunmeler": "20210929:18,20250318:274.8007,20260624:35",
-    "fiyat": 1.0,
+    "fiyat": 0.97,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Investment Trusts/Mutual Funds",
@@ -6018,7 +6018,7 @@
   },
   "OTKAR": {
     "bolunmeler": "20230516:400",
-    "fiyat": 307.5,
+    "fiyat": 300.0,
     "hisse_basi_tl": 6.0,
     "odeme_sayisi": 1,
     "sanayi": "Motor Vehicles",
@@ -6032,7 +6032,7 @@
   },
   "OTTO": {
     "bolunmeler": "20230712:7.8455",
-    "fiyat": 84.0,
+    "fiyat": 85.2,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Agricultural Commodities/Milling",
@@ -6044,7 +6044,7 @@
   },
   "OYAKC": {
     "bolunmeler": "20200521:958.94,20240125:7.4828,20241205:290",
-    "fiyat": 18.3,
+    "fiyat": 17.88,
     "hisse_basi_tl": 1.0,
     "odeme_sayisi": 1,
     "sanayi": "Construction Materials",
@@ -6058,7 +6058,7 @@
   },
   "OYAYO": {
     "bolunmeler": "",
-    "fiyat": 24.98,
+    "fiyat": 23.0,
     "hisse_basi_tl": 0.2614,
     "odeme_sayisi": 1,
     "sanayi": "Investment Managers",
@@ -6072,7 +6072,7 @@
   },
   "OYLUM": {
     "bolunmeler": "20190416:14.1223",
-    "fiyat": 5.3,
+    "fiyat": 5.24,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Food: Specialty/Candy",
@@ -6084,7 +6084,7 @@
   },
   "OYYAT": {
     "bolunmeler": "20220621:219.1489",
-    "fiyat": 21.5,
+    "fiyat": 20.0,
     "hisse_basi_tl": 3.7743,
     "odeme_sayisi": 1,
     "sanayi": "Financial Conglomerates",
@@ -6098,7 +6098,7 @@
   },
   "OZATD": {
     "bolunmeler": "",
-    "fiyat": 191.8,
+    "fiyat": 172.7,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Trucks/Construction/Farm Machinery",
@@ -6110,7 +6110,7 @@
   },
   "OZGYO": {
     "bolunmeler": "20250912:160,20251230:53.8462",
-    "fiyat": 1.3,
+    "fiyat": 1.24,
     "hisse_basi_tl": 0.0168,
     "odeme_sayisi": 1,
     "sanayi": "Real Estate Investment Trusts",
@@ -6124,7 +6124,7 @@
   },
   "OZKGY": {
     "bolunmeler": "20190712:45.6,20220427:100,20230726:100",
-    "fiyat": 11.46,
+    "fiyat": 11.1,
     "hisse_basi_tl": 0.1987,
     "odeme_sayisi": 1,
     "sanayi": "Real Estate Investment Trusts",
@@ -6138,7 +6138,7 @@
   },
   "OZRDN": {
     "bolunmeler": "20180625:8.125,20190927:21.3873,20241001:250",
-    "fiyat": 8.41,
+    "fiyat": 7.9,
     "hisse_basi_tl": 0.0751,
     "odeme_sayisi": 1,
     "sanayi": "Containers/Packaging",
@@ -6152,7 +6152,7 @@
   },
   "OZSUB": {
     "bolunmeler": "20250415:100",
-    "fiyat": 28.12,
+    "fiyat": 27.0,
     "hisse_basi_tl": 0.6167,
     "odeme_sayisi": 1,
     "sanayi": "Agricultural Commodities/Milling",
@@ -6166,7 +6166,7 @@
   },
   "OZYSR": {
     "bolunmeler": "20260424:310",
-    "fiyat": 11.7,
+    "fiyat": 11.93,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Metal Fabrication",
@@ -6192,7 +6192,7 @@
   },
   "PAHOL": {
     "bolunmeler": "",
-    "fiyat": 0.77,
+    "fiyat": 0.7,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Miscellaneous",
@@ -6204,7 +6204,7 @@
   },
   "PAMEL": {
     "bolunmeler": "20210415:82.9137",
-    "fiyat": 33.18,
+    "fiyat": 33.64,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Electric Utilities",
@@ -6216,7 +6216,7 @@
   },
   "PAPIL": {
     "bolunmeler": "20200107:5.7692,20241127:500",
-    "fiyat": 5.35,
+    "fiyat": 5.13,
     "hisse_basi_tl": 0.0582,
     "odeme_sayisi": 1,
     "sanayi": "Electronic Equipment/Instruments",
@@ -6230,7 +6230,7 @@
   },
   "PARSN": {
     "bolunmeler": "20250916:12.5489",
-    "fiyat": 48.9,
+    "fiyat": 46.86,
     "hisse_basi_tl": 0.3,
     "odeme_sayisi": 1,
     "sanayi": "Auto Parts: OEM",
@@ -6244,7 +6244,7 @@
   },
   "PASEU": {
     "bolunmeler": "20241009:300",
-    "fiyat": 25.2,
+    "fiyat": 25.38,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Railroads",
@@ -6256,7 +6256,7 @@
   },
   "PATEK": {
     "bolunmeler": "20250604:347.7612,20260109:12.4891",
-    "fiyat": 8.19,
+    "fiyat": 7.38,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Information Technology Services",
@@ -6268,7 +6268,7 @@
   },
   "PCILT": {
     "bolunmeler": "20240123:163",
-    "fiyat": 28.3,
+    "fiyat": 28.08,
     "hisse_basi_tl": 2.5349,
     "odeme_sayisi": 1,
     "sanayi": "Advertising/Marketing Services",
@@ -6282,7 +6282,7 @@
   },
   "PEKGY": {
     "bolunmeler": "20190109:143.6667,20200909:246.1012,20241209:97.6285",
-    "fiyat": 0.85,
+    "fiyat": 0.77,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Real Estate Investment Trusts",
@@ -6294,7 +6294,7 @@
   },
   "PENGD": {
     "bolunmeler": "",
-    "fiyat": 6.8,
+    "fiyat": 6.37,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Food: Specialty/Candy",
@@ -6306,7 +6306,7 @@
   },
   "PENTA": {
     "bolunmeler": "20221024:800",
-    "fiyat": 8.27,
+    "fiyat": 7.99,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Electronics Distributors",
@@ -6318,7 +6318,7 @@
   },
   "PETKM": {
     "bolunmeler": "20180704:10,20190619:28,20201120:20",
-    "fiyat": 17.5,
+    "fiyat": 16.24,
     "hisse_basi_tl": 0.36,
     "odeme_sayisi": 1,
     "sanayi": "Chemicals: Specialty",
@@ -6332,7 +6332,7 @@
   },
   "PETUN": {
     "bolunmeler": "20240630:600",
-    "fiyat": 9.21,
+    "fiyat": 8.66,
     "hisse_basi_tl": 0.49,
     "odeme_sayisi": 2,
     "sanayi": "Food: Meat/Fish/Dairy",
@@ -6347,7 +6347,7 @@
   },
   "PGSUS": {
     "bolunmeler": "20181219:0.0271,20240514:388.76",
-    "fiyat": 121.5,
+    "fiyat": 115.0,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Airlines",
@@ -6359,7 +6359,7 @@
   },
   "PINSU": {
     "bolunmeler": "20240828:200",
-    "fiyat": 7.67,
+    "fiyat": 6.91,
     "hisse_basi_tl": 0.23,
     "odeme_sayisi": 1,
     "sanayi": "Beverages: Non-Alcoholic",
@@ -6373,7 +6373,7 @@
   },
   "PKART": {
     "bolunmeler": "",
-    "fiyat": 64.55,
+    "fiyat": 65.15,
     "hisse_basi_tl": 0.7153,
     "odeme_sayisi": 1,
     "sanayi": "Commercial Printing/Forms",
@@ -6387,7 +6387,7 @@
   },
   "PKENT": {
     "bolunmeler": "20220114:2300",
-    "fiyat": 101.6,
+    "fiyat": 98.35,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Hotels/Resorts/Cruise lines",
@@ -6399,7 +6399,7 @@
   },
   "PLTUR": {
     "bolunmeler": "",
-    "fiyat": 13.52,
+    "fiyat": 12.85,
     "hisse_basi_tl": 1.2176,
     "odeme_sayisi": 2,
     "sanayi": "Other Transportation",
@@ -6414,7 +6414,7 @@
   },
   "PNLSN": {
     "bolunmeler": "",
-    "fiyat": 26.96,
+    "fiyat": 25.22,
     "hisse_basi_tl": 0.6879,
     "odeme_sayisi": 1,
     "sanayi": "Construction Materials",
@@ -6428,7 +6428,7 @@
   },
   "PNSUT": {
     "bolunmeler": "20240828:600",
-    "fiyat": 8.97,
+    "fiyat": 8.62,
     "hisse_basi_tl": 3.87,
     "odeme_sayisi": 1,
     "sanayi": "Food: Meat/Fish/Dairy",
@@ -6442,7 +6442,7 @@
   },
   "POLHO": {
     "bolunmeler": "20190320:105,20250624:397.6633",
-    "fiyat": 13.3,
+    "fiyat": 13.37,
     "hisse_basi_tl": 0.1187,
     "odeme_sayisi": 1,
     "sanayi": "Industrial Specialties",
@@ -6456,7 +6456,7 @@
   },
   "POLTK": {
     "bolunmeler": "",
-    "fiyat": 2530.0,
+    "fiyat": 2422.0,
     "hisse_basi_tl": 0.8,
     "odeme_sayisi": 1,
     "sanayi": "Chemicals: Specialty",
@@ -6470,7 +6470,7 @@
   },
   "PRDGS": {
     "bolunmeler": "",
-    "fiyat": 3.6,
+    "fiyat": 3.24,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Investment Managers",
@@ -6482,7 +6482,7 @@
   },
   "PRKAB": {
     "bolunmeler": "",
-    "fiyat": 16.6,
+    "fiyat": 16.2,
     "hisse_basi_tl": 0.0763,
     "odeme_sayisi": 1,
     "sanayi": "Electrical Products",
@@ -6496,7 +6496,7 @@
   },
   "PRKME": {
     "bolunmeler": "",
-    "fiyat": 11.34,
+    "fiyat": 10.4,
     "hisse_basi_tl": 1.3435,
     "odeme_sayisi": 1,
     "sanayi": "Other Metals/Minerals",
@@ -6510,7 +6510,7 @@
   },
   "PRZMA": {
     "bolunmeler": "20241127:200,20251001:7.5689",
-    "fiyat": 7.08,
+    "fiyat": 6.38,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Commercial Printing/Forms",
@@ -6522,7 +6522,7 @@
   },
   "PSDTC": {
     "bolunmeler": "",
-    "fiyat": 57.0,
+    "fiyat": 56.0,
     "hisse_basi_tl": 1.7127,
     "odeme_sayisi": 1,
     "sanayi": "Textiles",
@@ -6536,7 +6536,7 @@
   },
   "PSGYO": {
     "bolunmeler": "20220719:273.8318,20230131:6.3863,20230904:54.1553,20240719:192.6829,20250707:10.9075,20260203:29.6284",
-    "fiyat": 1.1,
+    "fiyat": 1.08,
     "hisse_basi_tl": 0.0102,
     "odeme_sayisi": 1,
     "sanayi": "Real Estate Investment Trusts",
@@ -6550,7 +6550,7 @@
   },
   "QNBFK": {
     "bolunmeler": "20240307:769.5652",
-    "fiyat": 33.1,
+    "fiyat": 33.6,
     "hisse_basi_tl": 0.5354,
     "odeme_sayisi": 1,
     "sanayi": "Finance/Rental/Leasing",
@@ -6564,7 +6564,7 @@
   },
   "QNBTR": {
     "bolunmeler": "20250630:64.1791",
-    "fiyat": 115.0,
+    "fiyat": 126.5,
     "hisse_basi_tl": 0.0299,
     "odeme_sayisi": 1,
     "sanayi": "Major Banks",
@@ -6578,7 +6578,7 @@
   },
   "QUAGR": {
     "bolunmeler": "20210811:100,20230710:1000",
-    "fiyat": 1.35,
+    "fiyat": 1.27,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Construction Materials",
@@ -6590,7 +6590,7 @@
   },
   "QUICK": {
     "bolunmeler": "",
-    "fiyat": 39.9,
+    "fiyat": 39.04,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Multi-Line Insurance",
@@ -6602,7 +6602,7 @@
   },
   "RALYH": {
     "bolunmeler": "20250630:428.5714",
-    "fiyat": 11.6,
+    "fiyat": 10.44,
     "hisse_basi_tl": 0.1,
     "odeme_sayisi": 1,
     "sanayi": "Engineering & Construction",
@@ -6616,7 +6616,7 @@
   },
   "RAYSG": {
     "bolunmeler": "",
-    "fiyat": 95.25,
+    "fiyat": 92.35,
     "hisse_basi_tl": 0.66,
     "odeme_sayisi": 1,
     "sanayi": "Multi-Line Insurance",
@@ -6630,7 +6630,7 @@
   },
   "REEDR": {
     "bolunmeler": "",
-    "fiyat": 2.41,
+    "fiyat": 2.5,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Information Technology Services",
@@ -6642,7 +6642,7 @@
   },
   "RGYAS": {
     "bolunmeler": "",
-    "fiyat": 172.0,
+    "fiyat": 168.5,
     "hisse_basi_tl": 7.8201,
     "odeme_sayisi": 1,
     "sanayi": "Real Estate Development",
@@ -6656,7 +6656,7 @@
   },
   "RNPOL": {
     "bolunmeler": "20260226:1900",
-    "fiyat": 1.67,
+    "fiyat": 1.62,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Miscellaneous Manufacturing",
@@ -6668,7 +6668,7 @@
   },
   "RODRG": {
     "bolunmeler": "20240726:300",
-    "fiyat": 10.7,
+    "fiyat": 10.32,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Apparel/Footwear",
@@ -6680,7 +6680,7 @@
   },
   "RTALB": {
     "bolunmeler": "20200130:13.5734,20211001:4.8054,20220629:132.7193,20250319:400",
-    "fiyat": 1.94,
+    "fiyat": 1.98,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Medical Specialties",
@@ -6692,7 +6692,7 @@
   },
   "RUBNS": {
     "bolunmeler": "20250509:10",
-    "fiyat": 12.16,
+    "fiyat": 12.5,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Textiles",
@@ -6704,7 +6704,7 @@
   },
   "RUZYE": {
     "bolunmeler": "",
-    "fiyat": 3.36,
+    "fiyat": 3.07,
     "hisse_basi_tl": 0.095,
     "odeme_sayisi": 1,
     "sanayi": "Agricultural Commodities/Milling",
@@ -6718,7 +6718,7 @@
   },
   "RYGYO": {
     "bolunmeler": "20240724:300",
-    "fiyat": 54.2,
+    "fiyat": 51.25,
     "hisse_basi_tl": 0.0067,
     "odeme_sayisi": 1,
     "sanayi": "Real Estate Investment Trusts",
@@ -6732,7 +6732,7 @@
   },
   "RYSAS": {
     "bolunmeler": "20240918:300",
-    "fiyat": 25.88,
+    "fiyat": 24.76,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Air Freight/Couriers",
@@ -6744,7 +6744,7 @@
   },
   "SAFKR": {
     "bolunmeler": "20190425:20.5128,20250911:467.3759",
-    "fiyat": 13.44,
+    "fiyat": 12.5,
     "hisse_basi_tl": 0.1026,
     "odeme_sayisi": 1,
     "sanayi": "Industrial Machinery",
@@ -6758,7 +6758,7 @@
   },
   "SAHOL": {
     "bolunmeler": "20240205:2.9392",
-    "fiyat": 83.25,
+    "fiyat": 81.1,
     "hisse_basi_tl": 1.4136,
     "odeme_sayisi": 1,
     "sanayi": "Regional Banks",
@@ -6772,7 +6772,7 @@
   },
   "SAMAT": {
     "bolunmeler": "20250917:207.1038",
-    "fiyat": 3.15,
+    "fiyat": 3.08,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Commercial Printing/Forms",
@@ -6784,7 +6784,7 @@
   },
   "SANEL": {
     "bolunmeler": "20200626:38.0365",
-    "fiyat": 30.5,
+    "fiyat": 32.12,
     "hisse_basi_tl": 0.0453,
     "odeme_sayisi": 1,
     "sanayi": "Electrical Products",
@@ -6798,7 +6798,7 @@
   },
   "SANFM": {
     "bolunmeler": "20220705:127.2362,20240820:400,20250929:150",
-    "fiyat": 3.54,
+    "fiyat": 3.36,
     "hisse_basi_tl": 0.07,
     "odeme_sayisi": 2,
     "sanayi": "Industrial Specialties",
@@ -6813,7 +6813,7 @@
   },
   "SANKO": {
     "bolunmeler": "20180619:12.5,20190708:11.1111,20200827:5,20230921:42.8571",
-    "fiyat": 20.24,
+    "fiyat": 20.48,
     "hisse_basi_tl": 1.0,
     "odeme_sayisi": 1,
     "sanayi": "Textiles",
@@ -6827,11 +6827,11 @@
   },
   "SARAE": {
     "bolunmeler": "",
-    "fiyat": 28.34,
+    "fiyat": 27.04,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
-    "sanayi": "Engineering & Construction",
-    "sektor": "Industrial Services",
+    "sanayi": "Electrical Products",
+    "sektor": "Producer Manufacturing",
     "tarih": "",
     "tarihler": [],
     "temettuler": "",
@@ -6839,7 +6839,7 @@
   },
   "SARKY": {
     "bolunmeler": "20200818:50,20220614:33.3333,20230626:25,20240820:20,20250910:66.6667",
-    "fiyat": 15.7,
+    "fiyat": 15.01,
     "hisse_basi_tl": 0.3529,
     "odeme_sayisi": 1,
     "sanayi": "Electrical Products",
@@ -6853,7 +6853,7 @@
   },
   "SASA": {
     "bolunmeler": "20180515:46.6667,20190430:37.1901,20210427:34.9398,20220505:100,20221107:0.7067,20221207:0.3459,20230111:1.721,20230523:130,20230814:0.0488,20231024:0.4362,20240527:1.6604,20240812:700,20241213:1.2373,20260525:5.5688,20260612:1.6977,20260709:11.6092",
-    "fiyat": 1.49,
+    "fiyat": 1.45,
     "hisse_basi_tl": 0.252,
     "odeme_sayisi": 1,
     "sanayi": "Textiles",
@@ -6867,7 +6867,7 @@
   },
   "SAYAS": {
     "bolunmeler": "20220826:200",
-    "fiyat": 31.3,
+    "fiyat": 30.0,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Electrical Products",
@@ -6879,7 +6879,7 @@
   },
   "SDTTR": {
     "bolunmeler": "20260827:1000",
-    "fiyat": 12.07,
+    "fiyat": 11.5,
     "hisse_basi_tl": 0.0166,
     "odeme_sayisi": 2,
     "sanayi": "Aerospace & Defense",
@@ -6894,7 +6894,7 @@
   },
   "SEGMN": {
     "bolunmeler": "",
-    "fiyat": 12.1,
+    "fiyat": 11.9,
     "hisse_basi_tl": 0.6127,
     "odeme_sayisi": 1,
     "sanayi": "Food: Specialty/Candy",
@@ -6908,7 +6908,7 @@
   },
   "SEGYO": {
     "bolunmeler": "",
-    "fiyat": 2.19,
+    "fiyat": 2.01,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Real Estate Investment Trusts",
@@ -6934,7 +6934,7 @@
   },
   "SEKUR": {
     "bolunmeler": "20250103:10.3181",
-    "fiyat": 3.23,
+    "fiyat": 2.98,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Containers/Packaging",
@@ -6946,7 +6946,7 @@
   },
   "SELEC": {
     "bolunmeler": "",
-    "fiyat": 65.2,
+    "fiyat": 63.55,
     "hisse_basi_tl": 0.44,
     "odeme_sayisi": 1,
     "sanayi": "Medical Distributors",
@@ -6960,7 +6960,7 @@
   },
   "SELVA": {
     "bolunmeler": "20250319:500",
-    "fiyat": 0.89,
+    "fiyat": 0.86,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Food: Specialty/Candy",
@@ -6972,7 +6972,7 @@
   },
   "SERNT": {
     "bolunmeler": "",
-    "fiyat": 4.77,
+    "fiyat": 4.72,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Building Products",
@@ -6984,7 +6984,7 @@
   },
   "SEYKM": {
     "bolunmeler": "20180926:74.1023,20210105:37.5,20210609:86.3636,20220922:43.9024,20230726:69.4915",
-    "fiyat": 2.49,
+    "fiyat": 2.39,
     "hisse_basi_tl": 0.0693,
     "odeme_sayisi": 1,
     "sanayi": "Medical Specialties",
@@ -6998,7 +6998,7 @@
   },
   "SILVR": {
     "bolunmeler": "20180611:26.0172,20250926:677.7778",
-    "fiyat": 1.34,
+    "fiyat": 1.27,
     "hisse_basi_tl": 0.0345,
     "odeme_sayisi": 1,
     "sanayi": "Building Products",
@@ -7012,7 +7012,7 @@
   },
   "SISE": {
     "bolunmeler": "20201001:36.1428",
-    "fiyat": 33.9,
+    "fiyat": 32.04,
     "hisse_basi_tl": 0.5876,
     "odeme_sayisi": 1,
     "sanayi": "Home Furnishings",
@@ -7026,7 +7026,7 @@
   },
   "SKBNK": {
     "bolunmeler": "",
-    "fiyat": 3.17,
+    "fiyat": 2.88,
     "hisse_basi_tl": 0.064,
     "odeme_sayisi": 1,
     "sanayi": "Regional Banks",
@@ -7040,7 +7040,7 @@
   },
   "SKTAS": {
     "bolunmeler": "",
-    "fiyat": 1.2,
+    "fiyat": 1.08,
     "hisse_basi_tl": 0.0369,
     "odeme_sayisi": 1,
     "sanayi": "Textiles",
@@ -7054,7 +7054,7 @@
   },
   "SKYLP": {
     "bolunmeler": "20190911:84.789",
-    "fiyat": 54.3,
+    "fiyat": 57.25,
     "hisse_basi_tl": 0.084,
     "odeme_sayisi": 1,
     "sanayi": "Miscellaneous Commercial Services",
@@ -7068,7 +7068,7 @@
   },
   "SKYMD": {
     "bolunmeler": "",
-    "fiyat": 9.5,
+    "fiyat": 9.76,
     "hisse_basi_tl": 0.1548,
     "odeme_sayisi": 1,
     "sanayi": "Investment Banks/Brokers",
@@ -7082,7 +7082,7 @@
   },
   "SMART": {
     "bolunmeler": "20190611:4.3478,20190621:3.3333,20191205:2.7823",
-    "fiyat": 10.13,
+    "fiyat": 9.94,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Packaged Software",
@@ -7094,7 +7094,7 @@
   },
   "SMRTG": {
     "bolunmeler": "20221020:100,20230726:98,20260129:200",
-    "fiyat": 3.83,
+    "fiyat": 3.58,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Semiconductors",
@@ -7106,7 +7106,7 @@
   },
   "SMRVA": {
     "bolunmeler": "20260429:408.4746",
-    "fiyat": 4.66,
+    "fiyat": 4.2,
     "hisse_basi_tl": 0.1882,
     "odeme_sayisi": 1,
     "sanayi": "Miscellaneous Commercial Services",
@@ -7120,7 +7120,7 @@
   },
   "SNGYO": {
     "bolunmeler": "20180405:45.5322,20220720:71.7832,20241209:166.6667",
-    "fiyat": 2.27,
+    "fiyat": 2.2,
     "hisse_basi_tl": 0.0458,
     "odeme_sayisi": 1,
     "sanayi": "Real Estate Investment Trusts",
@@ -7134,7 +7134,7 @@
   },
   "SNICA": {
     "bolunmeler": "20240521:344.4444",
-    "fiyat": 1.82,
+    "fiyat": 1.77,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Industrial Machinery",
@@ -7146,7 +7146,7 @@
   },
   "SNPAM": {
     "bolunmeler": "20211109:62.6398",
-    "fiyat": 16.5,
+    "fiyat": 16.35,
     "hisse_basi_tl": 0.05,
     "odeme_sayisi": 1,
     "sanayi": "Textiles",
@@ -7160,7 +7160,7 @@
   },
   "SODSN": {
     "bolunmeler": "20200511:150,20260129:700",
-    "fiyat": 5.4,
+    "fiyat": 5.3,
     "hisse_basi_tl": 0.9276,
     "odeme_sayisi": 1,
     "sanayi": "Chemicals: Specialty",
@@ -7174,7 +7174,7 @@
   },
   "SOHOE": {
     "bolunmeler": "",
-    "fiyat": 6.92,
+    "fiyat": 6.91,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Alternative Power Generation",
@@ -7186,7 +7186,7 @@
   },
   "SOKE": {
     "bolunmeler": "",
-    "fiyat": 7.5,
+    "fiyat": 6.83,
     "hisse_basi_tl": 0.2587,
     "odeme_sayisi": 1,
     "sanayi": "Agricultural Commodities/Milling",
@@ -7200,7 +7200,7 @@
   },
   "SOKM": {
     "bolunmeler": "",
-    "fiyat": 54.5,
+    "fiyat": 51.85,
     "hisse_basi_tl": 2.5283,
     "odeme_sayisi": 2,
     "sanayi": "Food Retail",
@@ -7215,7 +7215,7 @@
   },
   "SONME": {
     "bolunmeler": "20211019:31.9897",
-    "fiyat": 93.3,
+    "fiyat": 91.85,
     "hisse_basi_tl": 0.6622,
     "odeme_sayisi": 1,
     "sanayi": "Textiles",
@@ -7243,7 +7243,7 @@
   },
   "SSAAT": {
     "bolunmeler": "",
-    "fiyat": 22.74,
+    "fiyat": 22.12,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Other Consumer Specialties",
@@ -7255,7 +7255,7 @@
   },
   "SUMAS": {
     "bolunmeler": "",
-    "fiyat": 170.3,
+    "fiyat": 159.0,
     "hisse_basi_tl": 2.1689,
     "odeme_sayisi": 1,
     "sanayi": "Containers/Packaging",
@@ -7269,7 +7269,7 @@
   },
   "SUNTK": {
     "bolunmeler": "20231102:250",
-    "fiyat": 17.3,
+    "fiyat": 15.57,
     "hisse_basi_tl": 0.5165,
     "odeme_sayisi": 1,
     "sanayi": "Apparel/Footwear",
@@ -7283,7 +7283,7 @@
   },
   "SURGY": {
     "bolunmeler": "",
-    "fiyat": 15.45,
+    "fiyat": 14.82,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Real Estate Investment Trusts",
@@ -7295,7 +7295,7 @@
   },
   "SUWEN": {
     "bolunmeler": "20230718:300,20250415:150",
-    "fiyat": 4.6,
+    "fiyat": 4.29,
     "hisse_basi_tl": 0.1786,
     "odeme_sayisi": 1,
     "sanayi": "Internet Retail",
@@ -7309,7 +7309,7 @@
   },
   "SVGYO": {
     "bolunmeler": "",
-    "fiyat": 1.79,
+    "fiyat": 1.62,
     "hisse_basi_tl": 0.0077,
     "odeme_sayisi": 1,
     "sanayi": "Real Estate Development",
@@ -7323,7 +7323,7 @@
   },
   "TABGD": {
     "bolunmeler": "",
-    "fiyat": 194.2,
+    "fiyat": 191.0,
     "hisse_basi_tl": 5.0,
     "odeme_sayisi": 1,
     "sanayi": "Restaurants",
@@ -7337,7 +7337,7 @@
   },
   "TARKM": {
     "bolunmeler": "",
-    "fiyat": 300.0,
+    "fiyat": 289.25,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Chemicals: Agricultural",
@@ -7349,7 +7349,7 @@
   },
   "TATEN": {
     "bolunmeler": "20251111:300",
-    "fiyat": 3.49,
+    "fiyat": 3.32,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Alternative Power Generation",
@@ -7361,7 +7361,7 @@
   },
   "TATGD": {
     "bolunmeler": "",
-    "fiyat": 14.7,
+    "fiyat": 14.0,
     "hisse_basi_tl": 0.335,
     "odeme_sayisi": 1,
     "sanayi": "Food: Specialty/Candy",
@@ -7375,7 +7375,7 @@
   },
   "TAVHL": {
     "bolunmeler": "",
-    "fiyat": 254.5,
+    "fiyat": 250.0,
     "hisse_basi_tl": 3.61,
     "odeme_sayisi": 2,
     "sanayi": "Other Transportation",
@@ -7390,7 +7390,7 @@
   },
   "TBORG": {
     "bolunmeler": "",
-    "fiyat": 112.9,
+    "fiyat": 109.1,
     "hisse_basi_tl": 9.5209,
     "odeme_sayisi": 1,
     "sanayi": "Beverages: Alcoholic",
@@ -7404,7 +7404,7 @@
   },
   "TCELL": {
     "bolunmeler": "",
-    "fiyat": 91.15,
+    "fiyat": 90.1,
     "hisse_basi_tl": 4.0,
     "odeme_sayisi": 1,
     "sanayi": "Wireless Telecommunications",
@@ -7418,7 +7418,7 @@
   },
   "TCKRC": {
     "bolunmeler": "",
-    "fiyat": 113.7,
+    "fiyat": 105.5,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Metal Fabrication",
@@ -7430,7 +7430,7 @@
   },
   "TDGYO": {
     "bolunmeler": "20230329:130",
-    "fiyat": 4.68,
+    "fiyat": 4.45,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Real Estate Investment Trusts",
@@ -7442,7 +7442,7 @@
   },
   "TEHOL": {
     "bolunmeler": "20240828:600",
-    "fiyat": 1.87,
+    "fiyat": 1.69,
     "hisse_basi_tl": 0.2575,
     "odeme_sayisi": 1,
     "sanayi": "Real Estate Investment Trusts",
@@ -7456,7 +7456,7 @@
   },
   "TEKTU": {
     "bolunmeler": "",
-    "fiyat": 3.19,
+    "fiyat": 3.07,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Hotels/Resorts/Cruise lines",
@@ -7480,7 +7480,7 @@
   },
   "TEZOL": {
     "bolunmeler": "20220628:120,20230712:100,20241211:13.6364",
-    "fiyat": 6.75,
+    "fiyat": 6.3,
     "hisse_basi_tl": 0.45,
     "odeme_sayisi": 1,
     "sanayi": "Household/Personal Care",
@@ -7494,7 +7494,7 @@
   },
   "TGSAS": {
     "bolunmeler": "20181227:100",
-    "fiyat": 109.8,
+    "fiyat": 105.0,
     "hisse_basi_tl": 0.3,
     "odeme_sayisi": 1,
     "sanayi": "Wholesale Distributors",
@@ -7508,7 +7508,7 @@
   },
   "THYAO": {
     "bolunmeler": "",
-    "fiyat": 252.5,
+    "fiyat": 242.2,
     "hisse_basi_tl": 6.8841,
     "odeme_sayisi": 2,
     "sanayi": "Airlines",
@@ -7523,7 +7523,7 @@
   },
   "TKFEN": {
     "bolunmeler": "",
-    "fiyat": 193.0,
+    "fiyat": 191.4,
     "hisse_basi_tl": 0.3319,
     "odeme_sayisi": 1,
     "sanayi": "Engineering & Construction",
@@ -7537,7 +7537,7 @@
   },
   "TKNKA": {
     "bolunmeler": "",
-    "fiyat": 23.22,
+    "fiyat": 22.72,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Miscellaneous Manufacturing",
@@ -7549,7 +7549,7 @@
   },
   "TKNSA": {
     "bolunmeler": "",
-    "fiyat": 11.16,
+    "fiyat": 10.55,
     "hisse_basi_tl": 0.146,
     "odeme_sayisi": 1,
     "sanayi": "Electronics/Appliance Stores",
@@ -7563,7 +7563,7 @@
   },
   "TLMAN": {
     "bolunmeler": "",
-    "fiyat": 50.6,
+    "fiyat": 48.0,
     "hisse_basi_tl": 1.8543,
     "odeme_sayisi": 1,
     "sanayi": "Marine Shipping",
@@ -7577,7 +7577,7 @@
   },
   "TMPOL": {
     "bolunmeler": "",
-    "fiyat": 67.2,
+    "fiyat": 60.5,
     "hisse_basi_tl": 0.1834,
     "odeme_sayisi": 2,
     "sanayi": "Chemicals: Specialty",
@@ -7592,7 +7592,7 @@
   },
   "TMSN": {
     "bolunmeler": "",
-    "fiyat": 46.0,
+    "fiyat": 43.68,
     "hisse_basi_tl": 0.15,
     "odeme_sayisi": 1,
     "sanayi": "Trucks/Construction/Farm Machinery",
@@ -7606,7 +7606,7 @@
   },
   "TNZTP": {
     "bolunmeler": "20250306:70.7024,20250911:83.0671",
-    "fiyat": 22.24,
+    "fiyat": 21.24,
     "hisse_basi_tl": 0.2831,
     "odeme_sayisi": 1,
     "sanayi": "Medical/Nursing Services",
@@ -7620,7 +7620,7 @@
   },
   "TOASO": {
     "bolunmeler": "",
-    "fiyat": 230.0,
+    "fiyat": 211.2,
     "hisse_basi_tl": 20.0,
     "odeme_sayisi": 1,
     "sanayi": "Motor Vehicles",
@@ -7634,7 +7634,7 @@
   },
   "TRALT": {
     "bolunmeler": "20230217:2000",
-    "fiyat": 36.0,
+    "fiyat": 32.42,
     "hisse_basi_tl": 0.5,
     "odeme_sayisi": 1,
     "sanayi": "Precious Metals",
@@ -7648,7 +7648,7 @@
   },
   "TRCAS": {
     "bolunmeler": "",
-    "fiyat": 43.7,
+    "fiyat": 43.44,
     "hisse_basi_tl": 2.3474,
     "odeme_sayisi": 1,
     "sanayi": "Electric Utilities",
@@ -7662,7 +7662,7 @@
   },
   "TRENJ": {
     "bolunmeler": "",
-    "fiyat": 75.3,
+    "fiyat": 68.25,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Integrated Oil",
@@ -7674,7 +7674,7 @@
   },
   "TRGYO": {
     "bolunmeler": "",
-    "fiyat": 86.45,
+    "fiyat": 85.25,
     "hisse_basi_tl": 5.0,
     "odeme_sayisi": 1,
     "sanayi": "Real Estate Investment Trusts",
@@ -7714,7 +7714,7 @@
   },
   "TRMET": {
     "bolunmeler": "",
-    "fiyat": 104.5,
+    "fiyat": 94.05,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Precious Metals",
@@ -7726,7 +7726,7 @@
   },
   "TSGYO": {
     "bolunmeler": "",
-    "fiyat": 4.09,
+    "fiyat": 3.96,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Real Estate Investment Trusts",
@@ -7738,7 +7738,7 @@
   },
   "TSKB": {
     "bolunmeler": "20180604:16.6667",
-    "fiyat": 8.9,
+    "fiyat": 8.94,
     "hisse_basi_tl": 0.5358,
     "odeme_sayisi": 1,
     "sanayi": "Investment Banks/Brokers",
@@ -7752,7 +7752,7 @@
   },
   "TSPOR": {
     "bolunmeler": "",
-    "fiyat": 0.72,
+    "fiyat": 0.7,
     "hisse_basi_tl": 1.1384,
     "odeme_sayisi": 2,
     "sanayi": "Movies/Entertainment",
@@ -7767,7 +7767,7 @@
   },
   "TTKOM": {
     "bolunmeler": "",
-    "fiyat": 47.3,
+    "fiyat": 46.16,
     "hisse_basi_tl": 1.4156,
     "odeme_sayisi": 1,
     "sanayi": "Major Telecommunications",
@@ -7781,7 +7781,7 @@
   },
   "TTRAK": {
     "bolunmeler": "20230606:87.5",
-    "fiyat": 341.75,
+    "fiyat": 335.0,
     "hisse_basi_tl": 48.4676,
     "odeme_sayisi": 1,
     "sanayi": "Trucks/Construction/Farm Machinery",
@@ -7795,7 +7795,7 @@
   },
   "TUCLK": {
     "bolunmeler": "20240208:500",
-    "fiyat": 2.03,
+    "fiyat": 1.95,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Aluminum",
@@ -7807,7 +7807,7 @@
   },
   "TUKAS": {
     "bolunmeler": "20220822:80,20230711:200,20250204:205.6422",
-    "fiyat": 1.87,
+    "fiyat": 1.77,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Food: Specialty/Candy",
@@ -7819,7 +7819,7 @@
   },
   "TUPRS": {
     "bolunmeler": "20230404:600",
-    "fiyat": 355.0,
+    "fiyat": 343.5,
     "hisse_basi_tl": 17.1269,
     "odeme_sayisi": 2,
     "sanayi": "Oil Refining/Marketing",
@@ -7834,7 +7834,7 @@
   },
   "TUREX": {
     "bolunmeler": "20250403:900",
-    "fiyat": 5.12,
+    "fiyat": 5.1,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Finance/Rental/Leasing",
@@ -7846,7 +7846,7 @@
   },
   "TURGG": {
     "bolunmeler": "20250630:1700",
-    "fiyat": 24.62,
+    "fiyat": 24.2,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Real Estate Development",
@@ -7858,7 +7858,7 @@
   },
   "TURSG": {
     "bolunmeler": "20200902:115.0969,20240806:330.4692,20250604:100,20260615:100",
-    "fiyat": 3.07,
+    "fiyat": 3.29,
     "hisse_basi_tl": 0.15,
     "odeme_sayisi": 1,
     "sanayi": "Multi-Line Insurance",
@@ -7872,7 +7872,7 @@
   },
   "UCAYM": {
     "bolunmeler": "",
-    "fiyat": 10.4,
+    "fiyat": 10.26,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Engineering & Construction",
@@ -7884,7 +7884,7 @@
   },
   "UFUK": {
     "bolunmeler": "",
-    "fiyat": 125.8,
+    "fiyat": 113.3,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Finance/Rental/Leasing",
@@ -7896,7 +7896,7 @@
   },
   "ULAS": {
     "bolunmeler": "20200821:127.5",
-    "fiyat": 10.6,
+    "fiyat": 10.39,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Hotels/Resorts/Cruise lines",
@@ -7908,7 +7908,7 @@
   },
   "ULKER": {
     "bolunmeler": "20230901:7.9754",
-    "fiyat": 75.65,
+    "fiyat": 74.3,
     "hisse_basi_tl": 5.7328,
     "odeme_sayisi": 1,
     "sanayi": "Food: Specialty/Candy",
@@ -7922,7 +7922,7 @@
   },
   "ULUFA": {
     "bolunmeler": "20250527:304.4944,20260611:100",
-    "fiyat": 1.52,
+    "fiyat": 1.5,
     "hisse_basi_tl": 0.2471,
     "odeme_sayisi": 1,
     "sanayi": "Finance/Rental/Leasing",
@@ -7936,7 +7936,7 @@
   },
   "ULUSE": {
     "bolunmeler": "20180504:100",
-    "fiyat": 137.4,
+    "fiyat": 131.8,
     "hisse_basi_tl": 0.3268,
     "odeme_sayisi": 1,
     "sanayi": "Electrical Products",
@@ -7950,7 +7950,7 @@
   },
   "ULUUN": {
     "bolunmeler": "20210408:126,20240806:292.7318",
-    "fiyat": 6.12,
+    "fiyat": 5.87,
     "hisse_basi_tl": 1.0952,
     "odeme_sayisi": 1,
     "sanayi": "Agricultural Commodities/Milling",
@@ -7964,7 +7964,7 @@
   },
   "UNLU": {
     "bolunmeler": "20241212:0.4229",
-    "fiyat": 8.24,
+    "fiyat": 7.8,
     "hisse_basi_tl": 0.2857,
     "odeme_sayisi": 1,
     "sanayi": "Investment Managers",
@@ -7978,7 +7978,7 @@
   },
   "USAK": {
     "bolunmeler": "20250207:400",
-    "fiyat": 0.4,
+    "fiyat": 0.36,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Building Products",
@@ -7990,7 +7990,7 @@
   },
   "USHOL": {
     "bolunmeler": "",
-    "fiyat": 75.0,
+    "fiyat": 73.0,
     "hisse_basi_tl": 0.0093,
     "odeme_sayisi": 1,
     "sanayi": "Wholesale Distributors",
@@ -8004,7 +8004,7 @@
   },
   "VAKBN": {
     "bolunmeler": "20200521:56.2249,20220310:82.0802,20230330:39.4377",
-    "fiyat": 30.62,
+    "fiyat": 28.88,
     "hisse_basi_tl": 0.05,
     "odeme_sayisi": 1,
     "sanayi": "Major Banks",
@@ -8018,7 +8018,7 @@
   },
   "VAKFA": {
     "bolunmeler": "",
-    "fiyat": 8.43,
+    "fiyat": 8.3,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Finance/Rental/Leasing",
@@ -8030,7 +8030,7 @@
   },
   "VAKFN": {
     "bolunmeler": "20180709:28.4404,20190904:25,20200916:14.2857,20210707:25,20220608:20,20231024:66.6667,20240910:75,20250911:42.8571,20260721:20",
-    "fiyat": 0.83,
+    "fiyat": 0.84,
     "hisse_basi_tl": 0.2346,
     "odeme_sayisi": 1,
     "sanayi": "Finance/Rental/Leasing",
@@ -8044,7 +8044,7 @@
   },
   "VAKKO": {
     "bolunmeler": "",
-    "fiyat": 46.56,
+    "fiyat": 45.04,
     "hisse_basi_tl": 6.25,
     "odeme_sayisi": 1,
     "sanayi": "Apparel/Footwear",
@@ -8058,7 +8058,7 @@
   },
   "VANGD": {
     "bolunmeler": "",
-    "fiyat": 51.7,
+    "fiyat": 50.55,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Food Distributors",
@@ -8070,7 +8070,7 @@
   },
   "VBTYZ": {
     "bolunmeler": "20240215:350",
-    "fiyat": 20.4,
+    "fiyat": 19.73,
     "hisse_basi_tl": 0.75,
     "odeme_sayisi": 1,
     "sanayi": "Packaged Software",
@@ -8084,7 +8084,7 @@
   },
   "VERTU": {
     "bolunmeler": "",
-    "fiyat": 23.64,
+    "fiyat": 22.88,
     "hisse_basi_tl": 0.2,
     "odeme_sayisi": 1,
     "sanayi": "",
@@ -8098,7 +8098,7 @@
   },
   "VERUS": {
     "bolunmeler": "",
-    "fiyat": 472.0,
+    "fiyat": 467.75,
     "hisse_basi_tl": 0.25,
     "odeme_sayisi": 1,
     "sanayi": "Investment Managers",
@@ -8112,7 +8112,7 @@
   },
   "VESBE": {
     "bolunmeler": "20211025:742.1053",
-    "fiyat": 2.88,
+    "fiyat": 2.81,
     "hisse_basi_tl": 0.0439,
     "odeme_sayisi": 1,
     "sanayi": "Electronics/Appliances",
@@ -8126,7 +8126,7 @@
   },
   "VESTL": {
     "bolunmeler": "",
-    "fiyat": 11.81,
+    "fiyat": 11.02,
     "hisse_basi_tl": 7.0374,
     "odeme_sayisi": 3,
     "sanayi": "Electronics/Appliances",
@@ -8142,7 +8142,7 @@
   },
   "VEYAS": {
     "bolunmeler": "",
-    "fiyat": 52.5,
+    "fiyat": 49.54,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Electric Utilities",
@@ -8154,7 +8154,7 @@
   },
   "VKFYO": {
     "bolunmeler": "",
-    "fiyat": 16.95,
+    "fiyat": 16.35,
     "hisse_basi_tl": 0.0367,
     "odeme_sayisi": 1,
     "sanayi": "Investment Managers",
@@ -8168,7 +8168,7 @@
   },
   "VKGYO": {
     "bolunmeler": "20180716:3.4483,20190801:2.2222,20210428:8.6957,20220506:14.5,20230926:71.7613,20240916:16.9492,20260810:27.5362",
-    "fiyat": 1.43,
+    "fiyat": 1.38,
     "hisse_basi_tl": 0.102,
     "odeme_sayisi": 1,
     "sanayi": "Real Estate Investment Trusts",
@@ -8182,7 +8182,7 @@
   },
   "VKING": {
     "bolunmeler": "",
-    "fiyat": 10.9,
+    "fiyat": 10.5,
     "hisse_basi_tl": 1.49,
     "odeme_sayisi": 1,
     "sanayi": "Household/Personal Care",
@@ -8196,7 +8196,7 @@
   },
   "VRGYO": {
     "bolunmeler": "20240717:300",
-    "fiyat": 0.94,
+    "fiyat": 0.9,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Real Estate Development",
@@ -8208,7 +8208,7 @@
   },
   "VSNMD": {
     "bolunmeler": "20260811:55",
-    "fiyat": 17.64,
+    "fiyat": 16.26,
     "hisse_basi_tl": 0.3896,
     "odeme_sayisi": 1,
     "sanayi": "Construction Materials",
@@ -8222,7 +8222,7 @@
   },
   "YAPRK": {
     "bolunmeler": "20210609:100,20260227:2000",
-    "fiyat": 6.2,
+    "fiyat": 5.79,
     "hisse_basi_tl": 0.025,
     "odeme_sayisi": 1,
     "sanayi": "Agricultural Commodities/Milling",
@@ -8236,7 +8236,7 @@
   },
   "YATAS": {
     "bolunmeler": "20180710:250",
-    "fiyat": 23.36,
+    "fiyat": 23.02,
     "hisse_basi_tl": 1.3351,
     "odeme_sayisi": 1,
     "sanayi": "Wholesale Distributors",
@@ -8250,7 +8250,7 @@
   },
   "YAYLA": {
     "bolunmeler": "",
-    "fiyat": 9.84,
+    "fiyat": 9.42,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Engineering & Construction",
@@ -8262,7 +8262,7 @@
   },
   "YBTAS": {
     "bolunmeler": "20250910:299900",
-    "fiyat": 9.49,
+    "fiyat": 9.58,
     "hisse_basi_tl": 21.1301,
     "odeme_sayisi": 1,
     "sanayi": "Construction Materials",
@@ -8276,7 +8276,7 @@
   },
   "YEOTK": {
     "bolunmeler": "20220803:299.9998,20241128:269.7916,20260731:133.8028",
-    "fiyat": 22.7,
+    "fiyat": 21.28,
     "hisse_basi_tl": 0.625,
     "odeme_sayisi": 2,
     "sanayi": "Alternative Power Generation",
@@ -8291,7 +8291,7 @@
   },
   "YESIL": {
     "bolunmeler": "",
-    "fiyat": 0.71,
+    "fiyat": 0.68,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Investment Trusts/Mutual Funds",
@@ -8303,7 +8303,7 @@
   },
   "YGGYO": {
     "bolunmeler": "20180611:50,20220614:50",
-    "fiyat": 189.2,
+    "fiyat": 187.0,
     "hisse_basi_tl": 10.55,
     "odeme_sayisi": 1,
     "sanayi": "Real Estate Investment Trusts",
@@ -8317,7 +8317,7 @@
   },
   "YIGIT": {
     "bolunmeler": "",
-    "fiyat": 12.65,
+    "fiyat": 12.12,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Electrical Products",
@@ -8329,7 +8329,7 @@
   },
   "YKBNK": {
     "bolunmeler": "",
-    "fiyat": 34.48,
+    "fiyat": 33.96,
     "hisse_basi_tl": 1.2076,
     "odeme_sayisi": 1,
     "sanayi": "Major Banks",
@@ -8343,7 +8343,7 @@
   },
   "YKSLN": {
     "bolunmeler": "20200902:100,20210112:44.3085,20240726:100",
-    "fiyat": 2.07,
+    "fiyat": 1.97,
     "hisse_basi_tl": 0.1,
     "odeme_sayisi": 1,
     "sanayi": "Wholesale Distributors",
@@ -8357,7 +8357,7 @@
   },
   "YONGA": {
     "bolunmeler": "20180522:7900",
-    "fiyat": 25.2,
+    "fiyat": 24.96,
     "hisse_basi_tl": 0.2556,
     "odeme_sayisi": 1,
     "sanayi": "Home Furnishings",
@@ -8371,7 +8371,7 @@
   },
   "YUNSA": {
     "bolunmeler": "20230802:105.7613,20240807:700",
-    "fiyat": 5.35,
+    "fiyat": 5.23,
     "hisse_basi_tl": 0.3655,
     "odeme_sayisi": 1,
     "sanayi": "Textiles",
@@ -8385,7 +8385,7 @@
   },
   "YYAPI": {
     "bolunmeler": "20241217:165",
-    "fiyat": 0.55,
+    "fiyat": 0.52,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Engineering & Construction",
@@ -8397,7 +8397,7 @@
   },
   "YYLGD": {
     "bolunmeler": "20230811:130",
-    "fiyat": 6.48,
+    "fiyat": 5.85,
     "hisse_basi_tl": 0.1472,
     "odeme_sayisi": 1,
     "sanayi": "Agricultural Commodities/Milling",
@@ -8411,7 +8411,7 @@
   },
   "ZEDUR": {
     "bolunmeler": "20240524:599",
-    "fiyat": 4.04,
+    "fiyat": 3.85,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Other Consumer Services",
@@ -8423,7 +8423,7 @@
   },
   "ZERGY": {
     "bolunmeler": "",
-    "fiyat": 6.98,
+    "fiyat": 6.3,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Real Estate Development",
@@ -8435,7 +8435,7 @@
   },
   "ZGYO": {
     "bolunmeler": "",
-    "fiyat": 10.52,
+    "fiyat": 10.11,
     "hisse_basi_tl": 0.0,
     "odeme_sayisi": 0,
     "sanayi": "Real Estate Development",
@@ -8447,7 +8447,7 @@
   },
   "ZOREN": {
     "bolunmeler": "",
-    "fiyat": 1.2,
+    "fiyat": 1.13,
     "hisse_basi_tl": 0.0364,
     "odeme_sayisi": 1,
     "sanayi": "Electric Utilities",
@@ -8461,7 +8461,7 @@
   },
   "ZRGYO": {
     "bolunmeler": "",
-    "fiyat": 17.2,
+    "fiyat": 15.52,
     "hisse_basi_tl": 0.093,
     "odeme_sayisi": 1,
     "sanayi": "Real Estate Investment Trusts",
