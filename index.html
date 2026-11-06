@@ -288,6 +288,11 @@
     let VARSAYILAN_BAS_YIL = "2016";
     let VARSAYILAN_BIT_YIL = "2025";
     let idxYogunlukGlobal = 18;
+    let GLOBAL_GUNCEL_YIL = new Date().getFullYear();
+
+    function kisaYil(y) {
+      return ("0" + (parseInt(y) % 100)).slice(-2);
+    }
 
     document.addEventListener('keydown', function(event) {
       if (event.key === "Escape") {
@@ -736,6 +741,7 @@
         }
       }
       let guncelYil = yillarDizisi.length > 0 ? Math.max.apply(null, yillarDizisi) : new Date().getFullYear();
+      GLOBAL_GUNCEL_YIL = guncelYil;
 
       let minGorunurYil = guncelYil - 9;
       let min25Yil = guncelYil - 24;
@@ -896,9 +902,11 @@
         let toplamVerim5Yil = 0, odemeYaptigiYilSayisi5 = 0;
         let toplamVerim3Yil = 0, odemeYaptigiYilSayisi3 = 0;
 
+        let ilkVerimYili = null;
         for (let yilS = 1990; yilS <= guncelYil; yilS++) {
           let vVal = verimMap[temizKod + "_" + yilS];
           if (vVal !== undefined && !isNaN(vVal) && vVal > 0) {
+            if (ilkVerimYili === null) ilkVerimYili = yilS;
             odemeYaptigiYilSayisiTumu++;
             toplamVerimTumu += vVal;
             if (yilS >= min25Yil) { odemeYaptigiYilSayisi25++; toplamVerim25Yil += vVal; }
@@ -1013,7 +1021,11 @@
           ortalamaVerim: ortalamaVerim10
         });
 
-        let ortVerimFormatli = odemeYaptigiYilSayisiTumu > 0 ? "%" + ortalamaVerimTumu.toFixed(2) : "?";
+        let ortVerimFormatli = odemeYaptigiYilSayisi10 > 0 ? "%" + ortalamaVerim10.toFixed(2) : "?";
+        let ortVerimAralik = kisaYil(min10Yil) + "-" + kisaYil(guncelYil);
+        let ilkYilEtiket = (ilkVerimYili !== null) ? ilkVerimYili : ilkTemettuYili;
+        let tumuAralik = (ilkYilEtiket !== null) ? kisaYil(ilkYilEtiket) + "-" + kisaYil(guncelYil) : "-";
+        let tumuVerimFormatli = odemeYaptigiYilSayisiTumu > 0 ? "%" + ortalamaVerimTumu.toFixed(2) : "?";
 
         let expandHtml = '<tr class="expand-row" id="expand-' + i + '">';
         expandHtml += '<td colspan="2" class="chart-label-cell">📊 Toplam Temettü<br>(Yıllık Bazda)</td>';
@@ -1033,8 +1045,9 @@
         }
         expandHtml += '<td colspan="3" style="vertical-align: middle; padding: 6px 4px;">';
         expandHtml += '<div style="background: #f1f8f3; border: 1px solid #b2d2a4; border-radius: 8px; padding: 5px 2px 4px 2px; text-align: center; margin: 0; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">';
-        expandHtml += '<div class="ort-verim-baslik" style="color: #5f6368; font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 1px; white-space: normal; line-height: 1.15;">Ortalama Temettü Verimi</div>';
+        expandHtml += '<div class="ort-verim-baslik" style="color: #5f6368; font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 1px; white-space: normal; line-height: 1.15;">Ortalama Temettü Verimi (' + ortVerimAralik + ')</div>';
         expandHtml += '<div class="ort-verim-deger" style="color: #0f9d58; font-size: 20px; font-weight: 900; line-height: 1.1;">' + ortVerimFormatli + '</div>';
+        expandHtml += '<div style="display: flex; justify-content: space-between; align-items: center; gap: 6px; margin: 3px 6px 0 6px; padding: 2px 8px; background: #e5f2e0; border: 1px solid #d9ead3; border-radius: 6px; font-size: 10px; font-weight: 700; color: #3c4043; white-space: nowrap; line-height: 1.3;"><span>📅 İlk Temettüden Beri Ort. (' + tumuAralik + '):</span><span style="color: #0f9d58; font-weight: 900; font-size: 12px;">' + tumuVerimFormatli + '</span></div>';
         
         let satirStili = 'display: flex; justify-content: space-between; align-items: center; gap: 6px; padding: 1px 8px; font-size: 10px; color: #5f6368; font-weight: 600; white-space: nowrap; line-height: 1.3;';
         let degerStili = 'color: #0f9d58; font-weight: 800;';
@@ -1245,11 +1258,15 @@
         if (expandRow) {
           let baslikEl = expandRow.querySelector(".ort-verim-baslik");
           let degerEl = expandRow.querySelector(".ort-verim-deger");
+          let kartDonem = (fD === "TÜMÜ") ? "10" : fD;
+          let kartVerim = seciliDonemVerimiAl(hisseObj, kartDonem) || 0;
+          let kartAdet = seciliDonemAdetAl(hisseObj, kartDonem) || 0;
+          let kartBasYil = GLOBAL_GUNCEL_YIL - parseInt(kartDonem) + 1;
           if (baslikEl) {
-            baslikEl.innerText = (fD === "TÜMÜ") ? "Ortalama Temettü Verimi" : "Ortalama Temettü Verimi (Son " + fD + " Yıl)";
+            baslikEl.innerText = "Ortalama Temettü Verimi (" + kisaYil(kartBasYil) + "-" + kisaYil(GLOBAL_GUNCEL_YIL) + ")";
           }
           if (degerEl) {
-            degerEl.innerText = odemeSayisi > 0 ? "%" + ortVerim.toFixed(2) : "?";
+            degerEl.innerText = kartAdet > 0 ? "%" + kartVerim.toFixed(2) : "?";
           }
         }
 
