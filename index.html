@@ -1031,15 +1031,17 @@
             expandHtml += '</div></td>';
           }
         }
-        expandHtml += '<td colspan="3" style="vertical-align: middle; padding: 12px 4px;">';
-        expandHtml += '<div style="background: #f1f8f3; border: 1px solid #b2d2a4; border-radius: 8px; padding: 10px 2px; text-align: center; margin: 0; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">';
-        expandHtml += '<div class="ort-verim-baslik" style="color: #5f6368; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; white-space: normal; line-height: 1.2;">Ortalama Temettü Verimi</div>';
-        expandHtml += '<div class="ort-verim-deger" style="color: #0f9d58; font-size: 24px; font-weight: 900;">' + ortVerimFormatli + '</div>';
+        expandHtml += '<td colspan="3" style="vertical-align: middle; padding: 6px 4px;">';
+        expandHtml += '<div style="background: #f1f8f3; border: 1px solid #b2d2a4; border-radius: 8px; padding: 5px 2px 4px 2px; text-align: center; margin: 0; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">';
+        expandHtml += '<div class="ort-verim-baslik" style="color: #5f6368; font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 1px; white-space: normal; line-height: 1.15;">Ortalama Temettü Verimi</div>';
+        expandHtml += '<div class="ort-verim-deger" style="color: #0f9d58; font-size: 20px; font-weight: 900; line-height: 1.1;">' + ortVerimFormatli + '</div>';
         
-        expandHtml += '<div style="margin-top: 8px; display: flex; flex-direction: column; gap: 4px; align-items: center;">';
-        expandHtml += '<div style="font-size: 10px; color: #5f6368; font-weight: 600; background: #ffffff; border: 1px solid #d9ead3; padding: 3px 8px; border-radius: 12px; display: inline-block; white-space: nowrap;">💸 Kesintisiz Temettü Ödeme: <span style="color: #0f9d58; font-weight: 800;">' + (kesintisizSeri > 0 ? kesintisizSeri + ' Yıl' : 'Yok') + '</span></div>';
-        expandHtml += '<div style="font-size: 10px; color: #5f6368; font-weight: 600; background: #ffffff; border: 1px solid #d9ead3; padding: 3px 8px; border-radius: 12px; display: inline-block; white-space: nowrap;">📈 Düzenli Temettü Artışı: <span style="color: #0f9d58; font-weight: 800;">' + (artisSerisi > 0 ? artisSerisi + ' Yıl' : 'Yok') + '</span></div>';
-        expandHtml += '<div style="font-size: 10px; color: #5f6368; font-weight: 600; background: #ffffff; border: 1px solid #d9ead3; padding: 3px 8px; border-radius: 12px; display: inline-block; white-space: nowrap;">🗓️ İlk Temettü Yılı: <span style="color: #0f9d58; font-weight: 800;">' + (ilkTemettuYili !== null ? ilkTemettuYili : 'Yok') + '</span></div>';
+        let satirStili = 'display: flex; justify-content: space-between; align-items: center; gap: 6px; padding: 1px 8px; font-size: 10px; color: #5f6368; font-weight: 600; white-space: nowrap; line-height: 1.3;';
+        let degerStili = 'color: #0f9d58; font-weight: 800;';
+        expandHtml += '<div style="margin-top: 4px; border-top: 1px solid #d9ead3; padding-top: 3px; display: flex; flex-direction: column; gap: 0;">';
+        expandHtml += '<div style="' + satirStili + '"><span>💸 Kesintisiz Temettü Ödeme:</span><span style="' + degerStili + '">' + (kesintisizSeri > 0 ? kesintisizSeri + ' Yıl' : 'Yok') + '</span></div>';
+        expandHtml += '<div style="' + satirStili + '"><span>📈 Düzenli Temettü Artışı:</span><span style="' + degerStili + '">' + (artisSerisi > 0 ? artisSerisi + ' Yıl' : 'Yok') + '</span></div>';
+        expandHtml += '<div style="' + satirStili + '"><span>🗓️ İlk Temettü Yılı:</span><span style="' + degerStili + '">' + (ilkTemettuYili !== null ? ilkTemettuYili : 'Yok') + '</span></div>';
         expandHtml += '</div>';
 
         expandHtml += '</div></td></tr>';
