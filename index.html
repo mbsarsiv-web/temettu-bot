@@ -947,6 +947,16 @@
           tumYillarAdjDPS.push(duzeltilmisSatir[idxY] || 0);
         }
 
+        // İlk temettü yılı: 1990'dan itibaren tüm kayıtlı yıllar içinde ilk ödeme yapılan yıl
+        let ilkTemettuYili = null;
+        for (let qIdx = 0; qIdx < tumYillarTutar.length; qIdx++) {
+          if (tumYillarTutar[qIdx] > 0) {
+            let qYil = parseInt(orjBasliklarTumu[2 + qIdx]);
+            if (!isNaN(qYil)) ilkTemettuYili = qYil;
+            break;
+          }
+        }
+
         let artisSerisi = 0;
         let kesintisizSeri = 0;
 
@@ -1026,12 +1036,11 @@
         expandHtml += '<div class="ort-verim-baslik" style="color: #5f6368; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; white-space: normal; line-height: 1.2;">Ortalama Temettü Verimi</div>';
         expandHtml += '<div class="ort-verim-deger" style="color: #0f9d58; font-size: 24px; font-weight: 900;">' + ortVerimFormatli + '</div>';
         
-        // Yeni Eklenen Bölüm Başlangıcı
         expandHtml += '<div style="margin-top: 8px; display: flex; flex-direction: column; gap: 4px; align-items: center;">';
         expandHtml += '<div style="font-size: 10px; color: #5f6368; font-weight: 600; background: #ffffff; border: 1px solid #d9ead3; padding: 3px 8px; border-radius: 12px; display: inline-block; white-space: nowrap;">💸 Kesintisiz Temettü Ödeme: <span style="color: #0f9d58; font-weight: 800;">' + (kesintisizSeri > 0 ? kesintisizSeri + ' Yıl' : 'Yok') + '</span></div>';
         expandHtml += '<div style="font-size: 10px; color: #5f6368; font-weight: 600; background: #ffffff; border: 1px solid #d9ead3; padding: 3px 8px; border-radius: 12px; display: inline-block; white-space: nowrap;">📈 Düzenli Temettü Artışı: <span style="color: #0f9d58; font-weight: 800;">' + (artisSerisi > 0 ? artisSerisi + ' Yıl' : 'Yok') + '</span></div>';
+        expandHtml += '<div style="font-size: 10px; color: #5f6368; font-weight: 600; background: #ffffff; border: 1px solid #d9ead3; padding: 3px 8px; border-radius: 12px; display: inline-block; white-space: nowrap;">🗓️ İlk Temettü Yılı: <span style="color: #0f9d58; font-weight: 800;">' + (ilkTemettuYili !== null ? ilkTemettuYili : 'Yok') + '</span></div>';
         expandHtml += '</div>';
-        // Yeni Eklenen Bölüm Sonu
 
         expandHtml += '</div></td></tr>';
 
