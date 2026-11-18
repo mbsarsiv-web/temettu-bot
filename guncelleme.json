@@ -1,5 +1,20 @@
 {
+  "degisiklikler": {
+    "cikan_hisse": [],
+    "duzeltilen_bolunme": [],
+    "duzeltilen_temettu": [],
+    "fiyat_guncellenen": 619,
+    "hisse_sayisi_eski": 629,
+    "hisse_sayisi_yeni": 629,
+    "sektor": [],
+    "silinen_bolunme": [],
+    "silinen_temettu": [],
+    "yeni_bolunme": [],
+    "yeni_hisse": [],
+    "yeni_temettu": []
+  },
   "hisse_sayisi": 629,
-  "is_yatirim_guncelleme": "2026-11-15T13:10:20Z",
+  "is_yatirim_guncelleme": "2026-11-18T22:42:11Z",
+  "onceki_guncelleme": "2026-11-15T13:10:20Z",
   "son_temettu_kaydi": "10.05.2027"
 }
